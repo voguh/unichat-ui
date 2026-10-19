@@ -1,0 +1,13 @@
+/.idea/*
+/.vscode/*
+!/.vscode/settings.json
+!/.vscode/*.code-snippets
+/coverage/*
+/dist/*
+/dist-showcase/*
+/node_modules/*
+
+/.env*
+!/.env.example
+/.flattened-pom.xml
+/*.iml

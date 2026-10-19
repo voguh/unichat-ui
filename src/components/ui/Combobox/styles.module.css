@@ -1,0 +1,81 @@
+/*!******************************************************************************
+ * Copyright (c) 2026 Voguh
+ *
+ * This program and the accompanying materials are made
+ * available under the terms of the Eclipse Public License 2.0
+ * which is available at https://www.eclipse.org/legal/epl-2.0/
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ ******************************************************************************/
+
+.root {
+    @apply flex flex-col;
+}
+
+.control {
+    @apply bg-stone-800 rounded;
+    @apply flex items-center gap-2 px-3;
+
+    &:focus-within {
+        @apply ring-2 ring-blue-500;
+    }
+
+    &[data-invalid] {
+        @apply ring-2 ring-red-600;
+    }
+
+    &[data-disabled] {
+        @apply opacity-50 cursor-not-allowed;
+    }
+}
+
+.input {
+    @apply bg-transparent outline-none;
+    @apply flex-1 min-w-0 py-2;
+
+    &::placeholder {
+        @apply text-stone-500;
+    }
+}
+
+.trigger {
+    @apply text-stone-500 text-xs;
+    @apply cursor-pointer transition-transform;
+
+    &[data-state="open"] {
+        @apply rotate-180;
+    }
+}
+
+.positioner {
+    @apply z-50;
+}
+
+.content {
+    @apply bg-stone-800 border border-stone-700 rounded shadow-xl;
+    @apply flex flex-col max-h-64 overflow-y-auto py-1;
+
+    &:focus-visible {
+        @apply outline-none;
+    }
+}
+
+.item {
+    @apply flex items-center justify-between gap-2 cursor-pointer px-3 py-2;
+
+    &[data-highlighted] {
+        @apply bg-stone-700;
+    }
+
+    &[data-state="checked"] {
+        @apply font-bold;
+    }
+
+    &[data-disabled] {
+        @apply opacity-50 cursor-not-allowed;
+    }
+}
+
+.itemIndicator {
+    @apply text-red-600 text-xs;
+}

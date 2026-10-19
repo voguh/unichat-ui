@@ -1,0 +1,80 @@
+/*!******************************************************************************
+ * Copyright (c) 2026 Voguh
+ *
+ * This program and the accompanying materials are made
+ * available under the terms of the Eclipse Public License 2.0
+ * which is available at https://www.eclipse.org/legal/epl-2.0/
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ ******************************************************************************/
+
+.group {
+    @apply z-50;
+}
+
+.toast {
+    @apply bg-stone-800 border-l-4 border-l-stone-500 rounded shadow-xl;
+    @apply flex items-start gap-3 w-80 px-4 py-3;
+
+    translate: var(--x) var(--y);
+    scale: var(--scale);
+    z-index: var(--z-index);
+    height: var(--height);
+    opacity: var(--opacity);
+    will-change: translate, opacity, scale;
+    transition:
+        translate 400ms,
+        scale 400ms,
+        opacity 400ms,
+        height 400ms;
+
+    &[data-type="info"] {
+        @apply border-l-blue-600;
+    }
+
+    &[data-type="success"] {
+        @apply border-l-green-600;
+    }
+
+    &[data-type="warning"] {
+        @apply border-l-yellow-600;
+    }
+
+    &[data-type="error"] {
+        @apply border-l-red-600;
+    }
+
+    &[data-type="loading"] {
+        @apply border-l-stone-500;
+    }
+}
+
+.body {
+    @apply flex-1 flex flex-col gap-1;
+}
+
+.title {
+    @apply font-bold;
+}
+
+.description {
+    @apply text-sm text-stone-400;
+}
+
+.actionTrigger {
+    @apply text-sm font-bold text-red-500;
+    @apply cursor-pointer;
+
+    &:hover {
+        @apply text-red-400;
+    }
+}
+
+.closeTrigger {
+    @apply text-stone-400;
+    @apply cursor-pointer;
+
+    &:hover {
+        @apply text-stone-50;
+    }
+}

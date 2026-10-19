@@ -1,0 +1,146 @@
+#!/bin/sh
+# ******************************************************************************
+#  Copyright (c) 2026 Voguh
+#
+#  This program and the accompanying materials are made
+#  available under the terms of the Eclipse Public License 2.0
+#  which is available at https://www.eclipse.org/legal/epl-2.0/
+#
+#  SPDX-License-Identifier: EPL-2.0
+# ******************************************************************************
+
+# ----------------------------------------------------------------------------
+# pnpm Wrapper startup script
+#
+# Optional ENV vars
+# -----------------
+#   PNPM_USER_HOME - base dir for the downloaded distributions (default: ~/.pnpm)
+#   PNPMW_REPOURL - registry url base for downloading the pnpm distribution
+#   PNPMW_VERBOSE - true: enable verbose log; debug: trace the pnpmw script; others: silence the output
+# ----------------------------------------------------------------------------
+
+set -euf
+[ "${PNPMW_VERBOSE-}" != debug ] || set -x
+
+# hash string like Java String::hashCode
+hash_string() {
+  str="${1:-}" h=0
+  while [ -n "$str" ]; do
+    char="${str%"${str#?}"}"
+    h=$(((h * 31 + $(LC_CTYPE=C printf %d "'$char")) % 4294967296))
+    str="${str#?}"
+  done
+  printf %x\\n $h
+}
+
+verbose() { :; }
+[ "${PNPMW_VERBOSE-}" != true ] || verbose() { printf %s\\n "${1-}"; }
+
+die() {
+  printf %s\\n "$1" >&2
+  exit 1
+}
+
+trim() {
+  printf "%s" "${1}" | tr -d '[:space:]'
+}
+
+# parse distributionUrl and optional distributionSha256Sum, requires .pnpm/wrapper/pnpm-wrapper.properties
+while IFS="=" read -r key value; do
+  case "${key-}" in
+  distributionUrl) distributionUrl=$(trim "${value-}") ;;
+  distributionSha256Sum) distributionSha256Sum=$(trim "${value-}") ;;
+  esac
+done <"${0%/*}/.pnpm/wrapper/pnpm-wrapper.properties"
+[ -n "${distributionUrl-}" ] || die "cannot read distributionUrl property in ${0%/*}/.pnpm/wrapper/pnpm-wrapper.properties"
+
+# apply PNPMW_REPOURL and calculate PNPMW_HOME
+# pnpm home pattern: ~/.pnpm/wrapper/dists/pnpm-<version>/<hash>
+_PNPMW_REPO_PATTERN=/pnpm/-/
+[ -z "${PNPMW_REPOURL-}" ] || distributionUrl="${PNPMW_REPOURL%/}$_PNPMW_REPO_PATTERN${distributionUrl#*"$_PNPMW_REPO_PATTERN"}"
+distributionUrlName="${distributionUrl##*/}"
+distributionUrlNameMain="${distributionUrlName%.tgz}"
+PNPM_USER_HOME="${PNPM_USER_HOME:-${HOME}/.pnpm}"
+PNPMW_HOME="${PNPM_USER_HOME}/wrapper/dists/${distributionUrlNameMain-}/$(hash_string "$distributionUrl")"
+
+NODECMD="$(
+  'set' +e
+  'unset' -f command 2>/dev/null
+  'command' -v node
+)" || :
+[ -x "${NODECMD-}" ] || die "The node command does not exist in PATH, so pnpmw cannot run."
+
+exec_pnpm() {
+  unset PNPMW_VERBOSE PNPMW_REPOURL || :
+  exec "$NODECMD" "$PNPMW_HOME/bin/pnpm.cjs" "$@" || die "cannot exec $PNPMW_HOME/bin/pnpm.cjs"
+}
+
+if [ -d "$PNPMW_HOME" ]; then
+  verbose "found existing PNPMW_HOME at $PNPMW_HOME"
+  exec_pnpm "$@"
+fi
+
+case "${distributionUrl-}" in
+*/pnpm-?*.tgz) ;;
+*) die "distributionUrl is not valid, must match */pnpm-<version>.tgz, but found '${distributionUrl-}'" ;;
+esac
+
+# prepare tmp dir
+if TMP_DOWNLOAD_DIR="$(mktemp -d)" && [ -d "$TMP_DOWNLOAD_DIR" ]; then
+  clean() { rm -rf -- "$TMP_DOWNLOAD_DIR"; }
+  trap clean HUP INT TERM EXIT
+else
+  die "cannot create temp dir"
+fi
+
+mkdir -p -- "${PNPMW_HOME%/*}"
+
+# Download and Install pnpm
+verbose "Couldn't find PNPMW_HOME, downloading and installing it ..."
+verbose "Downloading from: $distributionUrl"
+verbose "Downloading to: $TMP_DOWNLOAD_DIR/$distributionUrlName"
+
+# verbose opt
+__PNPMW_QUIET_WGET=--quiet __PNPMW_QUIET_CURL=--silent __PNPMW_QUIET_TAR=''
+[ "${PNPMW_VERBOSE-}" != true ] || __PNPMW_QUIET_WGET='' __PNPMW_QUIET_CURL='' __PNPMW_QUIET_TAR=v
+
+if command -v wget >/dev/null; then
+  verbose "Found wget ... using wget"
+  wget ${__PNPMW_QUIET_WGET:+"$__PNPMW_QUIET_WGET"} "$distributionUrl" -O "$TMP_DOWNLOAD_DIR/$distributionUrlName" || die "wget: Failed to fetch $distributionUrl"
+elif command -v curl >/dev/null; then
+  verbose "Found curl ... using curl"
+  curl ${__PNPMW_QUIET_CURL:+"$__PNPMW_QUIET_CURL"} -f -L -o "$TMP_DOWNLOAD_DIR/$distributionUrlName" "$distributionUrl" || die "curl: Failed to fetch $distributionUrl"
+else
+  die "Neither 'wget' nor 'curl' is available to download the pnpm distribution."
+fi
+
+# If specified, validate the SHA-256 sum of the pnpm distribution tarball
+if [ -n "${distributionSha256Sum-}" ]; then
+  distributionSha256Result=false
+  if command -v sha256sum >/dev/null; then
+    if echo "$distributionSha256Sum  $TMP_DOWNLOAD_DIR/$distributionUrlName" | sha256sum -c >/dev/null 2>&1; then
+      distributionSha256Result=true
+    fi
+  elif command -v shasum >/dev/null; then
+    if echo "$distributionSha256Sum  $TMP_DOWNLOAD_DIR/$distributionUrlName" | shasum -a 256 -c >/dev/null 2>&1; then
+      distributionSha256Result=true
+    fi
+  else
+    echo "Checksum validation was requested but neither 'sha256sum' or 'shasum' are available." >&2
+    echo "Please install either command, or disable validation by removing 'distributionSha256Sum' from your pnpm-wrapper.properties." >&2
+    exit 1
+  fi
+  if [ $distributionSha256Result = false ]; then
+    echo "Error: Failed to validate pnpm distribution SHA-256, your pnpm distribution might be compromised." >&2
+    echo "If you updated your pnpm version, you need to update the specified distributionSha256Sum property." >&2
+    exit 1
+  fi
+fi
+
+# untar and move
+tar xzf${__PNPMW_QUIET_TAR:+"$__PNPMW_QUIET_TAR"} "$TMP_DOWNLOAD_DIR/$distributionUrlName" -C "$TMP_DOWNLOAD_DIR" || die "failed to untar"
+printf %s\\n "$distributionUrl" >"$TMP_DOWNLOAD_DIR/package/pnpmw.url"
+mv -- "$TMP_DOWNLOAD_DIR/package" "$PNPMW_HOME" || [ -d "$PNPMW_HOME" ] || die "fail to move PNPMW_HOME"
+
+clean || :
+exec_pnpm "$@"

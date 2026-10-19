@@ -1,0 +1,67 @@
+/*!******************************************************************************
+ * Copyright (c) 2026 Voguh
+ *
+ * This program and the accompanying materials are made
+ * available under the terms of the Eclipse Public License 2.0
+ * which is available at https://www.eclipse.org/legal/epl-2.0/
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ ******************************************************************************/
+
+.root {
+    @apply flex flex-col;
+}
+
+.control {
+    @apply bg-stone-800 rounded;
+    @apply flex flex-wrap items-center gap-1 px-2 py-1;
+
+    &[data-focus] {
+        @apply ring-2 ring-blue-500;
+    }
+
+    &[data-invalid] {
+        @apply ring-2 ring-red-600;
+    }
+
+    &[data-disabled] {
+        @apply opacity-50 cursor-not-allowed;
+    }
+}
+
+.itemPreview {
+    @apply bg-stone-600 rounded;
+    @apply text-sm;
+    @apply inline-flex items-center gap-1 px-2 py-0.5;
+
+    &[data-highlighted] {
+        @apply ring-2 ring-blue-500;
+    }
+}
+
+.itemDeleteTrigger {
+    @apply text-stone-300 text-xs;
+    @apply flex cursor-pointer;
+
+    &:hover {
+        @apply text-stone-50;
+    }
+
+    > i {
+        @apply w-auto;
+    }
+}
+
+.itemInput {
+    @apply bg-transparent outline-none;
+    @apply text-sm;
+}
+
+.input {
+    @apply bg-transparent outline-none;
+    @apply flex-1 min-w-20 py-1;
+
+    &::placeholder {
+        @apply text-stone-500;
+    }
+}

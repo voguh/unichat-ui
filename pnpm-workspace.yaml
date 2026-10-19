@@ -1,0 +1,5 @@
+saveExact: true
+savePrefix: ""
+minimumReleaseAge: 10080
+blockExoticSubdeps: true
+allowBuilds: {}

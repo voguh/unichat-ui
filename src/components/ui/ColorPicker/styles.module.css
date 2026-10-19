@@ -1,0 +1,103 @@
+/*!******************************************************************************
+ * Copyright (c) 2026 Voguh
+ *
+ * This program and the accompanying materials are made
+ * available under the terms of the Eclipse Public License 2.0
+ * which is available at https://www.eclipse.org/legal/epl-2.0/
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ ******************************************************************************/
+
+.root {
+    @apply flex flex-col;
+}
+
+.control {
+    @apply bg-stone-800 rounded;
+    @apply flex items-center gap-2 px-2;
+
+    &:focus-within {
+        @apply ring-2 ring-blue-500;
+    }
+
+    &[data-invalid] {
+        @apply ring-2 ring-red-600;
+    }
+
+    &[data-disabled] {
+        @apply opacity-50 cursor-not-allowed;
+    }
+}
+
+.trigger {
+    @apply rounded overflow-hidden;
+    @apply relative shrink-0 w-6 h-6 cursor-pointer;
+}
+
+.channelInput {
+    @apply bg-transparent outline-none;
+    @apply font-mono text-sm;
+    @apply flex-1 min-w-0 py-2;
+}
+
+.positioner {
+    @apply z-50;
+}
+
+.content {
+    @apply bg-stone-800 border border-stone-700 rounded shadow-xl;
+    @apply flex flex-col gap-3 w-64 p-3;
+
+    &:focus-visible {
+        @apply outline-none;
+    }
+}
+
+.area {
+    @apply rounded overflow-hidden;
+    @apply relative h-40;
+}
+
+.areaBackground {
+    @apply h-full;
+}
+
+.channelSlider {
+    @apply rounded-full;
+    @apply relative h-3;
+}
+
+.track {
+    @apply rounded-full;
+    @apply h-full;
+}
+
+.thumb {
+    @apply border-2 border-stone-50 rounded-full shadow;
+    @apply w-4 h-4;
+
+    &:focus-visible {
+        @apply outline-none ring-2 ring-blue-500;
+    }
+}
+
+.transparencyGrid {
+    @apply rounded;
+}
+
+.swatch {
+    @apply absolute inset-0;
+}
+
+.swatchGroup {
+    @apply flex flex-wrap gap-2;
+}
+
+.swatchTrigger {
+    @apply rounded overflow-hidden;
+    @apply relative w-6 h-6 cursor-pointer;
+
+    &[data-state="checked"] {
+        @apply ring-2 ring-stone-50;
+    }
+}

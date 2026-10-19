@@ -1,0 +1,84 @@
+/*!******************************************************************************
+ * Copyright (c) 2026 Voguh
+ *
+ * This program and the accompanying materials are made
+ * available under the terms of the Eclipse Public License 2.0
+ * which is available at https://www.eclipse.org/legal/epl-2.0/
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ ******************************************************************************/
+
+.root {
+    @apply rounded;
+    @apply text-stone-50 font-bold;
+    @apply inline-flex items-center justify-center gap-2 cursor-pointer;
+
+    &:focus-visible {
+        @apply outline-none ring-2 ring-blue-500;
+    }
+
+    &:disabled,
+    &[aria-disabled="true"] {
+        @apply opacity-50 cursor-not-allowed;
+    }
+
+    &[data-size="sm"] {
+        @apply text-sm;
+        @apply px-3 py-1;
+    }
+
+    &[data-size="md"] {
+        @apply px-4 py-2;
+    }
+
+    &[data-size="lg"] {
+        @apply text-lg;
+        @apply px-6 py-3;
+    }
+
+    &[data-variant="primary"] {
+        @apply bg-red-800;
+
+        &:hover:not(:disabled) {
+            @apply bg-red-900;
+        }
+    }
+
+    &[data-variant="secondary"] {
+        @apply bg-stone-800;
+
+        &:hover:not(:disabled) {
+            @apply bg-stone-700;
+        }
+    }
+
+    &[data-variant="ghost"] {
+        @apply bg-transparent;
+
+        &:hover:not(:disabled) {
+            @apply text-red-800;
+        }
+    }
+
+    &[data-variant="danger"] {
+        @apply bg-red-600;
+
+        &:hover:not(:disabled) {
+            @apply bg-red-700;
+        }
+    }
+}
+
+.icon {
+    &[data-size="sm"] {
+        @apply p-1;
+    }
+
+    &[data-size="md"] {
+        @apply p-2;
+    }
+
+    &[data-size="lg"] {
+        @apply p-3;
+    }
+}

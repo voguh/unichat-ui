@@ -13,19 +13,29 @@ import { forwardRef } from "preact/compat";
 
 import { mergeProps } from "@zag-js/preact";
 
-import { useTooltip } from "./context";
-import styles from "./styles.module.css";
+import { cloneAsChild } from "~/utils/asChild";
 import { clsx } from "~/utils/clsx";
 
-export interface TooltipTriggerProps extends PReact.ButtonHTMLAttributes<HTMLButtonElement> {}
+import { useTooltip } from "./context";
+import styles from "./styles.module.css";
+
+export interface TooltipTriggerProps extends PReact.ButtonHTMLAttributes<HTMLButtonElement> {
+    asChild?: boolean;
+}
 
 export const TooltipTrigger = forwardRef<HTMLButtonElement, TooltipTriggerProps>(function TooltipTrigger(
-    { className, ...rest },
+    { asChild = false, className, children, ...rest },
     ref
 ) {
     const api = useTooltip();
 
+    if (asChild) {
+        return cloneAsChild(children, mergeProps(api.getTriggerProps(), { ...rest, className }), ref);
+    }
+
     return (
-        <button {...mergeProps(api.getTriggerProps(), rest)} ref={ref} className={clsx(styles.trigger, className)} />
+        <button {...mergeProps(api.getTriggerProps(), rest)} ref={ref} className={clsx(styles.trigger, className)}>
+            {children}
+        </button>
     );
 });

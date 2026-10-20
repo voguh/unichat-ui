@@ -116,16 +116,14 @@ describe("Combobox", () => {
 describe("RadioGroup", () => {
     it("forwards ref to the root and selects items", async () => {
         const ref = createRef<HTMLDivElement>();
-        const onValueChange = rstest.fn();
-        render(
-            <RadioGroup ref={ref} id="sort" name="sort" items={ITEMS} onValueChange={onValueChange} aria-label="Sort" />
-        );
+        const onChange = rstest.fn();
+        render(<RadioGroup ref={ref} id="sort" name="sort" items={ITEMS} onChange={onChange} aria-label="Sort" />);
 
         expect(ref.current).toBe(screen.getByRole("radiogroup", { name: "Sort" }));
         expect(ref.current).toHaveAttribute("id", "sort");
 
         await userEvent.click(screen.getByText("Most stars"));
-        expect(onValueChange).toHaveBeenLastCalledWith(expect.objectContaining({ value: "stars" }));
+        expect(onChange.mock.lastCall![0].target.value).toBe("stars");
         expect(screen.getByRole("radio", { name: "Most stars" })).toBeChecked();
         expect(screen.getByRole("radio", { name: "Name" })).toBeDisabled();
     });
@@ -133,11 +131,9 @@ describe("RadioGroup", () => {
 
 describe("SegmentedControl", () => {
     it("switches the checked segment", async () => {
-        const onValueChange = rstest.fn();
         render(
             <SegmentedControl
                 defaultValue="en-US"
-                onValueChange={onValueChange}
                 items={[
                     { value: "en-US", label: "EN" },
                     { value: "pt-BR", label: "PT" }
@@ -147,6 +143,6 @@ describe("SegmentedControl", () => {
 
         expect(screen.getByRole("radio", { name: "EN" })).toBeChecked();
         await userEvent.click(screen.getByText("PT"));
-        expect(onValueChange).toHaveBeenLastCalledWith(expect.objectContaining({ value: "pt-BR" }));
+        expect(screen.getByRole("radio", { name: "PT" })).toBeChecked();
     });
 });

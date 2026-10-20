@@ -13,7 +13,7 @@
 }
 
 .label {
-    @apply text-sm font-semibold text-stone-300;
+    @apply text-stone-300 text-sm font-semibold;
 }
 
 .control {
@@ -29,17 +29,13 @@
 
 .trigger {
     @apply text-stone-400;
-    @apply inline-flex items-center gap-2 cursor-pointer;
+    @apply inline-flex items-center cursor-pointer;
 
     &:hover {
         @apply text-stone-50;
     }
-
-    &[data-copied] {
-        @apply text-green-500;
-    }
 }
 
-.indicator {
-    @apply inline-flex items-center;
+.copied {
+    @apply text-green-500;
 }

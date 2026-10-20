@@ -17,7 +17,8 @@ import { mergeRefs } from "~/utils/mergeRefs";
 
 import styles from "./styles.module.css";
 
-export interface TextareaProps extends PReact.TextareaHTMLAttributes<HTMLTextAreaElement> {
+type VanillaProps = PReact.TextareaHTMLAttributes<HTMLTextAreaElement>;
+export interface TextareaProps extends VanillaProps {
     autoResize?: boolean;
 }
 

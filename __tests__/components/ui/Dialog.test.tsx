@@ -10,101 +10,91 @@
 
 import { createRef } from "preact";
 
-import { render, screen, waitFor } from "@testing-library/preact";
+import { render, screen } from "@testing-library/preact";
 import userEvent from "@testing-library/user-event";
 
 import { Dialog } from "~/components/ui/Dialog";
 
-function renderDialog(
-    props: { onOpenChange?: (details: { open: boolean }) => void; onTriggerClick?: () => void } = {}
-) {
-    const triggerRef = createRef<HTMLButtonElement>();
-    const contentRef = createRef<HTMLDivElement>();
-
-    render(
-        <Dialog.Root onOpenChange={props.onOpenChange}>
-            <Dialog.Trigger ref={triggerRef} data-testid="trigger" onClick={props.onTriggerClick}>
-                Open
-            </Dialog.Trigger>
-            <Dialog.Content ref={contentRef} data-testid="content" className="extra">
-                <Dialog.Title>Delete release?</Dialog.Title>
-                <Dialog.Description>This cannot be undone.</Dialog.Description>
-                <Dialog.CloseTrigger>Close</Dialog.CloseTrigger>
-            </Dialog.Content>
-        </Dialog.Root>
-    );
-
-    return { triggerRef, contentRef };
-}
-
 describe("Dialog", () => {
-    it("forwards trigger ref and props, keeps closed by default", () => {
-        const { triggerRef } = renderDialog();
-        expect(triggerRef.current).toBe(screen.getByTestId("trigger"));
+    it("renders nothing while closed", () => {
+        render(
+            <Dialog open={false} onClose={() => {}} title="Settings">
+                Body
+            </Dialog>
+        );
+
         expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
     });
 
-    it("opens on trigger click chaining user and zag handlers", async () => {
-        const onTriggerClick = rstest.fn();
-        const onOpenChange = rstest.fn();
-        const { contentRef } = renderDialog({ onTriggerClick, onOpenChange });
-
-        await userEvent.click(screen.getByRole("button", { name: "Open" }));
-
-        const dialog = await screen.findByRole("dialog");
-        expect(onTriggerClick).toHaveBeenCalledTimes(1);
-        expect(onOpenChange).toHaveBeenCalledWith(expect.objectContaining({ open: true }));
-        expect(contentRef.current).toBe(dialog);
-        expect(dialog).toHaveClass("extra");
-        expect(dialog).toHaveAccessibleName("Delete release?");
-        expect(dialog).toHaveAccessibleDescription("This cannot be undone.");
-    });
-
-    it("closes with the close trigger and Escape", async () => {
-        renderDialog();
-
-        await userEvent.click(screen.getByRole("button", { name: "Open" }));
-        await userEvent.click(await screen.findByRole("button", { name: "Close" }));
-        await waitFor(() => expect(screen.queryByRole("dialog")).not.toBeInTheDocument());
-
-        await userEvent.click(screen.getByRole("button", { name: "Open" }));
-        await screen.findByRole("dialog");
-        await userEvent.keyboard("{Escape}");
-        await waitFor(() => expect(screen.queryByRole("dialog")).not.toBeInTheDocument());
-    });
-
-    it("renders size, header actions and a close button that closes the dialog", async () => {
+    it("forwards ref and props, renders title, actions, size and body props", async () => {
+        const ref = createRef<HTMLDivElement>();
         render(
-            <Dialog.Root defaultOpen>
-                <Dialog.Content size="xl">
-                    <Dialog.Header title="Settings" actions={<button type="button">Save</button>} />
-                    <Dialog.Body>Body</Dialog.Body>
-                </Dialog.Content>
-            </Dialog.Root>
+            <Dialog
+                ref={ref}
+                open
+                onClose={() => {}}
+                size="xl"
+                title="Settings"
+                actions={<button type="button">Save</button>}
+                bodyProps={{ className: "custom-body" }}
+                className="extra"
+                data-tour="settings"
+            >
+                Body
+            </Dialog>
         );
 
         const dialog = await screen.findByRole("dialog");
+        expect(ref.current).toBe(dialog);
+        expect(dialog).toHaveClass("extra");
+        expect(dialog).toHaveAttribute("data-tour", "settings");
         expect(dialog).toHaveAttribute("data-size", "xl");
         expect(dialog).toHaveAccessibleName("Settings");
         expect(screen.getByRole("button", { name: "Save" })).toBeInTheDocument();
-
-        const buttons = screen.getAllByRole("button");
-        await userEvent.click(buttons[buttons.length - 1]);
-        await waitFor(() => expect(screen.queryByRole("dialog")).not.toBeInTheDocument());
+        expect(screen.getByText("Body")).toHaveClass("custom-body");
     });
 
-    it("omits the backdrop and the close button when disabled", async () => {
-        const { container } = render(
-            <Dialog.Root defaultOpen>
-                <Dialog.Content backdrop={false} portal={false}>
-                    <Dialog.Header title="Tour" withCloseButton={false} />
-                </Dialog.Content>
-            </Dialog.Root>
+    it("calls onClose from the close button, Escape and outside click", async () => {
+        const onClose = rstest.fn();
+        render(
+            <Dialog open onClose={onClose} title="Settings">
+                Body
+            </Dialog>
         );
 
-        const dialog = await screen.findByRole("dialog");
+        await userEvent.click(await screen.findByRole("button", { name: "Close" }));
+        expect(onClose).toHaveBeenCalledTimes(1);
+
+        await userEvent.keyboard("{Escape}");
+        expect(onClose).toHaveBeenCalledTimes(2);
+
+        await userEvent.click(document.body);
+        expect(onClose).toHaveBeenCalledTimes(3);
+    });
+
+    it("respects disabled dismiss options, close button, backdrop and portal", async () => {
+        const onClose = rstest.fn();
+        const { container } = render(
+            <Dialog
+                open
+                onClose={onClose}
+                role="alertdialog"
+                title="Tour"
+                withCloseButton={false}
+                backdrop={false}
+                portal={false}
+                closeOnEscape={false}
+                closeOnInteractOutside={false}
+            />
+        );
+
+        const dialog = await screen.findByRole("alertdialog");
         expect(container).toContainElement(dialog);
         expect(screen.queryByRole("button")).not.toBeInTheDocument();
-        expect(container.querySelector("[data-part='backdrop']")).toBeNull();
+        expect(container.childElementCount).toBe(1);
+
+        await userEvent.keyboard("{Escape}");
+        await userEvent.click(document.body);
+        expect(onClose).not.toHaveBeenCalled();
     });
 });

@@ -62,14 +62,14 @@ describe("forms/Textarea", () => {
 });
 
 describe("forms/Checkbox", () => {
-    it("keeps the inline label and forwards ref to the hidden input", () => {
+    it("labels the input with the group and inline labels and forwards ref", () => {
         const ref = createRef<HTMLInputElement>();
         render(
             <Checkbox ref={ref} label="Visibility" status="invalid" statusMessage="Required">
                 Prerelease
             </Checkbox>
         );
-        const input = screen.getByRole("checkbox", { name: "Prerelease" });
+        const input = screen.getByRole("checkbox", { name: "Visibility Prerelease" });
         expect(ref.current).toBe(input);
         expect(input).toHaveAttribute("aria-invalid", "true");
         expect(input).toHaveAccessibleDescription("Required");

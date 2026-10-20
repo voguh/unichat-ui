@@ -22,28 +22,21 @@ const RELEASES = ["1.2.0", "1.1.1", "1.0.0"];
 
 export function AccordionShowcase(): PReact.ComponentChildren {
     return (
-        <ShowcasePage title="Accordion" description="@zag-js/accordion, compound API.">
-            <Example title="Single, collapsible" vertical>
-                <Accordion.Root collapsible defaultValue={["1.2.0"]}>
-                    {RELEASES.map((release) => (
-                        <Accordion.Item key={release} value={release}>
-                            <Accordion.ItemTrigger>
-                                <span style={{ flex: 1 }}>v{release}</span>
-                                <Accordion.ItemIndicator>
-                                    <i className="fas fa-chevron-down" />
-                                </Accordion.ItemIndicator>
-                            </Accordion.ItemTrigger>
-                            <Accordion.ItemContent>Release notes for {release}.</Accordion.ItemContent>
+        <ShowcasePage title="Accordion" description="Native <details> and <summary>.">
+            <Example title="Independent" vertical>
+                <Accordion.Root>
+                    {RELEASES.map((release, index) => (
+                        <Accordion.Item key={release} title={`v${release}`} open={index === 0}>
+                            Release notes for {release}.
                         </Accordion.Item>
                     ))}
                 </Accordion.Root>
             </Example>
-            <Example title="Multiple, with disabled item" vertical>
-                <Accordion.Root multiple>
-                    {RELEASES.map((release, index) => (
-                        <Accordion.Item key={release} value={release} disabled={index === 2}>
-                            <Accordion.ItemTrigger>v{release}</Accordion.ItemTrigger>
-                            <Accordion.ItemContent>Release notes for {release}.</Accordion.ItemContent>
+            <Example title="Exclusive (shared name)" vertical>
+                <Accordion.Root>
+                    {RELEASES.map((release) => (
+                        <Accordion.Item key={release} title={`v${release}`} name="releases">
+                            Release notes for {release}.
                         </Accordion.Item>
                     ))}
                 </Accordion.Root>
@@ -54,31 +47,15 @@ export function AccordionShowcase(): PReact.ComponentChildren {
 
 export function TabsShowcase(): PReact.ComponentChildren {
     return (
-        <ShowcasePage title="Tabs" description="@zag-js/tabs, compound API.">
-            <Example title="Horizontal" vertical>
-                <Tabs.Root defaultValue="users">
-                    <Tabs.List>
-                        <Tabs.Trigger value="users">Users</Tabs.Trigger>
-                        <Tabs.Trigger value="releases">Releases</Tabs.Trigger>
-                        <Tabs.Trigger value="settings" disabled>
-                            Settings
-                        </Tabs.Trigger>
-                        <Tabs.Indicator />
-                    </Tabs.List>
-                    <Tabs.Content value="users">Users panel</Tabs.Content>
-                    <Tabs.Content value="releases">Releases panel</Tabs.Content>
-                    <Tabs.Content value="settings">Settings panel</Tabs.Content>
-                </Tabs.Root>
-            </Example>
-            <Example title="Vertical" vertical>
-                <Tabs.Root defaultValue="general" orientation="vertical">
-                    <Tabs.List>
-                        <Tabs.Trigger value="general">General</Tabs.Trigger>
-                        <Tabs.Trigger value="security">Security</Tabs.Trigger>
-                    </Tabs.List>
-                    <Tabs.Content value="general">General settings</Tabs.Content>
-                    <Tabs.Content value="security">Security settings</Tabs.Content>
-                </Tabs.Root>
+        <ShowcasePage title="Tabs" description="Data-driven tabs with arrow key navigation.">
+            <Example title="Default" vertical>
+                <Tabs
+                    items={[
+                        { value: "users", label: "Users", content: "Users panel" },
+                        { value: "releases", label: "Releases", content: "Releases panel" },
+                        { value: "settings", label: "Settings", content: "Settings panel", disabled: true }
+                    ]}
+                />
             </Example>
         </ShowcasePage>
     );
@@ -88,28 +65,9 @@ export function PaginationShowcase(): PReact.ComponentChildren {
     const [page, setPage] = useState(1);
 
     return (
-        <ShowcasePage title="Pagination" description="@zag-js/pagination, compound API.">
+        <ShowcasePage title="Pagination" description="Controlled page navigation.">
             <Example title="Controlled" vertical>
-                <Pagination.Root
-                    count={250}
-                    pageSize={10}
-                    page={page}
-                    onPageChange={(details) => setPage(details.page)}
-                >
-                    <Pagination.FirstTrigger>
-                        <i className="fas fa-angle-double-left" />
-                    </Pagination.FirstTrigger>
-                    <Pagination.PrevTrigger>
-                        <i className="fas fa-chevron-left" />
-                    </Pagination.PrevTrigger>
-                    <Pagination.Items />
-                    <Pagination.NextTrigger>
-                        <i className="fas fa-chevron-right" />
-                    </Pagination.NextTrigger>
-                    <Pagination.LastTrigger>
-                        <i className="fas fa-angle-double-right" />
-                    </Pagination.LastTrigger>
-                </Pagination.Root>
+                <Pagination count={250} pageSize={10} page={page} onChange={setPage} />
                 <Code>page: {page}</Code>
             </Example>
         </ShowcasePage>

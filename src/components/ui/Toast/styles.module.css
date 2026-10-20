@@ -8,93 +8,27 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-.group {
-    @apply z-50;
-}
+.root {
+    @apply fixed z-50 flex flex-col gap-2 p-4;
 
-.toast {
-    @apply bg-stone-800 border border-stone-700 rounded-xs shadow-xl;
-    @apply flex items-center gap-2 min-w-100 p-2;
-
-    translate: var(--x) var(--y);
-    scale: var(--scale);
-    z-index: var(--z-index);
-    height: var(--height);
-    opacity: var(--opacity);
-    will-change: translate, opacity, scale;
-    transition:
-        translate 400ms,
-        scale 400ms,
-        opacity 400ms,
-        height 400ms;
-
-    &[data-type="info"] {
-        @apply bg-blue-950 border-blue-900;
-
-        .icon {
-            @apply bg-blue-600;
-        }
+    &[data-placement^="top"] {
+        @apply top-0;
     }
 
-    &[data-type="success"] {
-        @apply bg-green-950 border-green-900;
-
-        .icon {
-            @apply bg-green-600;
-        }
+    &[data-placement^="bottom"] {
+        @apply bottom-0;
     }
 
-    &[data-type="warning"] {
-        @apply bg-yellow-950 border-yellow-900;
-
-        .icon {
-            @apply bg-amber-500;
-        }
+    &[data-placement$="start"] {
+        @apply left-0 items-start;
     }
 
-    &[data-type="error"] {
-        @apply bg-red-950 border-red-900;
-
-        .icon {
-            @apply bg-red-600;
-        }
+    &[data-placement$="end"] {
+        @apply right-0 items-end;
     }
-}
 
-.icon {
-    @apply bg-stone-600 rounded-xs;
-    @apply text-stone-50 text-sm;
-    @apply size-7 shrink-0 flex items-center justify-center;
-}
-
-.body {
-    @apply flex-1 min-w-0 flex flex-col gap-0.5;
-}
-
-.title {
-    @apply text-stone-50 font-semibold;
-}
-
-.description {
-    @apply text-stone-300 text-sm;
-}
-
-.actionTrigger {
-    @apply text-stone-50 text-sm font-bold;
-    @apply shrink-0 cursor-pointer;
-
-    &:hover {
-        @apply underline;
-    }
-}
-
-.closeTrigger {
-    @apply rounded-xs;
-    @apply text-stone-400 text-sm;
-    @apply size-6 shrink-0 flex items-center justify-center cursor-pointer;
-
-    &:hover {
-        @apply bg-stone-50/10;
-        @apply text-stone-50;
+    &[data-placement="top"],
+    &[data-placement="bottom"] {
+        @apply left-1/2 -translate-x-1/2 items-center;
     }
 }

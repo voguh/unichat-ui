@@ -10,31 +10,24 @@
 
 .root {
     @apply flex flex-col gap-4;
-
-    &[data-orientation="vertical"] {
-        @apply flex-row;
-    }
 }
 
 .list {
     @apply border-b border-b-stone-800;
-    @apply relative flex gap-4;
-
-    &[data-orientation="vertical"] {
-        @apply border-b-0 border-r border-r-stone-800;
-        @apply flex-col;
-    }
+    @apply flex gap-4;
 }
 
-.trigger {
+.tab {
+    @apply border-b border-b-transparent;
     @apply text-stone-50;
-    @apply flex items-center gap-2 cursor-pointer h-10 px-2;
+    @apply flex items-center gap-2 cursor-pointer h-10 px-2 -mb-px;
 
     &:hover {
         @apply text-red-800;
     }
 
-    &[data-selected] {
+    &[aria-selected="true"] {
+        @apply border-b-red-600;
         @apply text-red-600;
     }
 
@@ -51,12 +44,4 @@
     &:focus-visible {
         @apply outline-none;
     }
-}
-
-.indicator {
-    @apply bg-red-600;
-    @apply h-px;
-
-    bottom: -1px;
-    width: var(--width);
 }

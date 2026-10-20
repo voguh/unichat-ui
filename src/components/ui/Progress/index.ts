@@ -8,22 +8,4 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-import { ProgressLabel } from "./ProgressLabel";
-import { ProgressRange } from "./ProgressRange";
-import { ProgressRoot } from "./ProgressRoot";
-import { ProgressTrack } from "./ProgressTrack";
-import { ProgressValueText } from "./ProgressValueText";
-
-export * from "./ProgressLabel";
-export * from "./ProgressRange";
-export * from "./ProgressRoot";
-export * from "./ProgressTrack";
-export * from "./ProgressValueText";
-
-export const Progress = {
-    Root: ProgressRoot,
-    Label: ProgressLabel,
-    ValueText: ProgressValueText,
-    Track: ProgressTrack,
-    Range: ProgressRange
-};
+export * from "./Progress";

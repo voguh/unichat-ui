@@ -10,34 +10,43 @@
 
 import type PReact from "preact";
 import { forwardRef } from "preact/compat";
-import { useId } from "preact/hooks";
-
-import { mergeProps, normalizeProps, useMachine } from "@zag-js/preact";
-import * as toast from "@zag-js/toast";
+import { useEffect, useState } from "preact/hooks";
 
 import { Portal } from "~/components/ui/Portal";
 import { clsx } from "~/utils/clsx";
 
 import styles from "./styles.module.css";
 import { ToastItem } from "./ToastItem";
-import { toaster } from "./toaster";
+import { type ToasterStore, toaster } from "./toaster";
 
-export interface ToasterProps extends PReact.HTMLAttributes<HTMLDivElement> {
-    store?: toast.Store;
+type VanillaProps = PReact.HTMLAttributes<HTMLDivElement>;
+export interface ToasterProps extends VanillaProps {
+    store?: ToasterStore;
 }
 
 export const Toaster = forwardRef<HTMLDivElement, ToasterProps>(function Toaster(
     { store = toaster, className, ...rest },
     ref
 ) {
-    const service = useMachine(toast.group.machine, { id: useId(), store });
-    const api = toast.group.connect(service, normalizeProps);
+    const [toasts, setToasts] = useState(store.getToasts());
+
+    useEffect(() => {
+        setToasts(store.getToasts());
+
+        return store.subscribe(() => setToasts(store.getToasts()));
+    }, [store]);
 
     return (
         <Portal>
-            <div {...mergeProps(api.getGroupProps(), rest)} ref={ref} className={clsx(styles.group, className)}>
-                {api.getToasts().map((toastProps, index) => (
-                    <ToastItem key={toastProps.id} toast={toastProps} index={index} parent={service} />
+            <div
+                {...rest}
+                ref={ref}
+                aria-live="polite"
+                data-placement={store.placement}
+                className={clsx(styles.root, className)}
+            >
+                {toasts.map((toast) => (
+                    <ToastItem key={toast.id} toast={toast} onDismiss={() => store.remove(toast.id)} />
                 ))}
             </div>
         </Portal>

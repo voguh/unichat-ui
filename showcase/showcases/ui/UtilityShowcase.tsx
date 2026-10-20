@@ -28,22 +28,12 @@ export function ProgressShowcase(): PReact.ComponentChildren {
     }, []);
 
     return (
-        <ShowcasePage title="Progress" description="@zag-js/progress, linear.">
+        <ShowcasePage title="Progress" description="Linear progress bar.">
             <Example title="Determinate" vertical>
-                <Progress.Root value={value}>
-                    <Progress.Label>Uploading</Progress.Label>
-                    <Progress.ValueText />
-                    <Progress.Track>
-                        <Progress.Range />
-                    </Progress.Track>
-                </Progress.Root>
+                <Progress value={value} label="Uploading" />
             </Example>
             <Example title="Indeterminate" vertical>
-                <Progress.Root value={null}>
-                    <Progress.Track>
-                        <Progress.Range />
-                    </Progress.Track>
-                </Progress.Root>
+                <Progress value={null} />
             </Example>
         </ShowcasePage>
     );
@@ -51,22 +41,12 @@ export function ProgressShowcase(): PReact.ComponentChildren {
 
 export function ClipboardShowcase(): PReact.ComponentChildren {
     return (
-        <ShowcasePage title="Clipboard" description="@zag-js/clipboard, compound API.">
+        <ShowcasePage title="Clipboard" description="Read-only value with a copy button.">
             <Example title="Default" vertical>
-                <Clipboard.Root value="sha256:9195973c49624b0f1727263948e7d371860fad192a63d179d67015d025679ab4">
-                    <Clipboard.Label>Digest</Clipboard.Label>
-                    <Clipboard.Control>
-                        <Clipboard.Input />
-                        <Clipboard.Trigger>
-                            <Clipboard.Indicator copied>
-                                <i className="fas fa-check" />
-                            </Clipboard.Indicator>
-                            <Clipboard.Indicator copied={false}>
-                                <i className="fas fa-copy" />
-                            </Clipboard.Indicator>
-                        </Clipboard.Trigger>
-                    </Clipboard.Control>
-                </Clipboard.Root>
+                <Clipboard
+                    label="Digest"
+                    value="sha256:9195973c49624b0f1727263948e7d371860fad192a63d179d67015d025679ab4"
+                />
             </Example>
         </ShowcasePage>
     );
@@ -74,14 +54,13 @@ export function ClipboardShowcase(): PReact.ComponentChildren {
 
 export function QrCodeShowcase(): PReact.ComponentChildren {
     return (
-        <ShowcasePage title="QR Code" description="@zag-js/qr-code, compound API.">
+        <ShowcasePage title="QR Code" description="Generated with lean-qr.">
             <Example title="Default">
-                <QrCode.Root value="https://unichat.voguh.me" style={{ width: "10rem" }}>
-                    <QrCode.Frame aria-label="QR code for unichat.voguh.me" />
-                    <QrCode.DownloadTrigger fileName="unichat.png">
-                        <i className="fas fa-download" /> Download
-                    </QrCode.DownloadTrigger>
-                </QrCode.Root>
+                <QrCode
+                    value="https://unichat.voguh.me"
+                    alt="QR code for unichat.voguh.me"
+                    style={{ width: "10rem" }}
+                />
             </Example>
         </ShowcasePage>
     );
@@ -89,10 +68,7 @@ export function QrCodeShowcase(): PReact.ComponentChildren {
 
 export function ToastShowcase(): PReact.ComponentChildren {
     return (
-        <ShowcasePage
-            title="Toast"
-            description="@zag-js/toast. <Toaster /> is mounted once; toaster.create() anywhere."
-        >
+        <ShowcasePage title="Toast" description="<Toaster /> is mounted once; toaster.create() anywhere.">
             <Example title="Types">
                 <Button onClick={() => toaster.info({ title: "Info", description: "Something happened." })}>
                     Info

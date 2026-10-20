@@ -9,21 +9,12 @@
  ******************************************************************************/
 
 import { AccordionItem } from "./AccordionItem";
-import { AccordionItemContent } from "./AccordionItemContent";
-import { AccordionItemIndicator } from "./AccordionItemIndicator";
-import { AccordionItemTrigger } from "./AccordionItemTrigger";
 import { AccordionRoot } from "./AccordionRoot";
 
 export * from "./AccordionItem";
-export * from "./AccordionItemContent";
-export * from "./AccordionItemIndicator";
-export * from "./AccordionItemTrigger";
 export * from "./AccordionRoot";
 
 export const Accordion = {
     Root: AccordionRoot,
-    Item: AccordionItem,
-    ItemTrigger: AccordionItemTrigger,
-    ItemContent: AccordionItemContent,
-    ItemIndicator: AccordionItemIndicator
+    Item: AccordionItem
 };

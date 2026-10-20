@@ -15,7 +15,8 @@ import { clsx } from "~/utils/clsx";
 
 import styles from "./styles.module.css";
 
-export interface SeparatorProps extends PReact.HTMLAttributes<HTMLHRElement> {}
+type VanillaProps = PReact.HTMLAttributes<HTMLHRElement>;
+export interface SeparatorProps extends VanillaProps {}
 
 export const Separator = forwardRef<HTMLHRElement, SeparatorProps>(function Separator({ className, ...rest }, ref) {
     return <hr {...rest} ref={ref} className={clsx(styles.root, className)} />;

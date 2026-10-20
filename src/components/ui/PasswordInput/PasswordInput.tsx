@@ -10,50 +10,36 @@
 
 import type PReact from "preact";
 import { forwardRef } from "preact/compat";
-import { useId } from "preact/hooks";
-
-import * as passwordInput from "@zag-js/password-input";
-import { mergeProps, normalizeProps, useMachine } from "@zag-js/preact";
+import { useState } from "preact/hooks";
 
 import { clsx } from "~/utils/clsx";
 
 import styles from "./styles.module.css";
 
-export interface PasswordInputProps
-    extends Omit<PReact.InputHTMLAttributes<HTMLInputElement>, keyof passwordInput.Props | "type">,
-        Partial<Omit<passwordInput.Props, "id">> {
-    id?: string;
+type VanillaProps = Omit<PReact.InputHTMLAttributes<HTMLInputElement>, "type">;
+export interface PasswordInputProps extends VanillaProps {
     rootProps?: PReact.HTMLAttributes<HTMLDivElement>;
 }
 
 export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(function PasswordInput(
-    { id, rootProps, className, ...props },
+    { rootProps, className, ...rest },
     ref
 ) {
-    const [machineProps, rest] = passwordInput.splitProps(props);
+    const [visible, setVisible] = useState(false);
     const rootClassName = rootProps != null ? rootProps.className : undefined;
 
-    const machineId = useId();
-    const service = useMachine(passwordInput.machine, {
-        ...machineProps,
-        id: machineId,
-        ids: { ...machineProps.ids, input: id }
-    });
-    const api = passwordInput.connect(service, normalizeProps);
-
     return (
-        <div
-            {...mergeProps(api.getRootProps(), rootProps ?? {})}
-            className={clsx(styles.root, className, rootClassName)}
-        >
-            <div {...api.getControlProps()} className={styles.control}>
-                <input {...mergeProps(api.getInputProps(), rest)} ref={ref} className={styles.input} />
-                <button {...api.getVisibilityTriggerProps()} className={styles.visibilityTrigger}>
-                    <span {...api.getIndicatorProps()}>
-                        <i className={api.visible ? "fas fa-eye-slash" : "fas fa-eye"} aria-hidden="true" />
-                    </span>
-                </button>
-            </div>
+        <div {...rootProps} className={clsx(styles.root, className, rootClassName)}>
+            <input {...rest} ref={ref} type={visible ? "text" : "password"} className={styles.input} />
+            <button
+                type="button"
+                aria-label={visible ? "Hide password" : "Show password"}
+                disabled={rest.disabled}
+                onClick={() => setVisible(!visible)}
+                className={styles.visibilityTrigger}
+            >
+                <i className={visible ? "fas fa-eye-slash" : "fas fa-eye"} aria-hidden="true" />
+            </button>
         </div>
     );
 });

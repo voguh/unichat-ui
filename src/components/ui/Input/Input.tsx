@@ -15,7 +15,8 @@ import { clsx } from "~/utils/clsx";
 
 import styles from "./styles.module.css";
 
-export interface InputProps extends PReact.InputHTMLAttributes<HTMLInputElement> {
+type VanillaProps = PReact.InputHTMLAttributes<HTMLInputElement>;
+export interface InputProps extends VanillaProps {
     startSlot?: PReact.ComponentChildren;
     endSlot?: PReact.ComponentChildren;
     rootProps?: PReact.HTMLAttributes<HTMLDivElement>;

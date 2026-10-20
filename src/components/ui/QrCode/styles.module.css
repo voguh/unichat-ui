@@ -9,28 +9,7 @@
  ******************************************************************************/
 
 .root {
-    @apply relative inline-flex flex-col items-center gap-2;
-}
+    @apply rounded;
 
-.frame {
-    @apply bg-stone-50 rounded;
-    @apply p-2;
-}
-
-.pattern {
-    @apply fill-stone-950;
-}
-
-.overlay {
-    @apply bg-stone-50 rounded;
-    @apply p-1;
-}
-
-.downloadTrigger {
-    @apply text-stone-400;
-    @apply inline-flex items-center gap-2 cursor-pointer;
-
-    &:hover {
-        @apply text-stone-50;
-    }
+    image-rendering: pixelated;
 }

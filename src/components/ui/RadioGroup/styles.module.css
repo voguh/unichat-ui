@@ -14,12 +14,16 @@
     &[data-orientation="horizontal"] {
         @apply flex-row flex-wrap gap-4;
     }
+
+    &[aria-invalid="true"] .itemControl {
+        @apply border-red-600;
+    }
 }
 
 .item {
     @apply inline-flex items-center gap-2 cursor-pointer;
 
-    &[data-disabled] {
+    &:has(.input:disabled) {
         @apply opacity-50 cursor-not-allowed;
     }
 }
@@ -27,8 +31,16 @@
 .itemControl {
     @apply bg-stone-800 border border-stone-600 rounded-full;
     @apply inline-flex items-center justify-center shrink-0 w-5 h-5;
+}
 
-    &[data-state="checked"] {
+.input {
+    @apply sr-only;
+
+    &:focus-visible + .itemControl {
+        @apply ring-2 ring-blue-500;
+    }
+
+    &:checked + .itemControl {
         @apply border-red-800;
 
         &::after {
@@ -37,14 +49,6 @@
 
             content: "";
         }
-    }
-
-    &[data-focus-visible] {
-        @apply ring-2 ring-blue-500;
-    }
-
-    &[data-invalid] {
-        @apply border-red-600;
     }
 }
 

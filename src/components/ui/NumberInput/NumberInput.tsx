@@ -19,9 +19,8 @@ import { clsx } from "~/utils/clsx";
 
 import styles from "./styles.module.css";
 
-export interface NumberInputProps
-    extends Omit<PReact.InputHTMLAttributes<HTMLInputElement>, keyof numberInput.Props | "type">,
-        Partial<Omit<numberInput.Props, "id">> {
+type VanillaProps = Omit<PReact.InputHTMLAttributes<HTMLInputElement>, keyof numberInput.Props | "type">;
+export interface NumberInputProps extends VanillaProps, Partial<Omit<numberInput.Props, "id">> {
     id?: string;
     rootProps?: PReact.HTMLAttributes<HTMLDivElement>;
 }

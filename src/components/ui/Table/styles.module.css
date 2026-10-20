@@ -11,29 +11,3 @@
 .root {
     @apply w-full border-collapse text-left;
 }
-
-.head {
-    @apply bg-stone-900;
-    @apply text-stone-400 text-sm uppercase;
-}
-
-.body {
-    @apply bg-stone-800;
-}
-
-.row {
-    @apply border-b border-b-stone-700;
-
-    &:last-child {
-        @apply border-b-0;
-    }
-}
-
-.headerCell {
-    @apply font-semibold;
-    @apply px-4 py-2;
-}
-
-.cell {
-    @apply px-4 py-2;
-}

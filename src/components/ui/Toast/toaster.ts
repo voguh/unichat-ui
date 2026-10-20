@@ -8,10 +8,105 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-import * as toast from "@zag-js/toast";
+import type PReact from "preact";
 
-export const toaster = toast.createStore({ placement: "bottom-end", overlap: true, gap: 8 });
+export type ToastType = "success" | "error" | "warning" | "info";
+export type ToastPlacement = "top-start" | "top" | "top-end" | "bottom-start" | "bottom" | "bottom-end";
 
-export function createToaster(opts: toast.StoreProps): toast.Store<any> {
-    return toast.createStore({ ...opts, placement: "bottom-end", overlap: true, gap: 8 });
+export interface ToastOptions {
+    id?: string;
+    type?: ToastType;
+    title?: PReact.ComponentChildren;
+    description?: PReact.ComponentChildren;
+    icon?: PReact.ComponentChildren;
+    duration?: number;
+    closable?: boolean;
+    action?: { label: PReact.ComponentChildren; onClick: () => void };
 }
+
+export interface Toast extends ToastOptions {
+    id: string;
+}
+
+export interface ToasterOptions {
+    placement?: ToastPlacement;
+    max?: number;
+    duration?: number;
+}
+
+export interface ToasterStore {
+    placement: ToastPlacement;
+    create: (options: ToastOptions) => string;
+    success: (options: Omit<ToastOptions, "type">) => string;
+    error: (options: Omit<ToastOptions, "type">) => string;
+    warning: (options: Omit<ToastOptions, "type">) => string;
+    info: (options: Omit<ToastOptions, "type">) => string;
+    remove: (id?: string) => void;
+    subscribe: (listener: () => void) => () => void;
+    getToasts: () => Toast[];
+}
+
+export function createToaster({
+    placement = "bottom-end",
+    max = Number.POSITIVE_INFINITY,
+    duration = 5000
+}: ToasterOptions = {}): ToasterStore {
+    let counter = 0;
+    let toasts: Toast[] = [];
+    const listeners = new Set<() => void>();
+    const timers = new Map<string, ReturnType<typeof setTimeout>>();
+
+    function emit(): void {
+        for (const listener of listeners) {
+            listener();
+        }
+    }
+
+    function remove(id?: string): void {
+        for (const toast of toasts) {
+            if (id == null || toast.id === id) {
+                clearTimeout(timers.get(toast.id));
+                timers.delete(toast.id);
+            }
+        }
+
+        toasts = id != null ? toasts.filter((toast) => toast.id !== id) : [];
+        emit();
+    }
+
+    function create(options: ToastOptions): string {
+        const id = options.id ?? `toast-${counter++}`;
+        const toastDuration = options.duration ?? duration;
+
+        clearTimeout(timers.get(id));
+        toasts = [...toasts.filter((toast) => toast.id !== id), { closable: true, ...options, id }].slice(-max);
+        if (Number.isFinite(toastDuration)) {
+            timers.set(
+                id,
+                setTimeout(() => remove(id), toastDuration)
+            );
+        }
+
+        emit();
+
+        return id;
+    }
+
+    return {
+        placement,
+        create,
+        success: (options) => create({ ...options, type: "success" }),
+        error: (options) => create({ ...options, type: "error" }),
+        warning: (options) => create({ ...options, type: "warning" }),
+        info: (options) => create({ ...options, type: "info" }),
+        remove,
+        subscribe: (listener) => {
+            listeners.add(listener);
+
+            return () => listeners.delete(listener);
+        },
+        getToasts: () => toasts
+    };
+}
+
+export const toaster = createToaster();

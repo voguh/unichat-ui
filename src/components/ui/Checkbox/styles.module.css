@@ -11,31 +11,42 @@
 .root {
     @apply inline-flex items-center gap-2 cursor-pointer;
 
-    &[data-disabled] {
+    &:has(.input:disabled) {
         @apply opacity-50 cursor-not-allowed;
     }
 }
 
 .control {
     @apply bg-stone-800 border border-stone-600 rounded;
+    @apply text-stone-50 text-xs;
     @apply flex items-center justify-center shrink-0 w-5 h-5;
+}
 
-    &[data-state="checked"],
-    &[data-state="indeterminate"] {
-        @apply bg-red-800 border-red-800;
-    }
+.checkIcon,
+.indeterminateIcon {
+    @apply hidden;
+}
 
-    &[data-focus-visible] {
+.input {
+    @apply sr-only;
+
+    &:focus-visible + .control {
         @apply ring-2 ring-blue-500;
     }
 
-    &[data-invalid] {
+    &[aria-invalid="true"] + .control {
         @apply border-red-600;
     }
-}
 
-.indicator {
-    @apply text-xs text-stone-50;
+    &:checked + .control,
+    &:indeterminate + .control {
+        @apply bg-red-800 border-red-800;
+    }
+
+    &:checked:not(:indeterminate) + .control .checkIcon,
+    &:indeterminate + .control .indeterminateIcon {
+        @apply inline-block;
+    }
 }
 
 .label {

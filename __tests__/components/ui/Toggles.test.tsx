@@ -36,25 +36,19 @@ describe.each([
         expect(screen.getByRole(role, { name: "Accept" })).toBe(input);
     });
 
-    it("toggles on click firing native onChange and onCheckedChange", async () => {
+    it("toggles on click firing native onChange", async () => {
         const onChange = rstest.fn();
-        const onCheckedChange = rstest.fn();
-        render(
-            <Component onChange={onChange} onCheckedChange={onCheckedChange}>
-                Accept
-            </Component>
-        );
+        render(<Component onChange={onChange}>Accept</Component>);
 
         await userEvent.click(screen.getByText("Accept"));
         expect(screen.getByRole(role)).toBeChecked();
         expect(onChange).toHaveBeenCalled();
-        expect(onCheckedChange).toHaveBeenLastCalledWith(expect.objectContaining({ checked: true }));
     });
 
-    it("respects controlled checked and disabled", async () => {
-        const onCheckedChange = rstest.fn();
+    it("respects checked and disabled", async () => {
+        const onChange = rstest.fn();
         render(
-            <Component checked disabled onCheckedChange={onCheckedChange}>
+            <Component checked disabled onChange={onChange}>
                 Accept
             </Component>
         );
@@ -62,7 +56,7 @@ describe.each([
         expect(input).toBeChecked();
         expect(input).toBeDisabled();
         await userEvent.click(screen.getByText("Accept"));
-        expect(onCheckedChange).not.toHaveBeenCalled();
+        expect(onChange).not.toHaveBeenCalled();
     });
 
     it("toggles with the Space key when focused", async () => {

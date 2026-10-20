@@ -20,9 +20,8 @@ import { clsx } from "~/utils/clsx";
 
 import styles from "./styles.module.css";
 
-export interface DatePickerProps
-    extends Omit<PReact.InputHTMLAttributes<HTMLInputElement>, keyof datePicker.Props>,
-        Partial<Omit<datePicker.Props, "id">> {
+type VanillaProps = Omit<PReact.InputHTMLAttributes<HTMLInputElement>, keyof datePicker.Props>;
+export interface DatePickerProps extends VanillaProps, Partial<Omit<datePicker.Props, "id">> {
     id?: string;
     locale?: string;
     rootProps?: PReact.HTMLAttributes<HTMLDivElement>;

@@ -17,7 +17,8 @@ import styles from "./styles.module.css";
 
 export type SpinnerSize = "sm" | "md" | "lg";
 
-export interface SpinnerProps extends PReact.HTMLAttributes<HTMLSpanElement> {
+type VanillaProps = PReact.HTMLAttributes<HTMLSpanElement>;
+export interface SpinnerProps extends VanillaProps {
     size?: SpinnerSize;
 }
 

@@ -7,54 +7,33 @@
  *
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
+/** biome-ignore-all lint/a11y/useAriaPropsForRole: a native checkbox exposes its checked state to the switch role; a manual aria-checked would break uncontrolled usage */
 
 import type PReact from "preact";
 import { forwardRef } from "preact/compat";
-import { useId } from "preact/hooks";
-
-import { mergeProps, normalizeProps, useMachine } from "@zag-js/preact";
-import * as zagSwitch from "@zag-js/switch";
 
 import { clsx } from "~/utils/clsx";
 
 import styles from "./styles.module.css";
 
-export interface SwitchProps
-    extends Omit<PReact.InputHTMLAttributes<HTMLInputElement>, keyof zagSwitch.Props | "type">,
-        Partial<Omit<zagSwitch.Props, "id">> {
-    id?: string;
+type VanillaProps = Omit<PReact.InputHTMLAttributes<HTMLInputElement>, "type">;
+export interface SwitchProps extends VanillaProps {
     rootProps?: PReact.LabelHTMLAttributes<HTMLLabelElement>;
 }
 
 export const Switch = forwardRef<HTMLInputElement, SwitchProps>(function Switch(
-    { id, rootProps, className, children, ...props },
+    { rootProps, className, children, ...rest },
     ref
 ) {
-    const [machineProps, rest] = zagSwitch.splitProps(props);
     const rootClassName = rootProps != null ? rootProps.className : undefined;
 
-    const machineId = useId();
-    const service = useMachine(zagSwitch.machine, {
-        ...machineProps,
-        id: machineId,
-        ids: { ...machineProps.ids, hiddenInput: id }
-    });
-    const api = zagSwitch.connect(service, normalizeProps);
-
     return (
-        <label
-            {...mergeProps(api.getRootProps(), rootProps ?? {})}
-            className={clsx(styles.root, className, rootClassName)}
-        >
-            <span {...api.getControlProps()} className={styles.control}>
-                <span {...api.getThumbProps()} className={styles.thumb} />
+        <label {...rootProps} className={clsx(styles.root, className, rootClassName)}>
+            <input {...rest} ref={ref} type="checkbox" role="switch" className={styles.input} />
+            <span className={styles.control}>
+                <span className={styles.thumb} />
             </span>
-            {children != null && (
-                <span {...api.getLabelProps()} className={styles.label}>
-                    {children}
-                </span>
-            )}
-            <input {...mergeProps(api.getHiddenInputProps(), { role: "switch" }, rest)} ref={ref} />
+            {children != null && <span className={styles.label}>{children}</span>}
         </label>
     );
 });

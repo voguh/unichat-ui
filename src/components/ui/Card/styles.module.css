@@ -12,17 +12,3 @@
     @apply bg-stone-800 rounded;
     @apply flex flex-col overflow-hidden;
 }
-
-.header {
-    @apply border-b border-b-stone-600;
-    @apply flex items-center gap-2 px-4 py-2;
-}
-
-.body {
-    @apply p-4;
-}
-
-.footer {
-    @apply border-t border-t-stone-600;
-    @apply flex items-center gap-2 px-4 py-2;
-}

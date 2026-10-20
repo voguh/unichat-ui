@@ -51,7 +51,13 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>(function Switch(
             statusMessage={statusMessage}
             statusMessageProps={statusMessageProps}
         >
-            <UISwitch aria-describedby={describedBy} {...rest} ref={ref} id={fieldId} invalid={status === "invalid"} />
+            <UISwitch
+                aria-describedby={describedBy}
+                {...rest}
+                ref={ref}
+                id={fieldId}
+                aria-invalid={status === "invalid" || undefined}
+            />
         </FormGroup>
     );
 });

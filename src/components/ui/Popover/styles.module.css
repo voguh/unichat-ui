@@ -8,46 +8,40 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-.trigger {
-    @apply cursor-pointer;
-}
-
-.anchor {
-    @apply inline-flex;
+.positioner {
+    @apply fixed top-0 left-0 z-50;
 }
 
 .content {
     @apply bg-stone-800 border border-stone-700 rounded shadow-xl;
-    @apply relative z-50 flex flex-col gap-2 max-w-sm p-4;
-
-    &:focus-visible {
-        @apply outline-none;
-    }
+    @apply relative flex flex-col gap-2 max-w-sm p-4;
 }
 
 .arrow {
-    --arrow-size: 8px;
-    /* biome-ignore lint/correctness/noUnknownFunction: Tailwind theme() */
-    --arrow-background: theme("colors.stone.800");
+    @apply absolute size-2;
 }
 
 .arrowTip {
-    @apply border-t border-l border-stone-700;
+    @apply bg-stone-800 border-t border-l border-stone-700;
+    @apply w-full h-full;
+}
+
+.positioner[data-side="top"] .arrow {
+    @apply -bottom-1 -translate-x-1/2 rotate-225;
+}
+
+.positioner[data-side="bottom"] .arrow {
+    @apply -top-1 -translate-x-1/2 rotate-45;
+}
+
+.positioner[data-side="left"] .arrow {
+    @apply -right-1 -translate-y-1/2 rotate-135;
+}
+
+.positioner[data-side="right"] .arrow {
+    @apply -left-1 -translate-y-1/2 -rotate-45;
 }
 
 .title {
     @apply font-bold;
-}
-
-.description {
-    @apply text-sm text-stone-400;
-}
-
-.closeTrigger {
-    @apply text-stone-400;
-    @apply absolute top-2 right-2 cursor-pointer;
-
-    &:hover {
-        @apply text-stone-50;
-    }
 }

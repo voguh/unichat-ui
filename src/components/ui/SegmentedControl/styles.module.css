@@ -10,43 +10,28 @@
 
 .root {
     @apply bg-stone-900 rounded;
-    @apply relative inline-flex p-1;
+    @apply relative inline-flex gap-1 p-1;
 }
 
-.indicator {
-    @apply bg-stone-700 rounded;
-    @apply transition-all;
-
-    width: var(--width);
-    left: var(--left);
-
-    /* zag measures with offset* (integer-rounded); cross axis follows the root padding instead. */
-    &[data-orientation="horizontal"] {
-        @apply inset-y-1;
-    }
-
-    &[data-orientation="vertical"] {
-        @apply inset-x-1;
-
-        width: auto;
-        height: var(--height);
-        top: var(--top);
-    }
+.input {
+    @apply sr-only;
 }
 
 .item {
-    @apply text-sm font-bold text-stone-400;
-    @apply relative z-10 inline-flex items-center gap-2 cursor-pointer px-3 py-1;
+    @apply rounded;
+    @apply text-stone-400 text-sm font-bold;
+    @apply inline-flex items-center gap-2 cursor-pointer px-3 py-1 transition-colors;
 
-    &[data-state="checked"] {
+    &:has(.input:checked) {
+        @apply bg-stone-700;
         @apply text-stone-50;
     }
 
-    &[data-focus-visible] {
-        @apply ring-2 ring-blue-500 rounded;
+    &:has(.input:focus-visible) {
+        @apply ring-2 ring-blue-500;
     }
 
-    &[data-disabled] {
+    &:has(.input:disabled) {
         @apply opacity-50 cursor-not-allowed;
     }
 }

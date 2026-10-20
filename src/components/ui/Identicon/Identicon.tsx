@@ -7,6 +7,7 @@
  *
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
+/** biome-ignore-all lint/a11y/noSvgWithoutTitle: accessible name comes from consumer props (aria-label) */
 
 import type PReact from "preact";
 import { forwardRef } from "preact/compat";
@@ -19,7 +20,8 @@ import styles from "./styles.module.css";
 const GRID_SIZE = 16;
 const HALF_SIZE = GRID_SIZE / 2;
 
-export interface IdenticonProps extends PReact.SVGAttributes<SVGSVGElement> {
+type VanillaProps = PReact.SVGAttributes<SVGSVGElement>;
+export interface IdenticonProps extends VanillaProps {
     value: string;
 }
 
@@ -71,7 +73,6 @@ export const Identicon = forwardRef<SVGSVGElement, IdenticonProps>(function Iden
     const { color, cells } = useMemo(() => buildIdenticon(value), [value]);
 
     return (
-        // biome-ignore lint/a11y/noSvgWithoutTitle: accessible name comes from consumer props (aria-label)
         <svg
             role="img"
             {...rest}

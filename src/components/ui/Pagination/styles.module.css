@@ -12,7 +12,6 @@
     @apply flex items-center justify-center gap-1;
 }
 
-.trigger,
 .item {
     @apply bg-stone-800 rounded;
     @apply inline-flex items-center justify-center cursor-pointer min-w-8 h-8 px-2;
@@ -21,18 +20,17 @@
         @apply bg-stone-700;
     }
 
+    &[aria-current="page"] {
+        @apply bg-red-800 font-bold;
+    }
+
     &:focus-visible {
         @apply outline-none ring-2 ring-blue-500;
     }
 
-    &:disabled,
-    &[data-disabled] {
+    &:disabled {
         @apply opacity-50 cursor-not-allowed;
     }
-}
-
-.item[data-selected] {
-    @apply bg-red-800 font-bold;
 }
 
 .ellipsis {

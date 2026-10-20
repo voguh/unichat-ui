@@ -17,7 +17,8 @@ import styles from "./styles.module.css";
 
 export type AlertVariant = "info" | "success" | "warning" | "danger";
 
-export interface AlertProps extends Omit<PReact.HTMLAttributes<HTMLDivElement>, "title"> {
+type VanillaProps = Omit<PReact.HTMLAttributes<HTMLDivElement>, "title">;
+export interface AlertProps extends VanillaProps {
     variant?: AlertVariant;
     icon?: PReact.ComponentChildren;
     title?: PReact.ComponentChildren;

@@ -12,9 +12,6 @@ import type PReact from "preact";
 import { forwardRef } from "preact/compat";
 import { useId } from "preact/hooks";
 
-import { mergeProps, normalizeProps, useMachine } from "@zag-js/preact";
-import * as radioGroup from "@zag-js/radio-group";
-
 import { clsx } from "~/utils/clsx";
 
 import styles from "./styles.module.css";
@@ -25,35 +22,37 @@ export interface SegmentedControlItem {
     disabled?: boolean;
 }
 
-export interface SegmentedControlProps
-    extends Omit<PReact.HTMLAttributes<HTMLDivElement>, keyof radioGroup.Props>,
-        Partial<Omit<radioGroup.Props, "id">> {
-    id?: string;
+type VanillaProps = Omit<PReact.HTMLAttributes<HTMLDivElement>, "onChange" | "defaultValue">;
+export interface SegmentedControlProps extends VanillaProps {
     items: SegmentedControlItem[];
+    name?: string;
+    value?: string;
+    defaultValue?: string;
+    disabled?: boolean;
+    onChange?: (event: PReact.TargetedEvent<HTMLInputElement, Event>) => void;
 }
 
 export const SegmentedControl = forwardRef<HTMLDivElement, SegmentedControlProps>(function SegmentedControl(
-    { id, items, className, ...props },
+    { items, name, value, defaultValue, disabled = false, onChange, className, ...rest },
     ref
 ) {
-    const [machineProps, rest] = radioGroup.splitProps(props);
-
-    const machineId = useId();
-    const service = useMachine(radioGroup.machine, {
-        orientation: "horizontal",
-        ...machineProps,
-        id: machineId,
-        ids: { ...machineProps.ids, root: id }
-    });
-    const api = radioGroup.connect(service, normalizeProps);
+    const generatedName = useId();
 
     return (
-        <div {...mergeProps(api.getRootProps(), rest)} ref={ref} className={clsx(styles.root, className)}>
-            <div {...api.getIndicatorProps()} className={styles.indicator} />
+        <div {...rest} ref={ref} role="radiogroup" className={clsx(styles.root, className)}>
             {items.map((item) => (
-                <label key={item.value} {...api.getItemProps(item)} className={styles.item}>
-                    <span {...api.getItemTextProps(item)}>{item.label}</span>
-                    <input {...api.getItemHiddenInputProps(item)} />
+                <label key={item.value} className={styles.item}>
+                    <input
+                        type="radio"
+                        name={name ?? generatedName}
+                        value={item.value}
+                        checked={value != null ? value === item.value : undefined}
+                        defaultChecked={defaultValue === item.value}
+                        disabled={disabled || item.disabled}
+                        onChange={onChange}
+                        className={styles.input}
+                    />
+                    {item.label}
                 </label>
             ))}
         </div>

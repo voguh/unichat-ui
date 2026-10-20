@@ -40,7 +40,7 @@ export function NumberInputShowcase(): PReact.ComponentChildren {
             </Example>
             <Example title="PasswordInput" vertical>
                 <PasswordInput placeholder="Client secret" autoComplete="new-password" />
-                <PasswordInput placeholder="Invalid" invalid autoComplete="new-password" />
+                <PasswordInput placeholder="Invalid" aria-invalid="true" autoComplete="new-password" />
             </Example>
         </ShowcasePage>
     );

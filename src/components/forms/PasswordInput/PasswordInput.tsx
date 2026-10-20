@@ -59,7 +59,7 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(fu
                 {...rest}
                 ref={ref}
                 id={fieldId}
-                invalid={status === "invalid"}
+                aria-invalid={status === "invalid" || undefined}
             />
         </FormGroup>
     );

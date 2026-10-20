@@ -16,7 +16,8 @@ import { clsx } from "~/utils/clsx";
 
 import styles from "./styles.module.css";
 
-export interface AvatarProps extends PReact.ImgHTMLAttributes<HTMLImageElement> {
+type VanillaProps = PReact.ImgHTMLAttributes<HTMLImageElement>;
+export interface AvatarProps extends VanillaProps {
     fallback?: PReact.ComponentChildren;
 }
 

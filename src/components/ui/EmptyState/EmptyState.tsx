@@ -15,7 +15,8 @@ import { clsx } from "~/utils/clsx";
 
 import styles from "./styles.module.css";
 
-export interface EmptyStateProps extends Omit<PReact.HTMLAttributes<HTMLDivElement>, "title"> {
+type VanillaProps = Omit<PReact.HTMLAttributes<HTMLDivElement>, "title">;
+export interface EmptyStateProps extends VanillaProps {
     icon?: PReact.ComponentChildren;
     title?: PReact.ComponentChildren;
     description?: PReact.ComponentChildren;

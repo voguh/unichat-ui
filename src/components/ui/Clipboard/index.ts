@@ -8,25 +8,4 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-import { ClipboardControl } from "./ClipboardControl";
-import { ClipboardIndicator } from "./ClipboardIndicator";
-import { ClipboardInput } from "./ClipboardInput";
-import { ClipboardLabel } from "./ClipboardLabel";
-import { ClipboardRoot } from "./ClipboardRoot";
-import { ClipboardTrigger } from "./ClipboardTrigger";
-
-export * from "./ClipboardControl";
-export * from "./ClipboardIndicator";
-export * from "./ClipboardInput";
-export * from "./ClipboardLabel";
-export * from "./ClipboardRoot";
-export * from "./ClipboardTrigger";
-
-export const Clipboard = {
-    Root: ClipboardRoot,
-    Label: ClipboardLabel,
-    Control: ClipboardControl,
-    Input: ClipboardInput,
-    Trigger: ClipboardTrigger,
-    Indicator: ClipboardIndicator
-};
+export * from "./Clipboard";

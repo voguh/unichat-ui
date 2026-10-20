@@ -90,17 +90,3 @@
         @apply bg-stone-700 border-stone-700 text-stone-500 cursor-not-allowed;
     }
 }
-
-.icon {
-    &[data-size="sm"] {
-        @apply p-1;
-    }
-
-    &[data-size="md"] {
-        @apply p-2;
-    }
-
-    &[data-size="lg"] {
-        @apply p-3;
-    }
-}

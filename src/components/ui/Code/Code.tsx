@@ -15,7 +15,8 @@ import { clsx } from "~/utils/clsx";
 
 import styles from "./styles.module.css";
 
-export interface CodeProps extends PReact.HTMLAttributes<HTMLElement> {}
+type VanillaProps = PReact.HTMLAttributes<HTMLElement>;
+export interface CodeProps extends VanillaProps {}
 
 export const Code = forwardRef<HTMLElement, CodeProps>(function Code({ className, ...rest }, ref) {
     return <code {...rest} ref={ref} className={clsx(styles.root, className)} />;

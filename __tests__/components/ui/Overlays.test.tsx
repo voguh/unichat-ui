@@ -18,106 +18,63 @@ import { Popover } from "~/components/ui/Popover";
 import { Tooltip } from "~/components/ui/Tooltip";
 
 describe("Popover", () => {
-    it("opens content in a portal and closes with the close trigger", async () => {
-        const contentRef = createRef<HTMLDivElement>();
-        render(
-            <Popover.Root>
-                <Popover.Trigger>Details</Popover.Trigger>
-                <Popover.Content ref={contentRef} data-testid="content">
-                    <Popover.Arrow />
-                    <Popover.Title>Release</Popover.Title>
-                    <Popover.Description>Published today</Popover.Description>
-                    <Popover.CloseTrigger>Close</Popover.CloseTrigger>
-                </Popover.Content>
-            </Popover.Root>
-        );
-
-        expect(screen.queryByTestId("content")).not.toBeInTheDocument();
-        await userEvent.click(screen.getByRole("button", { name: "Details" }));
-
-        const content = await screen.findByTestId("content");
-        expect(contentRef.current).toBe(content);
-        expect(content).toHaveAttribute("role", "dialog");
-        expect(screen.getByRole("heading", { name: "Release" })).toBeInTheDocument();
-
-        await userEvent.click(screen.getByText("Close"));
-        await waitFor(() => expect(screen.queryByTestId("content")).not.toBeInTheDocument());
-    });
-
-    it("uses the child as trigger with asChild", async () => {
+    it("toggles on click, keeps child props and ref, and closes on outside click", async () => {
         const ref = createRef<HTMLButtonElement>();
         render(
-            <Popover.Root>
-                <Popover.Trigger asChild ref={ref}>
-                    <button type="button" className="custom">
-                        Details
-                    </button>
-                </Popover.Trigger>
-                <Popover.Content data-testid="content">Release</Popover.Content>
-            </Popover.Root>
+            <Popover title="Release" content="Published today">
+                <button ref={ref} type="button" className="custom">
+                    Details
+                </button>
+            </Popover>
         );
 
         const trigger = screen.getByRole("button", { name: "Details" });
         expect(ref.current).toBe(trigger);
         expect(trigger).toHaveClass("custom");
+        expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+
         await userEvent.click(trigger);
-        expect(await screen.findByTestId("content")).toBeInTheDocument();
+        expect(await screen.findByRole("dialog", { name: "Release" })).toHaveTextContent("Published today");
+        expect(trigger).toHaveAttribute("aria-expanded", "true");
+
+        await userEvent.click(document.body);
+        await waitFor(() => expect(screen.queryByRole("dialog")).not.toBeInTheDocument());
     });
 
-    it("opens while the anchor has focus with openOn focus", async () => {
+    it("opens while the child has focus with trigger focus", async () => {
         render(
-            <Popover.Root openOn="focus">
-                <Popover.Anchor>
+            <Popover trigger="focus" content="Hint">
+                <div>
                     <input aria-label="Channel" />
-                </Popover.Anchor>
-                <Popover.Content data-testid="content">Hint</Popover.Content>
-            </Popover.Root>
+                </div>
+            </Popover>
         );
 
         await userEvent.click(screen.getByLabelText("Channel"));
-        expect(await screen.findByTestId("content")).toBeInTheDocument();
+        expect(await screen.findByRole("dialog")).toHaveTextContent("Hint");
 
         await userEvent.tab();
-        await waitFor(() => expect(screen.queryByTestId("content")).not.toBeInTheDocument());
+        await waitFor(() => expect(screen.queryByRole("dialog")).not.toBeInTheDocument());
     });
 });
 
 describe("Tooltip", () => {
-    it("shows on focus and hides on Escape", async () => {
+    it("shows on focus, keeps child props and hides on Escape", async () => {
         render(
-            <Tooltip.Root openDelay={0} closeDelay={0}>
-                <Tooltip.Trigger>Info</Tooltip.Trigger>
-                <Tooltip.Content>
-                    <Tooltip.Arrow />
-                    Helpful text
-                </Tooltip.Content>
-            </Tooltip.Root>
-        );
-
-        await userEvent.tab();
-        expect(screen.getByRole("button", { name: "Info" })).toHaveFocus();
-        expect(await screen.findByRole("tooltip")).toHaveTextContent("Helpful text");
-
-        await userEvent.keyboard("{Escape}");
-        await waitFor(() => expect(screen.queryByRole("tooltip")).not.toBeInTheDocument());
-    });
-
-    it("uses the child as trigger with asChild", async () => {
-        render(
-            <Tooltip.Root openDelay={0} closeDelay={0}>
-                <Tooltip.Trigger asChild>
-                    <button type="button" data-tour="settings">
-                        Settings
-                    </button>
-                </Tooltip.Trigger>
-                <Tooltip.Content>Open settings</Tooltip.Content>
-            </Tooltip.Root>
+            <Tooltip content="Open settings">
+                <button type="button" data-tour="settings">
+                    Settings
+                </button>
+            </Tooltip>
         );
 
         expect(screen.getAllByRole("button")).toHaveLength(1);
         await userEvent.tab();
         expect(screen.getByRole("button", { name: "Settings" })).toHaveAttribute("data-tour", "settings");
         expect(await screen.findByRole("tooltip")).toHaveTextContent("Open settings");
+
+        await userEvent.keyboard("{Escape}");
+        await waitFor(() => expect(screen.queryByRole("tooltip")).not.toBeInTheDocument());
     });
 });
 

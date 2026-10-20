@@ -11,10 +11,12 @@
 import type PReact from "preact";
 import { useState } from "preact/hooks";
 
+import type { Placement } from "@floating-ui/dom";
+
 import { TextInput } from "~/components/forms/TextInput";
 import { Button } from "~/components/ui/Button";
 import { Code } from "~/components/ui/Code";
-import { Dialog } from "~/components/ui/Dialog";
+import { Dialog, type DialogSize } from "~/components/ui/Dialog";
 import { Dropdown } from "~/components/ui/Dropdown";
 import { Popover } from "~/components/ui/Popover";
 import { Tooltip } from "~/components/ui/Tooltip";
@@ -23,60 +25,56 @@ import { ShowcasePage } from "~showcase/components/ShowcasePage";
 
 const DENSITIES = ["Compact", "Comfortable", "Spacious"];
 
+const DIALOG_SIZES: DialogSize[] = ["sm", "md", "lg", "xl", "fullscreen"];
+
 export function DialogShowcase(): PReact.ComponentChildren {
-    const [open, setOpen] = useState(false);
+    const [openedSize, setOpenedSize] = useState<DialogSize | null>(null);
+    const [alertOpen, setAlertOpen] = useState(false);
 
     return (
-        <ShowcasePage title="Dialog" description="@zag-js/dialog, compound API, rendered in a portal.">
-            <Example title="Default">
-                <Dialog.Root>
-                    <Dialog.Trigger>Open dialog</Dialog.Trigger>
-                    <Dialog.Content>
-                        <Dialog.Header title="Edit release" />
-                        <Dialog.Body>
-                            <Dialog.Description>Change the release metadata.</Dialog.Description>
-                        </Dialog.Body>
-                    </Dialog.Content>
-                </Dialog.Root>
-            </Example>
+        <ShowcasePage title="Dialog" description="Controlled dialog rendered in a portal.">
             <Example title="Sizes and header actions">
-                {(["sm", "md", "lg", "xl", "fullscreen"] as const).map((size) => (
-                    <Dialog.Root key={size}>
-                        <Dialog.Trigger>{size}</Dialog.Trigger>
-                        <Dialog.Content size={size}>
-                            <Dialog.Header
-                                title={`Size ${size}`}
-                                actions={
-                                    <Button size="sm" variant="primary">
-                                        Save
-                                    </Button>
-                                }
-                            />
-                            <Dialog.Body>Dialog body.</Dialog.Body>
-                        </Dialog.Content>
-                    </Dialog.Root>
+                {DIALOG_SIZES.map((size) => (
+                    <Button key={size} variant="secondary" onClick={() => setOpenedSize(size)}>
+                        {size}
+                    </Button>
                 ))}
+                <Dialog
+                    open={openedSize != null}
+                    onClose={() => setOpenedSize(null)}
+                    size={openedSize ?? undefined}
+                    title={`Size ${openedSize}`}
+                    actions={
+                        <Button size="sm" variant="primary">
+                            Save
+                        </Button>
+                    }
+                >
+                    Dialog body.
+                </Dialog>
             </Example>
-            <Example title="Controlled alert dialog">
-                <Button variant="danger" onClick={() => setOpen(true)}>
+            <Example title="Alert dialog">
+                <Button variant="danger" onClick={() => setAlertOpen(true)}>
                     Delete release
                 </Button>
-                <Dialog.Root role="alertdialog" open={open} onOpenChange={(details) => setOpen(details.open)}>
-                    <Dialog.Content size="sm">
-                        <Dialog.Header title="Delete release?" withCloseButton={false} />
-                        <Dialog.Body>
-                            <Dialog.Description>This cannot be undone.</Dialog.Description>
-                            <div style={{ display: "flex", gap: "0.5rem", justifyContent: "flex-end" }}>
-                                <Button variant="secondary" onClick={() => setOpen(false)}>
-                                    Cancel
-                                </Button>
-                                <Button variant="danger" onClick={() => setOpen(false)}>
-                                    Delete
-                                </Button>
-                            </div>
-                        </Dialog.Body>
-                    </Dialog.Content>
-                </Dialog.Root>
+                <Dialog
+                    role="alertdialog"
+                    open={alertOpen}
+                    onClose={() => setAlertOpen(false)}
+                    size="sm"
+                    title="Delete release?"
+                    withCloseButton={false}
+                >
+                    <p>This cannot be undone.</p>
+                    <div style={{ display: "flex", gap: "0.5rem", justifyContent: "flex-end" }}>
+                        <Button variant="secondary" onClick={() => setAlertOpen(false)}>
+                            Cancel
+                        </Button>
+                        <Button variant="danger" onClick={() => setAlertOpen(false)}>
+                            Delete
+                        </Button>
+                    </div>
+                </Dialog>
             </Example>
         </ShowcasePage>
     );
@@ -84,67 +82,34 @@ export function DialogShowcase(): PReact.ComponentChildren {
 
 export function PopoverShowcase(): PReact.ComponentChildren {
     return (
-        <ShowcasePage title="Popover" description="@zag-js/popover, compound API.">
-            <Example title="Default">
-                <Popover.Root>
-                    <Popover.Trigger>Details</Popover.Trigger>
-                    <Popover.Content>
-                        <Popover.Arrow />
-                        <Popover.Title>Release 1.2.0</Popover.Title>
-                        <Popover.Description>Published on 2026-05-20.</Popover.Description>
-                        <Popover.CloseTrigger aria-label="Close">
-                            <i className="fas fa-times" />
-                        </Popover.CloseTrigger>
-                    </Popover.Content>
-                </Popover.Root>
+        <ShowcasePage title="Popover" description="Wraps its trigger, positioned with Floating UI.">
+            <Example title="On click">
+                <Popover title="Release 1.2.0" content="Published on 2026-05-20.">
+                    <Button variant="secondary">Details</Button>
+                </Popover>
             </Example>
-            <Example title="As child">
-                <Popover.Root>
-                    <Popover.Trigger asChild>
-                        <Button variant="secondary">Details</Button>
-                    </Popover.Trigger>
-                    <Popover.Content>
-                        <Popover.Description>Opened from an existing Button.</Popover.Description>
-                    </Popover.Content>
-                </Popover.Root>
-            </Example>
-            <Example title="Open on focus">
-                <Popover.Root openOn="focus" positioning={{ placement: "bottom-start" }}>
-                    <Popover.Anchor>
+            <Example title="On focus">
+                <Popover trigger="focus" placement="bottom-start" content="Paste the channel URL.">
+                    <div>
                         <TextInput label="Channel" placeholder="Focus to see the hint" />
-                    </Popover.Anchor>
-                    <Popover.Content>
-                        <Popover.Description>Paste the channel URL.</Popover.Description>
-                    </Popover.Content>
-                </Popover.Root>
+                    </div>
+                </Popover>
             </Example>
         </ShowcasePage>
     );
 }
 
+const TOOLTIP_PLACEMENTS: Placement[] = ["top", "right", "bottom", "left"];
+
 export function TooltipShowcase(): PReact.ComponentChildren {
     return (
-        <ShowcasePage title="Tooltip" description="@zag-js/tooltip, compound API.">
+        <ShowcasePage title="Tooltip" description="Wraps its trigger, positioned with Floating UI.">
             <Example title="Placements">
-                {(["top", "right", "bottom", "left"] as const).map((placement) => (
-                    <Tooltip.Root key={placement} openDelay={200} positioning={{ placement }}>
-                        <Tooltip.Trigger>{placement}</Tooltip.Trigger>
-                        <Tooltip.Content>
-                            <Tooltip.Arrow />
-                            Tooltip on {placement}
-                        </Tooltip.Content>
-                    </Tooltip.Root>
+                {TOOLTIP_PLACEMENTS.map((placement) => (
+                    <Tooltip key={placement} placement={placement} openDelay={200} content={`Tooltip on ${placement}`}>
+                        <Button variant="secondary">{placement}</Button>
+                    </Tooltip>
                 ))}
-            </Example>
-            <Example title="As child">
-                <Tooltip.Root openDelay={200}>
-                    <Tooltip.Trigger asChild>
-                        <Button variant="secondary" aria-label="Settings">
-                            <i className="fas fa-cog" aria-hidden="true" />
-                        </Button>
-                    </Tooltip.Trigger>
-                    <Tooltip.Content>Settings</Tooltip.Content>
-                </Tooltip.Root>
             </Example>
         </ShowcasePage>
     );

@@ -11,7 +11,7 @@
 .root {
     @apply inline-flex items-center gap-2 cursor-pointer;
 
-    &[data-disabled] {
+    &:has(.input:disabled) {
         @apply opacity-50 cursor-not-allowed;
     }
 }
@@ -19,21 +19,25 @@
 .control {
     @apply bg-stone-700 rounded-full;
     @apply inline-flex items-center shrink-0 w-10 h-6 p-0.5 transition-colors;
-
-    &[data-state="checked"] {
-        @apply bg-red-800;
-    }
-
-    &[data-focus-visible] {
-        @apply ring-2 ring-blue-500;
-    }
 }
 
 .thumb {
     @apply bg-stone-50 rounded-full;
     @apply w-5 h-5 transition-transform;
+}
 
-    &[data-state="checked"] {
+.input {
+    @apply sr-only;
+
+    &:focus-visible + .control {
+        @apply ring-2 ring-blue-500;
+    }
+
+    &:checked + .control {
+        @apply bg-red-800;
+    }
+
+    &:checked + .control .thumb {
         @apply translate-x-4;
     }
 }

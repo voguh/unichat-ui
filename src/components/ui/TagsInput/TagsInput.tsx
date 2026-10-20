@@ -19,9 +19,8 @@ import { clsx } from "~/utils/clsx";
 
 import styles from "./styles.module.css";
 
-export interface TagsInputProps
-    extends Omit<PReact.InputHTMLAttributes<HTMLInputElement>, keyof tagsInput.Props>,
-        Partial<Omit<tagsInput.Props, "id">> {
+type VanillaProps = Omit<PReact.InputHTMLAttributes<HTMLInputElement>, keyof tagsInput.Props>;
+export interface TagsInputProps extends VanillaProps, Partial<Omit<tagsInput.Props, "id">> {
     id?: string;
     rootProps?: PReact.HTMLAttributes<HTMLDivElement>;
 }

@@ -27,7 +27,8 @@ export interface FormGroupBaseProps {
     statusMessageProps?: PReact.HTMLAttributes<HTMLElement>;
 }
 
-export interface FormGroupProps extends PReact.HTMLAttributes<HTMLDivElement>, FormGroupBaseProps {
+type VanillaProps = PReact.HTMLAttributes<HTMLDivElement>;
+export interface FormGroupProps extends VanillaProps, FormGroupBaseProps {
     id?: string;
 }
 

@@ -10,25 +10,25 @@
 
 import { createRef } from "preact";
 
-import { render, screen, waitFor } from "@testing-library/preact";
+import { render, screen } from "@testing-library/preact";
 import userEvent from "@testing-library/user-event";
 
 import { Tabs } from "~/components/ui/Tabs";
 
 describe("Tabs", () => {
     it("selects tabs by click and arrow keys", async () => {
-        const onValueChange = rstest.fn();
+        const onChange = rstest.fn();
         const rootRef = createRef<HTMLDivElement>();
         render(
-            <Tabs.Root ref={rootRef} defaultValue="users" onValueChange={onValueChange} data-testid="root">
-                <Tabs.List>
-                    <Tabs.Trigger value="users">Users</Tabs.Trigger>
-                    <Tabs.Trigger value="releases">Releases</Tabs.Trigger>
-                    <Tabs.Indicator />
-                </Tabs.List>
-                <Tabs.Content value="users">Users panel</Tabs.Content>
-                <Tabs.Content value="releases">Releases panel</Tabs.Content>
-            </Tabs.Root>
+            <Tabs
+                ref={rootRef}
+                items={[
+                    { value: "users", label: "Users", content: "Users panel" },
+                    { value: "releases", label: "Releases", content: "Releases panel" }
+                ]}
+                onChange={onChange}
+                data-testid="root"
+            />
         );
 
         expect(rootRef.current).toBe(screen.getByTestId("root"));
@@ -36,10 +36,26 @@ describe("Tabs", () => {
         expect(screen.getByRole("tabpanel")).toHaveTextContent("Users panel");
 
         await userEvent.click(screen.getByRole("tab", { name: "Releases" }));
-        expect(onValueChange).toHaveBeenLastCalledWith(expect.objectContaining({ value: "releases" }));
+        expect(onChange).toHaveBeenLastCalledWith("releases");
         expect(screen.getByRole("tabpanel")).toHaveTextContent("Releases panel");
 
         await userEvent.keyboard("{ArrowLeft}");
-        await waitFor(() => expect(screen.getByRole("tab", { name: "Users" })).toHaveFocus());
+        expect(screen.getByRole("tab", { name: "Users" })).toHaveFocus();
+        expect(screen.getByRole("tabpanel")).toHaveTextContent("Users panel");
+    });
+
+    it("starts on the default value", () => {
+        render(
+            <Tabs
+                items={[
+                    { value: "users", label: "Users", content: "Users panel" },
+                    { value: "releases", label: "Releases", content: "Releases panel" }
+                ]}
+                defaultValue="releases"
+            />
+        );
+
+        expect(screen.getByRole("tab", { name: "Releases" })).toHaveAttribute("aria-selected", "true");
+        expect(screen.getByRole("tabpanel")).toHaveTextContent("Releases panel");
     });
 });

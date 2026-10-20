@@ -8,19 +8,4 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-import { TooltipArrow } from "./TooltipArrow";
-import { TooltipContent } from "./TooltipContent";
-import { TooltipRoot } from "./TooltipRoot";
-import { TooltipTrigger } from "./TooltipTrigger";
-
-export * from "./TooltipArrow";
-export * from "./TooltipContent";
-export * from "./TooltipRoot";
-export * from "./TooltipTrigger";
-
-export const Tooltip = {
-    Root: TooltipRoot,
-    Trigger: TooltipTrigger,
-    Content: TooltipContent,
-    Arrow: TooltipArrow
-};
+export * from "./Tooltip";

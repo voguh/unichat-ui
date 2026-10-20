@@ -19,9 +19,8 @@ import { clsx } from "~/utils/clsx";
 
 import styles from "./styles.module.css";
 
-export interface FileUploadProps
-    extends Omit<PReact.InputHTMLAttributes<HTMLInputElement>, keyof fileUpload.Props | "type">,
-        Partial<Omit<fileUpload.Props, "id">> {
+type VanillaProps = Omit<PReact.InputHTMLAttributes<HTMLInputElement>, keyof fileUpload.Props | "type">;
+export interface FileUploadProps extends VanillaProps, Partial<Omit<fileUpload.Props, "id">> {
     id?: string;
     rootProps?: PReact.HTMLAttributes<HTMLDivElement>;
 }

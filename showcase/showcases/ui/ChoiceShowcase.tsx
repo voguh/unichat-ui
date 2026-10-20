@@ -37,18 +37,18 @@ const PLATFORMS = [
 ];
 
 export function CheckboxShowcase(): PReact.ComponentChildren {
-    const [checked, setChecked] = useState<boolean | "indeterminate">(false);
+    const [checked, setChecked] = useState(false);
 
     return (
-        <ShowcasePage title="Checkbox & Switch" description="Spread and ref go to the hidden native input.">
+        <ShowcasePage title="Checkbox & Switch" description="Spread and ref go to the native input.">
             <Example title="Checkbox" vertical>
-                <Checkbox checked={checked} onCheckedChange={(details) => setChecked(details.checked)}>
+                <Checkbox checked={checked} onChange={(event) => setChecked(event.currentTarget.checked)}>
                     Controlled
                 </Checkbox>
                 <Checkbox defaultChecked>Default checked</Checkbox>
-                <Checkbox checked="indeterminate">Indeterminate</Checkbox>
+                <Checkbox indeterminate>Indeterminate</Checkbox>
                 <Checkbox disabled>Disabled</Checkbox>
-                <Checkbox invalid>Invalid</Checkbox>
+                <Checkbox aria-invalid="true">Invalid</Checkbox>
                 <Code>checked: {JSON.stringify(checked)}</Code>
             </Example>
             <Example title="Switch" vertical>
@@ -64,7 +64,7 @@ export function RadioShowcase(): PReact.ComponentChildren {
     const [locale, setLocale] = useState("en-US");
 
     return (
-        <ShowcasePage title="RadioGroup & SegmentedControl" description="@zag-js/radio-group.">
+        <ShowcasePage title="RadioGroup & SegmentedControl" description="Native radio inputs.">
             <Example title="RadioGroup vertical">
                 <RadioGroup aria-label="Sort" defaultValue="newest" items={ITEMS} />
             </Example>
@@ -75,7 +75,7 @@ export function RadioShowcase(): PReact.ComponentChildren {
                 <div>
                     <SegmentedControl
                         value={locale}
-                        onValueChange={(details) => details.value != null && setLocale(details.value)}
+                        onChange={(event) => setLocale(event.currentTarget.value)}
                         items={[
                             { value: "en-US", label: "EN" },
                             { value: "pt-BR", label: "PT" }

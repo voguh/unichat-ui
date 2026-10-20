@@ -7,6 +7,7 @@
  *
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
+/** biome-ignore-all lint/a11y/noLabelWithoutControl: htmlFor comes from zag label props */
 
 import type PReact from "preact";
 import { forwardRef } from "preact/compat";
@@ -35,9 +36,8 @@ interface SelectCollectionItem extends SelectItem {
     group?: string;
 }
 
-export interface SelectProps
-    extends Omit<PReact.SelectHTMLAttributes<HTMLSelectElement>, keyof select.Props>,
-        Partial<Omit<select.Props, "id" | "collection">> {
+type VanillaProps = Omit<PReact.SelectHTMLAttributes<HTMLSelectElement>, keyof select.Props>;
+export interface SelectProps extends VanillaProps, Partial<Omit<select.Props, "id" | "collection">> {
     id?: string;
     items: Array<SelectItem | SelectItemGroup>;
     placeholder?: string;
@@ -81,7 +81,6 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select
             className={clsx(styles.root, className, rootClassName)}
         >
             {ariaLabel != null && (
-                // biome-ignore lint/a11y/noLabelWithoutControl: htmlFor comes from zag label props
                 <label {...api.getLabelProps()} className="sr-only">
                     {ariaLabel}
                 </label>

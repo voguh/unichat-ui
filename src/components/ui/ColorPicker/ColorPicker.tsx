@@ -20,9 +20,8 @@ import { clsx } from "~/utils/clsx";
 
 import styles from "./styles.module.css";
 
-export interface ColorPickerProps
-    extends Omit<PReact.InputHTMLAttributes<HTMLInputElement>, keyof colorPicker.Props | "type">,
-        Partial<Omit<colorPicker.Props, "id">> {
+type VanillaProps = Omit<PReact.InputHTMLAttributes<HTMLInputElement>, keyof colorPicker.Props | "type">;
+export interface ColorPickerProps extends VanillaProps, Partial<Omit<colorPicker.Props, "id">> {
     id?: string;
     swatches?: string[];
     rootProps?: PReact.HTMLAttributes<HTMLDivElement>;

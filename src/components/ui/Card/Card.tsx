@@ -15,7 +15,8 @@ import { clsx } from "~/utils/clsx";
 
 import styles from "./styles.module.css";
 
-export interface CardProps extends PReact.HTMLAttributes<HTMLDivElement> {}
+type VanillaProps = PReact.HTMLAttributes<HTMLDivElement>;
+export interface CardProps extends VanillaProps {}
 
 export const Card = forwardRef<HTMLDivElement, CardProps>(function Card({ className, ...rest }, ref) {
     return <div {...rest} ref={ref} className={clsx(styles.root, className)} />;

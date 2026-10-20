@@ -17,7 +17,8 @@ import styles from "./styles.module.css";
 
 export type BadgeVariant = "primary" | "secondary" | "success" | "danger" | "warning" | "info";
 
-export interface BadgeProps extends PReact.HTMLAttributes<HTMLSpanElement> {
+type VanillaProps = PReact.HTMLAttributes<HTMLSpanElement>;
+export interface BadgeProps extends VanillaProps {
     variant?: BadgeVariant;
 }
 

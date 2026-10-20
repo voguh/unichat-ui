@@ -15,7 +15,8 @@ import { clsx } from "~/utils/clsx";
 
 import styles from "./styles.module.css";
 
-export interface SkeletonProps extends PReact.HTMLAttributes<HTMLDivElement> {}
+type VanillaProps = PReact.HTMLAttributes<HTMLDivElement>;
+export interface SkeletonProps extends VanillaProps {}
 
 export const Skeleton = forwardRef<HTMLDivElement, SkeletonProps>(function Skeleton({ className, ...rest }, ref) {
     return <div aria-hidden="true" {...rest} ref={ref} className={clsx(styles.root, className)} />;

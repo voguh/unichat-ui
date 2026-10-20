@@ -23,7 +23,6 @@ export interface RadioGroupProps extends Omit<UIRadioGroupProps, "id">, FormGrou
 export const RadioGroup = forwardRef<HTMLDivElement, RadioGroupProps>(function RadioGroup(
     {
         id,
-        ids,
         label,
         labelProps,
         description,
@@ -58,8 +57,8 @@ export const RadioGroup = forwardRef<HTMLDivElement, RadioGroupProps>(function R
                 {...rest}
                 ref={ref}
                 id={fieldId}
-                ids={{ ...ids, label: labelId }}
-                invalid={status === "invalid"}
+                aria-labelledby={labelId}
+                aria-invalid={status === "invalid" || undefined}
             />
         </FormGroup>
     );

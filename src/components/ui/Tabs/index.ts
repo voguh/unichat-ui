@@ -8,22 +8,4 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-import { TabsContent } from "./TabsContent";
-import { TabsIndicator } from "./TabsIndicator";
-import { TabsList } from "./TabsList";
-import { TabsRoot } from "./TabsRoot";
-import { TabsTrigger } from "./TabsTrigger";
-
-export * from "./TabsContent";
-export * from "./TabsIndicator";
-export * from "./TabsList";
-export * from "./TabsRoot";
-export * from "./TabsTrigger";
-
-export const Tabs = {
-    Root: TabsRoot,
-    List: TabsList,
-    Trigger: TabsTrigger,
-    Content: TabsContent,
-    Indicator: TabsIndicator
-};
+export * from "./Tabs";

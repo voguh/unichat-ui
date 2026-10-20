@@ -76,7 +76,7 @@ export function FormFieldsShowcase(): PReact.ComponentChildren {
             <Example title="Status">
                 <SegmentedControl
                     value={statusValue}
-                    onValueChange={(details) => details.value != null && setStatusValue(details.value)}
+                    onChange={(event) => setStatusValue(event.currentTarget.value)}
                     items={STATUS_ITEMS}
                 />
             </Example>

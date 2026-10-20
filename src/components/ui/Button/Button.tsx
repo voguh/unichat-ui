@@ -18,7 +18,8 @@ import styles from "./styles.module.css";
 export type ButtonVariant = "default" | "primary" | "secondary" | "success" | "danger" | "warning" | "info";
 export type ButtonSize = "sm" | "md" | "lg";
 
-export interface ButtonProps extends PReact.ButtonHTMLAttributes<HTMLButtonElement> {
+type VanillaProps = PReact.ButtonHTMLAttributes<HTMLButtonElement>;
+export interface ButtonProps extends VanillaProps {
     variant?: ButtonVariant;
     size?: ButtonSize;
     loading?: boolean;

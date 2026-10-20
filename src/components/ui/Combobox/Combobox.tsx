@@ -26,9 +26,8 @@ export interface ComboboxItem {
     disabled?: boolean;
 }
 
-export interface ComboboxProps
-    extends Omit<PReact.InputHTMLAttributes<HTMLInputElement>, keyof combobox.Props>,
-        Partial<Omit<combobox.Props, "id" | "collection">> {
+type VanillaProps = Omit<PReact.InputHTMLAttributes<HTMLInputElement>, keyof combobox.Props>;
+export interface ComboboxProps extends VanillaProps, Partial<Omit<combobox.Props, "id" | "collection">> {
     id?: string;
     items: ComboboxItem[];
     rootProps?: PReact.HTMLAttributes<HTMLDivElement>;

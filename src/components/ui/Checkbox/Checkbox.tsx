@@ -10,53 +10,38 @@
 
 import type PReact from "preact";
 import { forwardRef } from "preact/compat";
-import { useId } from "preact/hooks";
-
-import * as checkbox from "@zag-js/checkbox";
-import { mergeProps, normalizeProps, useMachine } from "@zag-js/preact";
+import { useLayoutEffect, useRef } from "preact/hooks";
 
 import { clsx } from "~/utils/clsx";
+import { mergeRefs } from "~/utils/mergeRefs";
 
 import styles from "./styles.module.css";
 
-export interface CheckboxProps
-    extends Omit<PReact.InputHTMLAttributes<HTMLInputElement>, keyof checkbox.Props | "type">,
-        Partial<Omit<checkbox.Props, "id">> {
-    id?: string;
+type VanillaProps = Omit<PReact.InputHTMLAttributes<HTMLInputElement>, "type">;
+export interface CheckboxProps extends VanillaProps {
+    indeterminate?: boolean;
     rootProps?: PReact.LabelHTMLAttributes<HTMLLabelElement>;
 }
 
 export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(function Checkbox(
-    { id, rootProps, className, children, ...props },
+    { indeterminate = false, rootProps, className, children, ...rest },
     ref
 ) {
-    const [machineProps, rest] = checkbox.splitProps(props);
+    const inputRef = useRef<HTMLInputElement>(null);
     const rootClassName = rootProps != null ? rootProps.className : undefined;
 
-    const machineId = useId();
-    const service = useMachine(checkbox.machine, {
-        ...machineProps,
-        id: machineId,
-        ids: { ...machineProps.ids, hiddenInput: id }
-    });
-    const api = checkbox.connect(service, normalizeProps);
+    useLayoutEffect(() => {
+        inputRef.current!.indeterminate = indeterminate;
+    }, [indeterminate]);
 
     return (
-        <label
-            {...mergeProps(api.getRootProps(), rootProps ?? {})}
-            className={clsx(styles.root, className, rootClassName)}
-        >
-            <div {...api.getControlProps()} className={styles.control}>
-                <div {...api.getIndicatorProps()} className={styles.indicator}>
-                    <i className={api.indeterminate ? "fas fa-minus" : "fas fa-check"} aria-hidden="true" />
-                </div>
-            </div>
-            {children != null && (
-                <span {...api.getLabelProps()} className={styles.label}>
-                    {children}
-                </span>
-            )}
-            <input {...mergeProps(api.getHiddenInputProps(), rest)} ref={ref} />
+        <label {...rootProps} className={clsx(styles.root, className, rootClassName)}>
+            <input {...rest} ref={mergeRefs(ref, inputRef)} type="checkbox" className={styles.input} />
+            <span className={styles.control}>
+                <i className={clsx(styles.checkIcon, "fas fa-check")} aria-hidden="true" />
+                <i className={clsx(styles.indeterminateIcon, "fas fa-minus")} aria-hidden="true" />
+            </span>
+            {children != null && <span className={styles.label}>{children}</span>}
         </label>
     );
 });

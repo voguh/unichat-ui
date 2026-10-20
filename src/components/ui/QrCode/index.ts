@@ -8,19 +8,4 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-import { QrCodeDownloadTrigger } from "./QrCodeDownloadTrigger";
-import { QrCodeFrame } from "./QrCodeFrame";
-import { QrCodeOverlay } from "./QrCodeOverlay";
-import { QrCodeRoot } from "./QrCodeRoot";
-
-export * from "./QrCodeDownloadTrigger";
-export * from "./QrCodeFrame";
-export * from "./QrCodeOverlay";
-export * from "./QrCodeRoot";
-
-export const QrCode = {
-    Root: QrCodeRoot,
-    Frame: QrCodeFrame,
-    Overlay: QrCodeOverlay,
-    DownloadTrigger: QrCodeDownloadTrigger
-};
+export * from "./QrCode";

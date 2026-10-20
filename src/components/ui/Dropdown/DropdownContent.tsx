@@ -13,10 +13,11 @@ import { forwardRef } from "preact/compat";
 
 import { mergeProps } from "@zag-js/preact";
 
-import { useDropdown } from "./context";
-import styles from "./styles.module.css";
 import { Portal } from "~/components/ui/Portal";
 import { clsx } from "~/utils/clsx";
+
+import { useDropdown } from "./context";
+import styles from "./styles.module.css";
 
 export interface DropdownContentProps extends PReact.HTMLAttributes<HTMLDivElement> {}
 
@@ -32,7 +33,7 @@ export const DropdownContent = forwardRef<HTMLDivElement, DropdownContentProps>(
 
     return (
         <Portal>
-            <div {...api.getPositionerProps()} className={styles.positioner}>
+            <div {...api.getPositionerProps()}>
                 <div
                     {...mergeProps(api.getContentProps(), rest)}
                     ref={ref}

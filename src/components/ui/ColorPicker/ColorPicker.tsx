@@ -10,14 +10,15 @@
 
 import type PReact from "preact";
 import { forwardRef } from "preact/compat";
-import { useId } from "preact/hooks";
+import { useId, useRef } from "preact/hooks";
 
 import * as colorPicker from "@zag-js/color-picker";
 import { mergeProps, normalizeProps, useMachine } from "@zag-js/preact";
 
-import styles from "./styles.module.css";
 import { Portal } from "~/components/ui/Portal";
 import { clsx } from "~/utils/clsx";
+
+import styles from "./styles.module.css";
 
 export interface ColorPickerProps
     extends Omit<PReact.InputHTMLAttributes<HTMLInputElement>, keyof colorPicker.Props | "type">,
@@ -34,11 +35,15 @@ export const ColorPicker = forwardRef<HTMLInputElement, ColorPickerProps>(functi
     const [machineProps, rest] = colorPicker.splitProps(props);
     const rootClassName = rootProps != null ? rootProps.className : undefined;
 
+    const controlRef = useRef<HTMLDivElement>(null);
+
     const machineId = useId();
     const service = useMachine(colorPicker.machine, {
+        openAutoFocus: false,
         ...machineProps,
         id: machineId,
-        ids: { ...machineProps.ids, hiddenInput: id }
+        ids: { ...machineProps.ids, hiddenInput: id },
+        positioning: { placement: "bottom", getAnchorElement: () => controlRef.current, ...machineProps.positioning }
     });
     const api = colorPicker.connect(service, normalizeProps);
 
@@ -47,15 +52,18 @@ export const ColorPicker = forwardRef<HTMLInputElement, ColorPickerProps>(functi
             {...mergeProps(api.getRootProps(), rootProps ?? {})}
             className={clsx(styles.root, className, rootClassName)}
         >
-            <div {...api.getControlProps()} className={styles.control}>
+            <div {...api.getControlProps()} ref={controlRef} className={styles.control}>
                 <button {...api.getTriggerProps()} className={styles.trigger}>
                     <div {...api.getTransparencyGridProps({ size: "8px" })} className={styles.transparencyGrid} />
                     <div {...api.getSwatchProps({ value: api.value })} className={styles.swatch} />
                 </button>
-                <input {...api.getChannelInputProps({ channel: "hex" })} className={styles.channelInput} />
+                <input
+                    {...mergeProps(api.getChannelInputProps({ channel: "hex" }), { onClick: () => api.setOpen(true) })}
+                    className={styles.channelInput}
+                />
             </div>
             <Portal>
-                <div {...api.getPositionerProps()} className={styles.positioner}>
+                <div {...api.getPositionerProps()}>
                     <div {...api.getContentProps()} className={styles.content}>
                         <div {...api.getAreaProps()} className={styles.area}>
                             <div {...api.getAreaBackgroundProps()} className={styles.areaBackground} />

@@ -13,15 +13,22 @@ import { forwardRef } from "preact/compat";
 
 import { mergeProps } from "@zag-js/preact";
 
-import { useDialog } from "./context";
-import styles from "./styles.module.css";
 import { Portal } from "~/components/ui/Portal";
 import { clsx } from "~/utils/clsx";
 
-export interface DialogContentProps extends PReact.HTMLAttributes<HTMLDivElement> {}
+import { useDialog } from "./context";
+import styles from "./styles.module.css";
+
+export type DialogSize = "sm" | "md" | "lg" | "xl" | "fullscreen";
+
+export interface DialogContentProps extends PReact.HTMLAttributes<HTMLDivElement> {
+    size?: DialogSize;
+    backdrop?: boolean;
+    portal?: boolean;
+}
 
 export const DialogContent = forwardRef<HTMLDivElement, DialogContentProps>(function DialogContent(
-    { className, ...rest },
+    { size = "md", backdrop = true, portal = true, className, ...rest },
     ref
 ) {
     const api = useDialog();
@@ -31,12 +38,13 @@ export const DialogContent = forwardRef<HTMLDivElement, DialogContentProps>(func
     }
 
     return (
-        <Portal>
-            <div {...api.getBackdropProps()} className={styles.backdrop} />
+        <Portal disabled={!portal}>
+            {backdrop && <div {...api.getBackdropProps()} className={styles.backdrop} />}
             <div {...api.getPositionerProps()} className={styles.positioner}>
                 <div
                     {...mergeProps(api.getContentProps(), rest)}
                     ref={ref}
+                    data-size={size}
                     className={clsx(styles.content, className)}
                 />
             </div>

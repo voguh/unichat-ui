@@ -11,8 +11,9 @@
 import type PReact from "preact";
 import { forwardRef } from "preact/compat";
 
-import styles from "./styles.module.css";
 import { clsx } from "~/utils/clsx";
+
+import styles from "./styles.module.css";
 
 export interface CardHeaderProps extends PReact.HTMLAttributes<HTMLDivElement> {}
 

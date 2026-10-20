@@ -12,8 +12,9 @@ import type PReact from "preact";
 import { forwardRef } from "preact/compat";
 import { useMemo } from "preact/hooks";
 
-import styles from "./styles.module.css";
 import { clsx } from "~/utils/clsx";
+
+import styles from "./styles.module.css";
 
 const GRID_SIZE = 16;
 const HALF_SIZE = GRID_SIZE / 2;

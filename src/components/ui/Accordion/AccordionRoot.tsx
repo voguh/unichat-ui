@@ -15,9 +15,10 @@ import { useId } from "preact/hooks";
 import * as accordion from "@zag-js/accordion";
 import { mergeProps, normalizeProps, useMachine } from "@zag-js/preact";
 
+import { clsx } from "~/utils/clsx";
+
 import { AccordionContext } from "./context";
 import styles from "./styles.module.css";
-import { clsx } from "~/utils/clsx";
 
 export interface AccordionRootProps
     extends Omit<PReact.HTMLAttributes<HTMLDivElement>, keyof accordion.Props>,

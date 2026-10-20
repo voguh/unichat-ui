@@ -13,9 +13,10 @@ import { forwardRef } from "preact/compat";
 
 import { mergeProps } from "@zag-js/preact";
 
+import { clsx } from "~/utils/clsx";
+
 import { useTooltip } from "./context";
 import styles from "./styles.module.css";
-import { clsx } from "~/utils/clsx";
 
 export interface TooltipArrowProps extends PReact.HTMLAttributes<HTMLDivElement> {}
 

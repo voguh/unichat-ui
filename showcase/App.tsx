@@ -14,10 +14,11 @@ import type PReact from "preact";
 import { Route, Router, Switch } from "wouter-preact";
 import { useHashLocation } from "wouter-preact/use-hash-location";
 
+import { Toaster } from "~/components/ui/Toast";
+
 import { Sidebar } from "./components/Sidebar";
 import { SHOWCASES } from "./showcases";
 import styles from "./styles/styles.module.css";
-import { Toaster } from "~/components/ui/Toast";
 
 export function App(): PReact.ComponentChildren {
     return (

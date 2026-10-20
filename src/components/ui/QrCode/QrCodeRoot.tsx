@@ -15,9 +15,10 @@ import { useId } from "preact/hooks";
 import { mergeProps, normalizeProps, useMachine } from "@zag-js/preact";
 import * as qrCode from "@zag-js/qr-code";
 
+import { clsx } from "~/utils/clsx";
+
 import { QrCodeContext } from "./context";
 import styles from "./styles.module.css";
-import { clsx } from "~/utils/clsx";
 
 export interface QrCodeRootProps
     extends Omit<PReact.HTMLAttributes<HTMLDivElement>, keyof qrCode.Props>,

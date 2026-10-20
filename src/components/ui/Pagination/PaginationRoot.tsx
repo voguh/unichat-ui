@@ -15,9 +15,10 @@ import { useId } from "preact/hooks";
 import * as pagination from "@zag-js/pagination";
 import { mergeProps, normalizeProps, useMachine } from "@zag-js/preact";
 
+import { clsx } from "~/utils/clsx";
+
 import { PaginationContext } from "./context";
 import styles from "./styles.module.css";
-import { clsx } from "~/utils/clsx";
 
 export interface PaginationRootProps
     extends Omit<PReact.HTMLAttributes<HTMLElement>, keyof pagination.Props>,

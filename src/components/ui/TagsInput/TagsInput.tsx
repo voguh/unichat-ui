@@ -15,8 +15,9 @@ import { useId } from "preact/hooks";
 import { mergeProps, normalizeProps, useMachine } from "@zag-js/preact";
 import * as tagsInput from "@zag-js/tags-input";
 
-import styles from "./styles.module.css";
 import { clsx } from "~/utils/clsx";
+
+import styles from "./styles.module.css";
 
 export interface TagsInputProps
     extends Omit<PReact.InputHTMLAttributes<HTMLInputElement>, keyof tagsInput.Props>,

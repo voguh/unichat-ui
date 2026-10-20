@@ -12,8 +12,9 @@ import type PReact from "preact";
 import { forwardRef } from "preact/compat";
 import { useState } from "preact/hooks";
 
-import styles from "./styles.module.css";
 import { clsx } from "~/utils/clsx";
+
+import styles from "./styles.module.css";
 
 export interface AvatarProps extends PReact.ImgHTMLAttributes<HTMLImageElement> {
     fallback?: PReact.ComponentChildren;

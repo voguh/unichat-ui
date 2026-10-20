@@ -13,9 +13,10 @@ import { forwardRef } from "preact/compat";
 
 import { mergeProps } from "@zag-js/preact";
 
+import { clsx } from "~/utils/clsx";
+
 import { useDialog } from "./context";
 import styles from "./styles.module.css";
-import { clsx } from "~/utils/clsx";
 
 export interface DialogCloseTriggerProps extends PReact.ButtonHTMLAttributes<HTMLButtonElement> {}
 

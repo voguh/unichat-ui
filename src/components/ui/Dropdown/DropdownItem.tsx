@@ -13,9 +13,10 @@ import { forwardRef } from "preact/compat";
 
 import { mergeProps } from "@zag-js/preact";
 
+import { clsx } from "~/utils/clsx";
+
 import { useDropdown } from "./context";
 import styles from "./styles.module.css";
-import { clsx } from "~/utils/clsx";
 
 export interface DropdownItemProps
     extends Omit<PReact.HTMLAttributes<HTMLDivElement>, "value" | "disabled" | "valueText" | "closeOnSelect"> {

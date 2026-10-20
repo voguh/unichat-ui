@@ -14,9 +14,10 @@ import { forwardRef } from "preact/compat";
 import type * as menu from "@zag-js/menu";
 import { mergeProps } from "@zag-js/preact";
 
+import { clsx } from "~/utils/clsx";
+
 import { useDropdown } from "./context";
 import styles from "./styles.module.css";
-import { clsx } from "~/utils/clsx";
 
 export interface DropdownOptionItemProps
     extends Omit<PReact.HTMLAttributes<HTMLDivElement>, keyof menu.OptionItemProps> {

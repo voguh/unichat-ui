@@ -12,9 +12,10 @@ import type PReact from "preact";
 import { forwardRef } from "preact/compat";
 import { useLayoutEffect, useRef } from "preact/hooks";
 
-import styles from "./styles.module.css";
 import { clsx } from "~/utils/clsx";
 import { mergeRefs } from "~/utils/mergeRefs";
+
+import styles from "./styles.module.css";
 
 export interface TextareaProps extends PReact.TextareaHTMLAttributes<HTMLTextAreaElement> {
     autoResize?: boolean;

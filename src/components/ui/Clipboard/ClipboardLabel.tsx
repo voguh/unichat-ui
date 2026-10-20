@@ -13,9 +13,10 @@ import { forwardRef } from "preact/compat";
 
 import { mergeProps } from "@zag-js/preact";
 
+import { clsx } from "~/utils/clsx";
+
 import { useClipboard } from "./context";
 import styles from "./styles.module.css";
-import { clsx } from "~/utils/clsx";
 
 export interface ClipboardLabelProps extends PReact.LabelHTMLAttributes<HTMLLabelElement> {}
 

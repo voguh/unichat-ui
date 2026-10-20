@@ -15,8 +15,9 @@ import { useId } from "preact/hooks";
 import { mergeProps, normalizeProps, useMachine } from "@zag-js/preact";
 import * as radioGroup from "@zag-js/radio-group";
 
-import styles from "./styles.module.css";
 import { clsx } from "~/utils/clsx";
+
+import styles from "./styles.module.css";
 
 export interface SegmentedControlItem {
     value: string;

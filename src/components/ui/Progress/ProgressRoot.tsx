@@ -15,9 +15,10 @@ import { useId } from "preact/hooks";
 import { mergeProps, normalizeProps, useMachine } from "@zag-js/preact";
 import * as progress from "@zag-js/progress";
 
+import { clsx } from "~/utils/clsx";
+
 import { ProgressContext } from "./context";
 import styles from "./styles.module.css";
-import { clsx } from "~/utils/clsx";
 
 export interface ProgressRootProps
     extends Omit<PReact.HTMLAttributes<HTMLDivElement>, keyof progress.Props>,

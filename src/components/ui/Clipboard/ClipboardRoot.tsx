@@ -15,9 +15,10 @@ import { useId } from "preact/hooks";
 import * as clipboard from "@zag-js/clipboard";
 import { mergeProps, normalizeProps, useMachine } from "@zag-js/preact";
 
+import { clsx } from "~/utils/clsx";
+
 import { ClipboardContext } from "./context";
 import styles from "./styles.module.css";
-import { clsx } from "~/utils/clsx";
 
 export interface ClipboardRootProps
     extends Omit<PReact.HTMLAttributes<HTMLDivElement>, keyof clipboard.Props>,

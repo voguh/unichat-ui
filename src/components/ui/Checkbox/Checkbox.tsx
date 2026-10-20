@@ -15,8 +15,9 @@ import { useId } from "preact/hooks";
 import * as checkbox from "@zag-js/checkbox";
 import { mergeProps, normalizeProps, useMachine } from "@zag-js/preact";
 
-import styles from "./styles.module.css";
 import { clsx } from "~/utils/clsx";
+
+import styles from "./styles.module.css";
 
 export interface CheckboxProps
     extends Omit<PReact.InputHTMLAttributes<HTMLInputElement>, keyof checkbox.Props | "type">,

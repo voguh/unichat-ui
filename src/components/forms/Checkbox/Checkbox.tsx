@@ -51,7 +51,13 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(function Che
             statusMessage={statusMessage}
             statusMessageProps={statusMessageProps}
         >
-            <UICheckbox aria-describedby={describedBy} {...rest} ref={ref} id={fieldId} invalid={status === "invalid"} />
+            <UICheckbox
+                aria-describedby={describedBy}
+                {...rest}
+                ref={ref}
+                id={fieldId}
+                invalid={status === "invalid"}
+            />
         </FormGroup>
     );
 });

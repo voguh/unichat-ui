@@ -14,9 +14,10 @@ import { forwardRef } from "preact/compat";
 import { mergeProps } from "@zag-js/preact";
 import type * as qrCode from "@zag-js/qr-code";
 
+import { clsx } from "~/utils/clsx";
+
 import { useQrCode } from "./context";
 import styles from "./styles.module.css";
-import { clsx } from "~/utils/clsx";
 
 type DownloadOptions = Parameters<qrCode.Api["getDownloadTriggerProps"]>[0];
 

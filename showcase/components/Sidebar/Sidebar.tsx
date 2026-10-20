@@ -12,8 +12,9 @@ import type PReact from "preact";
 
 import { Link, useLocation } from "wouter-preact";
 
-import styles from "./styles.module.css";
 import { SHOWCASE_GROUPS, SHOWCASES } from "~showcase/showcases";
+
+import styles from "./styles.module.css";
 
 export function Sidebar(): PReact.ComponentChildren {
     const [location] = useLocation();

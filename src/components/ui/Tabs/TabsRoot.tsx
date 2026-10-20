@@ -15,9 +15,10 @@ import { useId } from "preact/hooks";
 import { mergeProps, normalizeProps, useMachine } from "@zag-js/preact";
 import * as tabs from "@zag-js/tabs";
 
+import { clsx } from "~/utils/clsx";
+
 import { TabsContext } from "./context";
 import styles from "./styles.module.css";
-import { clsx } from "~/utils/clsx";
 
 export interface TabsRootProps
     extends Omit<PReact.HTMLAttributes<HTMLDivElement>, keyof tabs.Props>,

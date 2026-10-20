@@ -15,8 +15,9 @@ import { useMemo } from "preact/hooks";
 import DOMPurify from "dompurify";
 import { Marked, type Token } from "marked";
 
-import styles from "./styles.module.css";
 import { clsx } from "~/utils/clsx";
+
+import styles from "./styles.module.css";
 
 export interface MarkdownProps {
     content: string | null;

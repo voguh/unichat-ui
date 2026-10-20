@@ -56,7 +56,7 @@ export const DatePicker = forwardRef<HTMLInputElement, DatePickerProps>(function
                 </button>
             </div>
             <Portal>
-                <div {...api.getPositionerProps()} className={styles.positioner}>
+                <div {...api.getPositionerProps()}>
                     <div {...api.getContentProps()} className={styles.content}>
                         <div hidden={api.view !== "day"}>
                             <div {...api.getViewControlProps({ view: "day" })} className={styles.viewControl}>

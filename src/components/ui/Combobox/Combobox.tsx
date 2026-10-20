@@ -15,9 +15,10 @@ import { useId, useMemo, useState } from "preact/hooks";
 import * as combobox from "@zag-js/combobox";
 import { mergeProps, normalizeProps, useMachine } from "@zag-js/preact";
 
-import styles from "./styles.module.css";
 import { Portal } from "~/components/ui/Portal";
 import { clsx } from "~/utils/clsx";
+
+import styles from "./styles.module.css";
 
 export interface ComboboxItem {
     value: string;
@@ -84,7 +85,7 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Com
                 </button>
             </div>
             <Portal>
-                <div {...api.getPositionerProps()} className={styles.positioner}>
+                <div {...api.getPositionerProps()}>
                     <ul {...api.getContentProps()} className={styles.content}>
                         {filteredItems.map((item) => (
                             <li key={item.value} {...api.getItemProps({ item })} className={styles.item}>

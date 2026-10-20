@@ -13,10 +13,11 @@ import { forwardRef } from "preact/compat";
 
 import { mergeProps } from "@zag-js/preact";
 
-import { useTooltip } from "./context";
-import styles from "./styles.module.css";
 import { Portal } from "~/components/ui/Portal";
 import { clsx } from "~/utils/clsx";
+
+import { useTooltip } from "./context";
+import styles from "./styles.module.css";
 
 export interface TooltipContentProps extends PReact.HTMLAttributes<HTMLDivElement> {}
 
@@ -32,7 +33,7 @@ export const TooltipContent = forwardRef<HTMLDivElement, TooltipContentProps>(fu
 
     return (
         <Portal>
-            <div {...api.getPositionerProps()} className={styles.positioner}>
+            <div {...api.getPositionerProps()}>
                 <div
                     {...mergeProps(api.getContentProps(), rest)}
                     ref={ref}

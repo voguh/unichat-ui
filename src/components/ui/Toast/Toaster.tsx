@@ -15,9 +15,9 @@ import { useEffect, useState } from "preact/hooks";
 import { Portal } from "~/components/ui/Portal";
 import { clsx } from "~/utils/clsx";
 
+import { type ToasterStore, toaster } from "./store";
 import styles from "./styles.module.css";
 import { ToastItem } from "./ToastItem";
-import { type ToasterStore, toaster } from "./toaster";
 
 type VanillaProps = PReact.HTMLAttributes<HTMLDivElement>;
 export interface ToasterProps extends VanillaProps {

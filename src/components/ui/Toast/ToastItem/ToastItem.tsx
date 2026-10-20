@@ -10,7 +10,7 @@
 
 import type PReact from "preact";
 
-import type { Toast, ToastType } from "../toaster";
+import type { Toast, ToastType } from "../store";
 import styles from "./styles.module.css";
 
 export interface ToastItemProps {

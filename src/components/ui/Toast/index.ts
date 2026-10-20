@@ -8,5 +8,5 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
+export * from "./store";
 export * from "./Toaster";
-export * from "./toaster";

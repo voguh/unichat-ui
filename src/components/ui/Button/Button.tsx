@@ -11,10 +11,11 @@
 import type PReact from "preact";
 import { forwardRef } from "preact/compat";
 
-import styles from "./styles.module.css";
 import { clsx } from "~/utils/clsx";
 
-export type ButtonVariant = "primary" | "secondary" | "ghost" | "danger";
+import styles from "./styles.module.css";
+
+export type ButtonVariant = "default" | "primary" | "secondary" | "success" | "danger" | "warning" | "info";
 export type ButtonSize = "sm" | "md" | "lg";
 
 export interface ButtonProps extends PReact.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -24,7 +25,7 @@ export interface ButtonProps extends PReact.ButtonHTMLAttributes<HTMLButtonEleme
 }
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
-    { variant = "primary", size = "md", loading = false, disabled, type = "button", className, children, ...rest },
+    { variant = "default", size = "md", loading = false, disabled, type = "button", className, children, ...rest },
     ref
 ) {
     return (

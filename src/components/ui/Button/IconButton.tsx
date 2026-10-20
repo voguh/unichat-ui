@@ -10,9 +10,10 @@
 
 import { forwardRef } from "preact/compat";
 
+import { clsx } from "~/utils/clsx";
+
 import { Button, type ButtonProps } from "./Button";
 import styles from "./styles.module.css";
-import { clsx } from "~/utils/clsx";
 
 export interface IconButtonProps extends ButtonProps {
     "aria-label": string;

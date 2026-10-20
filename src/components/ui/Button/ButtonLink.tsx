@@ -11,9 +11,10 @@
 import type PReact from "preact";
 import { forwardRef } from "preact/compat";
 
+import { clsx } from "~/utils/clsx";
+
 import type { ButtonSize, ButtonVariant } from "./Button";
 import styles from "./styles.module.css";
-import { clsx } from "~/utils/clsx";
 
 export interface ButtonLinkProps extends PReact.AnchorHTMLAttributes<HTMLAnchorElement> {
     variant?: ButtonVariant;
@@ -21,7 +22,7 @@ export interface ButtonLinkProps extends PReact.AnchorHTMLAttributes<HTMLAnchorE
 }
 
 export const ButtonLink = forwardRef<HTMLAnchorElement, ButtonLinkProps>(function ButtonLink(
-    { variant = "primary", size = "md", className, ...rest },
+    { variant = "default", size = "md", className, ...rest },
     ref
 ) {
     return <a {...rest} ref={ref} data-variant={variant} data-size={size} className={clsx(styles.root, className)} />;

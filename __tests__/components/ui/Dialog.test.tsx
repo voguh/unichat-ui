@@ -72,4 +72,39 @@ describe("Dialog", () => {
         await userEvent.keyboard("{Escape}");
         await waitFor(() => expect(screen.queryByRole("dialog")).not.toBeInTheDocument());
     });
+
+    it("renders size, header actions and a close button that closes the dialog", async () => {
+        render(
+            <Dialog.Root defaultOpen>
+                <Dialog.Content size="xl">
+                    <Dialog.Header title="Settings" actions={<button type="button">Save</button>} />
+                    <Dialog.Body>Body</Dialog.Body>
+                </Dialog.Content>
+            </Dialog.Root>
+        );
+
+        const dialog = await screen.findByRole("dialog");
+        expect(dialog).toHaveAttribute("data-size", "xl");
+        expect(dialog).toHaveAccessibleName("Settings");
+        expect(screen.getByRole("button", { name: "Save" })).toBeInTheDocument();
+
+        const buttons = screen.getAllByRole("button");
+        await userEvent.click(buttons[buttons.length - 1]);
+        await waitFor(() => expect(screen.queryByRole("dialog")).not.toBeInTheDocument());
+    });
+
+    it("omits the backdrop and the close button when disabled", async () => {
+        const { container } = render(
+            <Dialog.Root defaultOpen>
+                <Dialog.Content backdrop={false} portal={false}>
+                    <Dialog.Header title="Tour" withCloseButton={false} />
+                </Dialog.Content>
+            </Dialog.Root>
+        );
+
+        const dialog = await screen.findByRole("dialog");
+        expect(container).toContainElement(dialog);
+        expect(screen.queryByRole("button")).not.toBeInTheDocument();
+        expect(container.querySelector("[data-part='backdrop']")).toBeNull();
+    });
 });

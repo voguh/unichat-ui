@@ -43,6 +43,43 @@ describe("Popover", () => {
         await userEvent.click(screen.getByText("Close"));
         await waitFor(() => expect(screen.queryByTestId("content")).not.toBeInTheDocument());
     });
+
+    it("uses the child as trigger with asChild", async () => {
+        const ref = createRef<HTMLButtonElement>();
+        render(
+            <Popover.Root>
+                <Popover.Trigger asChild ref={ref}>
+                    <button type="button" className="custom">
+                        Details
+                    </button>
+                </Popover.Trigger>
+                <Popover.Content data-testid="content">Release</Popover.Content>
+            </Popover.Root>
+        );
+
+        const trigger = screen.getByRole("button", { name: "Details" });
+        expect(ref.current).toBe(trigger);
+        expect(trigger).toHaveClass("custom");
+        await userEvent.click(trigger);
+        expect(await screen.findByTestId("content")).toBeInTheDocument();
+    });
+
+    it("opens while the anchor has focus with openOn focus", async () => {
+        render(
+            <Popover.Root openOn="focus">
+                <Popover.Anchor>
+                    <input aria-label="Channel" />
+                </Popover.Anchor>
+                <Popover.Content data-testid="content">Hint</Popover.Content>
+            </Popover.Root>
+        );
+
+        await userEvent.click(screen.getByLabelText("Channel"));
+        expect(await screen.findByTestId("content")).toBeInTheDocument();
+
+        await userEvent.tab();
+        await waitFor(() => expect(screen.queryByTestId("content")).not.toBeInTheDocument());
+    });
 });
 
 describe("Tooltip", () => {
@@ -63,6 +100,24 @@ describe("Tooltip", () => {
 
         await userEvent.keyboard("{Escape}");
         await waitFor(() => expect(screen.queryByRole("tooltip")).not.toBeInTheDocument());
+    });
+
+    it("uses the child as trigger with asChild", async () => {
+        render(
+            <Tooltip.Root openDelay={0} closeDelay={0}>
+                <Tooltip.Trigger asChild>
+                    <button type="button" data-tour="settings">
+                        Settings
+                    </button>
+                </Tooltip.Trigger>
+                <Tooltip.Content>Open settings</Tooltip.Content>
+            </Tooltip.Root>
+        );
+
+        expect(screen.getAllByRole("button")).toHaveLength(1);
+        await userEvent.tab();
+        expect(screen.getByRole("button", { name: "Settings" })).toHaveAttribute("data-tour", "settings");
+        expect(await screen.findByRole("tooltip")).toHaveTextContent("Open settings");
     });
 });
 

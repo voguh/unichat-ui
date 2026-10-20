@@ -72,6 +72,25 @@ describe("Select", () => {
         await userEvent.keyboard("{Enter}");
         expect(onValueChange).toHaveBeenLastCalledWith(expect.objectContaining({ value: ["stars"] }));
     });
+
+    it("renders item groups in the listbox and optgroups in the hidden select", async () => {
+        render(
+            <Select
+                data-testid="select"
+                items={[
+                    { value: "all", label: "All" },
+                    { label: "Desktop", items: [{ value: "linux", label: "Linux" }] }
+                ]}
+            />
+        );
+
+        await userEvent.click(screen.getByRole("combobox"));
+        const group = await screen.findByRole("group");
+        expect(group).toHaveTextContent("Desktop");
+        expect(group).toContainElement(screen.getByRole("option", { name: "Linux" }));
+        expect(group).not.toContainElement(screen.getByRole("option", { name: "All" }));
+        expect(screen.getByTestId("select").querySelector("optgroup")).toHaveAttribute("label", "Desktop");
+    });
 });
 
 describe("Combobox", () => {

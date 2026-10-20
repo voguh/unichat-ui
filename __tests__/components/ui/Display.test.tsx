@@ -36,6 +36,11 @@ describe("Badge", () => {
         expect(badge).toHaveAttribute("title", "Pre-release");
         expect(badge).toHaveClass("extra");
     });
+
+    it("defaults to the secondary variant", () => {
+        render(<Badge>stable</Badge>);
+        expect(screen.getByText("stable")).toHaveAttribute("data-variant", "secondary");
+    });
 });
 
 describe("Card", () => {

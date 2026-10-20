@@ -16,11 +16,11 @@ import userEvent from "@testing-library/user-event";
 import { Button, ButtonLink, IconButton } from "~/components/ui/Button";
 
 describe("Button", () => {
-    it("defaults to type button, primary variant and md size", () => {
+    it("defaults to type button, default variant and md size", () => {
         render(<Button>Save</Button>);
         const button = screen.getByRole("button", { name: "Save" });
         expect(button).toHaveAttribute("type", "button");
-        expect(button).toHaveAttribute("data-variant", "primary");
+        expect(button).toHaveAttribute("data-variant", "default");
         expect(button).toHaveAttribute("data-size", "md");
     });
 

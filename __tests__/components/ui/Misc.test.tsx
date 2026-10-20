@@ -117,4 +117,17 @@ describe("Toaster", () => {
         expect(screen.getByText("Release updated")).toBeInTheDocument();
         toaster.remove();
     });
+
+    it("renders the type icon or a custom icon from meta", async () => {
+        render(<Toaster />);
+        toaster.create({ title: "Saved", type: "success" });
+        toaster.create({ title: "Raid", type: "info", meta: { icon: <i className="fas fa-users" /> } });
+
+        const saved = (await screen.findByText("Saved")).closest("[data-part='root']");
+        const raid = (await screen.findByText("Raid")).closest("[data-part='root']");
+        expect(saved!.querySelector(".fa-check")).not.toBeNull();
+        expect(raid!.querySelector(".fa-users")).not.toBeNull();
+        expect(raid!.querySelector(".fa-info")).toBeNull();
+        toaster.remove();
+    });
 });

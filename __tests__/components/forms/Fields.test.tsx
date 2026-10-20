@@ -46,6 +46,11 @@ describe("forms/TextInput", () => {
         render(<TextInput label="Email" />);
         expect(screen.getByLabelText("Email").id).not.toBe("");
     });
+
+    it("describes the input with description and status message", () => {
+        render(<TextInput label="Nickname" description="Shown in chat" status="invalid" statusMessage="Too long" />);
+        expect(screen.getByLabelText("Nickname")).toHaveAccessibleDescription("Shown in chat Too long");
+    });
 });
 
 describe("forms/Textarea", () => {

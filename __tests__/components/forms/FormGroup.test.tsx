@@ -44,4 +44,16 @@ describe("FormGroup", () => {
         expect(message).toHaveAttribute("id", "nickname-status");
         expect(message).toHaveAttribute("data-status", "invalid");
     });
+
+    it("renders the description between the label and the control", () => {
+        render(
+            <FormGroup id="nickname" label="Nickname" description="Shown in chat" data-testid="group">
+                <input id="nickname" />
+            </FormGroup>
+        );
+        const description = screen.getByText("Shown in chat");
+        expect(description.tagName).toBe("SMALL");
+        expect(description).toHaveAttribute("id", "nickname-description");
+        expect(screen.getByTestId("group").children[1]).toBe(description);
+    });
 });

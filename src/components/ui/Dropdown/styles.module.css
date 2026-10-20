@@ -12,13 +12,9 @@
     @apply cursor-pointer;
 }
 
-.positioner {
-    @apply z-50;
-}
-
 .content {
     @apply bg-stone-800 border border-stone-700 rounded shadow-xl;
-    @apply flex flex-col min-w-40 py-1;
+    @apply relative z-50 flex flex-col min-w-40 py-1;
 
     &:focus-visible {
         @apply outline-none;

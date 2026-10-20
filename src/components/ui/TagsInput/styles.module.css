@@ -14,7 +14,7 @@
 
 .control {
     @apply bg-stone-800 rounded;
-    @apply flex flex-wrap items-center gap-1 px-2 py-1;
+    @apply flex flex-wrap items-center gap-1 min-h-10 px-2 py-1;
 
     &[data-focus] {
         @apply ring-2 ring-blue-500;

@@ -18,13 +18,13 @@
 
 .control {
     @apply bg-stone-800 rounded;
-    @apply flex items-center gap-2 px-3;
+    @apply flex items-center gap-2 h-10 px-3;
 }
 
 .input {
     @apply bg-transparent outline-none;
     @apply font-mono text-sm;
-    @apply flex-1 min-w-0 py-2;
+    @apply flex-1 min-w-0;
 }
 
 .trigger {

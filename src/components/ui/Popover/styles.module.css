@@ -16,13 +16,9 @@
     @apply inline-flex;
 }
 
-.positioner {
-    @apply z-50;
-}
-
 .content {
     @apply bg-stone-800 border border-stone-700 rounded shadow-xl;
-    @apply relative flex flex-col gap-2 max-w-sm p-4;
+    @apply relative z-50 flex flex-col gap-2 max-w-sm p-4;
 
     &:focus-visible {
         @apply outline-none;

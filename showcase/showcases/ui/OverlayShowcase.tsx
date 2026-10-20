@@ -11,6 +11,7 @@
 import type PReact from "preact";
 import { useState } from "preact/hooks";
 
+import { TextInput } from "~/components/forms/TextInput";
 import { Button } from "~/components/ui/Button";
 import { Code } from "~/components/ui/Code";
 import { Dialog } from "~/components/ui/Dialog";
@@ -31,30 +32,49 @@ export function DialogShowcase(): PReact.ComponentChildren {
                 <Dialog.Root>
                     <Dialog.Trigger>Open dialog</Dialog.Trigger>
                     <Dialog.Content>
-                        <Dialog.Title>Edit release</Dialog.Title>
-                        <Dialog.Description>Change the release metadata.</Dialog.Description>
-                        <Dialog.CloseTrigger aria-label="Close">
-                            <i className="fas fa-times" />
-                        </Dialog.CloseTrigger>
+                        <Dialog.Header title="Edit release" />
+                        <Dialog.Body>
+                            <Dialog.Description>Change the release metadata.</Dialog.Description>
+                        </Dialog.Body>
                     </Dialog.Content>
                 </Dialog.Root>
+            </Example>
+            <Example title="Sizes and header actions">
+                {(["sm", "md", "lg", "xl", "fullscreen"] as const).map((size) => (
+                    <Dialog.Root key={size}>
+                        <Dialog.Trigger>{size}</Dialog.Trigger>
+                        <Dialog.Content size={size}>
+                            <Dialog.Header
+                                title={`Size ${size}`}
+                                actions={
+                                    <Button size="sm" variant="primary">
+                                        Save
+                                    </Button>
+                                }
+                            />
+                            <Dialog.Body>Dialog body.</Dialog.Body>
+                        </Dialog.Content>
+                    </Dialog.Root>
+                ))}
             </Example>
             <Example title="Controlled alert dialog">
                 <Button variant="danger" onClick={() => setOpen(true)}>
                     Delete release
                 </Button>
                 <Dialog.Root role="alertdialog" open={open} onOpenChange={(details) => setOpen(details.open)}>
-                    <Dialog.Content>
-                        <Dialog.Title>Delete release?</Dialog.Title>
-                        <Dialog.Description>This cannot be undone.</Dialog.Description>
-                        <div style={{ display: "flex", gap: "0.5rem", justifyContent: "flex-end" }}>
-                            <Button variant="secondary" onClick={() => setOpen(false)}>
-                                Cancel
-                            </Button>
-                            <Button variant="danger" onClick={() => setOpen(false)}>
-                                Delete
-                            </Button>
-                        </div>
+                    <Dialog.Content size="sm">
+                        <Dialog.Header title="Delete release?" withCloseButton={false} />
+                        <Dialog.Body>
+                            <Dialog.Description>This cannot be undone.</Dialog.Description>
+                            <div style={{ display: "flex", gap: "0.5rem", justifyContent: "flex-end" }}>
+                                <Button variant="secondary" onClick={() => setOpen(false)}>
+                                    Cancel
+                                </Button>
+                                <Button variant="danger" onClick={() => setOpen(false)}>
+                                    Delete
+                                </Button>
+                            </div>
+                        </Dialog.Body>
                     </Dialog.Content>
                 </Dialog.Root>
             </Example>
@@ -78,6 +98,26 @@ export function PopoverShowcase(): PReact.ComponentChildren {
                     </Popover.Content>
                 </Popover.Root>
             </Example>
+            <Example title="As child">
+                <Popover.Root>
+                    <Popover.Trigger asChild>
+                        <Button variant="secondary">Details</Button>
+                    </Popover.Trigger>
+                    <Popover.Content>
+                        <Popover.Description>Opened from an existing Button.</Popover.Description>
+                    </Popover.Content>
+                </Popover.Root>
+            </Example>
+            <Example title="Open on focus">
+                <Popover.Root openOn="focus" positioning={{ placement: "bottom-start" }}>
+                    <Popover.Anchor>
+                        <TextInput label="Channel" placeholder="Focus to see the hint" />
+                    </Popover.Anchor>
+                    <Popover.Content>
+                        <Popover.Description>Paste the channel URL.</Popover.Description>
+                    </Popover.Content>
+                </Popover.Root>
+            </Example>
         </ShowcasePage>
     );
 }
@@ -95,6 +135,16 @@ export function TooltipShowcase(): PReact.ComponentChildren {
                         </Tooltip.Content>
                     </Tooltip.Root>
                 ))}
+            </Example>
+            <Example title="As child">
+                <Tooltip.Root openDelay={200}>
+                    <Tooltip.Trigger asChild>
+                        <Button variant="secondary" aria-label="Settings">
+                            <i className="fas fa-cog" aria-hidden="true" />
+                        </Button>
+                    </Tooltip.Trigger>
+                    <Tooltip.Content>Settings</Tooltip.Content>
+                </Tooltip.Root>
             </Example>
         </ShowcasePage>
     );

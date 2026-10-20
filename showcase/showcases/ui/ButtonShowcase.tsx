@@ -14,7 +14,7 @@ import { Button, ButtonLink, type ButtonSize, type ButtonVariant, IconButton } f
 import { Example } from "~showcase/components/Example";
 import { ShowcasePage } from "~showcase/components/ShowcasePage";
 
-const VARIANTS: ButtonVariant[] = ["primary", "secondary", "ghost", "danger"];
+const VARIANTS: ButtonVariant[] = ["default", "primary", "secondary", "success", "danger", "warning", "info"];
 const SIZES: ButtonSize[] = ["sm", "md", "lg"];
 
 export function ButtonShowcase(): PReact.ComponentChildren {

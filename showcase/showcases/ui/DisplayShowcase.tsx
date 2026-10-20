@@ -25,7 +25,7 @@ import { Table, TBody, Td, THead, Th, Tr } from "~/components/ui/Table";
 import { Example } from "~showcase/components/Example";
 import { ShowcasePage } from "~showcase/components/ShowcasePage";
 
-const BADGE_VARIANTS: BadgeVariant[] = ["neutral", "info", "success", "warning", "danger"];
+const BADGE_VARIANTS: BadgeVariant[] = ["primary", "secondary", "success", "danger", "warning", "info"];
 const ALERT_VARIANTS: AlertVariant[] = ["info", "success", "warning", "danger"];
 const USERS = [
     { nickname: "voguh", provider: "github", status: "ACTIVE" },

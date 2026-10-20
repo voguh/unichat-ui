@@ -113,6 +113,15 @@ export function SelectShowcase(): PReact.ComponentChildren {
                 />
                 <Code>value: {JSON.stringify(multiple)}</Code>
             </Example>
+            <Example title="Groups">
+                <Select
+                    placeholder="Platform"
+                    items={[
+                        { label: "Desktop", items: PLATFORMS.slice(0, 3) },
+                        { label: "Mobile", items: PLATFORMS.slice(3) }
+                    ]}
+                />
+            </Example>
             <Example title="Anchored to the end">
                 <div style={{ marginLeft: "auto" }}>
                     <Select items={ITEMS} defaultValue={["newest"]} positioning={{ placement: "bottom-end" }} />

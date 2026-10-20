@@ -55,6 +55,11 @@ export function FormGroupShowcase(): PReact.ComponentChildren {
                     <input id="fg-invalid" placeholder="Raw input" />
                 </FormGroup>
             </Example>
+            <Example title="Description" vertical>
+                <FormGroup id="fg-description" label="Channel" description="Paste the channel URL.">
+                    <input id="fg-description" placeholder="Raw input" aria-describedby="fg-description-description" />
+                </FormGroup>
+            </Example>
         </ShowcasePage>
     );
 }

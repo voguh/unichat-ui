@@ -12,7 +12,7 @@ import type PReact from "preact";
 import { forwardRef } from "preact/compat";
 import { useId } from "preact/hooks";
 
-import { FormGroup, type FormGroupBaseProps } from "~/components/forms/FormGroup";
+import { FormGroup, type FormGroupBaseProps, getFormGroupDescribedBy } from "~/components/forms/FormGroup";
 import { FileUpload as UIFileUpload, type FileUploadProps as UIFileUploadProps } from "~/components/ui/FileUpload";
 
 export interface FileUploadProps extends Omit<UIFileUploadProps, "id">, FormGroupBaseProps {
@@ -21,13 +21,25 @@ export interface FileUploadProps extends Omit<UIFileUploadProps, "id">, FormGrou
 }
 
 export const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(function FileUpload(
-    { id, ids, label, labelProps, status, statusMessage, statusMessageProps, groupProps, ...rest },
+    {
+        id,
+        ids,
+        label,
+        labelProps,
+        description,
+        descriptionProps,
+        status,
+        statusMessage,
+        statusMessageProps,
+        groupProps,
+        ...rest
+    },
     ref
 ) {
     const generatedId = useId();
     const fieldId = id ?? generatedId;
     const labelId = `${fieldId}-label`;
-    const statusId = status != null && statusMessage != null ? `${fieldId}-status` : undefined;
+    const describedBy = getFormGroupDescribedBy(fieldId, { description, status, statusMessage });
 
     return (
         <FormGroup
@@ -35,12 +47,14 @@ export const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(function
             id={fieldId}
             label={label}
             labelProps={{ ...labelProps, id: labelId }}
+            description={description}
+            descriptionProps={descriptionProps}
             status={status}
             statusMessage={statusMessage}
             statusMessageProps={statusMessageProps}
         >
             <UIFileUpload
-                aria-describedby={statusId}
+                aria-describedby={describedBy}
                 {...rest}
                 ref={ref}
                 id={fieldId}

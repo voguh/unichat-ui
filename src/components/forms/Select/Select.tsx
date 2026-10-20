@@ -12,7 +12,7 @@ import type PReact from "preact";
 import { forwardRef } from "preact/compat";
 import { useId } from "preact/hooks";
 
-import { FormGroup, type FormGroupBaseProps } from "~/components/forms/FormGroup";
+import { FormGroup, type FormGroupBaseProps, getFormGroupDescribedBy } from "~/components/forms/FormGroup";
 import { Select as UISelect, type SelectProps as UISelectProps } from "~/components/ui/Select";
 
 export interface SelectProps extends Omit<UISelectProps, "id">, FormGroupBaseProps {
@@ -21,13 +21,25 @@ export interface SelectProps extends Omit<UISelectProps, "id">, FormGroupBasePro
 }
 
 export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select(
-    { id, ids, label, labelProps, status, statusMessage, statusMessageProps, groupProps, ...rest },
+    {
+        id,
+        ids,
+        label,
+        labelProps,
+        description,
+        descriptionProps,
+        status,
+        statusMessage,
+        statusMessageProps,
+        groupProps,
+        ...rest
+    },
     ref
 ) {
     const generatedId = useId();
     const fieldId = id ?? generatedId;
     const labelId = `${fieldId}-label`;
-    const statusId = status != null && statusMessage != null ? `${fieldId}-status` : undefined;
+    const describedBy = getFormGroupDescribedBy(fieldId, { description, status, statusMessage });
 
     return (
         <FormGroup
@@ -35,12 +47,14 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select
             id={fieldId}
             label={label}
             labelProps={{ ...labelProps, id: labelId }}
+            description={description}
+            descriptionProps={descriptionProps}
             status={status}
             statusMessage={statusMessage}
             statusMessageProps={statusMessageProps}
         >
             <UISelect
-                aria-describedby={statusId}
+                aria-describedby={describedBy}
                 {...rest}
                 ref={ref}
                 id={fieldId}

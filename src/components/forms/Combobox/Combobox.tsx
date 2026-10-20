@@ -12,7 +12,7 @@ import type PReact from "preact";
 import { forwardRef } from "preact/compat";
 import { useId } from "preact/hooks";
 
-import { FormGroup, type FormGroupBaseProps } from "~/components/forms/FormGroup";
+import { FormGroup, type FormGroupBaseProps, getFormGroupDescribedBy } from "~/components/forms/FormGroup";
 import { Combobox as UICombobox, type ComboboxProps as UIComboboxProps } from "~/components/ui/Combobox";
 
 export interface ComboboxProps extends Omit<UIComboboxProps, "id">, FormGroupBaseProps {
@@ -21,13 +21,25 @@ export interface ComboboxProps extends Omit<UIComboboxProps, "id">, FormGroupBas
 }
 
 export const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
-    { id, ids, label, labelProps, status, statusMessage, statusMessageProps, groupProps, ...rest },
+    {
+        id,
+        ids,
+        label,
+        labelProps,
+        description,
+        descriptionProps,
+        status,
+        statusMessage,
+        statusMessageProps,
+        groupProps,
+        ...rest
+    },
     ref
 ) {
     const generatedId = useId();
     const fieldId = id ?? generatedId;
     const labelId = `${fieldId}-label`;
-    const statusId = status != null && statusMessage != null ? `${fieldId}-status` : undefined;
+    const describedBy = getFormGroupDescribedBy(fieldId, { description, status, statusMessage });
 
     return (
         <FormGroup
@@ -35,12 +47,14 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Com
             id={fieldId}
             label={label}
             labelProps={{ ...labelProps, id: labelId }}
+            description={description}
+            descriptionProps={descriptionProps}
             status={status}
             statusMessage={statusMessage}
             statusMessageProps={statusMessageProps}
         >
             <UICombobox
-                aria-describedby={statusId}
+                aria-describedby={describedBy}
                 {...rest}
                 ref={ref}
                 id={fieldId}

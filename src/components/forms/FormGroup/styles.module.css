@@ -16,6 +16,10 @@
     @apply text-sm font-semibold text-stone-300;
 }
 
+.description {
+    @apply text-xs text-stone-500;
+}
+
 .statusMessage {
     @apply text-xs;
 

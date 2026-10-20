@@ -12,7 +12,7 @@ import type PReact from "preact";
 import { forwardRef } from "preact/compat";
 import { useId } from "preact/hooks";
 
-import { FormGroup, type FormGroupBaseProps } from "~/components/forms/FormGroup";
+import { FormGroup, type FormGroupBaseProps, getFormGroupDescribedBy } from "~/components/forms/FormGroup";
 import { Switch as UISwitch, type SwitchProps as UISwitchProps } from "~/components/ui/Switch";
 
 export interface SwitchProps extends Omit<UISwitchProps, "id" | "label">, FormGroupBaseProps {
@@ -21,12 +21,23 @@ export interface SwitchProps extends Omit<UISwitchProps, "id" | "label">, FormGr
 }
 
 export const Switch = forwardRef<HTMLInputElement, SwitchProps>(function Switch(
-    { id, label, labelProps, status, statusMessage, statusMessageProps, groupProps, ...rest },
+    {
+        id,
+        label,
+        labelProps,
+        description,
+        descriptionProps,
+        status,
+        statusMessage,
+        statusMessageProps,
+        groupProps,
+        ...rest
+    },
     ref
 ) {
     const generatedId = useId();
     const fieldId = id ?? generatedId;
-    const statusId = status != null && statusMessage != null ? `${fieldId}-status` : undefined;
+    const describedBy = getFormGroupDescribedBy(fieldId, { description, status, statusMessage });
 
     return (
         <FormGroup
@@ -34,11 +45,13 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>(function Switch(
             id={fieldId}
             label={label}
             labelProps={labelProps}
+            description={description}
+            descriptionProps={descriptionProps}
             status={status}
             statusMessage={statusMessage}
             statusMessageProps={statusMessageProps}
         >
-            <UISwitch aria-describedby={statusId} {...rest} ref={ref} id={fieldId} invalid={status === "invalid"} />
+            <UISwitch aria-describedby={describedBy} {...rest} ref={ref} id={fieldId} invalid={status === "invalid"} />
         </FormGroup>
     );
 });

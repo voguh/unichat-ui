@@ -12,7 +12,7 @@ import type PReact from "preact";
 import { forwardRef } from "preact/compat";
 import { useId } from "preact/hooks";
 
-import { FormGroup, type FormGroupBaseProps } from "~/components/forms/FormGroup";
+import { FormGroup, type FormGroupBaseProps, getFormGroupDescribedBy } from "~/components/forms/FormGroup";
 import { Checkbox as UICheckbox, type CheckboxProps as UICheckboxProps } from "~/components/ui/Checkbox";
 
 export interface CheckboxProps extends Omit<UICheckboxProps, "id">, FormGroupBaseProps {
@@ -21,12 +21,23 @@ export interface CheckboxProps extends Omit<UICheckboxProps, "id">, FormGroupBas
 }
 
 export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(function Checkbox(
-    { id, label, labelProps, status, statusMessage, statusMessageProps, groupProps, ...rest },
+    {
+        id,
+        label,
+        labelProps,
+        description,
+        descriptionProps,
+        status,
+        statusMessage,
+        statusMessageProps,
+        groupProps,
+        ...rest
+    },
     ref
 ) {
     const generatedId = useId();
     const fieldId = id ?? generatedId;
-    const statusId = status != null && statusMessage != null ? `${fieldId}-status` : undefined;
+    const describedBy = getFormGroupDescribedBy(fieldId, { description, status, statusMessage });
 
     return (
         <FormGroup
@@ -34,11 +45,13 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(function Che
             id={fieldId}
             label={label}
             labelProps={labelProps}
+            description={description}
+            descriptionProps={descriptionProps}
             status={status}
             statusMessage={statusMessage}
             statusMessageProps={statusMessageProps}
         >
-            <UICheckbox aria-describedby={statusId} {...rest} ref={ref} id={fieldId} invalid={status === "invalid"} />
+            <UICheckbox aria-describedby={describedBy} {...rest} ref={ref} id={fieldId} invalid={status === "invalid"} />
         </FormGroup>
     );
 });

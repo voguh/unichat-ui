@@ -14,7 +14,10 @@ import { useContext } from "preact/hooks";
 import type * as popover from "@zag-js/popover";
 import type { PropTypes } from "@zag-js/preact";
 
+export type PopoverOpenOn = "click" | "focus";
+
 export const PopoverContext = createContext<popover.Api<PropTypes> | null>(null);
+export const PopoverOpenOnContext = createContext<PopoverOpenOn>("click");
 
 export function usePopover(): popover.Api<PropTypes> {
     const api = useContext(PopoverContext);

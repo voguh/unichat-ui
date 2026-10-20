@@ -10,12 +10,14 @@
 
 import type PReact from "preact";
 import { forwardRef } from "preact/compat";
+import { useContext } from "preact/hooks";
 
 import { mergeProps } from "@zag-js/preact";
 
-import { usePopover } from "./context";
-import styles from "./styles.module.css";
 import { clsx } from "~/utils/clsx";
+
+import { PopoverOpenOnContext, usePopover } from "./context";
+import styles from "./styles.module.css";
 
 export interface PopoverAnchorProps extends PReact.HTMLAttributes<HTMLDivElement> {}
 
@@ -24,6 +26,15 @@ export const PopoverAnchor = forwardRef<HTMLDivElement, PopoverAnchorProps>(func
     ref
 ) {
     const api = usePopover();
+    const openOn = useContext(PopoverOpenOnContext);
+    const focusProps: PReact.HTMLAttributes<HTMLDivElement> =
+        openOn === "focus" ? { onFocusIn: () => api.setOpen(true), onFocusOut: () => api.setOpen(false) } : {};
 
-    return <div {...mergeProps(api.getAnchorProps(), rest)} ref={ref} className={clsx(styles.anchor, className)} />;
+    return (
+        <div
+            {...mergeProps(api.getAnchorProps(), focusProps, rest)}
+            ref={ref}
+            className={clsx(styles.anchor, className)}
+        />
+    );
 });

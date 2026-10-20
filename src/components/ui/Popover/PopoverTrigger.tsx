@@ -13,19 +13,29 @@ import { forwardRef } from "preact/compat";
 
 import { mergeProps } from "@zag-js/preact";
 
-import { usePopover } from "./context";
-import styles from "./styles.module.css";
+import { cloneAsChild } from "~/utils/asChild";
 import { clsx } from "~/utils/clsx";
 
-export interface PopoverTriggerProps extends PReact.ButtonHTMLAttributes<HTMLButtonElement> {}
+import { usePopover } from "./context";
+import styles from "./styles.module.css";
+
+export interface PopoverTriggerProps extends PReact.ButtonHTMLAttributes<HTMLButtonElement> {
+    asChild?: boolean;
+}
 
 export const PopoverTrigger = forwardRef<HTMLButtonElement, PopoverTriggerProps>(function PopoverTrigger(
-    { className, ...rest },
+    { asChild = false, className, children, ...rest },
     ref
 ) {
     const api = usePopover();
 
+    if (asChild) {
+        return cloneAsChild(children, mergeProps(api.getTriggerProps(), { ...rest, className }), ref);
+    }
+
     return (
-        <button {...mergeProps(api.getTriggerProps(), rest)} ref={ref} className={clsx(styles.trigger, className)} />
+        <button {...mergeProps(api.getTriggerProps(), rest)} ref={ref} className={clsx(styles.trigger, className)}>
+            {children}
+        </button>
     );
 });

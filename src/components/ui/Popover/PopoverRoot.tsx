@@ -14,17 +14,33 @@ import { useId } from "preact/hooks";
 import * as popover from "@zag-js/popover";
 import { normalizeProps, useMachine } from "@zag-js/preact";
 
-import { PopoverContext } from "./context";
+import { PopoverContext, type PopoverOpenOn, PopoverOpenOnContext } from "./context";
+
+export type { PopoverOpenOn } from "./context";
 
 export interface PopoverRootProps extends Partial<Omit<popover.Props, "id">> {
     id?: string;
+    openOn?: PopoverOpenOn;
     children: PReact.ComponentChildren;
 }
 
-export function PopoverRoot({ id, children, ...machineProps }: PopoverRootProps): PReact.ComponentChildren {
+export function PopoverRoot({
+    id,
+    openOn = "click",
+    children,
+    ...machineProps
+}: PopoverRootProps): PReact.ComponentChildren {
     const generatedId = useId();
-    const service = useMachine(popover.machine, { ...machineProps, id: id ?? generatedId });
+    const service = useMachine(popover.machine, {
+        ...(openOn === "focus" && { autoFocus: false, closeOnInteractOutside: false }),
+        ...machineProps,
+        id: id ?? generatedId
+    });
     const api = popover.connect(service, normalizeProps);
 
-    return <PopoverContext.Provider value={api}>{children}</PopoverContext.Provider>;
+    return (
+        <PopoverContext.Provider value={api}>
+            <PopoverOpenOnContext.Provider value={openOn}>{children}</PopoverOpenOnContext.Provider>
+        </PopoverContext.Provider>
+    );
 }

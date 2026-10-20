@@ -15,9 +15,10 @@ import { useId, useMemo } from "preact/hooks";
 import { mergeProps, normalizeProps, useMachine } from "@zag-js/preact";
 import * as select from "@zag-js/select";
 
-import styles from "./styles.module.css";
 import { Portal } from "~/components/ui/Portal";
 import { clsx } from "~/utils/clsx";
+
+import styles from "./styles.module.css";
 
 export interface SelectItem {
     value: string;
@@ -25,11 +26,20 @@ export interface SelectItem {
     disabled?: boolean;
 }
 
+export interface SelectItemGroup {
+    label: string;
+    items: SelectItem[];
+}
+
+interface SelectCollectionItem extends SelectItem {
+    group?: string;
+}
+
 export interface SelectProps
     extends Omit<PReact.SelectHTMLAttributes<HTMLSelectElement>, keyof select.Props>,
         Partial<Omit<select.Props, "id" | "collection">> {
     id?: string;
-    items: SelectItem[];
+    items: Array<SelectItem | SelectItemGroup>;
     placeholder?: string;
     rootProps?: PReact.HTMLAttributes<HTMLDivElement>;
 }
@@ -44,16 +54,21 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select
     const machineId = useId();
     const collection = useMemo(
         () =>
-            select.collection<SelectItem>({
-                items,
+            select.collection<SelectCollectionItem>({
+                items: items.flatMap((item) =>
+                    "items" in item ? item.items.map((child) => ({ ...child, group: item.label })) : [item]
+                ),
                 itemToValue: (item) => item.value,
                 itemToString: (item) => item.label,
-                isItemDisabled: (item) => item.disabled === true
+                isItemDisabled: (item) => item.disabled === true,
+                groupBy: (item) => item.group ?? ""
             }),
         [items]
     );
+    const groups = collection.group();
     const service = useMachine(select.machine, {
         ...machineProps,
+        positioning: { sameWidth: true, ...machineProps.positioning },
         id: machineId,
         ids: { ...machineProps.ids, hiddenSelect: id },
         collection
@@ -82,25 +97,55 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select
                 </button>
             </div>
             <Portal>
-                <div {...api.getPositionerProps()} className={styles.positioner}>
+                <div {...api.getPositionerProps()}>
                     <ul {...api.getContentProps()} className={styles.content}>
-                        {items.map((item) => (
-                            <li key={item.value} {...api.getItemProps({ item })} className={styles.item}>
-                                <span {...api.getItemTextProps({ item })}>{item.label}</span>
-                                <span {...api.getItemIndicatorProps({ item })} className={styles.itemIndicator}>
-                                    <i className="fas fa-check" aria-hidden="true" />
-                                </span>
-                            </li>
-                        ))}
+                        {groups.map(([group, groupItems]) => {
+                            const renderedItems = groupItems.map((item) => (
+                                <li key={item.value} {...api.getItemProps({ item })} className={styles.item}>
+                                    <span {...api.getItemTextProps({ item })}>{item.label}</span>
+                                    <span {...api.getItemIndicatorProps({ item })} className={styles.itemIndicator}>
+                                        <i className="fas fa-check" aria-hidden="true" />
+                                    </span>
+                                </li>
+                            ));
+
+                            if (group === "") {
+                                return renderedItems;
+                            }
+
+                            return (
+                                <li key={group} {...api.getItemGroupProps({ id: group })}>
+                                    <div
+                                        {...api.getItemGroupLabelProps({ htmlFor: group })}
+                                        className={styles.itemGroupLabel}
+                                    >
+                                        {group}
+                                    </div>
+                                    <ul>{renderedItems}</ul>
+                                </li>
+                            );
+                        })}
                     </ul>
                 </div>
             </Portal>
             <select {...mergeProps(api.getHiddenSelectProps(), rest)} ref={ref}>
-                {items.map((item) => (
-                    <option key={item.value} value={item.value} disabled={item.disabled}>
-                        {item.label}
-                    </option>
-                ))}
+                {groups.map(([group, groupItems]) => {
+                    const renderedOptions = groupItems.map((item) => (
+                        <option key={item.value} value={item.value} disabled={item.disabled}>
+                            {item.label}
+                        </option>
+                    ));
+
+                    if (group === "") {
+                        return renderedOptions;
+                    }
+
+                    return (
+                        <optgroup key={group} label={group}>
+                            {renderedOptions}
+                        </optgroup>
+                    );
+                })}
             </select>
         </div>
     );

@@ -13,8 +13,8 @@
 }
 
 .toast {
-    @apply bg-stone-800 border-l-4 border-l-stone-500 rounded shadow-xl;
-    @apply flex items-start gap-3 w-80 px-4 py-3;
+    @apply bg-stone-800 border border-stone-700 rounded-xs shadow-xl;
+    @apply flex items-center gap-2 min-w-100 p-2;
 
     translate: var(--x) var(--y);
     scale: var(--scale);
@@ -29,52 +29,72 @@
         height 400ms;
 
     &[data-type="info"] {
-        @apply border-l-blue-600;
+        @apply bg-blue-950 border-blue-900;
+
+        .icon {
+            @apply bg-blue-600;
+        }
     }
 
     &[data-type="success"] {
-        @apply border-l-green-600;
+        @apply bg-green-950 border-green-900;
+
+        .icon {
+            @apply bg-green-600;
+        }
     }
 
     &[data-type="warning"] {
-        @apply border-l-yellow-600;
+        @apply bg-yellow-950 border-yellow-900;
+
+        .icon {
+            @apply bg-amber-500;
+        }
     }
 
     &[data-type="error"] {
-        @apply border-l-red-600;
-    }
+        @apply bg-red-950 border-red-900;
 
-    &[data-type="loading"] {
-        @apply border-l-stone-500;
+        .icon {
+            @apply bg-red-600;
+        }
     }
+}
+
+.icon {
+    @apply bg-stone-600 rounded-xs;
+    @apply text-stone-50 text-sm;
+    @apply size-7 shrink-0 flex items-center justify-center;
 }
 
 .body {
-    @apply flex-1 flex flex-col gap-1;
+    @apply flex-1 min-w-0 flex flex-col gap-0.5;
 }
 
 .title {
-    @apply font-bold;
+    @apply text-stone-50 font-semibold;
 }
 
 .description {
-    @apply text-sm text-stone-400;
+    @apply text-stone-300 text-sm;
 }
 
 .actionTrigger {
-    @apply text-sm font-bold text-red-500;
-    @apply cursor-pointer;
+    @apply text-stone-50 text-sm font-bold;
+    @apply shrink-0 cursor-pointer;
 
     &:hover {
-        @apply text-red-400;
+        @apply underline;
     }
 }
 
 .closeTrigger {
-    @apply text-stone-400;
-    @apply cursor-pointer;
+    @apply rounded-xs;
+    @apply text-stone-400 text-sm;
+    @apply size-6 shrink-0 flex items-center justify-center cursor-pointer;
 
     &:hover {
+        @apply bg-stone-50/10;
         @apply text-stone-50;
     }
 }

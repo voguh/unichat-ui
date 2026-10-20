@@ -21,13 +21,25 @@ export interface ToastItemProps {
     parent: toast.GroupService;
 }
 
+const DEFAULT_ICONS: Record<string, string> = {
+    success: "fas fa-check",
+    info: "fas fa-info-circle",
+    warning: "fas fa-exclamation-triangle",
+    error: "fas fa-ban",
+    loading: "fas fa-spinner fa-spin"
+};
+
 export function ToastItem({ toast: toastProps, index, parent }: ToastItemProps): PReact.ComponentChildren {
     const service = useMachine(toast.machine, { ...toastProps, index, parent });
     const api = toast.connect(service, normalizeProps);
+    const customIcon: PReact.ComponentChildren = toastProps.meta != null ? toastProps.meta.icon : undefined;
 
     return (
         <div {...api.getRootProps()} className={styles.toast}>
             <span {...api.getGhostBeforeProps()} />
+            <span className={styles.icon} aria-hidden="true">
+                {customIcon ?? <i className={DEFAULT_ICONS[api.type] ?? "fas fa-bell"} />}
+            </span>
             <div className={styles.body}>
                 {api.title != null && (
                     <strong {...api.getTitleProps()} className={styles.title}>

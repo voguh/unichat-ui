@@ -11,3 +11,7 @@
 import * as toast from "@zag-js/toast";
 
 export const toaster = toast.createStore({ placement: "bottom-end", overlap: true, gap: 8 });
+
+export function createToaster(opts: toast.StoreProps): toast.Store<any> {
+    return toast.createStore({ ...opts, placement: "bottom-end", overlap: true, gap: 8 });
+}

@@ -9,7 +9,7 @@
  ******************************************************************************/
 
 .root {
-    @apply inline-flex items-center gap-2 cursor-pointer;
+    @apply relative inline-flex items-center gap-2 cursor-pointer;
 
     &:has(.input:disabled) {
         @apply opacity-50 cursor-not-allowed;

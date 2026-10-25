@@ -8,8 +8,8 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-import type PReact from "preact";
-import { forwardRef } from "preact/compat";
+import type * as React from "react";
+import { forwardRef } from "react";
 
 import { DialogTitle as HeadlessDialogTitle } from "@headlessui/react";
 
@@ -18,7 +18,7 @@ import { dataPart } from "~/utils/dataAttributes";
 
 import styles from "./styles.module.css";
 
-type VanillaProps = PReact.HTMLAttributes<HTMLHeadingElement>;
+type VanillaProps = React.HTMLAttributes<HTMLHeadingElement>;
 export interface DialogTitleProps extends VanillaProps {}
 
 export const DialogTitle = forwardRef<HTMLElement, DialogTitleProps>(function DialogTitle({ className, ...rest }, ref) {

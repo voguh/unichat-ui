@@ -10,15 +10,15 @@
 
 /** biome-ignore-all lint/a11y/useSemanticElements: option groups live inside the listbox popup, where a fieldset has no meaning */
 
-import type PReact from "preact";
-import { forwardRef } from "preact/compat";
-import { useMemo, useRef, useState } from "preact/hooks";
+import type * as React from "react";
+import { forwardRef, useMemo, useRef, useState } from "react";
 
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/react";
 
 import { clsx } from "~/utils/clsx";
 import { dataFlag, dataPart, omitDataPart } from "~/utils/dataAttributes";
 import { mergeRefs } from "~/utils/mergeRefs";
+import { setNativeValue } from "~/utils/setNativeValue";
 
 import styles from "./styles.module.css";
 
@@ -34,7 +34,7 @@ export interface SelectOptionGroup {
 }
 
 type VanillaProps = Omit<
-    PReact.SelectHTMLAttributes<HTMLSelectElement>,
+    React.SelectHTMLAttributes<HTMLSelectElement>,
     "value" | "defaultValue" | "multiple" | "disabled" | "placeholder"
 >;
 export interface SelectProps extends VanillaProps {
@@ -44,7 +44,7 @@ export interface SelectProps extends VanillaProps {
     disabled?: boolean;
     invalid?: boolean;
     placeholder?: string;
-    rootProps?: PReact.HTMLAttributes<HTMLDivElement>;
+    rootProps?: React.HTMLAttributes<HTMLDivElement>;
 }
 
 function isOptionGroup(option: SelectOption | SelectOptionGroup): option is SelectOptionGroup {
@@ -100,11 +100,11 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select
         }
 
         const select = selectRef.current!;
-        select.value = nextValue;
+        setNativeValue(select, nextValue);
         select.dispatchEvent(new Event("change", { bubbles: true }));
     }
 
-    function renderOption(option: SelectOption): PReact.VNode {
+    function renderOption(option: SelectOption): React.ReactElement {
         return (
             <ListboxOption
                 key={option.value}
@@ -127,7 +127,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select
         return placeholder;
     }
 
-    function renderNativeOption(option: SelectOption): PReact.VNode {
+    function renderNativeOption(option: SelectOption): React.ReactElement {
         return (
             <option key={option.value} value={option.value} disabled={option.disabled}>
                 {option.label}

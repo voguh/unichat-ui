@@ -8,16 +8,15 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-import type PReact from "preact";
-import { forwardRef } from "preact/compat";
-import { useId } from "preact/hooks";
+import type * as React from "react";
+import { forwardRef, useId } from "react";
 
 import { Checkbox as UICheckbox, type CheckboxProps as UICheckboxProps } from "~/Checkbox";
 import { FormGroup, type FormGroupBaseProps, getFormGroupDescribedBy } from "~/forms/FormGroup";
 
 export interface CheckboxProps extends Omit<UICheckboxProps, "id">, FormGroupBaseProps {
     id?: string;
-    groupProps?: PReact.HTMLAttributes<HTMLDivElement>;
+    groupProps?: React.HTMLAttributes<HTMLDivElement>;
 }
 
 export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(function Checkbox(

@@ -5,6 +5,3 @@ savePrefix: ""
 minimumReleaseAge: 10080
 blockExoticSubdeps: true
 allowBuilds: {}
-overrides:
-  react: npm:@preact/compat@18.3.2
-  react-dom: npm:@preact/compat@18.3.2

@@ -8,8 +8,8 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-import type PReact from "preact";
-import { useEffect, useId, useRef } from "preact/hooks";
+import type * as React from "react";
+import { useEffect, useId, useRef } from "react";
 
 import { type ComputePositionReturn, flip, offset, type Placement, shift } from "@floating-ui/dom";
 
@@ -19,16 +19,16 @@ import { cloneAsChild } from "~/utils/asChild";
 
 import styles from "./styles.module.css";
 
-const HIDDEN_STYLE = { visibility: "hidden", opacity: "0" };
+const HIDDEN_STYLE: React.CSSProperties = { visibility: "hidden", opacity: "0" };
 
 export interface TooltipProps {
-    content: PReact.ComponentChildren;
+    content: React.ReactNode;
     placement?: Placement;
     openDelay?: number;
-    children: PReact.VNode;
+    children: React.ReactElement;
 }
 
-export function Tooltip({ content, placement = "top", openDelay = 400, children }: TooltipProps): PReact.VNode {
+export function Tooltip({ content, placement = "top", openDelay = 400, children }: TooltipProps): React.ReactElement {
     const contentId = useId();
     const arrowRef = useRef<HTMLDivElement>(null);
     const timerRef = useRef<ReturnType<typeof setTimeout>>();
@@ -71,18 +71,18 @@ export function Tooltip({ content, placement = "top", openDelay = 400, children 
         hide();
     }
 
-    function handleFocusIn(): void {
+    function handleFocus(): void {
         if (!pointerDownRef.current) {
             show(0);
         }
     }
 
-    function handleFocusOut(): void {
+    function handleBlur(): void {
         pointerDownRef.current = false;
         hide();
     }
 
-    function handleKeyDown(event: KeyboardEvent): void {
+    function handleKeyDown(event: React.KeyboardEvent): void {
         if (event.key === "Escape") {
             hide();
         }
@@ -97,8 +97,8 @@ export function Tooltip({ content, placement = "top", openDelay = 400, children 
             onPointerEnter: () => show(openDelay),
             onPointerLeave: hide,
             onPointerDown: handlePointerDown,
-            onFocusIn: handleFocusIn,
-            onFocusOut: handleFocusOut,
+            onFocus: handleFocus,
+            onBlur: handleBlur,
             onKeyDown: handleKeyDown
         },
         referenceRef

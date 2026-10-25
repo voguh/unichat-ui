@@ -8,9 +8,8 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-import type PReact from "preact";
-import { forwardRef } from "preact/compat";
-import { useMemo, useState } from "preact/hooks";
+import type * as React from "react";
+import { forwardRef, useMemo, useState } from "react";
 
 import {
     ComboboxButton,
@@ -32,7 +31,7 @@ export interface ComboboxOption {
 }
 
 type VanillaProps = Omit<
-    PReact.InputHTMLAttributes<HTMLInputElement>,
+    React.InputHTMLAttributes<HTMLInputElement>,
     "value" | "defaultValue" | "disabled" | "autoFocus" | "name"
 >;
 export interface ComboboxProps extends VanillaProps {
@@ -44,7 +43,7 @@ export interface ComboboxProps extends VanillaProps {
     autoFocus?: boolean;
     invalid?: boolean;
     onValueChange?: (value: string) => void;
-    rootProps?: PReact.HTMLAttributes<HTMLDivElement>;
+    rootProps?: React.HTMLAttributes<HTMLDivElement>;
 }
 
 export const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
@@ -93,7 +92,7 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Com
         }
     }
 
-    function handleInputChange(event: PReact.TargetedEvent<HTMLInputElement, Event>): void {
+    function handleInputChange(event: React.ChangeEvent<HTMLInputElement>): void {
         setQuery(event.currentTarget.value);
         if (onChange != null) {
             onChange(event);

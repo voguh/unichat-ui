@@ -10,8 +10,8 @@
 
 /** biome-ignore-all lint/suspicious/noExplicitAny: `as` accepts any component, whatever its props */
 
-import type PReact from "preact";
-import { forwardRef } from "preact/compat";
+import type * as React from "react";
+import { forwardRef } from "react";
 
 import { PopoverButton as HeadlessPopoverButton } from "@headlessui/react";
 
@@ -20,9 +20,9 @@ import { dataPart } from "~/utils/dataAttributes";
 
 import styles from "./styles.module.css";
 
-type ElementType = keyof PReact.JSX.IntrinsicElements | PReact.ComponentType<any>;
+type ElementType = keyof React.JSX.IntrinsicElements | React.ComponentType<any>;
 
-export type PopoverButtonProps<T extends ElementType = "button"> = Omit<PReact.ComponentProps<T>, "as"> & {
+export type PopoverButtonProps<T extends ElementType = "button"> = Omit<React.ComponentProps<T>, "as"> & {
     as?: T;
 };
 
@@ -34,7 +34,7 @@ export const PopoverButton = forwardRef<HTMLElement, PopoverButtonProps<ElementT
         <HeadlessPopoverButton
             {...rest}
             as={as}
-            ref={ref as PReact.Ref<HTMLButtonElement>}
+            ref={ref as React.Ref<HTMLButtonElement>}
             data-part={dataPart("PopoverButton", rest)}
             className={clsx(styles.root, className)}
         />

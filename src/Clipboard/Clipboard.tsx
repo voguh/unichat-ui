@@ -8,19 +8,18 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-import type PReact from "preact";
-import { forwardRef } from "preact/compat";
-import { useEffect, useId, useState } from "preact/hooks";
+import type * as React from "react";
+import { forwardRef, useEffect, useId, useState } from "react";
 
 import { clsx } from "~/utils/clsx";
 import { dataFlag, dataPart } from "~/utils/dataAttributes";
 
 import styles from "./styles.module.css";
 
-type VanillaProps = Omit<PReact.HTMLAttributes<HTMLDivElement>, "label">;
+type VanillaProps = Omit<React.HTMLAttributes<HTMLDivElement>, "label">;
 export interface ClipboardProps extends VanillaProps {
     value: string;
-    label?: PReact.ComponentChildren;
+    label?: React.ReactNode;
 }
 
 export const Clipboard = forwardRef<HTMLDivElement, ClipboardProps>(function Clipboard(

@@ -2,19 +2,12 @@
     "extends": "./tsconfig.json",
     "include": ["./src/**/*"],
     "compilerOptions": {
-        "types": ["preact"],
+        "types": ["react", "react-dom"],
         "noEmit": false,
         "declaration": true,
         "emitDeclarationOnly": true,
         "rootDir": "./src",
-        "outDir": "./dist",
-        "paths": {
-            "~/*": ["./src/*"],
-            "react": ["./node_modules/preact/compat/src/index.d.ts"],
-            "react/jsx-runtime": ["./node_modules/preact/jsx-runtime/src/index.d.ts"],
-            "react-dom": ["./node_modules/preact/compat/src/index.d.ts"],
-            "react-dom/*": ["./node_modules/preact/compat/*"]
-        }
+        "outDir": "./dist"
     },
     "tsc-alias": {
         "fileExtensions": { "inputGlob": "d.ts", "outputCheck": ["d.ts"] }

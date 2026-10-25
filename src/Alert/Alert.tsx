@@ -8,8 +8,8 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-import type PReact from "preact";
-import { forwardRef } from "preact/compat";
+import type * as React from "react";
+import { forwardRef } from "react";
 
 import { clsx } from "~/utils/clsx";
 import { dataPart } from "~/utils/dataAttributes";
@@ -32,12 +32,12 @@ const ROLES: Record<AlertVariant, "alert" | "status"> = {
     danger: "alert"
 };
 
-type VanillaProps = Omit<PReact.HTMLAttributes<HTMLDivElement>, "title">;
+type VanillaProps = Omit<React.HTMLAttributes<HTMLDivElement>, "title">;
 export interface AlertProps extends VanillaProps {
     variant?: AlertVariant;
-    icon?: PReact.ComponentChildren;
-    title?: PReact.ComponentChildren;
-    action?: PReact.ComponentChildren;
+    icon?: React.ReactNode;
+    title?: React.ReactNode;
+    action?: React.ReactNode;
 }
 
 export const Alert = forwardRef<HTMLDivElement, AlertProps>(function Alert(

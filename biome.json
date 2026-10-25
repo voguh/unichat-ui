@@ -65,9 +65,18 @@
                     "level": "on",
                     "options": {
                         "groups": [
-                            ["preact", "preact/**", ":NODE:"],
+                            ["preact", "preact/**", "react", "react/**", "react-dom", "react-dom/**", ":NODE:"],
                             ":BLANK_LINE:",
-                            [":PACKAGE:", "!~*/**", "!preact", "!preact/**"],
+                            [
+                                ":PACKAGE:",
+                                "!~*/**",
+                                "!preact",
+                                "!preact/**",
+                                "!react",
+                                "!react/**",
+                                "!react-dom",
+                                "!react-dom/**"
+                            ],
                             ":BLANK_LINE:",
                             ["~*/**"],
                             ":BLANK_LINE:",

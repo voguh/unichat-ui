@@ -9,15 +9,15 @@
  ******************************************************************************/
 /** biome-ignore-all lint/suspicious/noArrayIndexKey: ellipses have no identity besides their position */
 
-import type PReact from "preact";
-import { forwardRef } from "preact/compat";
+import type * as React from "react";
+import { forwardRef } from "react";
 
 import { clsx } from "~/utils/clsx";
 import { dataPart } from "~/utils/dataAttributes";
 
 import styles from "./styles.module.css";
 
-type VanillaProps = Omit<PReact.HTMLAttributes<HTMLElement>, "onChange">;
+type VanillaProps = Omit<React.HTMLAttributes<HTMLElement>, "onChange">;
 export interface PaginationProps extends VanillaProps {
     count: number;
     pageSize?: number;
@@ -53,7 +53,7 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(function Pagi
 ) {
     const totalPages = Math.max(1, Math.ceil(count / pageSize));
 
-    function renderPage(value: number | null, index: number): PReact.ComponentChildren {
+    function renderPage(value: number | null, index: number): React.ReactNode {
         if (value == null) {
             return (
                 <span key={`ellipsis-${index}`} aria-hidden="true">

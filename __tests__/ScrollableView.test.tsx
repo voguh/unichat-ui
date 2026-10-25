@@ -8,9 +8,9 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-import { createRef } from "preact";
+import { createRef } from "react";
 
-import { act, fireEvent, render, screen } from "@testing-library/preact";
+import { act, fireEvent, render, screen } from "@testing-library/react";
 
 import { ScrollableView } from "~/ScrollableView";
 

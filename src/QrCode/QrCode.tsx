@@ -8,9 +8,8 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-import type PReact from "preact";
-import { forwardRef } from "preact/compat";
-import { useMemo } from "preact/hooks";
+import type * as React from "react";
+import { forwardRef, useMemo } from "react";
 
 import { generate } from "lean-qr";
 
@@ -19,7 +18,7 @@ import { dataPart } from "~/utils/dataAttributes";
 
 import styles from "./styles.module.css";
 
-type VanillaProps = Omit<PReact.ImgHTMLAttributes<HTMLImageElement>, "src" | "alt">;
+type VanillaProps = Omit<React.ImgHTMLAttributes<HTMLImageElement>, "src" | "alt">;
 export interface QrCodeProps extends VanillaProps {
     value: string;
     alt: string;

@@ -8,18 +8,17 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-import type PReact from "preact";
-import { forwardRef } from "preact/compat";
-import { useState } from "preact/hooks";
+import type * as React from "react";
+import { forwardRef, useState } from "react";
 
 import { clsx } from "~/utils/clsx";
 import { dataPart } from "~/utils/dataAttributes";
 
 import styles from "./styles.module.css";
 
-type VanillaProps = PReact.ImgHTMLAttributes<HTMLImageElement>;
+type VanillaProps = React.ImgHTMLAttributes<HTMLImageElement>;
 export interface AvatarProps extends VanillaProps {
-    fallback?: PReact.ComponentChildren;
+    fallback?: React.ReactNode;
 }
 
 function toAriaLabel(alt: AvatarProps["alt"]): string | undefined {
@@ -36,7 +35,7 @@ export const Avatar = forwardRef<HTMLImageElement, AvatarProps>(function Avatar(
 ) {
     const [failedSrc, setFailedSrc] = useState<AvatarProps["src"]>(undefined);
 
-    function handleError(event: PReact.TargetedEvent<HTMLImageElement, Event>): void {
+    function handleError(event: React.SyntheticEvent<HTMLImageElement, Event>): void {
         setFailedSrc(src);
         if (onError != null) {
             onError(event);
@@ -47,7 +46,7 @@ export const Avatar = forwardRef<HTMLImageElement, AvatarProps>(function Avatar(
         if (alt === "") {
             return (
                 <span
-                    {...(rest as PReact.HTMLAttributes<HTMLSpanElement>)}
+                    {...(rest as React.HTMLAttributes<HTMLSpanElement>)}
                     aria-hidden="true"
                     data-part={dataPart("Avatar", rest)}
                     data-fallback=""
@@ -60,7 +59,7 @@ export const Avatar = forwardRef<HTMLImageElement, AvatarProps>(function Avatar(
 
         return (
             <span
-                {...(rest as PReact.HTMLAttributes<HTMLSpanElement>)}
+                {...(rest as React.HTMLAttributes<HTMLSpanElement>)}
                 role="img"
                 aria-label={toAriaLabel(alt)}
                 data-part={dataPart("Avatar", rest)}

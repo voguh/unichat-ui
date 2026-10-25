@@ -8,8 +8,8 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-import type PReact from "preact";
-import { forwardRef } from "preact/compat";
+import type * as React from "react";
+import { forwardRef } from "react";
 
 import { Popover as HeadlessPopover } from "@headlessui/react";
 
@@ -18,7 +18,7 @@ import { dataPart } from "~/utils/dataAttributes";
 
 import styles from "./styles.module.css";
 
-type VanillaProps = PReact.HTMLAttributes<HTMLDivElement>;
+type VanillaProps = React.HTMLAttributes<HTMLDivElement>;
 export interface PopoverProps extends VanillaProps {}
 
 export const Popover = forwardRef<HTMLElement, PopoverProps>(function Popover({ className, ...rest }, ref) {

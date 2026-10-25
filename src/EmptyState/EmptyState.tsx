@@ -8,19 +8,19 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-import type PReact from "preact";
-import { forwardRef } from "preact/compat";
+import type * as React from "react";
+import { forwardRef } from "react";
 
 import { clsx } from "~/utils/clsx";
 import { dataPart } from "~/utils/dataAttributes";
 
 import styles from "./styles.module.css";
 
-type VanillaProps = Omit<PReact.HTMLAttributes<HTMLDivElement>, "title">;
+type VanillaProps = Omit<React.HTMLAttributes<HTMLDivElement>, "title">;
 export interface EmptyStateProps extends VanillaProps {
-    icon?: PReact.ComponentChildren;
-    title?: PReact.ComponentChildren;
-    description?: PReact.ComponentChildren;
+    icon?: React.ReactNode;
+    title?: React.ReactNode;
+    description?: React.ReactNode;
     titleAs?: "h1" | "h2" | "h3";
 }
 

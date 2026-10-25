@@ -11,9 +11,8 @@
 /** biome-ignore-all lint/a11y/noStaticElementInteractions: the field forwards pointer, focus and Escape handling to the native input it wraps */
 /** biome-ignore-all lint/a11y/useKeyWithClickEvents: keyboard users open the panel by focusing the input; the click is a pointer shortcut */
 
-import type PReact from "preact";
-import { forwardRef } from "preact/compat";
-import { useEffect, useMemo, useRef, useState } from "preact/hooks";
+import type * as React from "react";
+import { forwardRef, useEffect, useMemo, useRef, useState } from "react";
 
 import { TinyColor } from "@ctrl/tinycolor";
 import { flip, offset, shift } from "@floating-ui/dom";
@@ -24,11 +23,12 @@ import { clickOutside } from "~/utils/clickOutside";
 import { clsx } from "~/utils/clsx";
 import { dataFlag, dataPart, omitDataPart } from "~/utils/dataAttributes";
 import { mergeRefs } from "~/utils/mergeRefs";
+import { setNativeValue } from "~/utils/setNativeValue";
 
 import styles from "./styles.module.css";
 
 const AREA_KEY_STEP = 0.01;
-const HIDDEN_STYLE = { visibility: "hidden", opacity: "0" };
+const HIDDEN_STYLE: React.CSSProperties = { visibility: "hidden", opacity: "0" };
 
 function clamp(value: number): number {
     return Math.min(Math.max(value, 0), 1);
@@ -42,13 +42,13 @@ function formatColor(color: TinyColor): string {
     return color.toHexString();
 }
 
-type VanillaProps = Omit<PReact.InputHTMLAttributes<HTMLInputElement>, "type" | "value" | "defaultValue">;
+type VanillaProps = Omit<React.InputHTMLAttributes<HTMLInputElement>, "type" | "value" | "defaultValue">;
 export interface ColorPickerProps extends VanillaProps {
     value?: string;
     defaultValue?: string;
     invalid?: boolean;
     swatches?: string[];
-    rootProps?: Omit<PReact.HTMLAttributes<HTMLDivElement>, "ref">;
+    rootProps?: Omit<React.HTMLAttributes<HTMLDivElement>, "ref">;
 }
 
 export const ColorPicker = forwardRef<HTMLInputElement, ColorPickerProps>(function ColorPicker(
@@ -85,14 +85,14 @@ export const ColorPicker = forwardRef<HTMLInputElement, ColorPickerProps>(functi
         }
     }
 
-    function handleKeyDown(event: PReact.TargetedKeyboardEvent<HTMLDivElement>): void {
+    function handleKeyDown(event: React.KeyboardEvent<HTMLDivElement>): void {
         if (open && event.key === "Escape") {
             setOpen(false);
             inputRef.current!.focus();
         }
     }
 
-    function handleFocusOut(event: PReact.TargetedFocusEvent<HTMLDivElement>): void {
+    function handleBlur(event: React.FocusEvent<HTMLDivElement>): void {
         const next = event.relatedTarget;
         if (!(next instanceof Node) || !rootRef.current!.contains(next)) {
             setOpen(false);
@@ -106,12 +106,12 @@ export const ColorPicker = forwardRef<HTMLInputElement, ColorPickerProps>(functi
         }
 
         const input = inputRef.current!;
-        input.value = formatted;
+        setNativeValue(input, formatted);
         input.dispatchEvent(new Event("input", { bubbles: true }));
         input.dispatchEvent(new Event("change", { bubbles: true }));
     }
 
-    function handleInput(event: PReact.TargetedInputEvent<HTMLInputElement>): void {
+    function handleInput(event: React.FormEvent<HTMLInputElement>): void {
         if (!isControlled) {
             setInnerValue(event.currentTarget.value);
         }
@@ -121,7 +121,7 @@ export const ColorPicker = forwardRef<HTMLInputElement, ColorPickerProps>(functi
         }
     }
 
-    function updateArea(event: PReact.TargetedPointerEvent<HTMLDivElement>): void {
+    function updateArea(event: React.PointerEvent<HTMLDivElement>): void {
         const rect = event.currentTarget.getBoundingClientRect();
         const s = clamp((event.clientX - rect.left) / rect.width);
         const v = clamp(1 - (event.clientY - rect.top) / rect.height);
@@ -129,18 +129,18 @@ export const ColorPicker = forwardRef<HTMLInputElement, ColorPickerProps>(functi
         commit(new TinyColor({ ...hsv, s, v }));
     }
 
-    function handleAreaPointerDown(event: PReact.TargetedPointerEvent<HTMLDivElement>): void {
+    function handleAreaPointerDown(event: React.PointerEvent<HTMLDivElement>): void {
         event.currentTarget.setPointerCapture(event.pointerId);
         updateArea(event);
     }
 
-    function handleAreaPointerMove(event: PReact.TargetedPointerEvent<HTMLDivElement>): void {
+    function handleAreaPointerMove(event: React.PointerEvent<HTMLDivElement>): void {
         if (event.currentTarget.hasPointerCapture(event.pointerId)) {
             updateArea(event);
         }
     }
 
-    function handleAreaKeyDown(event: PReact.TargetedKeyboardEvent<HTMLDivElement>): void {
+    function handleAreaKeyDown(event: React.KeyboardEvent<HTMLDivElement>): void {
         let { s, v } = hsv;
         switch (event.key) {
             case "ArrowLeft":
@@ -183,7 +183,7 @@ export const ColorPicker = forwardRef<HTMLInputElement, ColorPickerProps>(functi
             data-part={dataPart("ColorPicker", rest)}
             data-open={dataFlag(open)}
             onKeyDown={handleKeyDown}
-            onFocusOut={handleFocusOut}
+            onBlur={handleBlur}
             className={clsx(styles.root, className, rootProps.className)}
         >
             <div
@@ -192,7 +192,7 @@ export const ColorPicker = forwardRef<HTMLInputElement, ColorPickerProps>(functi
                 data-invalid={dataFlag(invalid)}
                 data-disabled={dataFlag(disabled)}
                 onClick={openPanel}
-                onFocusIn={openPanel}
+                onFocus={openPanel}
             >
                 <span data-slot="preview" aria-hidden="true">
                     <span data-slot="grid" className={styles.transparencyGrid} />

@@ -8,8 +8,8 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-import type PReact from "preact";
-import { forwardRef } from "preact/compat";
+import type * as React from "react";
+import { forwardRef } from "react";
 
 import { clsx } from "~/utils/clsx";
 import { dataPart } from "~/utils/dataAttributes";
@@ -18,7 +18,7 @@ import styles from "./styles.module.css";
 
 export type SpinnerSize = "sm" | "md" | "lg";
 
-type VanillaProps = PReact.HTMLAttributes<HTMLSpanElement>;
+type VanillaProps = React.HTMLAttributes<HTMLSpanElement>;
 export interface SpinnerProps extends VanillaProps {
     size?: SpinnerSize;
 }

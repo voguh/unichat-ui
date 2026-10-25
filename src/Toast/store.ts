@@ -8,7 +8,7 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-import type PReact from "preact";
+import type * as React from "react";
 
 export type ToastType = "success" | "error" | "warning" | "info";
 export type ToastPlacement = "top-start" | "top" | "top-end" | "bottom-start" | "bottom" | "bottom-end";
@@ -16,12 +16,12 @@ export type ToastPlacement = "top-start" | "top" | "top-end" | "bottom-start" | 
 export interface ToastOptions {
     id?: string;
     type?: ToastType;
-    title?: PReact.ComponentChildren;
-    description?: PReact.ComponentChildren;
-    icon?: PReact.ComponentChildren;
+    title?: React.ReactNode;
+    description?: React.ReactNode;
+    icon?: React.ReactNode;
     duration?: number;
     closable?: boolean;
-    action?: { label: PReact.ComponentChildren; onClick: () => void };
+    action?: { label: React.ReactNode; onClick: () => void };
 }
 
 export interface Toast extends ToastOptions {

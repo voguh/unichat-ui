@@ -8,15 +8,15 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-import type PReact from "preact";
-import { forwardRef } from "preact/compat";
+import type * as React from "react";
+import { forwardRef } from "react";
 
 import { clsx } from "~/utils/clsx";
 import { dataPart } from "~/utils/dataAttributes";
 
 import styles from "./styles.module.css";
 
-type VanillaProps = PReact.HTMLAttributes<HTMLElement>;
+type VanillaProps = React.HTMLAttributes<HTMLElement>;
 export interface CodeProps extends VanillaProps {}
 
 export const Code = forwardRef<HTMLElement, CodeProps>(function Code({ className, ...rest }, ref) {

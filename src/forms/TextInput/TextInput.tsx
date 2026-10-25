@@ -8,16 +8,15 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-import type PReact from "preact";
-import { forwardRef } from "preact/compat";
-import { useId } from "preact/hooks";
+import type * as React from "react";
+import { forwardRef, useId } from "react";
 
 import { FormGroup, type FormGroupBaseProps, getFormGroupDescribedBy } from "~/forms/FormGroup";
 import { Input as UIInput, type InputProps as UIInputProps } from "~/Input";
 
 export interface TextInputProps extends Omit<UIInputProps, "id">, FormGroupBaseProps {
     id?: string;
-    groupProps?: PReact.HTMLAttributes<HTMLDivElement>;
+    groupProps?: React.HTMLAttributes<HTMLDivElement>;
 }
 
 export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(function TextInput(

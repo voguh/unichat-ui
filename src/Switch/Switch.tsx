@@ -9,17 +9,17 @@
  ******************************************************************************/
 /** biome-ignore-all lint/a11y/useAriaPropsForRole: a native checkbox exposes its checked state to the switch role; a manual aria-checked would break uncontrolled usage */
 
-import type PReact from "preact";
-import { forwardRef } from "preact/compat";
+import type * as React from "react";
+import { forwardRef } from "react";
 
 import { clsx } from "~/utils/clsx";
 import { dataPart, omitDataPart } from "~/utils/dataAttributes";
 
 import styles from "./styles.module.css";
 
-type VanillaProps = Omit<PReact.InputHTMLAttributes<HTMLInputElement>, "type">;
+type VanillaProps = Omit<React.InputHTMLAttributes<HTMLInputElement>, "type">;
 export interface SwitchProps extends VanillaProps {
-    rootProps?: PReact.LabelHTMLAttributes<HTMLLabelElement>;
+    rootProps?: React.LabelHTMLAttributes<HTMLLabelElement>;
 }
 
 export const Switch = forwardRef<HTMLInputElement, SwitchProps>(function Switch(

@@ -8,9 +8,9 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-import type PReact from "preact";
+import type * as React from "react";
 
-import { render, screen } from "@testing-library/preact";
+import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 import { Alert } from "~/Alert";
@@ -61,7 +61,7 @@ import { Tooltip } from "~/Tooltip";
 
 interface PartsCase {
     name: string;
-    element: PReact.VNode;
+    element: React.ReactElement;
     selectors: string[];
 }
 

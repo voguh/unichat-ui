@@ -8,9 +8,8 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-import type PReact from "preact";
-import { forwardRef } from "preact/compat";
-import { useEffect, useState } from "preact/hooks";
+import type * as React from "react";
+import { forwardRef, useEffect, useState } from "react";
 
 import { Portal } from "~/Portal";
 import { clsx } from "~/utils/clsx";
@@ -20,7 +19,7 @@ import { type ToasterStore, toaster } from "./store";
 import styles from "./styles.module.css";
 import { ToastItem } from "./ToastItem";
 
-type VanillaProps = PReact.HTMLAttributes<HTMLDivElement>;
+type VanillaProps = React.HTMLAttributes<HTMLDivElement>;
 export interface ToasterProps extends VanillaProps {
     store?: ToasterStore;
 }

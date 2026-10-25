@@ -8,9 +8,9 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-import { createRef } from "preact";
+import { createRef } from "react";
 
-import { fireEvent, render, screen, waitFor } from "@testing-library/preact";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 import { ColorPicker } from "~/ColorPicker";
@@ -40,6 +40,29 @@ describe("DatePicker", () => {
         const input = screen.getByTestId("input");
         expect(input).toHaveAttribute("placeholder", "YYYY-MM-DD");
         expect(input).toHaveValue("2026-10-24");
+    });
+
+    it("dispatches input and change when a date is picked", async () => {
+        const onInput = rstest.fn();
+        const onChange = rstest.fn();
+        render(
+            <DatePicker
+                format="YYYY-MM-DD"
+                defaultValue="2026-10-24"
+                onInput={onInput}
+                onChange={onChange}
+                data-testid="input"
+            />
+        );
+
+        await userEvent.click(screen.getByTestId("input"));
+        const selector = "[data-vc-date='2026-10-15'] button";
+        const day = await waitFor(() => document.querySelector<HTMLButtonElement>(selector)!);
+        await userEvent.click(day);
+
+        expect(screen.getByTestId("input")).toHaveValue("2026-10-15");
+        expect(onInput).toHaveBeenCalled();
+        expect(onChange).toHaveBeenCalled();
     });
 });
 

@@ -8,7 +8,7 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-import { render, screen } from "@testing-library/preact";
+import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 import { Menu, MenuButton, MenuItem, MenuItems } from "~/Menu";

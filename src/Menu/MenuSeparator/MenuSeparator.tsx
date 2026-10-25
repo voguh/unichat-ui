@@ -8,8 +8,8 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-import type PReact from "preact";
-import { forwardRef } from "preact/compat";
+import type * as React from "react";
+import { forwardRef } from "react";
 
 import { MenuSeparator as HeadlessMenuSeparator } from "@headlessui/react";
 
@@ -18,7 +18,7 @@ import { dataPart } from "~/utils/dataAttributes";
 
 import styles from "./styles.module.css";
 
-type VanillaProps = PReact.HTMLAttributes<HTMLHRElement>;
+type VanillaProps = React.HTMLAttributes<HTMLHRElement>;
 export interface MenuSeparatorProps extends VanillaProps {}
 
 export const MenuSeparator = forwardRef<HTMLElement, MenuSeparatorProps>(function MenuSeparator(

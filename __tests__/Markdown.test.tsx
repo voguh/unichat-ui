@@ -8,7 +8,7 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-import { render } from "@testing-library/preact";
+import { render } from "@testing-library/react";
 
 import { Markdown } from "~/Markdown";
 

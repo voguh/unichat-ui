@@ -4,10 +4,6 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-overrides:
-  react: npm:@preact/compat@18.3.2
-  react-dom: npm:@preact/compat@18.3.2
-
 importers:
 
   .:
@@ -20,7 +16,7 @@ importers:
         version: 1.8.0
       '@headlessui/react':
         specifier: 2.2.10
-        version: 2.2.10(@preact/compat@18.3.2(preact@10.29.8))(@preact/compat@18.3.2(preact@10.29.8))
+        version: 2.2.10(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       dompurify:
         specifier: 3.4.17
         version: 3.4.17
@@ -67,12 +63,21 @@ importers:
       '@testing-library/preact':
         specifier: 3.2.4
         version: 3.2.4(preact@10.29.8)
+      '@testing-library/react':
+        specifier: 16.3.3
+        version: 16.3.3(@testing-library/dom@10.4.2)(@types/react-dom@18.3.7(@types/react@18.3.31))(@types/react@18.3.31)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@testing-library/user-event':
         specifier: 14.6.8
         version: 14.6.8(@testing-library/dom@10.4.2)
       '@types/node':
         specifier: 24.19.1
         version: 24.19.1
+      '@types/react':
+        specifier: 18.3.31
+        version: 18.3.31
+      '@types/react-dom':
+        specifier: 18.3.7
+        version: 18.3.7(@types/react@18.3.31)
       jsdom:
         specifier: 30.1.3
         version: 30.1.3
@@ -89,11 +94,11 @@ importers:
         specifier: 10.29.8
         version: 10.29.8
       react:
-        specifier: npm:@preact/compat@18.3.2
-        version: '@preact/compat@18.3.2(preact@10.29.8)'
+        specifier: 18.3.1
+        version: 18.3.1
       react-dom:
-        specifier: npm:@preact/compat@18.3.2
-        version: '@preact/compat@18.3.2(preact@10.29.8)'
+        specifier: 18.3.1
+        version: 18.3.1(react@18.3.1)
       tailwindcss:
         specifier: ^4.3.3
         version: 4.3.3
@@ -108,7 +113,7 @@ importers:
     dependencies:
       '@voguh/unichat-ui':
         specifier: workspace:*
-        version: file:(@preact/compat@18.3.2(preact@10.29.8))(@preact/compat@18.3.2(preact@10.29.8))(preact@10.29.8)
+        version: file:(@preact/compat@18.3.2(preact@10.29.8))(@preact/compat@18.3.2(preact@10.29.8))
       preact:
         specifier: 10.29.8
         version: 10.29.8
@@ -683,6 +688,21 @@ packages:
     peerDependencies:
       preact: '>=10 || ^10.0.0-alpha.0 || ^10.0.0-beta.0'
 
+  '@testing-library/react@16.3.3':
+    resolution: {integrity: sha512-Uo193NgQbPMz6lrrhtRQQFcMC6Re/ELLFbbuVL30WDlZxlpZf9/lMHTAVxPRLw1q1iu9OJmR1c2BLiENRstdBg==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      '@testing-library/dom': ^10.0.0
+      '@types/react': ^18.0.0 || ^19.0.0
+      '@types/react-dom': ^18.0.0 || ^19.0.0
+      react: ^18.0.0 || ^19.0.0
+      react-dom: ^18.0.0 || ^19.0.0
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      '@types/react-dom':
+        optional: true
+
   '@testing-library/user-event@14.6.8':
     resolution: {integrity: sha512-vgSSqnANMnkcYR/vUNDbwS7aM3OErRLNUG8vCVVlj4oc6cKffUrccX7UAS5AmJQQNZTSibi9z5GvvRZ0aYgUCQ==}
     engines: {node: '>=12', npm: '>=6'}
@@ -703,6 +723,17 @@ packages:
 
   '@types/node@24.19.1':
     resolution: {integrity: sha512-aS3/DG0oM05K0RIXXP+hKjinGG5IgSSVGzswZxW3O0sS3pH4/fycXundUC9XsszgKCk4gHXylTEK6hyFxVxnoQ==}
+
+  '@types/prop-types@15.7.15':
+    resolution: {integrity: sha512-F6bEyamV9jKGAFBEmlQnesRPGOQqS2+Uwi0Em15xenOxHaf2hv6L8YCVn3rPdPJOiJfPiCnLIRyvwVaqMY3MIw==}
+
+  '@types/react-dom@18.3.7':
+    resolution: {integrity: sha512-MEe3UeoENYVFXzoXEWsvcpg6ZvlrFNlOQ7EOsvhI3CfAXwzPfO8Qwuxd40nepsYKqyyVQnTdEfv68q91yLcKrQ==}
+    peerDependencies:
+      '@types/react': ^18.0.0
+
+  '@types/react@18.3.31':
+    resolution: {integrity: sha512-vfEqpXTvwT91yhmwdfouStN2hSKwTvyRs8qpLfADyrq/kxDw0hZM7Wk9Ug1FELj8hIby+S/+kQCSRFF32nv2Qw==}
 
   '@types/trusted-types@2.0.7':
     resolution: {integrity: sha512-ScaPdn1dQczgbl0QFTeTOmVHFULt394XJgOQNoyVhZ6r2vLnMLJfBPd53SB52T/3G36VI1/g2MZaX0cwDuXsfw==}
@@ -830,7 +861,8 @@ packages:
   '@voguh/unichat-ui@file:':
     resolution: {directory: '', type: directory}
     peerDependencies:
-      preact: '>=10 <11'
+      react: '>=18 <20'
+      react-dom: '>=18 <20'
 
   '@yuku-parser/binding-android-arm64@0.10.2':
     resolution: {integrity: sha512-2VPBU9fRGRAQ2xPAvghnec3oou5Nrxm2Bezhf+13UMspAxQSkF/32r+ySKXSwIPA5/RivumDJDxAxc301Sgicw==}
@@ -1035,6 +1067,9 @@ packages:
     resolution: {integrity: sha512-/Tb/JcjK111nNScGob5MNtsntNM1aCNUDipB/TkwZFhyDrrE47SOx/18wF2bbjgc3ZzCSKW1T5nt5EbFoAz/Vg==}
     engines: {node: '>=4'}
     hasBin: true
+
+  csstype@3.2.3:
+    resolution: {integrity: sha512-z1HGKcYy2xA8AGQfwrn0PAy+PB7X/GSj3UVJW9qKyn43xWa+gl5nXmU4qqLMRzWVLFC8KusUX8T/0kCiOYpAIQ==}
 
   data-urls@8.0.0:
     resolution: {integrity: sha512-JQUCCK+/CAGbGGx618PlFZMXH81Jtj7t73CHv9dd/zVWvxgGT2zLFRjnKb+Ng46GIwcy+f7f88qd4duqllK+WQ==}
@@ -1483,6 +1518,10 @@ packages:
   lines-and-columns@1.2.4:
     resolution: {integrity: sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==}
 
+  loose-envify@1.4.0:
+    resolution: {integrity: sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q==}
+    hasBin: true
+
   lru-cache@11.5.3:
     resolution: {integrity: sha512-U4N8FgzmWxc8k1VH8Kr6lQg18U7Fjvby6wXHVRX/ZZ7IwWbRMgrRbP0Wrb5q5NVinryp4SQampHKdvtecItxUg==}
     engines: {node: 20 || >=22}
@@ -1635,6 +1674,11 @@ packages:
       react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
       react-dom: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
 
+  react-dom@18.3.1:
+    resolution: {integrity: sha512-5m4nQKp+rZRb09LNH59GM4BxTh9251/ylbKIbpe7TpGxfJ+9kv6BLkLBXIjjspbgbnIBNqlI23tRnTWT0snUIw==}
+    peerDependencies:
+      react: ^18.3.1
+
   react-is@17.0.2:
     resolution: {integrity: sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==}
 
@@ -1642,6 +1686,10 @@ packages:
     resolution: {integrity: sha512-YJcmkAXu2XOQP97hO/qz/cC3qv9kni3oVhwBlxWr358BHePJUpY15XwL3YSRMKxYt4EkslPqAz11JRirMfANGw==}
     peerDependencies:
       react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
+
+  react@18.3.1:
+    resolution: {integrity: sha512-wS+hAgJShR0KhEvPJArfuPVN1+Hz1t0Y6n5jLrGQbkb4urgPE/0Rve+1kMB1v/oWgHgm4WIcV+i7F2pTVj+2iQ==}
+    engines: {node: '>=0.10.0'}
 
   readdirp@3.6.0:
     resolution: {integrity: sha512-hOS089on8RduqdbhvQ5Z37A0ESjsqz6qnRcffsMU3495FuTdqSm+7bhJ29JvIOsBDEEnan5DPu9t3To9VRlMzA==}
@@ -1684,6 +1732,9 @@ packages:
   saxes@6.0.0:
     resolution: {integrity: sha512-xAg7SOnEhrm5zI3puOOKyy1OMcMlIJZYNJY7xLBwSze0UjhPLnWfj2GF2EpT0jmzaJKIWKHLsaSSajf35bcYnA==}
     engines: {node: '>=v12.22.7'}
+
+  scheduler@0.23.2:
+    resolution: {integrity: sha512-UOShsPwz7NrMUqhR6t0hWjFduvOzbtv7toDH1/hIrfRNIDBnnBWd0CwJTGvTpngVlmwGCdP9/Zl/tVrDqcuYzQ==}
 
   semver@7.8.5:
     resolution: {integrity: sha512-Y7/KDsb8LjooZpwaqGyulO6DQlksgCncchHGk+sZIY4SBvUocMBEFH5Ur1fI4dV+Jvl0w6cjvucaIi40puRioA==}
@@ -1969,12 +2020,26 @@ snapshots:
       react: '@preact/compat@18.3.2(preact@10.29.8)'
       react-dom: '@preact/compat@18.3.2(preact@10.29.8)'
 
+  '@floating-ui/react-dom@2.1.9(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+    dependencies:
+      '@floating-ui/dom': 1.8.0
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+
   '@floating-ui/react@0.26.28(@preact/compat@18.3.2(preact@10.29.8))(@preact/compat@18.3.2(preact@10.29.8))':
     dependencies:
       '@floating-ui/react-dom': 2.1.9(@preact/compat@18.3.2(preact@10.29.8))(@preact/compat@18.3.2(preact@10.29.8))
       '@floating-ui/utils': 0.2.12
       react: '@preact/compat@18.3.2(preact@10.29.8)'
       react-dom: '@preact/compat@18.3.2(preact@10.29.8)'
+      tabbable: 6.5.0
+
+  '@floating-ui/react@0.26.28(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+    dependencies:
+      '@floating-ui/react-dom': 2.1.9(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@floating-ui/utils': 0.2.12
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
       tabbable: 6.5.0
 
   '@floating-ui/utils@0.2.12': {}
@@ -1988,6 +2053,16 @@ snapshots:
       react: '@preact/compat@18.3.2(preact@10.29.8)'
       react-dom: '@preact/compat@18.3.2(preact@10.29.8)'
       use-sync-external-store: 1.7.0(@preact/compat@18.3.2(preact@10.29.8))
+
+  '@headlessui/react@2.2.10(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+    dependencies:
+      '@floating-ui/react': 0.26.28(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@react-aria/focus': 3.22.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@react-aria/interactions': 3.28.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@tanstack/react-virtual': 3.14.21(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+      use-sync-external-store: 1.7.0(react@18.3.1)
 
   '@internationalized/date@3.12.4':
     dependencies:
@@ -2050,6 +2125,13 @@ snapshots:
       react-aria: 3.53.1(@preact/compat@18.3.2(preact@10.29.8))(@preact/compat@18.3.2(preact@10.29.8))
       react-dom: '@preact/compat@18.3.2(preact@10.29.8)'
 
+  '@react-aria/focus@3.22.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+    dependencies:
+      '@swc/helpers': 0.5.23
+      react: 18.3.1
+      react-aria: 3.53.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react-dom: 18.3.1(react@18.3.1)
+
   '@react-aria/interactions@3.28.1(@preact/compat@18.3.2(preact@10.29.8))(@preact/compat@18.3.2(preact@10.29.8))':
     dependencies:
       '@react-types/shared': 3.37.0(@preact/compat@18.3.2(preact@10.29.8))
@@ -2058,9 +2140,21 @@ snapshots:
       react-aria: 3.53.1(@preact/compat@18.3.2(preact@10.29.8))(@preact/compat@18.3.2(preact@10.29.8))
       react-dom: '@preact/compat@18.3.2(preact@10.29.8)'
 
+  '@react-aria/interactions@3.28.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+    dependencies:
+      '@react-types/shared': 3.37.0(react@18.3.1)
+      '@swc/helpers': 0.5.23
+      react: 18.3.1
+      react-aria: 3.53.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react-dom: 18.3.1(react@18.3.1)
+
   '@react-types/shared@3.37.0(@preact/compat@18.3.2(preact@10.29.8))':
     dependencies:
       react: '@preact/compat@18.3.2(preact@10.29.8)'
+
+  '@react-types/shared@3.37.0(react@18.3.1)':
+    dependencies:
+      react: 18.3.1
 
   '@rsbuild/core@2.2.13':
     dependencies:
@@ -2265,6 +2359,12 @@ snapshots:
       react: '@preact/compat@18.3.2(preact@10.29.8)'
       react-dom: '@preact/compat@18.3.2(preact@10.29.8)'
 
+  '@tanstack/react-virtual@3.14.21(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+    dependencies:
+      '@tanstack/virtual-core': 3.19.6
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+
   '@tanstack/virtual-core@3.19.6': {}
 
   '@testing-library/dom@10.4.2':
@@ -2304,6 +2404,16 @@ snapshots:
       '@testing-library/dom': 8.20.1
       preact: 10.29.8
 
+  '@testing-library/react@16.3.3(@testing-library/dom@10.4.2)(@types/react-dom@18.3.7(@types/react@18.3.31))(@types/react@18.3.31)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+    dependencies:
+      '@babel/runtime': 7.29.10
+      '@testing-library/dom': 10.4.2
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+    optionalDependencies:
+      '@types/react': 18.3.31
+      '@types/react-dom': 18.3.7(@types/react@18.3.31)
+
   '@testing-library/user-event@14.6.8(@testing-library/dom@10.4.2)':
     dependencies:
       '@testing-library/dom': 10.4.2
@@ -2325,6 +2435,17 @@ snapshots:
   '@types/node@24.19.1':
     dependencies:
       undici-types: 7.24.6
+
+  '@types/prop-types@15.7.15': {}
+
+  '@types/react-dom@18.3.7(@types/react@18.3.31)':
+    dependencies:
+      '@types/react': 18.3.31
+
+  '@types/react@18.3.31':
+    dependencies:
+      '@types/prop-types': 15.7.15
+      csstype: 3.2.3
 
   '@types/trusted-types@2.0.7':
     optional: true
@@ -2389,7 +2510,7 @@ snapshots:
   '@typescript/typescript-win32-x64@7.0.2':
     optional: true
 
-  '@voguh/unichat-ui@file:(@preact/compat@18.3.2(preact@10.29.8))(@preact/compat@18.3.2(preact@10.29.8))(preact@10.29.8)':
+  '@voguh/unichat-ui@file:(@preact/compat@18.3.2(preact@10.29.8))(@preact/compat@18.3.2(preact@10.29.8))':
     dependencies:
       '@ctrl/tinycolor': 4.2.1
       '@floating-ui/dom': 1.8.0
@@ -2397,11 +2518,9 @@ snapshots:
       dompurify: 3.4.17
       lean-qr: 2.7.4
       marked: 18.1.1
-      preact: 10.29.8
+      react: '@preact/compat@18.3.2(preact@10.29.8)'
+      react-dom: '@preact/compat@18.3.2(preact@10.29.8)'
       vanilla-calendar-pro: 3.4.0
-    transitivePeerDependencies:
-      - react
-      - react-dom
 
   '@yuku-parser/binding-android-arm64@0.10.2':
     optional: true
@@ -2558,6 +2677,8 @@ snapshots:
   css.escape@1.5.1: {}
 
   cssesc@3.0.0: {}
+
+  csstype@3.2.3: {}
 
   data-urls@8.0.0:
     dependencies:
@@ -2996,6 +3117,10 @@ snapshots:
 
   lines-and-columns@1.2.4: {}
 
+  loose-envify@1.4.0:
+    dependencies:
+      js-tokens: 4.0.0
+
   lru-cache@11.5.3: {}
 
   lz-string@1.5.0: {}
@@ -3126,6 +3251,26 @@ snapshots:
       react-stately: 3.51.0(@preact/compat@18.3.2(preact@10.29.8))
       use-sync-external-store: 1.7.0(@preact/compat@18.3.2(preact@10.29.8))
 
+  react-aria@3.53.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+    dependencies:
+      '@internationalized/date': 3.12.4
+      '@internationalized/number': 3.6.9
+      '@internationalized/string': 3.2.10
+      '@react-types/shared': 3.37.0(react@18.3.1)
+      '@swc/helpers': 0.5.23
+      aria-hidden: 1.2.6
+      clsx: 2.1.1
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+      react-stately: 3.51.0(react@18.3.1)
+      use-sync-external-store: 1.7.0(react@18.3.1)
+
+  react-dom@18.3.1(react@18.3.1):
+    dependencies:
+      loose-envify: 1.4.0
+      react: 18.3.1
+      scheduler: 0.23.2
+
   react-is@17.0.2: {}
 
   react-stately@3.51.0(@preact/compat@18.3.2(preact@10.29.8)):
@@ -3137,6 +3282,20 @@ snapshots:
       '@swc/helpers': 0.5.23
       react: '@preact/compat@18.3.2(preact@10.29.8)'
       use-sync-external-store: 1.7.0(@preact/compat@18.3.2(preact@10.29.8))
+
+  react-stately@3.51.0(react@18.3.1):
+    dependencies:
+      '@internationalized/date': 3.12.4
+      '@internationalized/number': 3.6.9
+      '@internationalized/string': 3.2.10
+      '@react-types/shared': 3.37.0(react@18.3.1)
+      '@swc/helpers': 0.5.23
+      react: 18.3.1
+      use-sync-external-store: 1.7.0(react@18.3.1)
+
+  react@18.3.1:
+    dependencies:
+      loose-envify: 1.4.0
 
   readdirp@3.6.0:
     dependencies:
@@ -3179,6 +3338,10 @@ snapshots:
   saxes@6.0.0:
     dependencies:
       xmlchars: 2.2.0
+
+  scheduler@0.23.2:
+    dependencies:
+      loose-envify: 1.4.0
 
   semver@7.8.5: {}
 
@@ -3309,6 +3472,10 @@ snapshots:
   use-sync-external-store@1.7.0(@preact/compat@18.3.2(preact@10.29.8)):
     dependencies:
       react: '@preact/compat@18.3.2(preact@10.29.8)'
+
+  use-sync-external-store@1.7.0(react@18.3.1):
+    dependencies:
+      react: 18.3.1
 
   util-deprecate@1.0.2: {}
 

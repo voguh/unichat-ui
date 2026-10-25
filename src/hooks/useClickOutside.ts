@@ -8,11 +8,17 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-import type { RefObject } from "preact";
-import { useEffect, useRef } from "preact/hooks";
+import type { RefObject } from "react";
+import { useEffect, useRef } from "react";
 
 import { clickOutside } from "~/utils/clickOutside";
 
+/**
+ * {@link clickOutside} bound to a ref, active while the component is mounted.
+ *
+ * @param cb Callback that receives the pointer event.
+ * @returns Ref for the element that counts as inside.
+ */
 export function useClickOutside<T extends Element = Element>(cb: (event?: Event) => void): RefObject<T> {
     const ref = useRef<T | null>(null);
 

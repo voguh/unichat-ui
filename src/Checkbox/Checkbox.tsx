@@ -8,9 +8,8 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-import type PReact from "preact";
-import { forwardRef } from "preact/compat";
-import { useLayoutEffect, useRef } from "preact/hooks";
+import type * as React from "react";
+import { forwardRef, useLayoutEffect, useRef } from "react";
 
 import { clsx } from "~/utils/clsx";
 import { dataPart, omitDataPart } from "~/utils/dataAttributes";
@@ -18,10 +17,10 @@ import { mergeRefs } from "~/utils/mergeRefs";
 
 import styles from "./styles.module.css";
 
-type VanillaProps = Omit<PReact.InputHTMLAttributes<HTMLInputElement>, "type">;
+type VanillaProps = Omit<React.InputHTMLAttributes<HTMLInputElement>, "type">;
 export interface CheckboxProps extends VanillaProps {
     indeterminate?: boolean;
-    rootProps?: PReact.LabelHTMLAttributes<HTMLLabelElement>;
+    rootProps?: React.LabelHTMLAttributes<HTMLLabelElement>;
 }
 
 export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(function Checkbox(

@@ -8,8 +8,8 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-import type PReact from "preact";
-import { forwardRef } from "preact/compat";
+import type * as React from "react";
+import { forwardRef } from "react";
 
 import { clsx } from "~/utils/clsx";
 import { dataPart } from "~/utils/dataAttributes";
@@ -19,16 +19,16 @@ import styles from "./styles.module.css";
 export type FieldStatus = "valid" | "invalid";
 
 export interface FormGroupBaseProps {
-    label?: PReact.ComponentChildren;
-    labelProps?: PReact.LabelHTMLAttributes<HTMLLabelElement>;
-    description?: PReact.ComponentChildren;
-    descriptionProps?: PReact.HTMLAttributes<HTMLElement>;
+    label?: React.ReactNode;
+    labelProps?: React.LabelHTMLAttributes<HTMLLabelElement>;
+    description?: React.ReactNode;
+    descriptionProps?: React.HTMLAttributes<HTMLElement>;
     status?: FieldStatus;
-    statusMessage?: PReact.ComponentChildren;
-    statusMessageProps?: PReact.HTMLAttributes<HTMLElement>;
+    statusMessage?: React.ReactNode;
+    statusMessageProps?: React.HTMLAttributes<HTMLElement>;
 }
 
-type VanillaProps = PReact.HTMLAttributes<HTMLDivElement>;
+type VanillaProps = React.HTMLAttributes<HTMLDivElement>;
 export interface FormGroupProps extends VanillaProps, FormGroupBaseProps {
     id?: string;
 }

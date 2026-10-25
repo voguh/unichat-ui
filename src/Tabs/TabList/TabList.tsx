@@ -8,8 +8,8 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-import type PReact from "preact";
-import { forwardRef } from "preact/compat";
+import type * as React from "react";
+import { forwardRef } from "react";
 
 import { TabList as HeadlessTabList } from "@headlessui/react";
 
@@ -20,7 +20,7 @@ import styles from "./styles.module.css";
 
 export type TabListVariant = "default" | "segmented";
 
-type VanillaProps = PReact.HTMLAttributes<HTMLDivElement>;
+type VanillaProps = React.HTMLAttributes<HTMLDivElement>;
 export interface TabListProps extends VanillaProps {
     variant?: TabListVariant;
 }

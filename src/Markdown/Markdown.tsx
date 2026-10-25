@@ -9,9 +9,8 @@
  ******************************************************************************/
 /** biome-ignore-all lint/security/noDangerouslySetInnerHtml: HTML sanitized by DOMPurify */
 
-import type PReact from "preact";
-import { forwardRef } from "preact/compat";
-import { useMemo } from "preact/hooks";
+import type * as React from "react";
+import { forwardRef, useMemo } from "react";
 
 import DOMPurify from "dompurify";
 import { Marked, type Token } from "marked";
@@ -21,7 +20,7 @@ import { dataPart } from "~/utils/dataAttributes";
 
 import styles from "./styles.module.css";
 
-type VanillaProps = Omit<PReact.HTMLAttributes<HTMLDivElement>, "content" | "dangerouslySetInnerHTML">;
+type VanillaProps = Omit<React.HTMLAttributes<HTMLDivElement>, "content" | "dangerouslySetInnerHTML">;
 export interface MarkdownProps extends VanillaProps {
     content: string | null;
     relativeLinksBaseUrl?: string;

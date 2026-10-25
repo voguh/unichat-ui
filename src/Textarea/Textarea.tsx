@@ -8,9 +8,8 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-import type PReact from "preact";
-import { forwardRef } from "preact/compat";
-import { useLayoutEffect, useRef } from "preact/hooks";
+import type * as React from "react";
+import { forwardRef, useLayoutEffect, useRef } from "react";
 
 import { clsx } from "~/utils/clsx";
 import { dataFlag, dataPart } from "~/utils/dataAttributes";
@@ -18,7 +17,7 @@ import { mergeRefs } from "~/utils/mergeRefs";
 
 import styles from "./styles.module.css";
 
-type VanillaProps = PReact.TextareaHTMLAttributes<HTMLTextAreaElement>;
+type VanillaProps = React.TextareaHTMLAttributes<HTMLTextAreaElement>;
 export interface TextareaProps extends VanillaProps {
     autoResize?: boolean;
 }
@@ -39,7 +38,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(function 
         element.style.height = `${element.scrollHeight}px`;
     }
 
-    function handleInput(event: PReact.TargetedInputEvent<HTMLTextAreaElement>): void {
+    function handleInput(event: React.FormEvent<HTMLTextAreaElement>): void {
         if (onInput != null) {
             onInput(event);
         }

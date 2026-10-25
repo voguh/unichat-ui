@@ -8,14 +8,14 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-import type PReact from "preact";
-import { forwardRef } from "preact/compat";
+import type * as React from "react";
+import { forwardRef } from "react";
 
 import { TabPanels as HeadlessTabPanels } from "@headlessui/react";
 
 import { dataPart } from "~/utils/dataAttributes";
 
-type VanillaProps = PReact.HTMLAttributes<HTMLDivElement>;
+type VanillaProps = React.HTMLAttributes<HTMLDivElement>;
 export interface TabPanelsProps extends VanillaProps {}
 
 export const TabPanels = forwardRef<HTMLElement, TabPanelsProps>(function TabPanels(props, ref) {

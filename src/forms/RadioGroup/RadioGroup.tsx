@@ -8,16 +8,15 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-import type PReact from "preact";
-import { forwardRef } from "preact/compat";
-import { useId } from "preact/hooks";
+import type * as React from "react";
+import { forwardRef, useId } from "react";
 
 import { FormGroup, type FormGroupBaseProps, getFormGroupDescribedBy } from "~/forms/FormGroup";
 import { RadioGroup as UIRadioGroup, type RadioGroupProps as UIRadioGroupProps } from "~/RadioGroup";
 
 export interface RadioGroupProps extends Omit<UIRadioGroupProps, "id">, FormGroupBaseProps {
     id?: string;
-    groupProps?: PReact.HTMLAttributes<HTMLDivElement>;
+    groupProps?: React.HTMLAttributes<HTMLDivElement>;
 }
 
 export const RadioGroup = forwardRef<HTMLDivElement, RadioGroupProps>(function RadioGroup(

@@ -9,9 +9,8 @@
  ******************************************************************************/
 /** biome-ignore-all lint/a11y/noSvgWithoutTitle: accessible name comes from consumer props (aria-label) */
 
-import type PReact from "preact";
-import { forwardRef } from "preact/compat";
-import { useMemo } from "preact/hooks";
+import type * as React from "react";
+import { forwardRef, useMemo } from "react";
 
 import { clsx } from "~/utils/clsx";
 import { dataPart } from "~/utils/dataAttributes";
@@ -21,7 +20,7 @@ import styles from "./styles.module.css";
 const GRID_SIZE = 16;
 const HALF_SIZE = GRID_SIZE / 2;
 
-type VanillaProps = PReact.SVGAttributes<SVGSVGElement>;
+type VanillaProps = React.SVGAttributes<SVGSVGElement>;
 export interface IdenticonProps extends VanillaProps {
     value: string;
 }

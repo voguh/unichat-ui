@@ -8,15 +8,15 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-import type PReact from "preact";
-import { forwardRef } from "preact/compat";
+import type * as React from "react";
+import { forwardRef } from "react";
 
 import { clsx } from "~/utils/clsx";
 import { dataPart } from "~/utils/dataAttributes";
 
 import styles from "./styles.module.css";
 
-type VanillaProps = PReact.HTMLAttributes<HTMLHRElement>;
+type VanillaProps = React.HTMLAttributes<HTMLHRElement>;
 export interface SeparatorProps extends VanillaProps {}
 
 export const Separator = forwardRef<HTMLHRElement, SeparatorProps>(function Separator({ className, ...rest }, ref) {

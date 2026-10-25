@@ -8,8 +8,8 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-import type PReact from "preact";
-import { forwardRef } from "preact/compat";
+import type * as React from "react";
+import { forwardRef } from "react";
 
 import { MenuHeading as HeadlessMenuHeading } from "@headlessui/react";
 
@@ -18,7 +18,7 @@ import { dataPart } from "~/utils/dataAttributes";
 
 import styles from "./styles.module.css";
 
-type VanillaProps = PReact.HTMLAttributes<HTMLElement>;
+type VanillaProps = React.HTMLAttributes<HTMLElement>;
 export interface MenuHeadingProps extends VanillaProps {}
 
 export const MenuHeading = forwardRef<HTMLElement, MenuHeadingProps>(function MenuHeading({ className, ...rest }, ref) {

@@ -8,18 +8,24 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-import type { RefCallback, RefObject } from "preact";
+import type { MutableRefObject, Ref as ReactRef } from "react";
 
-export type Ref<T> = RefObject<T> | RefCallback<T> | null | undefined;
+export type Ref<T> = ReactRef<T> | undefined;
 
-export function mergeRefs<T>(...refs: Ref<T>[]) {
+/**
+ * Combines refs into one callback ref.
+ *
+ * @param refs Callback refs and ref objects; `null` and `undefined` are skipped.
+ * @returns Callback ref that assigns the instance to every ref.
+ */
+export function mergeRefs<T>(...refs: Ref<T>[]): (instance: T | null) => void {
     return (instance: T | null): void => {
         for (const refObject of refs) {
             if (refObject != null) {
                 if (typeof refObject === "function") {
                     refObject(instance);
                 } else {
-                    refObject.current = instance;
+                    (refObject as MutableRefObject<T | null>).current = instance;
                 }
             }
         }

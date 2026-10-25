@@ -8,8 +8,8 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-import type PReact from "preact";
-import { forwardRef } from "preact/compat";
+import type * as React from "react";
+import { forwardRef } from "react";
 
 import { CloseButton } from "@headlessui/react";
 
@@ -18,7 +18,7 @@ import { dataPart } from "~/utils/dataAttributes";
 
 import styles from "./styles.module.css";
 
-type VanillaProps = Omit<PReact.ButtonHTMLAttributes<HTMLButtonElement>, "disabled" | "autoFocus" | "type">;
+type VanillaProps = Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "disabled" | "autoFocus" | "type">;
 export interface DialogCloseButtonProps extends VanillaProps {
     disabled?: boolean;
     autoFocus?: boolean;

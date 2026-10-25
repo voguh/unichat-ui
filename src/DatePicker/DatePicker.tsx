@@ -8,15 +8,15 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-import type PReact from "preact";
-import { forwardRef } from "preact/compat";
-import { useEffect, useRef } from "preact/hooks";
+import type * as React from "react";
+import { forwardRef, useEffect, useRef } from "react";
 
 import { Calendar, type FormatDateString, type Options, type WeekDayID } from "vanilla-calendar-pro";
 
 import { clsx } from "~/utils/clsx";
 import { dataFlag, dataPart, omitDataPart } from "~/utils/dataAttributes";
 import { mergeRefs } from "~/utils/mergeRefs";
+import { setNativeValue } from "~/utils/setNativeValue";
 
 import styles from "./styles.module.css";
 
@@ -102,7 +102,7 @@ function toSelectedDates(text: string, format: string): string[] {
 }
 
 type VanillaProps = Omit<
-    PReact.InputHTMLAttributes<HTMLInputElement>,
+    React.InputHTMLAttributes<HTMLInputElement>,
     "type" | "value" | "defaultValue" | "min" | "max"
 >;
 export interface DatePickerProps extends VanillaProps {
@@ -113,7 +113,7 @@ export interface DatePickerProps extends VanillaProps {
     min?: string;
     max?: string;
     invalid?: boolean;
-    rootProps?: PReact.HTMLAttributes<HTMLDivElement>;
+    rootProps?: React.HTMLAttributes<HTMLDivElement>;
 }
 
 export const DatePicker = forwardRef<HTMLInputElement, DatePickerProps>(function DatePicker(
@@ -162,7 +162,7 @@ export const DatePicker = forwardRef<HTMLInputElement, DatePickerProps>(function
                     return;
                 }
 
-                input.value = formatIsoDate(isoDate, resolvedFormat);
+                setNativeValue(input, formatIsoDate(isoDate, resolvedFormat));
                 input.dispatchEvent(new Event("input", { bubbles: true }));
                 input.dispatchEvent(new Event("change", { bubbles: true }));
                 self.hide();

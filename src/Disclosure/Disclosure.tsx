@@ -8,9 +8,8 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-import type PReact from "preact";
-import { forwardRef } from "preact/compat";
-import { useEffect, useRef } from "preact/hooks";
+import type * as React from "react";
+import { forwardRef, useEffect, useRef } from "react";
 
 import { Disclosure as HeadlessDisclosure } from "@headlessui/react";
 
@@ -25,10 +24,10 @@ interface ExclusiveGroupProps {
     name?: string;
     open: boolean;
     close: () => void;
-    children: PReact.ComponentChildren;
+    children: React.ReactNode;
 }
 
-function ExclusiveGroup({ name, open, close, children }: ExclusiveGroupProps): PReact.ComponentChildren {
+function ExclusiveGroup({ name, open, close, children }: ExclusiveGroupProps): React.ReactNode {
     const closeRef = useRef(close);
     closeRef.current = close;
 
@@ -58,7 +57,7 @@ function ExclusiveGroup({ name, open, close, children }: ExclusiveGroupProps): P
     return children;
 }
 
-type VanillaProps = PReact.HTMLAttributes<HTMLDivElement>;
+type VanillaProps = React.HTMLAttributes<HTMLDivElement>;
 export interface DisclosureProps extends VanillaProps {
     defaultOpen?: boolean;
     name?: string;

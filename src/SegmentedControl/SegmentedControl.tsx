@@ -8,9 +8,8 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-import type PReact from "preact";
-import { forwardRef } from "preact/compat";
-import { useId } from "preact/hooks";
+import type * as React from "react";
+import { forwardRef, useId } from "react";
 
 import { clsx } from "~/utils/clsx";
 import { dataPart } from "~/utils/dataAttributes";
@@ -19,18 +18,18 @@ import styles from "./styles.module.css";
 
 export interface SegmentedControlItem {
     value: string;
-    label: PReact.ComponentChildren;
+    label: React.ReactNode;
     disabled?: boolean;
 }
 
-type VanillaProps = Omit<PReact.HTMLAttributes<HTMLDivElement>, "onChange" | "defaultValue">;
+type VanillaProps = Omit<React.HTMLAttributes<HTMLDivElement>, "onChange" | "defaultValue">;
 export interface SegmentedControlProps extends VanillaProps {
     items: SegmentedControlItem[];
     name?: string;
     value?: string;
     defaultValue?: string;
     disabled?: boolean;
-    onChange?: (event: PReact.TargetedEvent<HTMLInputElement, Event>) => void;
+    onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export const SegmentedControl = forwardRef<HTMLDivElement, SegmentedControlProps>(function SegmentedControl(

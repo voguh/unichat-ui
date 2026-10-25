@@ -8,9 +8,8 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-import type PReact from "preact";
-import { forwardRef } from "preact/compat";
-import { useEffect, useRef, useState } from "preact/hooks";
+import type * as React from "react";
+import { forwardRef, useEffect, useRef, useState } from "react";
 
 import { clsx } from "~/utils/clsx";
 import { dataFlag, dataPart, omitDataPart } from "~/utils/dataAttributes";
@@ -69,7 +68,7 @@ function measureAxis(viewport: HTMLElement, axis: Axis): AxisMetrics | null {
     return null;
 }
 
-function pointerCoord(event: PointerEvent, axis: Axis): number {
+function pointerCoord(event: React.PointerEvent, axis: Axis): number {
     if (axis === "vertical") {
         return event.clientY;
     }
@@ -98,16 +97,19 @@ interface ScrollTrackProps {
     metrics: AxisMetrics;
     active: boolean;
     crossed: boolean;
-    viewportRef: PReact.RefObject<HTMLDivElement>;
+    viewportRef: React.RefObject<HTMLDivElement>;
 }
 
-function ScrollTrack({ axis, metrics, active, crossed, viewportRef }: ScrollTrackProps): PReact.ComponentChildren {
+function ScrollTrack({ axis, metrics, active, crossed, viewportRef }: ScrollTrackProps): React.ReactNode {
+    const { ratio, progress } = metrics;
+    const thumbStyle = { "--scroll-ratio": ratio, "--scroll-progress": progress } as React.CSSProperties;
+
     const [dragging, setDragging] = useState(false);
     const trackRef = useRef<HTMLDivElement>(null);
     const thumbRef = useRef<HTMLDivElement>(null);
     const dragRef = useRef<DragState | null>(null);
 
-    function handleTrackPointerDown(event: PReact.TargetedPointerEvent<HTMLDivElement>): void {
+    function handleTrackPointerDown(event: React.PointerEvent<HTMLDivElement>): void {
         if (event.target !== event.currentTarget) {
             return;
         }
@@ -122,7 +124,7 @@ function ScrollTrack({ axis, metrics, active, crossed, viewportRef }: ScrollTrac
         }
     }
 
-    function handleThumbPointerDown(event: PReact.TargetedPointerEvent<HTMLDivElement>): void {
+    function handleThumbPointerDown(event: React.PointerEvent<HTMLDivElement>): void {
         event.preventDefault();
 
         const { position, clientSize, scrollSize } = readAxis(viewportRef.current!, axis);
@@ -138,7 +140,7 @@ function ScrollTrack({ axis, metrics, active, crossed, viewportRef }: ScrollTrac
         setDragging(true);
     }
 
-    function handleThumbPointerMove(event: PReact.TargetedPointerEvent<HTMLDivElement>): void {
+    function handleThumbPointerMove(event: React.PointerEvent<HTMLDivElement>): void {
         const drag = dragRef.current;
         if (drag != null) {
             const delta = (pointerCoord(event, axis) - drag.pointer) * drag.scale;
@@ -165,7 +167,7 @@ function ScrollTrack({ axis, metrics, active, crossed, viewportRef }: ScrollTrac
             <div
                 ref={thumbRef}
                 data-slot="thumb"
-                style={`--scroll-ratio: ${metrics.ratio}; --scroll-progress: ${metrics.progress}`}
+                style={thumbStyle}
                 onPointerDown={handleThumbPointerDown}
                 onPointerMove={handleThumbPointerMove}
                 onPointerUp={handleThumbPointerUp}
@@ -175,10 +177,10 @@ function ScrollTrack({ axis, metrics, active, crossed, viewportRef }: ScrollTrac
     );
 }
 
-type VanillaProps = PReact.HTMLAttributes<HTMLDivElement>;
+type VanillaProps = React.HTMLAttributes<HTMLDivElement>;
 export interface ScrollableViewProps extends VanillaProps {
     alwaysVisible?: boolean;
-    rootProps?: PReact.HTMLAttributes<HTMLDivElement>;
+    rootProps?: React.HTMLAttributes<HTMLDivElement>;
 }
 
 export const ScrollableView = forwardRef<HTMLDivElement, ScrollableViewProps>(function ScrollableView(
@@ -204,7 +206,7 @@ export const ScrollableView = forwardRef<HTMLDivElement, ScrollableViewProps>(fu
         hideTimerRef.current = setTimeout(() => setActive(false), HIDE_DELAY);
     }
 
-    function handleScroll(event: PReact.TargetedUIEvent<HTMLDivElement>): void {
+    function handleScroll(event: React.UIEvent<HTMLDivElement>): void {
         updateMetrics();
         reveal();
 
@@ -213,7 +215,7 @@ export const ScrollableView = forwardRef<HTMLDivElement, ScrollableViewProps>(fu
         }
     }
 
-    function handlePointerMove(event: PReact.TargetedPointerEvent<HTMLDivElement>): void {
+    function handlePointerMove(event: React.PointerEvent<HTMLDivElement>): void {
         reveal();
 
         if (rootProps.onPointerMove != null) {

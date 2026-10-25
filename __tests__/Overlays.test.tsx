@@ -8,9 +8,9 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-import { createRef } from "preact";
+import { createRef } from "react";
 
-import { render, screen, waitFor } from "@testing-library/preact";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 import { Popover, PopoverButton, PopoverPanel } from "~/Popover";

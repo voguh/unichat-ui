@@ -8,8 +8,8 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-import type PReact from "preact";
-import { forwardRef } from "preact/compat";
+import type * as React from "react";
+import { forwardRef } from "react";
 
 import { clsx } from "~/utils/clsx";
 import { dataPart } from "~/utils/dataAttributes";
@@ -19,7 +19,7 @@ import styles from "./styles.module.css";
 export type ButtonVariant = "default" | "primary" | "secondary" | "success" | "danger" | "warning" | "info";
 export type ButtonSize = "sm" | "md" | "lg";
 
-type VanillaProps = PReact.ButtonHTMLAttributes<HTMLButtonElement>;
+type VanillaProps = React.ButtonHTMLAttributes<HTMLButtonElement>;
 export interface ButtonProps extends VanillaProps {
     variant?: ButtonVariant;
     size?: ButtonSize;

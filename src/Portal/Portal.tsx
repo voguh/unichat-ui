@@ -8,16 +8,16 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-import type PReact from "preact";
-import { createPortal } from "preact/compat";
+import type * as React from "react";
+import { createPortal } from "react-dom";
 
 export interface PortalProps {
     container?: HTMLElement;
     disabled?: boolean;
-    children: PReact.ComponentChildren;
+    children: React.ReactNode;
 }
 
-export function Portal({ container, disabled = false, children }: PortalProps): PReact.ComponentChildren {
+export function Portal({ container, disabled = false, children }: PortalProps): React.ReactNode {
     if (disabled) {
         return children;
     }

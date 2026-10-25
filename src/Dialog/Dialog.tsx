@@ -8,9 +8,8 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-import type PReact from "preact";
-import { forwardRef } from "preact/compat";
-import { useEffect, useRef } from "preact/hooks";
+import type * as React from "react";
+import { forwardRef, useEffect, useRef } from "react";
 
 import { Dialog as HeadlessDialog } from "@headlessui/react";
 
@@ -19,7 +18,7 @@ import { dataPart } from "~/utils/dataAttributes";
 
 import styles from "./styles.module.css";
 
-type VanillaProps = Omit<PReact.HTMLAttributes<HTMLDivElement>, "role" | "autoFocus">;
+type VanillaProps = Omit<React.HTMLAttributes<HTMLDivElement>, "role" | "autoFocus">;
 export interface DialogProps extends VanillaProps {
     role?: "dialog" | "alertdialog";
     autoFocus?: boolean;

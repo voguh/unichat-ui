@@ -8,9 +8,8 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-import type PReact from "preact";
-import { forwardRef } from "preact/compat";
-import { useRef, useState } from "preact/hooks";
+import type * as React from "react";
+import { forwardRef, useRef, useState } from "react";
 
 import { clsx } from "~/utils/clsx";
 import { dataFlag, dataPart, omitDataPart } from "~/utils/dataAttributes";
@@ -31,10 +30,10 @@ function formatFileSize(bytes: number): string {
     return `${Number(size.toFixed(1))} ${SIZE_UNITS[unit]}`;
 }
 
-type VanillaProps = Omit<PReact.InputHTMLAttributes<HTMLInputElement>, "type" | "value" | "defaultValue">;
+type VanillaProps = Omit<React.InputHTMLAttributes<HTMLInputElement>, "type" | "value" | "defaultValue">;
 export interface FileUploadProps extends VanillaProps {
     invalid?: boolean;
-    rootProps?: PReact.HTMLAttributes<HTMLDivElement>;
+    rootProps?: React.HTMLAttributes<HTMLDivElement>;
 }
 
 export const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(function FileUpload(
@@ -56,21 +55,21 @@ export const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(function
         input.dispatchEvent(new Event("change", { bubbles: true }));
     }
 
-    function handleChange(event: PReact.TargetedEvent<HTMLInputElement, Event>): void {
+    function handleChange(event: React.ChangeEvent<HTMLInputElement>): void {
         setFiles(Array.from(event.currentTarget.files ?? []));
         if (onChange != null) {
             onChange(event);
         }
     }
 
-    function handleDragOver(event: PReact.TargetedDragEvent<HTMLLabelElement>): void {
+    function handleDragOver(event: React.DragEvent<HTMLLabelElement>): void {
         event.preventDefault();
         if (!disabled) {
             setDragging(true);
         }
     }
 
-    function handleDrop(event: PReact.TargetedDragEvent<HTMLLabelElement>): void {
+    function handleDrop(event: React.DragEvent<HTMLLabelElement>): void {
         event.preventDefault();
         setDragging(false);
         if (disabled || event.dataTransfer == null) {

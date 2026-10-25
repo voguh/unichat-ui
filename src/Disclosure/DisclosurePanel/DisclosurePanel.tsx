@@ -8,8 +8,8 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-import type PReact from "preact";
-import { forwardRef } from "preact/compat";
+import type * as React from "react";
+import { forwardRef } from "react";
 
 import {
     DisclosurePanel as HeadlessDisclosurePanel,
@@ -21,7 +21,7 @@ import { dataPart } from "~/utils/dataAttributes";
 
 import styles from "./styles.module.css";
 
-type VanillaProps = Omit<PReact.HTMLAttributes<HTMLDivElement>, "id">;
+type VanillaProps = Omit<React.HTMLAttributes<HTMLDivElement>, "id">;
 export interface DisclosurePanelProps extends VanillaProps, Pick<HeadlessDisclosurePanelProps, "unmount" | "static"> {
     id?: string;
 }

@@ -8,9 +8,9 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-import { createRef } from "preact";
+import { createRef } from "react";
 
-import { render, screen } from "@testing-library/preact";
+import { render, screen } from "@testing-library/react";
 
 import { Identicon } from "~/Identicon";
 

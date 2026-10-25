@@ -49,7 +49,7 @@ const baseConfig = {
                             jsc: {
                                 target: "es2023",
                                 parser: { syntax: "typescript", tsx: true },
-                                transform: { react: { runtime: "automatic", importSource: "preact" } }
+                                transform: { react: { runtime: "automatic", importSource: "react" } }
                             }
                         }
                     }
@@ -66,13 +66,7 @@ const baseConfig = {
     resolve: {
         fullySpecified: false,
         extensions: [".ts", ".tsx", ".js", ".jsx"],
-        alias: {
-            "~": SRC_DIR,
-            react: "preact/compat",
-            "react-dom/test-utils": "preact/test-utils",
-            "react-dom": "preact/compat",
-            "react/jsx-runtime": "preact/jsx-runtime"
-        }
+        alias: { "~": SRC_DIR }
     }
 };
 

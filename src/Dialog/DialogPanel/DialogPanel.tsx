@@ -8,8 +8,8 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-import type PReact from "preact";
-import { forwardRef } from "preact/compat";
+import type * as React from "react";
+import { forwardRef } from "react";
 
 import { DialogPanel as HeadlessDialogPanel } from "@headlessui/react";
 
@@ -20,7 +20,7 @@ import styles from "./styles.module.css";
 
 export type DialogPanelSize = "sm" | "md" | "lg" | "xl" | "fullscreen";
 
-type VanillaProps = Omit<PReact.HTMLAttributes<HTMLDivElement>, "size">;
+type VanillaProps = Omit<React.HTMLAttributes<HTMLDivElement>, "size">;
 export interface DialogPanelProps extends VanillaProps {
     size?: DialogPanelSize;
 }

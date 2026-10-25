@@ -8,8 +8,8 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-import type PReact from "preact";
-import { cloneElement, toChildArray } from "preact";
+import type * as React from "react";
+import { Children, cloneElement } from "react";
 
 import { mergeRefs, type Ref } from "~/utils/mergeRefs";
 
@@ -30,13 +30,20 @@ function mergeProps(props: Record<string, unknown>, childProps: Record<string, u
     return merged;
 }
 
+/**
+ * Clones the first child, merging the given props over its own (event handlers run child first) and its ref.
+ *
+ * @param children Element that receives the props; only the first child is used.
+ * @param props Props to merge into the child.
+ * @param ref Ref merged with the child's own ref.
+ * @returns The cloned element.
+ */
 export function cloneAsChild<T>(
-    children: PReact.ComponentChildren,
+    children: React.ReactNode,
     props: Record<string, unknown>,
     ref: Ref<T>
-): PReact.VNode {
-    const child = toChildArray(children)[0] as PReact.VNode;
-    const childProps = child.props as Record<string, unknown>;
+): React.ReactElement {
+    const child = Children.toArray(children)[0] as React.ReactElement<Record<string, unknown>> & { ref?: Ref<T> };
 
-    return cloneElement(child, { ...mergeProps(props, childProps), ref: mergeRefs(ref, child.ref as Ref<T>) });
+    return cloneElement(child, { ...mergeProps(props, child.props), ref: mergeRefs(ref, child.ref) });
 }

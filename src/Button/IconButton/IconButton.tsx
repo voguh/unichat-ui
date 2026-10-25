@@ -8,7 +8,7 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-import { forwardRef } from "preact/compat";
+import { forwardRef } from "react";
 
 import { clsx } from "~/utils/clsx";
 import { dataPart } from "~/utils/dataAttributes";

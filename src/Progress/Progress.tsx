@@ -8,20 +8,19 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-import type PReact from "preact";
-import { forwardRef } from "preact/compat";
-import { useId } from "preact/hooks";
+import type * as React from "react";
+import { forwardRef, useId } from "react";
 
 import { clsx } from "~/utils/clsx";
 import { dataFlag, dataPart } from "~/utils/dataAttributes";
 
 import styles from "./styles.module.css";
 
-type VanillaProps = Omit<PReact.HTMLAttributes<HTMLDivElement>, "label">;
+type VanillaProps = Omit<React.HTMLAttributes<HTMLDivElement>, "label">;
 export interface ProgressProps extends VanillaProps {
     value: number | null;
     max?: number;
-    label?: PReact.ComponentChildren;
+    label?: React.ReactNode;
 }
 
 function toPercent(value: number | null, max: number): number | null {
@@ -48,7 +47,7 @@ export const Progress = forwardRef<HTMLDivElement, ProgressProps>(function Progr
         return undefined;
     }
 
-    function getRangeStyle(): PReact.CSSProperties | undefined {
+    function getRangeStyle(): React.CSSProperties | undefined {
         if (percent != null) {
             return { width: `${percent}%` };
         }

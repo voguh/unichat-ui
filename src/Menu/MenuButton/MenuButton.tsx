@@ -10,8 +10,8 @@
 
 /** biome-ignore-all lint/suspicious/noExplicitAny: `as` accepts any component, whatever its props */
 
-import type PReact from "preact";
-import { forwardRef } from "preact/compat";
+import type * as React from "react";
+import { forwardRef } from "react";
 
 import { MenuButton as HeadlessMenuButton } from "@headlessui/react";
 
@@ -20,15 +20,15 @@ import { dataPart } from "~/utils/dataAttributes";
 
 import styles from "./styles.module.css";
 
-type ElementType = keyof PReact.JSX.IntrinsicElements | PReact.ComponentType<any>;
+type ElementType = keyof React.JSX.IntrinsicElements | React.ComponentType<any>;
 
-export type MenuButtonProps<T extends ElementType = "button"> = Omit<PReact.ComponentProps<T>, "as"> & {
+export type MenuButtonProps<T extends ElementType = "button"> = Omit<React.ComponentProps<T>, "as"> & {
     as?: T;
 };
 
 type MenuButtonComponent = <T extends ElementType = "button">(
-    props: MenuButtonProps<T> & { ref?: PReact.Ref<HTMLElement> }
-) => PReact.VNode | null;
+    props: MenuButtonProps<T> & { ref?: React.Ref<HTMLElement> }
+) => React.ReactElement | null;
 
 export const MenuButton = forwardRef<HTMLElement, MenuButtonProps<ElementType>>(function MenuButton(
     { as = "button", className, ...rest },
@@ -38,7 +38,7 @@ export const MenuButton = forwardRef<HTMLElement, MenuButtonProps<ElementType>>(
         <HeadlessMenuButton
             {...rest}
             as={as}
-            ref={ref as PReact.Ref<HTMLButtonElement>}
+            ref={ref as React.Ref<HTMLButtonElement>}
             data-part={dataPart("MenuButton", rest)}
             className={clsx(styles.root, className)}
         />

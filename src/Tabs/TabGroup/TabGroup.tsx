@@ -8,8 +8,8 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-import type PReact from "preact";
-import { forwardRef } from "preact/compat";
+import type * as React from "react";
+import { forwardRef } from "react";
 
 import { TabGroup as HeadlessTabGroup, type TabGroupProps as HeadlessTabGroupProps } from "@headlessui/react";
 
@@ -18,7 +18,7 @@ import { dataPart } from "~/utils/dataAttributes";
 
 import styles from "./styles.module.css";
 
-type VanillaProps = Omit<PReact.HTMLAttributes<HTMLDivElement>, "onChange">;
+type VanillaProps = Omit<React.HTMLAttributes<HTMLDivElement>, "onChange">;
 export interface TabGroupProps
     extends VanillaProps,
         Pick<HeadlessTabGroupProps, "defaultIndex" | "selectedIndex" | "onChange" | "vertical" | "manual"> {}

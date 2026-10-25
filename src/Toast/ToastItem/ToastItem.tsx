@@ -8,7 +8,7 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-import type PReact from "preact";
+import type * as React from "react";
 
 import type { Toast, ToastType } from "../store";
 import styles from "./styles.module.css";
@@ -33,7 +33,7 @@ function getDefaultIcon(type: ToastType | undefined): string {
     return "fas fa-bell";
 }
 
-export function ToastItem({ toast, onDismiss }: ToastItemProps): PReact.ComponentChildren {
+export function ToastItem({ toast, onDismiss }: ToastItemProps): React.ReactNode {
     const defaultIcon = getDefaultIcon(toast.type);
 
     function handleAction(): void {

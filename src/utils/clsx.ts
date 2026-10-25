@@ -8,24 +8,16 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-import type { Signalish } from "preact";
-
 export type ClassPrimitive = string | number | bigint | symbol | null | undefined;
 export type ClassDictionary = Record<string, boolean>;
-export type ClassValue = ClassDictionary | ClassPrimitive | Signalish<ClassDictionary> | Signalish<ClassPrimitive>;
+export type ClassValue = ClassDictionary | ClassPrimitive;
 
-function isSignalish(value: any): value is Signalish<any> {
-    if (value != null && typeof value === "object") {
-        const hasValue = "value" in value;
-        const hasPeek = "peek" in value && typeof value.peek === "function";
-        const hasSubscribe = "subscribe" in value && typeof value.subscribe === "function";
-
-        return hasValue && hasPeek && hasSubscribe;
-    }
-
-    return false;
-}
-
+/**
+ * Joins class names, skipping `null`, `undefined` and booleans; a dictionary contributes its truthy keys.
+ *
+ * @param args Class names and dictionaries.
+ * @returns The space-separated class string.
+ */
 export function clsx(...args: ClassValue[]): string {
     const str: string[] = [];
 
@@ -36,7 +28,7 @@ export function clsx(...args: ClassValue[]): string {
 
         if (typeof arg !== "object") {
             str.push(String(arg));
-        } else if (!isSignalish(arg)) {
+        } else {
             for (const [key, enabled] of Object.entries(arg)) {
                 if (enabled) {
                     str.push(key);

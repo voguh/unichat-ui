@@ -8,19 +8,19 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-import type PReact from "preact";
-import { forwardRef } from "preact/compat";
+import type * as React from "react";
+import { forwardRef } from "react";
 
 import { clsx } from "~/utils/clsx";
 import { dataFlag, dataPart, omitDataPart } from "~/utils/dataAttributes";
 
 import styles from "./styles.module.css";
 
-type VanillaProps = PReact.InputHTMLAttributes<HTMLInputElement>;
+type VanillaProps = React.InputHTMLAttributes<HTMLInputElement>;
 export interface InputProps extends VanillaProps {
-    startSlot?: PReact.ComponentChildren;
-    endSlot?: PReact.ComponentChildren;
-    rootProps?: PReact.HTMLAttributes<HTMLDivElement>;
+    startSlot?: React.ReactNode;
+    endSlot?: React.ReactNode;
+    rootProps?: React.HTMLAttributes<HTMLDivElement>;
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(

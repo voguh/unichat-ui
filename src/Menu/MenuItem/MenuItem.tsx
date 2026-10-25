@@ -8,8 +8,8 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-import type PReact from "preact";
-import { forwardRef } from "preact/compat";
+import type * as React from "react";
+import { forwardRef } from "react";
 
 import { MenuItem as HeadlessMenuItem } from "@headlessui/react";
 
@@ -18,7 +18,7 @@ import { dataPart } from "~/utils/dataAttributes";
 
 import styles from "./styles.module.css";
 
-type VanillaProps = Omit<PReact.ButtonHTMLAttributes<HTMLButtonElement>, "disabled">;
+type VanillaProps = Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "disabled">;
 export interface MenuItemProps extends VanillaProps {
     disabled?: boolean;
 }

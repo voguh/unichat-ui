@@ -36,6 +36,15 @@ describe("NumberInput", () => {
         expect(screen.getByRole("spinbutton", { name: "Size" })).toHaveValue(42);
     });
 
+    it("drops characters a number cannot hold while typing, like Chromium", async () => {
+        const onInput = rstest.fn();
+        render(<NumberInput aria-label="Size" onInput={onInput} />);
+
+        await userEvent.type(screen.getByRole("spinbutton", { name: "Size" }), "5b3");
+        expect(onInput).toHaveBeenCalledTimes(2);
+        expect(screen.getByRole("spinbutton", { name: "Size" })).toHaveValue(53);
+    });
+
     it("exposes the data-part structure", () => {
         render(<NumberInput />);
         expect(document.querySelector('[data-part="Input NumberInput"] > input')).not.toBeNull();

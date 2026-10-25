@@ -32,10 +32,10 @@ export const Dialog = forwardRef<HTMLElement, DialogProps>(function Dialog(
     { open, onClose, closeOnInteractOutside = true, className, ...rest },
     ref
 ) {
-    const pointerInteractionRef = useRef(false);
+    const outsidePointerRef = useRef(false);
 
     function handleClose(): void {
-        if (!closeOnInteractOutside && pointerInteractionRef.current) {
+        if (!closeOnInteractOutside && outsidePointerRef.current) {
             return;
         }
 
@@ -47,15 +47,17 @@ export const Dialog = forwardRef<HTMLElement, DialogProps>(function Dialog(
             return;
         }
 
-        function markPointer(): void {
-            pointerInteractionRef.current = true;
+        function markPointer(event: PointerEvent): void {
+            const target = event.target as Element;
+            outsidePointerRef.current = target.closest('[data-part~="DialogPanel"]') == null;
         }
 
         function markKeyboard(): void {
-            pointerInteractionRef.current = false;
+            outsidePointerRef.current = false;
         }
 
-        // Headless reports Escape and outside clicks through the same onClose; the last input tells them apart.
+        // Headless reports Escape, outside clicks and CloseButton through the same onClose; the last input tells them
+        // apart.
         window.addEventListener("pointerdown", markPointer, true);
         window.addEventListener("keydown", markKeyboard, true);
 

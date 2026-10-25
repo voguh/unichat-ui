@@ -95,4 +95,20 @@ describe("Dialog", () => {
         await userEvent.keyboard("{Escape}");
         expect(onClose).toHaveBeenCalledTimes(1);
     });
+
+    it("calls onClose from the close button with closeOnInteractOutside disabled", async () => {
+        const onClose = rstest.fn();
+        render(
+            <Dialog open onClose={onClose} closeOnInteractOutside={false}>
+                <DialogBackdrop />
+                <DialogPanel>
+                    <DialogTitle>Settings</DialogTitle>
+                    <DialogCloseButton />
+                </DialogPanel>
+            </Dialog>
+        );
+
+        await userEvent.click(await screen.findByRole("button", { name: "Close" }));
+        expect(onClose).toHaveBeenCalledTimes(1);
+    });
 });

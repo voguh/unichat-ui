@@ -7,7 +7,7 @@
     "scripts": {
         "dev": "pnpm --filter @voguh/unichat-ui-showcase dev",
         "build": "NODE_ENV=production rspack build && tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json",
-        "lint": "biome check .",
+        "lint": "biome check . && prettier --check ./**/*.md",
         "test": "rstest",
         "typecheck": "tsc --noEmit"
     },
@@ -68,6 +68,7 @@
         "postcss": "8.5.30",
         "postcss-loader": "8.2.1",
         "preact": "10.29.8",
+        "prettier": "3.9.10",
         "react": "18.3.1",
         "react-dom": "18.3.1",
         "tailwindcss": "^4.3.3",

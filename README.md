@@ -59,8 +59,8 @@ Plus the package manager override, so transitive peers resolve to compat too:
 ```yaml
 # pnpm-workspace.yaml
 overrides:
-  react: npm:@preact/compat@18.3.2
-  react-dom: npm:@preact/compat@18.3.2
+    react: npm:@preact/compat@18.3.2
+    react-dom: npm:@preact/compat@18.3.2
 ```
 
 ```json

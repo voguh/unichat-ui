@@ -40,8 +40,7 @@
         "@headlessui/react": "2.2.10",
         "dompurify": "3.4.17",
         "lean-qr": "2.7.4",
-        "marked": "18.1.1",
-        "vanilla-calendar-pro": "3.4.0"
+        "marked": "18.1.1"
     },
     "peerDependencies": {
         "react": ">=18 <20",

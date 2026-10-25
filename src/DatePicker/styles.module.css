@@ -10,15 +10,13 @@
 
 @layer theme, base, unichat-ui, components, utilities;
 
-@import "vanilla-calendar-pro/styles/index.css" layer(unichat-ui);
-
 @layer unichat-ui {
     .root {
         @apply flex flex-col;
 
         & > div[data-slot="control"] {
             @apply bg-surface-raised rounded;
-            @apply flex items-center gap-2 h-10 px-3;
+            @apply relative flex items-center gap-2 h-10 px-3;
 
             &:focus-within {
                 @apply ring-2 ring-focus;
@@ -32,14 +30,22 @@
                 @apply bg-transparent outline-none;
                 @apply flex-1 min-w-0;
 
-                &::placeholder {
-                    @apply text-text-placeholder;
+                &::-webkit-calendar-picker-indicator {
+                    @apply hidden;
                 }
             }
 
             & > button[data-slot="trigger"] {
                 @apply text-text-placeholder;
                 @apply cursor-pointer;
+
+                /* Firefox draws its own calendar button inside the date input and offers no way to hide it; ours covers it. */
+                @supports (-moz-appearance: none) {
+                    @apply rounded-r;
+                    @apply absolute inset-y-0 right-0 w-10 flex items-center justify-end pr-3;
+
+                    background-color: inherit;
+                }
 
                 &:hover {
                     @apply text-text;
@@ -55,54 +61,10 @@
                 @apply text-text-placeholder;
                 @apply cursor-not-allowed;
 
-                & > button[data-slot="trigger"],
-                & > input::placeholder {
+                & > button[data-slot="trigger"] {
                     @apply text-text-disabled;
                 }
             }
         }
-    }
-
-    .calendar {
-        @apply border border-border rounded;
-        @apply z-50 p-3;
-
-        --weekend: color-mix(in oklab, var(--ucui-color-danger) 60%, white);
-        --primary-hover: color-mix(in oklab, var(--ucui-color-primary) 80%, black);
-
-        --vc-bg: var(--ucui-color-surface-raised);
-        --vc-color: var(--ucui-color-text);
-        --vc-focus-outline-color: var(--ucui-color-focus);
-        --vc-header-color: var(--ucui-color-text);
-        --vc-title-color: var(--ucui-color-text);
-        --vc-title-color-hover: var(--ucui-color-text-muted);
-        --vc-title-color-disabled: var(--ucui-color-text-disabled);
-        --vc-week-day-color: var(--ucui-color-text-muted);
-        --vc-week-day-off-color: var(--weekend);
-        --vc-date-bg: var(--ucui-color-surface-raised);
-        --vc-date-color: var(--ucui-color-text-secondary);
-        --vc-date-bg-hover: var(--ucui-color-surface-hover);
-        --vc-date-color-hover: var(--ucui-color-text);
-        --vc-date-outside-color: var(--ucui-color-text-disabled);
-        --vc-date-disabled-color: var(--ucui-color-text-disabled);
-        --vc-date-today-bg: var(--ucui-color-surface-hover);
-        --vc-date-today-color: var(--ucui-color-text);
-        --vc-date-today-outside-color: var(--ucui-color-text-placeholder);
-        --vc-date-selected-bg: var(--ucui-color-primary);
-        --vc-date-selected-color: var(--ucui-color-primary-contrast);
-        --vc-date-selected-outside-bg: var(--primary-hover);
-        --vc-date-selected-outside-color: var(--ucui-color-text-secondary);
-        --vc-date-weekend-color: var(--weekend);
-        --vc-date-weekend-bg-hover: var(--ucui-color-surface-hover);
-        --vc-date-weekend-today-color: var(--weekend);
-        --vc-date-weekend-outside-color: color-mix(in oklab, var(--ucui-color-danger) 50%, var(--ucui-color-surface));
-        --vc-date-weekend-selected-bg: var(--ucui-color-primary);
-        --vc-date-weekend-selected-color: var(--ucui-color-primary-contrast);
-        --vc-months-years-bg: var(--ucui-color-surface-raised);
-        --vc-months-years-bg-hover: var(--ucui-color-surface-hover);
-        --vc-months-years-bg-selected: var(--ucui-color-primary);
-        --vc-months-years-color: var(--ucui-color-text);
-        --vc-months-years-color-selected: var(--ucui-color-primary-contrast);
-        --vc-months-years-color-disabled: var(--ucui-color-text-disabled);
     }
 }

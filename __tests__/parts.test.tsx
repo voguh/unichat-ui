@@ -158,7 +158,9 @@ const CASES: PartsCase[] = [
         element: <DatePicker />,
         selectors: [
             '[data-part="DatePicker"] > [data-slot="control"] > input',
-            '[data-part="DatePicker"] > [data-slot="control"] > [data-slot="trigger"]'
+            '[data-part="DatePicker"] > [data-slot="control"] > [data-slot="trigger"]',
+            '[data-part="DatePicker"] > [data-part~="DatePickerCalendar"] > [data-slot="header"] > [data-slot="title"]',
+            '[data-part="DatePicker"] > [data-part~="DatePickerCalendar"] > [data-slot="grid"] [data-slot="day"]'
         ]
     },
     {

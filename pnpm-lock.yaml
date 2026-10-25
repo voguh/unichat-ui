@@ -26,9 +26,6 @@ importers:
       marked:
         specifier: 18.1.1
         version: 18.1.1
-      vanilla-calendar-pro:
-        specifier: 3.4.0
-        version: 3.4.0
     devDependencies:
       '@biomejs/biome':
         specifier: 2.5.15
@@ -1842,9 +1839,6 @@ packages:
   util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
 
-  vanilla-calendar-pro@3.4.0:
-    resolution: {integrity: sha512-HLWjzHOWvMIrjI77tXK5bYzp0s5TeBSrZC247STjcTAdWI7kqEwWT6Xvu20vqdwzF498H1Da8l4WpdgVIGtc1Q==}
-
   w3c-xmlserializer@6.0.0:
     resolution: {integrity: sha512-4Nsy8K5Tr6SPDH9jhKJOHf7ChDrc1zufZTVSF7x72hwuEXBqxqk9G6cK+K2NRUtB3iELRJqjXb4JPDMBjMTl2Q==}
     engines: {node: ^22.22.2 || ^24.15.0 || >=26.0.0}
@@ -2520,7 +2514,6 @@ snapshots:
       marked: 18.1.1
       react: '@preact/compat@18.3.2(preact@10.29.8)'
       react-dom: '@preact/compat@18.3.2(preact@10.29.8)'
-      vanilla-calendar-pro: 3.4.0
 
   '@yuku-parser/binding-android-arm64@0.10.2':
     optional: true
@@ -3478,8 +3471,6 @@ snapshots:
       react: 18.3.1
 
   util-deprecate@1.0.2: {}
-
-  vanilla-calendar-pro@3.4.0: {}
 
   w3c-xmlserializer@6.0.0:
     dependencies:

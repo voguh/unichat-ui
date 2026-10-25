@@ -10,7 +10,7 @@
 
 import { createRef } from "react";
 
-import { render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 import { Combobox } from "~/Combobox";
@@ -59,6 +59,56 @@ describe("Select", () => {
         expect(ref.current).toHaveValue("stars");
     });
 
+    it("dispatches input before change", async () => {
+        const events: string[] = [];
+        render(
+            <Select
+                options={ITEMS}
+                aria-label="Sort"
+                onInput={() => events.push("input")}
+                onChange={() => events.push("change")}
+            />
+        );
+
+        await userEvent.click(screen.getByRole("button", { name: "Sort" }));
+        await userEvent.click(await screen.findByRole("option", { name: "Most stars" }));
+
+        expect(events).toEqual(["input", "change"]);
+    });
+
+    it("runs interaction handlers on the trigger", async () => {
+        const onFocus = rstest.fn();
+        const onKeyDown = rstest.fn();
+        const onBlur = rstest.fn();
+        render(<Select options={ITEMS} aria-label="Sort" onFocus={onFocus} onKeyDown={onKeyDown} onBlur={onBlur} />);
+
+        await userEvent.tab();
+        expect(screen.getByRole("button", { name: "Sort" })).toHaveFocus();
+        expect(onFocus).toHaveBeenCalledTimes(1);
+
+        await userEvent.keyboard("a");
+        expect(onKeyDown).toHaveBeenCalled();
+
+        await userEvent.tab();
+        expect(onBlur).toHaveBeenCalledTimes(1);
+    });
+
+    it("moves focus from the select to the trigger, except to anchor a validation message", async () => {
+        const ref = createRef<HTMLSelectElement>();
+        render(<Select ref={ref} options={ITEMS} aria-label="Sort" required />);
+        const trigger = screen.getByRole("button", { name: "Sort" });
+
+        ref.current!.focus();
+        expect(trigger).toHaveFocus();
+
+        fireEvent.invalid(ref.current!);
+        ref.current!.focus();
+        expect(ref.current).toHaveFocus();
+
+        await userEvent.keyboard(" ");
+        expect(trigger).toHaveFocus();
+    });
+
     it("follows the controlled value", () => {
         const { rerender } = render(<Select options={ITEMS} value="newest" aria-label="Sort" />);
         expect(screen.getByRole("button", { name: "Sort" })).toHaveTextContent("Newest");
@@ -89,21 +139,49 @@ describe("Select", () => {
 });
 
 describe("Combobox", () => {
-    it("filters options by typed text and selects one", async () => {
+    it("keeps free text and fires the native events while typing", async () => {
         const ref = createRef<HTMLInputElement>();
-        const onValueChange = rstest.fn();
-        render(<Combobox ref={ref} options={ITEMS} placeholder="Search" name="sort" onValueChange={onValueChange} />);
+        const onInput = rstest.fn();
+        const onChange = rstest.fn();
+        render(
+            <Combobox
+                ref={ref}
+                options={ITEMS}
+                placeholder="Search"
+                name="sort"
+                onInput={onInput}
+                onChange={onChange}
+            />
+        );
 
         const input = screen.getByPlaceholderText("Search");
         expect(ref.current).toBe(input);
+        expect(input).toHaveAttribute("name", "sort");
 
-        await userEvent.type(input, "sta");
+        await userEvent.type(input, "custom");
+        expect(onInput).toHaveBeenCalledTimes(6);
+        expect(onChange).toHaveBeenCalledTimes(6);
+        expect(onChange.mock.lastCall![0].target.value).toBe("custom");
+        expect(input).toHaveValue("custom");
+    });
+
+    it("filters by value or label and inserts the option value like a datalist", async () => {
+        const onInput = rstest.fn();
+        const onChange = rstest.fn();
+        render(<Combobox options={ITEMS} placeholder="Search" onInput={onInput} onChange={onChange} />);
+
+        const input = screen.getByPlaceholderText("Search");
+        await userEvent.type(input, "most");
         await waitFor(() => expect(screen.getAllByRole("option")).toHaveLength(1));
-        await userEvent.click(screen.getByRole("option", { name: "Most stars" }));
+        onInput.mockClear();
+        onChange.mockClear();
 
-        expect(onValueChange).toHaveBeenLastCalledWith("stars");
-        expect(input).toHaveValue("Most stars");
-        expect(document.querySelector('input[name="sort"]')).toHaveValue("stars");
+        await userEvent.click(screen.getByRole("option", { name: /stars/ }));
+
+        expect(input).toHaveValue("stars");
+        expect(onInput).toHaveBeenCalledTimes(1);
+        expect(onChange).toHaveBeenCalledTimes(1);
+        expect(onChange.mock.lastCall![0].target.value).toBe("stars");
     });
 });
 

@@ -114,53 +114,41 @@ div[data-part~="PasswordInput"]   (rootProps, className)
 
 export function DatePickerShowcase(): PReact.ComponentChildren {
     const [value, setValue] = useState("");
+    const [valueAsDate, setValueAsDate] = useState<Date | null>(null);
 
     return (
         <ShowcasePage
             title="DatePicker"
-            description="vanilla-calendar-pro bound to a native text input."
+            description="Native <input type=date> with a calendar panel in place of the browser picker."
             usage={`
 import { DatePicker } from "@voguh/unichat-ui/DatePicker";
 
-<DatePicker format="YYYY-MM-DD" min="2026-01-01" value={date} onInput={(event) => setDate(event.currentTarget.value)} />
+<DatePicker min="2026-01-01" value={date} onChange={(event) => setDate(event.currentTarget.value)} />
 `}
             api={[
                 {
                     name: "DatePicker",
-                    props: 'InputHTMLAttributes<HTMLInputElement> (text input, without "type")',
+                    props: 'InputHTMLAttributes<HTMLInputElement> (date input, without "type")',
                     ref: "HTMLInputElement",
                     structure: `
-div[data-part~="DatePicker"]   (rootProps, className)
+div[data-part~="DatePicker"][data-open]   (rootProps, className)
   > div[data-slot="control"][data-invalid][data-disabled]
-    > input   (ref and the other props)
+    > input[type="date"]   (ref and the other props)
     > button[data-slot="trigger"]
-
-div[data-part="DatePickerCalendar"]   (appended to body; its content is vanilla-calendar-pro markup, not part of the contract)
+  > div[data-part="PopoverPanel DatePickerCalendar"]
+    > div[data-slot="header"]
+      > button[data-slot="previous"] + span[data-slot="title"] + button[data-slot="next"]
+    > table[data-slot="grid"]
+      > thead > tr > th   (weekdays)
+      > tbody > tr > td > button[data-slot="day"][data-date][data-outside][data-today][data-weekend][data-selected]
 `,
                     nonStandard: [
-                        {
-                            name: "value / defaultValue",
-                            type: "string",
-                            description: "Date as text in the chosen format, not an ISO date."
-                        },
-                        {
-                            name: "format",
-                            type: "string",
-                            defaultValue: "locale format",
-                            description: "Tokens YYYY, MM and DD, e.g. DD/MM/YYYY."
-                        },
                         {
                             name: "locale",
                             type: "string",
                             defaultValue: "navigator.language",
-                            description: "Month names, first weekday and weekend of the calendar."
-                        },
-                        { name: "min / max", type: "string", description: "Bounds as ISO dates (YYYY-MM-DD)." },
-                        {
-                            name: "placeholder",
-                            type: "string",
-                            defaultValue: "format",
-                            description: "Defaults to the resolved format."
+                            description:
+                                "Month names, first weekday and weekend of the calendar; the field follows the browser locale."
                         },
                         INVALID_PROP,
                         ROOT_PROPS
@@ -168,12 +156,20 @@ div[data-part="DatePickerCalendar"]   (appended to body; its content is vanilla-
                 }
             ]}
         >
-            <Example title="Locale format" vertical>
-                <DatePicker value={value} onInput={(event) => setValue(event.currentTarget.value)} />
-                <Code>value: {JSON.stringify(value)}</Code>
+            <Example title="Default" vertical>
+                <DatePicker
+                    value={value}
+                    onChange={(event) => {
+                        setValue(event.currentTarget.value);
+                        setValueAsDate(event.currentTarget.valueAsDate);
+                    }}
+                />
+                <Code>
+                    value: {JSON.stringify(value)}, valueAsDate: {JSON.stringify(valueAsDate)}
+                </Code>
             </Example>
-            <Example title="Custom format and bounds" vertical>
-                <DatePicker format="YYYY-MM-DD" min="2026-01-01" max="2026-12-31" />
+            <Example title="Bounds" vertical>
+                <DatePicker min="2026-01-01" max="2026-12-31" />
             </Example>
         </ShowcasePage>
     );

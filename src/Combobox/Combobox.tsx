@@ -9,7 +9,7 @@
  ******************************************************************************/
 
 import type * as React from "react";
-import { forwardRef, useMemo, useState } from "react";
+import { forwardRef, useMemo, useRef, useState } from "react";
 
 import {
     ComboboxButton,
@@ -21,91 +21,72 @@ import {
 
 import { clsx } from "~/utils/clsx";
 import { dataFlag, dataPart, omitDataPart } from "~/utils/dataAttributes";
+import { mergeRefs } from "~/utils/mergeRefs";
+import { setNativeValue } from "~/utils/setNativeValue";
 
 import styles from "./styles.module.css";
 
 export interface ComboboxOption {
     value: string;
-    label: string;
+    label?: string;
     disabled?: boolean;
 }
 
 type VanillaProps = Omit<
     React.InputHTMLAttributes<HTMLInputElement>,
-    "value" | "defaultValue" | "disabled" | "autoFocus" | "name"
+    "value" | "defaultValue" | "disabled" | "autoFocus"
 >;
 export interface ComboboxProps extends VanillaProps {
     options: ComboboxOption[];
     value?: string;
     defaultValue?: string;
-    name?: string;
     disabled?: boolean;
     autoFocus?: boolean;
     invalid?: boolean;
-    onValueChange?: (value: string) => void;
     rootProps?: React.HTMLAttributes<HTMLDivElement>;
 }
 
 export const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
-    {
-        options,
-        value,
-        defaultValue,
-        name,
-        disabled = false,
-        invalid = false,
-        onValueChange,
-        onChange,
-        rootProps = {},
-        className,
-        ...rest
-    },
+    { options, value, defaultValue, disabled = false, invalid = false, onChange, rootProps = {}, className, ...rest },
     ref
 ) {
     const isControlled = value != null;
 
     const [innerValue, setInnerValue] = useState(defaultValue ?? "");
-    const [query, setQuery] = useState("");
-    const filteredOptions = useMemo(() => {
-        const normalized = query.trim().toLowerCase();
-        if (normalized === "") {
-            return options;
-        }
-
-        return options.filter((option) => option.label.toLowerCase().includes(normalized));
-    }, [options, query]);
+    const inputRef = useRef<HTMLInputElement>(null);
 
     let currentValue = innerValue;
     if (isControlled) {
         currentValue = value;
     }
 
-    function handleChange(nextValue: string | null): void {
-        const resolved = nextValue ?? "";
-        if (!isControlled) {
-            setInnerValue(resolved);
+    const filteredOptions = useMemo(() => {
+        const normalized = currentValue.trim().toLowerCase();
+        if (normalized === "") {
+            return options;
         }
 
-        setQuery("");
-        if (onValueChange != null) {
-            onValueChange(resolved);
-        }
+        return options.filter((option) => {
+            const label = option.label ?? "";
+            return option.value.toLowerCase().includes(normalized) || label.toLowerCase().includes(normalized);
+        });
+    }, [options, currentValue]);
+
+    function handleSelect(optionValue: string | null): void {
+        const input = inputRef.current!;
+        setNativeValue(input, optionValue ?? "");
+        input.dispatchEvent(new Event("input", { bubbles: true }));
+        input.dispatchEvent(new Event("change", { bubbles: true }));
     }
 
     function handleInputChange(event: React.ChangeEvent<HTMLInputElement>): void {
-        setQuery(event.currentTarget.value);
+        if (!isControlled) {
+            setInnerValue(event.currentTarget.value);
+        }
+
         if (onChange != null) {
             onChange(event);
         }
-    }
-
-    function displayValue(optionValue: string): string {
-        const option = options.find((item) => item.value === optionValue);
-        if (option != null) {
-            return option.label;
-        }
-
-        return "";
     }
 
     return (
@@ -114,19 +95,12 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Com
             data-part={dataPart("Combobox", rest)}
             className={clsx(styles.root, className, rootProps.className)}
         >
-            <HeadlessCombobox
-                value={currentValue}
-                onChange={handleChange}
-                onClose={() => setQuery("")}
-                name={name}
-                disabled={disabled}
-                invalid={invalid}
-            >
+            <HeadlessCombobox value={currentValue} onChange={handleSelect} disabled={disabled} invalid={invalid}>
                 <div data-slot="control" data-invalid={dataFlag(invalid)}>
                     <ComboboxInput
                         {...omitDataPart(rest)}
-                        ref={ref}
-                        displayValue={displayValue}
+                        ref={mergeRefs(ref, inputRef)}
+                        displayValue={(text: string) => text}
                         onChange={handleInputChange}
                     />
                     <ComboboxButton data-slot="trigger">
@@ -141,7 +115,10 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Com
                             disabled={option.disabled}
                             data-slot="option"
                         >
-                            <span>{option.label}</span>
+                            <span>{option.value}</span>
+                            {option.label != null && option.label !== option.value && (
+                                <small data-slot="label">{option.label}</small>
+                            )}
                             <i data-slot="indicator" className="fas fa-check" aria-hidden="true" />
                         </HeadlessComboboxOption>
                     ))}

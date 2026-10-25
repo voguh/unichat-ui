@@ -257,7 +257,7 @@ export function SelectShowcase(): PReact.ComponentChildren {
     return (
         <ShowcasePage
             title="Select"
-            description="Headless UI Listbox. Ref and form props go to a hidden <select>."
+            description="Headless UI Listbox. Ref and form props go to a visually hidden <select>; interaction handlers go to the button."
             usage={`
 import { Select } from "@voguh/unichat-ui/Select";
 
@@ -272,14 +272,14 @@ import { Select } from "@voguh/unichat-ui/Select";
             api={[
                 {
                     name: "Select",
-                    props: "SelectHTMLAttributes<HTMLSelectElement> (hidden <select>)",
+                    props: "SelectHTMLAttributes<HTMLSelectElement>",
                     ref: "HTMLSelectElement",
                     structure: `
 div[data-part~="Select"]   (rootProps, className)
-  > button[data-open][data-focus][data-disabled][data-invalid]
+  > button[data-open][data-focus][data-disabled][data-invalid]   (id, aria-*, autoFocus, tabIndex, title, on* handlers)
     > span[data-slot="value"][data-placeholder]
     > i[data-slot="indicator"]
-  > select[hidden]   (ref, name and the other props)
+  > select[aria-hidden]   (ref, name, required, onChange, onInput, onInvalid and the other props)
 
 div[data-part="SelectOptions"]   (portal, while open)
   > div[data-slot="option"][data-focus][data-selected][data-disabled]
@@ -314,9 +314,10 @@ div[data-part="SelectOptions"]   (portal, while open)
                             description: "Invalid style and aria-invalid on the button."
                         },
                         {
-                            name: "id / aria-label / aria-describedby",
-                            type: "string",
-                            description: "Applied to the visible button, not to the hidden <select>."
+                            name: "id / aria-* / autoFocus / tabIndex / title / on*",
+                            type: "see SelectHTMLAttributes",
+                            description:
+                                "Applied to the visible button, not to the <select>; onChange, onInput and onInvalid stay on the <select>."
                         },
                         {
                             name: "rootProps",
@@ -359,7 +360,7 @@ export function ComboboxShowcase(): PReact.ComponentChildren {
     return (
         <ShowcasePage
             title="Combobox"
-            description="Headless UI Combobox with built-in label filtering."
+            description="Text input with suggestions, like <input list>: any text is a valid value."
             usage={`
 import { Combobox } from "@voguh/unichat-ui/Combobox";
 
@@ -368,7 +369,7 @@ import { Combobox } from "@voguh/unichat-ui/Combobox";
     placeholder="Search platform"
     options={[{ value: "windows", label: "Windows" }, { value: "linux", label: "Linux" }]}
     value={platform}
-    onValueChange={setPlatform}
+    onChange={(event) => setPlatform(event.currentTarget.value)}
 />
 `}
             api={[
@@ -384,34 +385,25 @@ div[data-part~="Combobox"]   (rootProps, className)
 
 div[data-part="ComboboxOptions"]   (portal, while open)
   > div[data-slot="option"][data-focus][data-selected][data-disabled]
-    > span
+    > span   (value)
+    > small[data-slot="label"]   (label, when it differs from the value)
     > i[data-slot="indicator"]
 `,
                     nonStandard: [
                         {
                             name: "options",
-                            type: "{ value: string; label: string; disabled?: boolean }[]",
-                            description: "Options filtered by the typed label."
+                            type: "{ value: string; label?: string; disabled?: boolean }[]",
+                            description: "Suggestions filtered by value or label; picking one inserts its value."
                         },
                         {
                             name: "value / defaultValue",
                             type: "string",
-                            description: "Selected option value, not the typed text."
+                            description: "Text of the input; free text, not limited to the options."
                         },
                         {
-                            name: "onValueChange",
-                            type: "(value: string) => void",
-                            description: "Called when an option is selected."
-                        },
-                        {
-                            name: "onChange",
+                            name: "onInput / onChange",
                             type: "(event) => void",
-                            description: "Native change of the text input: fires while typing the filter."
-                        },
-                        {
-                            name: "name",
-                            type: "string",
-                            description: "Submitted through a hidden input with the selected value."
+                            description: "Native events of the input, also dispatched when an option is picked."
                         },
                         {
                             name: "invalid",
@@ -429,7 +421,12 @@ div[data-part="ComboboxOptions"]   (portal, while open)
             ]}
         >
             <Example title="Default" vertical>
-                <Combobox options={PLATFORMS} placeholder="Search platform" value={value} onValueChange={setValue} />
+                <Combobox
+                    options={PLATFORMS}
+                    placeholder="Search platform"
+                    value={value}
+                    onChange={(event) => setValue(event.currentTarget.value)}
+                />
                 <Code>value: {JSON.stringify(value)}</Code>
             </Example>
             <Example title="States" vertical>

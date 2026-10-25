@@ -12,25 +12,13 @@ import "@testing-library/jest-dom";
 
 import { cleanup } from "@testing-library/react";
 
-// jsdom lacks ResizeObserver, Element.scrollTo and matchMedia.
+// jsdom lacks ResizeObserver and Element.scrollTo.
 globalThis.ResizeObserver ??= class {
     public observe(): void {}
     public unobserve(): void {}
     public disconnect(): void {}
 };
 Element.prototype.scrollTo ??= () => {};
-window.matchMedia ??= (query: string) => {
-    return {
-        matches: false,
-        media: query,
-        onchange: null,
-        addListener: () => {},
-        removeListener: () => {},
-        addEventListener: () => {},
-        removeEventListener: () => {},
-        dispatchEvent: () => false
-    };
-};
 
 afterEach(() => {
     cleanup();

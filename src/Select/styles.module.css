@@ -12,7 +12,11 @@
 
 @layer unichat-ui {
     .root {
-        @apply flex flex-col;
+        @apply relative flex flex-col;
+
+        & > select {
+            @apply absolute inset-0 opacity-0 pointer-events-none;
+        }
 
         & > button {
             @apply bg-surface-raised rounded outline-none;

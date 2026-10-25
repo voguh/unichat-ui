@@ -47,6 +47,27 @@ export interface SelectProps extends VanillaProps {
     rootProps?: React.HTMLAttributes<HTMLDivElement>;
 }
 
+const TRIGGER_PROPS = new Set(["autoFocus", "tabIndex", "title"]);
+const SELECT_EVENTS = new Set(["onChange", "onInput", "onInvalid"]);
+
+function isTriggerProp(key: string): boolean {
+    return TRIGGER_PROPS.has(key) || key.startsWith("aria-") || (key.startsWith("on") && !SELECT_EVENTS.has(key));
+}
+
+function splitProps(props: Record<string, unknown>): [Record<string, unknown>, Record<string, unknown>] {
+    const triggerProps: Record<string, unknown> = {};
+    const selectProps: Record<string, unknown> = {};
+    for (const [key, value] of Object.entries(props)) {
+        if (isTriggerProp(key)) {
+            triggerProps[key] = value;
+        } else {
+            selectProps[key] = value;
+        }
+    }
+
+    return [triggerProps, selectProps];
+}
+
 function isOptionGroup(option: SelectOption | SelectOptionGroup): option is SelectOptionGroup {
     return "options" in option;
 }
@@ -75,16 +96,18 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select
         rootProps = {},
         id,
         className,
-        "aria-label": ariaLabel,
-        "aria-describedby": ariaDescribedBy,
+        onInvalid,
         ...rest
     },
     ref
 ) {
     const isControlled = value != null;
+    const [triggerProps, selectProps] = splitProps(omitDataPart(rest));
 
     const [innerValue, setInnerValue] = useState(defaultValue ?? "");
     const selectRef = useRef<HTMLSelectElement>(null);
+    const triggerRef = useRef<HTMLButtonElement>(null);
+    const invalidRef = useRef(false);
     const flatOptions = useMemo(() => flattenOptions(options), [options]);
 
     let currentValue = innerValue;
@@ -101,7 +124,31 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select
 
         const select = selectRef.current!;
         setNativeValue(select, nextValue);
+        select.dispatchEvent(new Event("input", { bubbles: true }));
         select.dispatchEvent(new Event("change", { bubbles: true }));
+    }
+
+    function handleInvalid(event: React.FormEvent<HTMLSelectElement>): void {
+        invalidRef.current = true;
+        if (onInvalid != null) {
+            onInvalid(event);
+        }
+    }
+
+    // The browser focuses an invalid control to anchor its validation message and hides it on blur.
+    function handleSelectFocus(): void {
+        if (invalidRef.current) {
+            invalidRef.current = false;
+        } else {
+            triggerRef.current!.focus();
+        }
+    }
+
+    function handleSelectKeyDown(event: React.KeyboardEvent<HTMLSelectElement>): void {
+        if (event.key !== "Tab") {
+            event.preventDefault();
+            triggerRef.current!.focus();
+        }
     }
 
     function renderOption(option: SelectOption): React.ReactElement {
@@ -142,7 +189,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select
             className={clsx(styles.root, className, rootProps.className)}
         >
             <Listbox value={currentValue} onChange={handleChange} disabled={disabled} invalid={invalid}>
-                <ListboxButton id={id} aria-label={ariaLabel} aria-describedby={ariaDescribedBy}>
+                <ListboxButton {...triggerProps} ref={triggerRef} id={id}>
                     <span data-slot="value" data-placeholder={dataFlag(selected == null)}>
                         {renderValueText()}
                     </span>
@@ -164,13 +211,15 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select
                 </ListboxOptions>
             </Listbox>
             <select
-                {...omitDataPart(rest)}
+                {...selectProps}
                 ref={mergeRefs(ref, selectRef)}
                 value={currentValue}
                 disabled={disabled}
-                hidden
                 aria-hidden="true"
                 tabIndex={-1}
+                onInvalid={handleInvalid}
+                onFocus={handleSelectFocus}
+                onKeyDown={handleSelectKeyDown}
             >
                 {options.map((option) => {
                     if (isOptionGroup(option)) {

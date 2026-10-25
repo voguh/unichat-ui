@@ -13,20 +13,22 @@
 @layer unichat-ui {
     .root {
         @apply border-b border-b-transparent;
-        @apply text-stone-50;
+        @apply text-text;
         @apply flex items-center gap-2 cursor-pointer h-10 px-2 -mb-px;
 
         &[data-hover] {
-            @apply text-red-800;
+            @apply text-primary;
         }
 
         &[data-selected] {
-            @apply border-b-red-600;
-            @apply text-red-600;
+            --selected: color-mix(in oklab, var(--ucui-color-primary) 60%, white);
+
+            border-bottom-color: var(--selected);
+            color: var(--selected);
         }
 
         &[data-focus] {
-            @apply outline-none ring-2 ring-blue-500 rounded;
+            @apply outline-none ring-2 ring-focus rounded;
         }
 
         &:focus {
@@ -34,30 +36,30 @@
         }
 
         &[data-disabled] {
-            @apply text-stone-600;
+            @apply text-text-disabled;
             @apply cursor-not-allowed;
         }
 
         [data-part~="TabList"][data-variant="segmented"] > & {
             @apply border-0 rounded;
-            @apply text-stone-400 text-sm font-bold;
+            @apply text-text-muted text-sm font-bold;
             @apply h-auto px-3 py-1 mb-0 transition-colors;
 
             &[data-hover] {
-                @apply text-stone-50;
+                @apply text-text;
             }
 
             &[data-selected] {
-                @apply bg-stone-700;
-                @apply text-stone-50;
+                @apply bg-surface-hover;
+                @apply text-text;
             }
 
             &[data-focus] {
-                @apply ring-2 ring-blue-500;
+                @apply ring-2 ring-focus;
             }
 
             &[data-disabled] {
-                @apply text-stone-600;
+                @apply text-text-disabled;
             }
         }
     }

@@ -15,26 +15,26 @@
         @apply flex flex-col;
 
         & > [data-slot="control"] {
-            @apply bg-stone-800 rounded;
+            @apply bg-surface-raised rounded;
             @apply flex items-center gap-2 h-10 px-2 cursor-text;
 
             &:focus-within {
-                @apply ring-2 ring-blue-500;
+                @apply ring-2 ring-focus;
             }
 
             &[data-invalid] {
-                @apply ring-2 ring-red-600;
+                @apply ring-2 ring-invalid;
             }
 
             &[data-disabled] {
-                @apply bg-stone-900;
-                @apply text-stone-500;
+                @apply bg-surface;
+                @apply text-text-placeholder;
                 @apply cursor-not-allowed;
             }
 
             & > [data-slot="preview"] {
-                @apply rounded overflow-hidden;
-                @apply relative shrink-0 w-6 h-6 cursor-pointer;
+                @apply rounded;
+                @apply relative shrink-0 w-6 h-6 overflow-hidden cursor-pointer;
             }
 
             & > input {
@@ -55,11 +55,11 @@
             background-image: linear-gradient(to top, #000, transparent), linear-gradient(to right, #fff, transparent);
 
             &:focus-visible {
-                @apply outline-none ring-2 ring-blue-500;
+                @apply outline-none ring-2 ring-focus;
             }
 
             & > [data-slot="thumb"] {
-                @apply border-2 border-stone-50 rounded-full shadow;
+                @apply border-2 border-text rounded-full shadow;
                 @apply absolute w-4 h-4 pointer-events-none;
 
                 transform: translate(-50%, -50%);
@@ -88,11 +88,11 @@
             @apply flex flex-wrap gap-2;
 
             & > button {
-                @apply rounded overflow-hidden;
-                @apply relative w-6 h-6 cursor-pointer;
+                @apply rounded;
+                @apply relative w-6 h-6 overflow-hidden cursor-pointer;
 
                 &[data-selected] {
-                    @apply ring-2 ring-stone-50;
+                    @apply ring-2 ring-text;
                 }
             }
         }
@@ -103,16 +103,16 @@
         @apply w-full h-3 cursor-pointer appearance-none;
 
         &:focus-visible {
-            @apply outline-none ring-2 ring-blue-500;
+            @apply outline-none ring-2 ring-focus;
         }
 
         &::-webkit-slider-thumb {
-            @apply border-2 border-stone-50 rounded-full shadow;
+            @apply border-2 border-text rounded-full shadow;
             @apply w-4 h-4 appearance-none;
         }
 
         &::-moz-range-thumb {
-            @apply bg-transparent border-2 border-stone-50 rounded-full shadow;
+            @apply bg-transparent border-2 border-text rounded-full shadow;
             @apply w-4 h-4;
         }
     }

@@ -15,7 +15,7 @@
         --dialog-width: 32rem;
         --dialog-height: 90vh;
 
-        @apply bg-stone-900 border border-stone-800 rounded;
+        @apply bg-surface border border-border-subtle rounded;
         @apply relative flex flex-col overflow-hidden;
 
         width: var(--dialog-width);

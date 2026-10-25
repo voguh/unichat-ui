@@ -16,8 +16,8 @@
         @apply shrink-0 object-cover;
 
         &[data-fallback] {
-            @apply bg-stone-900;
-            @apply text-stone-500;
+            @apply bg-surface;
+            @apply text-text-placeholder;
             @apply inline-flex items-center justify-center;
         }
     }

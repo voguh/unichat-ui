@@ -15,15 +15,15 @@
         @apply flex flex-col;
 
         & > [data-slot="control"] {
-            @apply bg-stone-800 rounded;
+            @apply bg-surface-raised rounded;
             @apply flex items-center gap-2 h-10 px-3;
 
             &:focus-within {
-                @apply ring-2 ring-blue-500;
+                @apply ring-2 ring-focus;
             }
 
             &[data-invalid] {
-                @apply ring-2 ring-red-600;
+                @apply ring-2 ring-invalid;
             }
 
             & > input {
@@ -31,12 +31,12 @@
                 @apply flex-1 min-w-0;
 
                 &::placeholder {
-                    @apply text-stone-500;
+                    @apply text-text-placeholder;
                 }
             }
 
             & > [data-slot="trigger"] {
-                @apply text-stone-500 text-xs;
+                @apply text-text-placeholder text-xs;
                 @apply cursor-pointer transition-transform;
 
                 &[data-open] {
@@ -45,20 +45,20 @@
             }
 
             &:has([data-disabled]) {
-                @apply bg-stone-900;
-                @apply text-stone-500;
+                @apply bg-surface;
+                @apply text-text-placeholder;
                 @apply cursor-not-allowed;
 
                 & > [data-slot="trigger"],
                 & > input::placeholder {
-                    @apply text-stone-600;
+                    @apply text-text-disabled;
                 }
             }
         }
     }
 
     .options {
-        @apply bg-stone-800 border border-stone-700 rounded shadow-xl;
+        @apply bg-surface-raised border border-border rounded shadow-xl;
         @apply z-50 flex flex-col max-h-64 overflow-y-auto py-1;
 
         width: var(--input-width);
@@ -75,12 +75,14 @@
             @apply flex items-center justify-between gap-2 cursor-pointer px-3 py-2;
 
             & > [data-slot="indicator"] {
-                @apply text-red-600 text-xs;
+                @apply text-xs;
                 @apply invisible;
+
+                color: color-mix(in oklab, var(--ucui-color-primary) 60%, white);
             }
 
             &[data-focus] {
-                @apply bg-stone-700;
+                @apply bg-surface-hover;
             }
 
             &[data-selected] {
@@ -92,7 +94,7 @@
             }
 
             &[data-disabled] {
-                @apply text-stone-500;
+                @apply text-text-placeholder;
                 @apply cursor-not-allowed;
             }
         }

@@ -9,6 +9,7 @@
  ******************************************************************************/
 
 import "~/styles/global.css";
+import "~/styles/tokens.css";
 import { render } from "preact";
 
 import { App } from "./App";

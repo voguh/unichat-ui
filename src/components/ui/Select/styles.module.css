@@ -15,28 +15,29 @@
         @apply flex flex-col;
 
         & > button {
-            @apply bg-stone-800 rounded outline-none;
-            @apply flex items-center justify-between gap-2 cursor-pointer h-10 px-3 text-left;
+            @apply bg-surface-raised rounded outline-none;
+            @apply text-left;
+            @apply flex items-center justify-between gap-2 cursor-pointer h-10 px-3;
 
             & > [data-slot="value"] {
                 @apply truncate;
 
                 &[data-placeholder] {
-                    @apply text-stone-500;
+                    @apply text-text-placeholder;
                 }
             }
 
             & > [data-slot="indicator"] {
-                @apply text-stone-500 text-xs;
+                @apply text-text-placeholder text-xs;
                 @apply transition-transform;
             }
 
             &[data-focus] {
-                @apply ring-2 ring-blue-500;
+                @apply ring-2 ring-focus;
             }
 
             &[data-invalid] {
-                @apply ring-2 ring-red-600;
+                @apply ring-2 ring-invalid;
             }
 
             &[data-open] {
@@ -46,20 +47,20 @@
             }
 
             &[data-disabled] {
-                @apply bg-stone-900;
-                @apply text-stone-500;
+                @apply bg-surface;
+                @apply text-text-placeholder;
                 @apply cursor-not-allowed;
 
                 & > [data-slot="indicator"],
                 & > [data-slot="value"][data-placeholder] {
-                    @apply text-stone-600;
+                    @apply text-text-disabled;
                 }
             }
         }
     }
 
     .options {
-        @apply bg-stone-800 border border-stone-700 rounded shadow-xl;
+        @apply bg-surface-raised border border-border rounded shadow-xl;
         @apply z-50 flex flex-col max-h-64 overflow-y-auto py-1;
 
         width: var(--button-width);
@@ -70,7 +71,7 @@
 
         & > [data-slot="group"] {
             & > [data-slot="group-label"] {
-                @apply text-stone-500 text-xs font-semibold uppercase;
+                @apply text-text-placeholder text-xs font-semibold uppercase;
                 @apply px-3 pt-2 pb-1;
             }
         }
@@ -80,12 +81,14 @@
         @apply flex items-center justify-between gap-2 cursor-pointer px-3 py-2;
 
         & > [data-slot="indicator"] {
-            @apply text-red-600 text-xs;
+            @apply text-xs;
             @apply invisible;
+
+            color: color-mix(in oklab, var(--ucui-color-primary) 60%, white);
         }
 
         &[data-focus] {
-            @apply bg-stone-700;
+            @apply bg-surface-hover;
         }
 
         &[data-selected] {
@@ -97,7 +100,7 @@
         }
 
         &[data-disabled] {
-            @apply text-stone-500;
+            @apply text-text-placeholder;
             @apply cursor-not-allowed;
         }
     }

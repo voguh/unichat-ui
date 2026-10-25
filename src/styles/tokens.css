@@ -1,0 +1,67 @@
+/*!******************************************************************************
+ * Copyright (c) 2026 Voguh
+ *
+ * This program and the accompanying materials are made
+ * available under the terms of the Eclipse Public License 2.0
+ * which is available at https://www.eclipse.org/legal/epl-2.0/
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ ******************************************************************************/
+
+@layer theme, base, unichat-ui, components, utilities;
+
+@reference "tailwindcss";
+
+@layer unichat-ui {
+    :root {
+        --ucui-color-surface-sunken: --theme(--color-stone-950 inline);
+        --ucui-color-surface: --theme(--color-stone-900 inline);
+        --ucui-color-surface-raised: --theme(--color-stone-800 inline);
+        --ucui-color-surface-hover: --theme(--color-stone-700 inline);
+        --ucui-color-surface-active: --theme(--color-stone-600 inline);
+
+        --ucui-color-border-subtle: --theme(--color-stone-800 inline);
+        --ucui-color-border: --theme(--color-stone-700 inline);
+        --ucui-color-border-strong: --theme(--color-stone-600 inline);
+
+        --ucui-color-text: --theme(--color-stone-50 inline);
+        --ucui-color-text-secondary: --theme(--color-stone-300 inline);
+        --ucui-color-text-muted: --theme(--color-stone-400 inline);
+        --ucui-color-text-placeholder: --theme(--color-stone-500 inline);
+        --ucui-color-text-disabled: --theme(--color-stone-600 inline);
+
+        --ucui-color-focus: --theme(--color-blue-500 inline);
+        --ucui-color-invalid: --theme(--color-red-600 inline);
+        --ucui-color-overlay: --theme(--color-black inline);
+
+        --ucui-color-primary: --theme(--color-red-800 inline);
+        --ucui-color-primary-contrast: --theme(--color-stone-50 inline);
+        --ucui-color-secondary: --theme(--color-zinc-700 inline);
+        --ucui-color-secondary-contrast: --theme(--color-stone-50 inline);
+        --ucui-color-success: --theme(--color-green-700 inline);
+        --ucui-color-success-contrast: --theme(--color-stone-50 inline);
+        --ucui-color-danger: --theme(--color-rose-700 inline);
+        --ucui-color-danger-contrast: --theme(--color-stone-50 inline);
+        --ucui-color-warning: --theme(--color-yellow-500 inline);
+        --ucui-color-warning-contrast: --theme(--color-black inline);
+        --ucui-color-info: --theme(--color-cyan-700 inline);
+        --ucui-color-info-contrast: --theme(--color-stone-50 inline);
+
+        --ucui-font-sans: --theme(--font-sans inline);
+        --ucui-font-mono: --theme(--font-mono inline);
+
+        --ucui-font-size-xs: --theme(--text-xs inline);
+        --ucui-font-size-sm: --theme(--text-sm inline);
+        --ucui-font-size-base: --theme(--text-base inline);
+        --ucui-font-size-lg: --theme(--text-lg inline);
+        --ucui-font-size-xl: --theme(--text-xl inline);
+        --ucui-font-size-2xl: --theme(--text-2xl inline);
+        --ucui-font-size-3xl: --theme(--text-3xl inline);
+        --ucui-font-size-4xl: --theme(--text-4xl inline);
+
+        --ucui-radius: --theme(--radius-sm inline);
+        --ucui-radius-sm: --theme(--radius-xs inline);
+
+        --ucui-spacing: --theme(--spacing inline);
+    }
+}

@@ -15,15 +15,15 @@
         @apply fixed top-0 left-0 z-50 pointer-events-none;
 
         & > [data-slot="content"] {
-            @apply bg-stone-950 border border-stone-700 rounded shadow;
-            @apply text-sm text-stone-50;
+            @apply bg-surface-sunken border border-border rounded shadow;
+            @apply text-sm text-text;
             @apply relative max-w-xs px-2 py-1;
 
             & > [data-slot="arrow"] {
                 @apply absolute size-1.5;
 
                 & > div {
-                    @apply bg-stone-950 border-t border-l border-stone-700;
+                    @apply bg-surface-sunken border-t border-l border-border;
                     @apply w-full h-full;
                 }
             }

@@ -12,7 +12,7 @@
 
 @layer unichat-ui {
     .root {
-        @apply border-b border-b-stone-600;
+        @apply border-b border-b-border-strong;
         @apply flex items-center gap-2 px-4 py-2;
     }
 }

@@ -15,8 +15,8 @@
         @apply w-full border-collapse text-left;
 
         & > thead {
-            @apply bg-stone-900;
-            @apply text-stone-400 text-sm uppercase;
+            @apply bg-surface;
+            @apply text-text-muted text-sm uppercase;
 
             & > tr {
                 & > th {
@@ -27,10 +27,10 @@
         }
 
         & > tbody {
-            @apply bg-stone-800;
+            @apply bg-surface-raised;
 
             & > tr {
-                @apply border-b border-b-stone-700;
+                @apply border-b border-b-border;
 
                 &:last-child {
                     @apply border-b-0;

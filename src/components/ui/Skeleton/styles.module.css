@@ -12,7 +12,7 @@
 
 @layer unichat-ui {
     .root {
-        @apply bg-stone-700 rounded;
+        @apply bg-surface-hover rounded;
         @apply animate-pulse;
     }
 }

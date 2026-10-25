@@ -12,28 +12,28 @@
 
 @layer unichat-ui {
     .root {
-        @apply bg-stone-800 rounded outline-none;
+        @apply bg-surface-raised rounded outline-none;
         @apply w-full min-h-20 px-3 py-2;
 
         &::placeholder {
-            @apply text-stone-500;
+            @apply text-text-placeholder;
         }
 
         &:focus-visible {
-            @apply ring-2 ring-blue-500;
+            @apply ring-2 ring-focus;
         }
 
         &[aria-invalid="true"] {
-            @apply ring-2 ring-red-600;
+            @apply ring-2 ring-invalid;
         }
 
         &:disabled {
-            @apply bg-stone-900;
-            @apply text-stone-500;
+            @apply bg-surface;
+            @apply text-text-placeholder;
             @apply cursor-not-allowed;
 
             &::placeholder {
-                @apply text-stone-600;
+                @apply text-text-disabled;
             }
         }
 

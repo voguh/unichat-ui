@@ -18,20 +18,20 @@
             @apply flex items-center justify-between gap-2;
 
             & > [data-slot="label"] {
-                @apply text-stone-300 text-sm font-semibold;
+                @apply text-text-secondary text-sm font-semibold;
             }
 
             & > [data-slot="value"] {
-                @apply text-stone-400 text-xs;
+                @apply text-text-muted text-xs;
             }
         }
 
         & > [data-slot="track"] {
-            @apply bg-stone-700 rounded-full;
+            @apply bg-surface-hover rounded-full;
             @apply h-2 overflow-hidden;
 
             & > [data-slot="range"] {
-                @apply bg-red-800;
+                @apply bg-primary;
                 @apply h-full transition-all;
 
                 &[data-indeterminate] {

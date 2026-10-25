@@ -33,6 +33,10 @@ export function Tooltip({ content, placement = "top", openDelay = 400, children 
     const arrowRef = useRef<HTMLDivElement>(null);
     const timerRef = useRef<ReturnType<typeof setTimeout>>();
     const pointerDownRef = useRef(false);
+    const [referenceRef, floatingRef, toggleVisualization] = useComputePosition<HTMLElement, HTMLDivElement>(
+        { strategy: "fixed", placement, middleware: [offset(8), flip(), shift({ padding: 8 })] },
+        adjustFloatingPosition
+    );
 
     function adjustFloatingPosition(
         reference: HTMLElement,
@@ -51,11 +55,6 @@ export function Tooltip({ content, placement = "top", openDelay = 400, children 
 
         return [values.x, values.y];
     }
-
-    const [referenceRef, floatingRef, toggleVisualization] = useComputePosition<HTMLElement, HTMLDivElement>(
-        { strategy: "fixed", placement, middleware: [offset(8), flip(), shift({ padding: 8 })] },
-        adjustFloatingPosition
-    );
 
     function show(delay: number): void {
         clearTimeout(timerRef.current);

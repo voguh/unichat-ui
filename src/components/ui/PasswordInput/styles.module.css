@@ -12,15 +12,15 @@
 
 @layer unichat-ui {
     .root {
-        @apply bg-stone-800 rounded;
+        @apply bg-surface-raised rounded;
         @apply flex items-center gap-2 h-10 px-3;
 
         &:focus-within {
-            @apply ring-2 ring-blue-500;
+            @apply ring-2 ring-focus;
         }
 
         &:has(> input[aria-invalid="true"]) {
-            @apply ring-2 ring-red-600;
+            @apply ring-2 ring-invalid;
         }
 
         & > input {
@@ -28,7 +28,7 @@
             @apply flex-1 min-w-0;
 
             &::placeholder {
-                @apply text-stone-500;
+                @apply text-text-placeholder;
             }
 
             &:disabled {
@@ -37,22 +37,22 @@
         }
 
         & > [data-slot="trigger"] {
-            @apply text-stone-500;
+            @apply text-text-placeholder;
             @apply cursor-pointer;
 
             &:hover:not(:disabled) {
-                @apply text-stone-50;
+                @apply text-text;
             }
         }
 
         &:has(> input:disabled) {
-            @apply bg-stone-900;
-            @apply text-stone-500;
+            @apply bg-surface;
+            @apply text-text-placeholder;
             @apply cursor-not-allowed;
 
             & > [data-slot="trigger"],
             & > input::placeholder {
-                @apply text-stone-600;
+                @apply text-text-disabled;
             }
         }
     }

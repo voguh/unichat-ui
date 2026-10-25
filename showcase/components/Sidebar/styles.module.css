@@ -9,7 +9,7 @@
  ******************************************************************************/
 
 .root {
-    @apply bg-stone-900 border-r border-r-stone-800;
+    @apply bg-surface border-r border-r-border-subtle;
     @apply shrink-0 w-60 flex flex-col gap-4 py-4;
 
     > :global(.brand) {
@@ -31,21 +31,25 @@
                 @apply flex flex-col;
 
                 > h2 {
-                    @apply text-xs font-semibold uppercase text-stone-500;
+                    @apply text-xs font-semibold uppercase text-text-placeholder;
                     @apply px-2 py-1;
                 }
 
                 > a {
                     @apply rounded;
-                    @apply text-sm text-stone-300;
+                    @apply text-sm text-text-secondary;
                     @apply px-2 py-1;
 
                     &:hover {
-                        @apply bg-stone-800 text-stone-50;
+                        @apply bg-surface-raised;
+                        @apply text-text;
                     }
 
                     &[data-selected="true"] {
-                        @apply bg-stone-800 text-red-500 font-bold;
+                        @apply bg-surface-raised;
+                        @apply font-bold;
+
+                        color: color-mix(in oklab, var(--ucui-color-primary) 60%, white);
                     }
                 }
             }

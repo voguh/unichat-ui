@@ -12,8 +12,8 @@
 
 @layer unichat-ui {
     .root {
-        @apply bg-stone-900 rounded;
-        @apply font-mono text-sm text-stone-300;
+        @apply bg-surface rounded;
+        @apply font-mono text-sm text-text-secondary;
         @apply px-1.5 py-0.5;
     }
 }

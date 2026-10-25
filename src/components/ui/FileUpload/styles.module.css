@@ -15,9 +15,9 @@
         @apply flex flex-col gap-2;
 
         & > [data-slot="dropzone"] {
-            @apply bg-stone-900 border-2 border-dashed border-stone-700 rounded;
-            @apply text-stone-400;
-            @apply flex flex-col items-center justify-center gap-2 cursor-pointer p-6 text-center;
+            @apply bg-surface border-2 border-dashed border-border rounded;
+            @apply text-text-muted text-center;
+            @apply flex flex-col items-center justify-center gap-2 cursor-pointer p-6;
 
             & > input {
                 @apply sr-only;
@@ -28,20 +28,20 @@
             }
 
             &[data-dragging] {
-                @apply border-red-800 bg-stone-800;
+                @apply bg-surface-raised border-primary;
             }
 
             &:has(> input:focus-visible) {
-                @apply ring-2 ring-blue-500;
+                @apply ring-2 ring-focus;
             }
 
             &[data-invalid] {
-                @apply border-red-600;
+                @apply border-invalid;
             }
 
             &[data-disabled] {
-                @apply border-stone-800;
-                @apply text-stone-600;
+                @apply border-border-subtle;
+                @apply text-text-disabled;
                 @apply cursor-not-allowed;
             }
         }
@@ -50,7 +50,7 @@
             @apply flex flex-col gap-1;
 
             & > li {
-                @apply bg-stone-800 rounded;
+                @apply bg-surface-raised rounded;
                 @apply flex items-center gap-2 px-3 py-2;
 
                 & > [data-slot="name"] {
@@ -58,15 +58,15 @@
                 }
 
                 & > [data-slot="size"] {
-                    @apply text-sm text-stone-400;
+                    @apply text-sm text-text-muted;
                 }
 
                 & > button {
-                    @apply text-stone-400;
+                    @apply text-text-muted;
                     @apply cursor-pointer;
 
                     &:hover {
-                        @apply text-stone-50;
+                        @apply text-text;
                     }
                 }
             }

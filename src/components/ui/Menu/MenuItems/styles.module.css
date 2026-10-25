@@ -12,7 +12,7 @@
 
 @layer unichat-ui {
     .root {
-        @apply bg-stone-800 border border-stone-700 rounded shadow-xl;
+        @apply bg-surface-raised border border-border rounded shadow-xl;
         @apply z-50 flex flex-col min-w-40 py-1;
 
         &:focus-visible {

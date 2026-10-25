@@ -12,11 +12,12 @@
 
 @layer unichat-ui {
     .root {
-        @apply bg-stone-900 border border-stone-700 text-stone-50 rounded;
+        @apply bg-surface border border-border rounded;
+        @apply text-text;
         @apply flex items-center justify-center size-7 cursor-pointer;
 
         &:hover {
-            @apply bg-stone-800;
+            @apply bg-surface-raised;
         }
     }
 }

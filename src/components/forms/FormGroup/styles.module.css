@@ -15,22 +15,22 @@
         @apply flex flex-col gap-1;
 
         & > [data-slot="label"] {
-            @apply text-sm font-semibold text-stone-300;
+            @apply text-sm font-semibold text-text-secondary;
         }
 
         & > [data-slot="description"] {
-            @apply text-xs text-stone-500;
+            @apply text-xs text-text-placeholder;
         }
 
         & > [data-slot="status-message"] {
             @apply text-xs;
 
             &[data-status="valid"] {
-                @apply text-green-500;
+                color: color-mix(in oklab, var(--ucui-color-success) 60%, white);
             }
 
             &[data-status="invalid"] {
-                @apply text-red-500;
+                @apply text-invalid;
             }
         }
     }

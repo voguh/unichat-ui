@@ -12,25 +12,25 @@
 
 @layer unichat-ui {
     .root {
-        @apply bg-stone-900 rounded;
+        @apply bg-surface rounded;
         @apply relative inline-flex gap-1 p-1;
 
         & > label {
             @apply rounded;
-            @apply text-stone-400 text-sm font-bold;
+            @apply text-text-muted text-sm font-bold;
             @apply inline-flex items-center gap-2 cursor-pointer px-3 py-1 transition-colors;
 
             &:has(> input:checked) {
-                @apply bg-stone-700;
-                @apply text-stone-50;
+                @apply bg-surface-hover;
+                @apply text-text;
             }
 
             &:has(> input:focus-visible) {
-                @apply ring-2 ring-blue-500;
+                @apply ring-2 ring-focus;
             }
 
             &:has(> input:disabled) {
-                @apply text-stone-600;
+                @apply text-text-disabled;
                 @apply cursor-not-allowed;
             }
 

@@ -12,7 +12,7 @@
 
 @layer unichat-ui {
     .root {
-        @apply text-stone-100 text-lg font-semibold;
+        @apply text-text text-lg font-semibold;
         @apply flex-1 ml-2;
     }
 }

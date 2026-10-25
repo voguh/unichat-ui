@@ -12,7 +12,7 @@
 
 @layer unichat-ui {
     .root {
-        @apply bg-stone-800 rounded;
+        @apply bg-surface-raised rounded;
         @apply flex flex-col overflow-hidden;
     }
 }

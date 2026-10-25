@@ -11,6 +11,7 @@
 import type PReact from "preact";
 
 import { FormFieldsShowcase, FormGroupShowcase } from "./forms/FormsShowcase";
+import { ThemeShowcase } from "./theme/ThemeShowcase";
 import { ButtonLinkShowcase, ButtonShowcase, IconButtonShowcase } from "./ui/ButtonShowcase";
 import {
     CheckboxShowcase,
@@ -53,7 +54,7 @@ import {
     ToastShowcase
 } from "./ui/UtilityShowcase";
 
-export const SHOWCASE_GROUPS = ["Basics", "Data display", "Feedback", "Overlays", "Inputs", "Forms"] as const;
+export const SHOWCASE_GROUPS = ["Theme", "Basics", "Data display", "Feedback", "Overlays", "Inputs", "Forms"] as const;
 
 export interface Showcase {
     path: string;
@@ -63,6 +64,7 @@ export interface Showcase {
 }
 
 export const SHOWCASES: Showcase[] = [
+    { path: "/theme", title: "Tokens", group: "Theme", component: ThemeShowcase },
     { path: "/button", title: "Button", group: "Basics", component: ButtonShowcase },
     { path: "/icon-button", title: "IconButton", group: "Basics", component: IconButtonShowcase },
     { path: "/button-link", title: "ButtonLink", group: "Basics", component: ButtonLinkShowcase },

@@ -12,12 +12,12 @@
 
 @layer unichat-ui {
     .root {
-        @apply bg-stone-900 border border-stone-700 rounded;
-        @apply text-stone-50 font-semibold;
+        @apply bg-surface border border-border rounded;
+        @apply text-text font-semibold;
         @apply inline-flex items-center justify-center gap-2 cursor-pointer;
 
         &:focus-visible {
-            @apply outline-none ring-2 ring-blue-500;
+            @apply outline-none ring-2 ring-focus;
         }
 
         &[data-size="sm"] {
@@ -36,61 +36,54 @@
 
         &[data-variant="default"] {
             &:hover:not(:disabled) {
-                @apply bg-stone-800;
+                @apply bg-surface-raised;
+            }
+        }
+
+        &:not([data-variant="default"]) {
+            background-color: var(--variant);
+            border-color: var(--variant);
+            color: var(--variant-contrast);
+
+            &:hover:not(:disabled) {
+                background-color: color-mix(in oklab, var(--variant) 80%, black);
+                border-color: color-mix(in oklab, var(--variant) 80%, black);
             }
         }
 
         &[data-variant="primary"] {
-            @apply bg-red-800 border-red-800;
-
-            &:hover:not(:disabled) {
-                @apply bg-red-900 border-red-900;
-            }
+            --variant: var(--ucui-color-primary);
+            --variant-contrast: var(--ucui-color-primary-contrast);
         }
 
         &[data-variant="secondary"] {
-            @apply bg-zinc-700 border-zinc-700;
-
-            &:hover:not(:disabled) {
-                @apply bg-zinc-800 border-zinc-800;
-            }
+            --variant: var(--ucui-color-secondary);
+            --variant-contrast: var(--ucui-color-secondary-contrast);
         }
 
         &[data-variant="success"] {
-            @apply bg-green-700 border-green-700;
-
-            &:hover:not(:disabled) {
-                @apply bg-green-800 border-green-800;
-            }
+            --variant: var(--ucui-color-success);
+            --variant-contrast: var(--ucui-color-success-contrast);
         }
 
         &[data-variant="danger"] {
-            @apply bg-rose-700 border-rose-700;
-
-            &:hover:not(:disabled) {
-                @apply bg-rose-800 border-rose-800;
-            }
+            --variant: var(--ucui-color-danger);
+            --variant-contrast: var(--ucui-color-danger-contrast);
         }
 
         &[data-variant="warning"] {
-            @apply bg-yellow-500 border-yellow-500 text-black;
-
-            &:hover:not(:disabled) {
-                @apply bg-yellow-600 border-yellow-600;
-            }
+            --variant: var(--ucui-color-warning);
+            --variant-contrast: var(--ucui-color-warning-contrast);
         }
 
         &[data-variant="info"] {
-            @apply bg-cyan-700 border-cyan-700;
-
-            &:hover:not(:disabled) {
-                @apply bg-cyan-800 border-cyan-800;
-            }
+            --variant: var(--ucui-color-info);
+            --variant-contrast: var(--ucui-color-info-contrast);
         }
 
         &:disabled,
         &[aria-disabled="true"] {
-            @apply bg-stone-700 border-stone-700 text-stone-500 cursor-not-allowed;
+            @apply bg-surface-hover border-border text-text-placeholder cursor-not-allowed;
         }
     }
 }

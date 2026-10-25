@@ -13,12 +13,12 @@
 @layer unichat-ui {
     .root {
         &[data-variant="default"] {
-            @apply border-b border-b-stone-800;
+            @apply border-b border-b-border-subtle;
             @apply flex gap-4;
         }
 
         &[data-variant="segmented"] {
-            @apply bg-stone-900 rounded;
+            @apply bg-surface rounded;
             @apply relative inline-flex self-start gap-1 p-1;
         }
     }

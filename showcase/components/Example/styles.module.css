@@ -12,11 +12,11 @@
     @apply flex flex-col gap-2;
 
     > h2 {
-        @apply text-sm font-semibold uppercase text-stone-400;
+        @apply text-sm font-semibold uppercase text-text-muted;
     }
 
     > :global(.preview) {
-        @apply border border-stone-800 rounded;
+        @apply border border-border-subtle rounded;
         @apply flex flex-wrap items-start gap-4 p-6;
 
         &[data-vertical="true"] {

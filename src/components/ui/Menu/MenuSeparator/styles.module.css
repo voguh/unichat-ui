@@ -12,7 +12,7 @@
 
 @layer unichat-ui {
     .root {
-        @apply border-0 border-t border-t-stone-700;
+        @apply border-0 border-t border-t-border;
         @apply my-1;
     }
 }

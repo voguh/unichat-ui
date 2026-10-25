@@ -9,8 +9,8 @@
  ******************************************************************************/
 
 .root {
-    @apply bg-stone-950;
-    @apply text-stone-50;
+    @apply bg-surface-sunken;
+    @apply text-text;
     @apply h-full flex;
 
     > main {
@@ -22,14 +22,14 @@
     }
 
     ::-webkit-scrollbar-track {
-        @apply bg-stone-700;
+        @apply bg-surface-hover;
     }
 
     ::-webkit-scrollbar-thumb {
-        @apply bg-stone-950/50 rounded-xs;
+        @apply bg-overlay/50 rounded-sm;
 
         &:hover {
-            @apply bg-stone-950/75;
+            @apply bg-overlay/75;
         }
     }
 }

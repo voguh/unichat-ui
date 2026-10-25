@@ -15,7 +15,7 @@
         @apply flex items-center justify-between gap-2 shrink-0 h-11 p-2;
 
         &:not(:last-child) {
-            @apply border-b border-stone-800;
+            @apply border-b border-border-subtle;
         }
 
         & > button,

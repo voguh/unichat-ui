@@ -12,7 +12,7 @@
 
 @layer unichat-ui {
     .root {
-        @apply text-xs font-semibold uppercase text-stone-500;
+        @apply text-xs font-semibold uppercase text-text-placeholder;
         @apply px-3 py-1;
     }
 }

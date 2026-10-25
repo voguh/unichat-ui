@@ -34,7 +34,7 @@
             }
 
             & > [data-slot="thumb"] {
-                @apply bg-red-800 rounded-full;
+                @apply bg-primary rounded-full;
                 @apply absolute;
 
                 --thumb-length: max(24px, calc(var(--scroll-ratio) * 100%));
@@ -45,7 +45,7 @@
                     background-color 150ms;
 
                 &:hover {
-                    @apply bg-red-700;
+                    background-color: color-mix(in oklab, var(--ucui-color-primary) 85%, white);
                 }
             }
 

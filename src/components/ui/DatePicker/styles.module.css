@@ -18,15 +18,15 @@
         @apply flex flex-col;
 
         & > [data-slot="control"] {
-            @apply bg-stone-800 rounded;
+            @apply bg-surface-raised rounded;
             @apply flex items-center gap-2 h-10 px-3;
 
             &:focus-within {
-                @apply ring-2 ring-blue-500;
+                @apply ring-2 ring-focus;
             }
 
             &[data-invalid] {
-                @apply ring-2 ring-red-600;
+                @apply ring-2 ring-invalid;
             }
 
             & > input {
@@ -34,16 +34,16 @@
                 @apply flex-1 min-w-0;
 
                 &::placeholder {
-                    @apply text-stone-500;
+                    @apply text-text-placeholder;
                 }
             }
 
             & > [data-slot="trigger"] {
-                @apply text-stone-500;
+                @apply text-text-placeholder;
                 @apply cursor-pointer;
 
                 &:hover {
-                    @apply text-stone-50;
+                    @apply text-text;
                 }
 
                 &:disabled {
@@ -52,55 +52,58 @@
             }
 
             &[data-disabled] {
-                @apply bg-stone-900;
-                @apply text-stone-500;
+                @apply bg-surface;
+                @apply text-text-placeholder;
                 @apply cursor-not-allowed;
 
                 & > [data-slot="trigger"],
                 & > input::placeholder {
-                    @apply text-stone-600;
+                    @apply text-text-disabled;
                 }
             }
         }
     }
 
     .calendar {
-        @apply border border-stone-700 rounded;
+        @apply border border-border rounded;
         @apply z-50 p-3;
 
-        --vc-bg: --theme(--color-stone-800 inline);
-        --vc-color: --theme(--color-stone-50 inline);
-        --vc-focus-outline-color: --theme(--color-blue-500 inline);
-        --vc-header-color: --theme(--color-stone-50 inline);
-        --vc-title-color: --theme(--color-stone-50 inline);
-        --vc-title-color-hover: --theme(--color-stone-400 inline);
-        --vc-title-color-disabled: --theme(--color-stone-600 inline);
-        --vc-week-day-color: --theme(--color-stone-400 inline);
-        --vc-week-day-off-color: --theme(--color-red-500 inline);
-        --vc-date-bg: --theme(--color-stone-800 inline);
-        --vc-date-color: --theme(--color-stone-300 inline);
-        --vc-date-bg-hover: --theme(--color-stone-700 inline);
-        --vc-date-color-hover: --theme(--color-stone-50 inline);
-        --vc-date-outside-color: --theme(--color-stone-600 inline);
-        --vc-date-disabled-color: --theme(--color-stone-600 inline);
-        --vc-date-today-bg: --theme(--color-stone-700 inline);
-        --vc-date-today-color: --theme(--color-stone-50 inline);
-        --vc-date-today-outside-color: --theme(--color-stone-500 inline);
-        --vc-date-selected-bg: --theme(--color-red-800 inline);
-        --vc-date-selected-color: --theme(--color-stone-50 inline);
-        --vc-date-selected-outside-bg: --theme(--color-red-900 inline);
-        --vc-date-selected-outside-color: --theme(--color-stone-300 inline);
-        --vc-date-weekend-color: --theme(--color-red-500 inline);
-        --vc-date-weekend-bg-hover: --theme(--color-stone-700 inline);
-        --vc-date-weekend-today-color: --theme(--color-red-500 inline);
-        --vc-date-weekend-outside-color: --theme(--color-red-900 inline);
-        --vc-date-weekend-selected-bg: --theme(--color-red-800 inline);
-        --vc-date-weekend-selected-color: --theme(--color-stone-50 inline);
-        --vc-months-years-bg: --theme(--color-stone-800 inline);
-        --vc-months-years-bg-hover: --theme(--color-stone-700 inline);
-        --vc-months-years-bg-selected: --theme(--color-red-800 inline);
-        --vc-months-years-color: --theme(--color-stone-50 inline);
-        --vc-months-years-color-selected: --theme(--color-stone-50 inline);
-        --vc-months-years-color-disabled: --theme(--color-stone-600 inline);
+        --weekend: color-mix(in oklab, var(--ucui-color-danger) 60%, white);
+        --primary-hover: color-mix(in oklab, var(--ucui-color-primary) 80%, black);
+
+        --vc-bg: var(--ucui-color-surface-raised);
+        --vc-color: var(--ucui-color-text);
+        --vc-focus-outline-color: var(--ucui-color-focus);
+        --vc-header-color: var(--ucui-color-text);
+        --vc-title-color: var(--ucui-color-text);
+        --vc-title-color-hover: var(--ucui-color-text-muted);
+        --vc-title-color-disabled: var(--ucui-color-text-disabled);
+        --vc-week-day-color: var(--ucui-color-text-muted);
+        --vc-week-day-off-color: var(--weekend);
+        --vc-date-bg: var(--ucui-color-surface-raised);
+        --vc-date-color: var(--ucui-color-text-secondary);
+        --vc-date-bg-hover: var(--ucui-color-surface-hover);
+        --vc-date-color-hover: var(--ucui-color-text);
+        --vc-date-outside-color: var(--ucui-color-text-disabled);
+        --vc-date-disabled-color: var(--ucui-color-text-disabled);
+        --vc-date-today-bg: var(--ucui-color-surface-hover);
+        --vc-date-today-color: var(--ucui-color-text);
+        --vc-date-today-outside-color: var(--ucui-color-text-placeholder);
+        --vc-date-selected-bg: var(--ucui-color-primary);
+        --vc-date-selected-color: var(--ucui-color-primary-contrast);
+        --vc-date-selected-outside-bg: var(--primary-hover);
+        --vc-date-selected-outside-color: var(--ucui-color-text-secondary);
+        --vc-date-weekend-color: var(--weekend);
+        --vc-date-weekend-bg-hover: var(--ucui-color-surface-hover);
+        --vc-date-weekend-today-color: var(--weekend);
+        --vc-date-weekend-outside-color: color-mix(in oklab, var(--ucui-color-danger) 50%, var(--ucui-color-surface));
+        --vc-date-weekend-selected-bg: var(--ucui-color-primary);
+        --vc-date-weekend-selected-color: var(--ucui-color-primary-contrast);
+        --vc-months-years-bg: var(--ucui-color-surface-raised);
+        --vc-months-years-bg-hover: var(--ucui-color-surface-hover);
+        --vc-months-years-bg-selected: var(--ucui-color-primary);
+        --vc-months-years-color: var(--ucui-color-text);
+        --vc-months-years-color-selected: var(--ucui-color-primary-contrast);
+        --vc-months-years-color-disabled: var(--ucui-color-text-disabled);
     }
 }

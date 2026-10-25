@@ -34,7 +34,7 @@ export interface ShowcasePageProps {
     title: string;
     description?: string;
     usage: string;
-    api: ComponentDoc[];
+    api?: ComponentDoc[];
     children: PReact.ComponentChildren;
 }
 
@@ -111,10 +111,12 @@ export function ShowcasePage({
                 </pre>
             </section>
             {children}
-            <section className={styles.section}>
-                <h2>API</h2>
-                {api.map(renderComponentDoc)}
-            </section>
+            {api != null && (
+                <section className={styles.section}>
+                    <h2>API</h2>
+                    {api.map(renderComponentDoc)}
+                </section>
+            )}
         </article>
     );
 }

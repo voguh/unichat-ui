@@ -12,7 +12,7 @@
 
 @layer unichat-ui {
     .root {
-        @apply bg-black/50 backdrop-blur-xs;
+        @apply bg-overlay/50 backdrop-blur-xs;
         @apply fixed inset-0;
     }
 }

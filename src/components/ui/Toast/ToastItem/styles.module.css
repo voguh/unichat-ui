@@ -12,11 +12,11 @@
 
 @layer unichat-ui {
     .root {
-        @apply bg-stone-800 border border-stone-700 rounded shadow-xl;
+        @apply bg-surface-raised border border-border rounded shadow-xl;
         @apply flex items-center gap-3 min-w-100 py-2.5 pr-2.5 pl-3.5;
 
         & > [data-slot="icon"] {
-            @apply text-stone-400 text-lg;
+            @apply text-text-muted text-lg;
             @apply shrink-0 flex items-center justify-center;
         }
 
@@ -24,43 +24,43 @@
             @apply flex-1 min-w-0 flex flex-col gap-px;
 
             & > strong {
-                @apply text-stone-50 text-sm font-semibold;
+                @apply text-text text-sm font-semibold;
             }
 
             & > p {
-                @apply text-stone-400 text-sm;
+                @apply text-text-muted text-sm;
             }
         }
 
         & > [data-slot="action"] {
-            @apply bg-stone-700 border border-stone-600 rounded;
-            @apply text-stone-50 text-sm font-semibold;
+            @apply bg-surface-hover border border-border-strong rounded;
+            @apply text-text text-sm font-semibold;
             @apply shrink-0 h-7 px-2.5 cursor-pointer;
 
             &:hover {
-                @apply bg-stone-600;
+                @apply bg-surface-active;
             }
         }
 
         & > [data-slot="close"] {
             @apply rounded-full;
-            @apply text-stone-400 text-xs;
+            @apply text-text-muted text-xs;
             @apply relative size-8 shrink-0 flex items-center justify-center cursor-pointer;
 
             &:hover {
-                @apply bg-stone-700;
-                @apply text-stone-50;
+                @apply bg-surface-hover;
+                @apply text-text;
             }
 
             & > svg {
                 @apply absolute inset-0 size-full -rotate-90 pointer-events-none;
 
                 & > [data-slot="track"] {
-                    @apply fill-none stroke-stone-700 stroke-2;
+                    @apply fill-none stroke-border stroke-2;
                 }
 
                 & > [data-slot="progress"] {
-                    @apply fill-none stroke-stone-400 stroke-2;
+                    @apply fill-none stroke-text-muted stroke-2;
 
                     stroke-linecap: round;
                     stroke-dasharray: 100;
@@ -70,34 +70,30 @@
         }
 
         &[data-variant="info"] {
-            --toast-icon: --theme(--color-blue-400 inline);
-            --toast-timer: --theme(--color-blue-500 inline);
+            --variant: var(--ucui-color-info);
         }
 
         &[data-variant="success"] {
-            --toast-icon: --theme(--color-green-400 inline);
-            --toast-timer: --theme(--color-green-500 inline);
+            --variant: var(--ucui-color-success);
         }
 
         &[data-variant="warning"] {
-            --toast-icon: --theme(--color-amber-400 inline);
-            --toast-timer: --theme(--color-amber-500 inline);
+            --variant: var(--ucui-color-warning);
         }
 
         &[data-variant="error"] {
-            --toast-icon: --theme(--color-red-400 inline);
-            --toast-timer: --theme(--color-red-500 inline);
+            --variant: var(--ucui-color-danger);
         }
 
         &[data-variant] {
             & > [data-slot="icon"] {
-                color: var(--toast-icon);
+                color: color-mix(in oklab, var(--variant) 60%, white);
             }
 
             & > [data-slot="close"] {
                 & > svg {
                     & > [data-slot="progress"] {
-                        stroke: var(--toast-timer);
+                        stroke: color-mix(in oklab, var(--variant) 80%, white);
                     }
                 }
             }

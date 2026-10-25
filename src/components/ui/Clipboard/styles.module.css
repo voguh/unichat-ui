@@ -15,11 +15,11 @@
         @apply flex flex-col gap-1;
 
         & > label {
-            @apply text-stone-300 text-sm font-semibold;
+            @apply text-text-secondary text-sm font-semibold;
         }
 
         & > [data-slot="control"] {
-            @apply bg-stone-800 rounded;
+            @apply bg-surface-raised rounded;
             @apply flex items-center gap-2 h-10 px-3;
 
             & > input {
@@ -29,15 +29,15 @@
             }
 
             & > button {
-                @apply text-stone-400;
+                @apply text-text-muted;
                 @apply inline-flex items-center cursor-pointer;
 
                 &:hover {
-                    @apply text-stone-50;
+                    @apply text-text;
                 }
 
                 &[data-copied] {
-                    @apply text-green-500;
+                    color: color-mix(in oklab, var(--ucui-color-success) 60%, white);
                 }
             }
         }

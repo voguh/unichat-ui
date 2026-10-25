@@ -15,11 +15,11 @@
         @apply flex items-center gap-2 cursor-pointer px-3 py-2 text-left;
 
         &[data-focus] {
-            @apply bg-stone-700;
+            @apply bg-surface-hover;
         }
 
         &[data-disabled] {
-            @apply text-stone-500;
+            @apply text-text-placeholder;
             @apply cursor-not-allowed;
         }
     }

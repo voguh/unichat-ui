@@ -12,8 +12,9 @@
 
 @layer unichat-ui {
     .root {
-        @apply bg-white rounded;
+        @apply rounded;
 
+        background-color: #fff;
         image-rendering: pixelated;
     }
 }

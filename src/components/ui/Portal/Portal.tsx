@@ -17,7 +17,6 @@ export interface PortalProps {
     children: PReact.ComponentChildren;
 }
 
-// @zag-js/preact's Portal references a global React and breaks at runtime.
 export function Portal({ container, disabled = false, children }: PortalProps): PReact.ComponentChildren {
     if (disabled) {
         return children;

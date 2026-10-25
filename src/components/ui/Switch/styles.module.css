@@ -12,7 +12,8 @@
     @apply relative inline-flex items-center gap-2 cursor-pointer;
 
     &:has(.input:disabled) {
-        @apply opacity-50 cursor-not-allowed;
+        @apply text-stone-500;
+        @apply cursor-not-allowed;
     }
 }
 
@@ -29,16 +30,40 @@
 .input {
     @apply sr-only;
 
-    &:focus-visible + .control {
-        @apply ring-2 ring-blue-500;
+    &:focus-visible {
+        & + .control {
+            @apply ring-2 ring-blue-500;
+        }
     }
 
-    &:checked + .control {
-        @apply bg-red-800;
+    &:checked {
+        & + .control {
+            @apply bg-red-800;
+
+            & > .thumb {
+                @apply translate-x-4;
+            }
+        }
     }
 
-    &:checked + .control .thumb {
-        @apply translate-x-4;
+    &:disabled {
+        & + .control {
+            @apply bg-stone-800;
+
+            & > .thumb {
+                @apply bg-stone-600;
+            }
+        }
+
+        &:checked {
+            & + .control {
+                @apply bg-stone-700;
+
+                & > .thumb {
+                    @apply bg-stone-500;
+                }
+            }
+        }
     }
 }
 

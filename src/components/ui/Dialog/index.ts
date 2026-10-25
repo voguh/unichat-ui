@@ -9,3 +9,9 @@
  ******************************************************************************/
 
 export * from "./Dialog";
+export * from "./DialogBackdrop";
+export * from "./DialogBody";
+export * from "./DialogCloseButton";
+export * from "./DialogHeader";
+export * from "./DialogPanel";
+export * from "./DialogTitle";

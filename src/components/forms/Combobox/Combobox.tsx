@@ -23,7 +23,6 @@ export interface ComboboxProps extends Omit<UIComboboxProps, "id">, FormGroupBas
 export const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
     {
         id,
-        ids,
         label,
         labelProps,
         description,
@@ -38,7 +37,6 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Com
 ) {
     const generatedId = useId();
     const fieldId = id ?? generatedId;
-    const labelId = `${fieldId}-label`;
     const describedBy = getFormGroupDescribedBy(fieldId, { description, status, statusMessage });
 
     return (
@@ -46,7 +44,7 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Com
             {...groupProps}
             id={fieldId}
             label={label}
-            labelProps={{ ...labelProps, id: labelId }}
+            labelProps={labelProps}
             description={description}
             descriptionProps={descriptionProps}
             status={status}
@@ -58,7 +56,6 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Com
                 {...rest}
                 ref={ref}
                 id={fieldId}
-                ids={{ ...ids, label: labelId }}
                 invalid={status === "invalid"}
             />
         </FormGroup>

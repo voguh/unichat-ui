@@ -23,7 +23,6 @@ export interface SelectProps extends Omit<UISelectProps, "id">, FormGroupBasePro
 export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select(
     {
         id,
-        ids,
         label,
         labelProps,
         description,
@@ -38,7 +37,6 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select
 ) {
     const generatedId = useId();
     const fieldId = id ?? generatedId;
-    const labelId = `${fieldId}-label`;
     const describedBy = getFormGroupDescribedBy(fieldId, { description, status, statusMessage });
 
     return (
@@ -46,21 +44,14 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select
             {...groupProps}
             id={fieldId}
             label={label}
-            labelProps={{ ...labelProps, id: labelId }}
+            labelProps={labelProps}
             description={description}
             descriptionProps={descriptionProps}
             status={status}
             statusMessage={statusMessage}
             statusMessageProps={statusMessageProps}
         >
-            <UISelect
-                aria-describedby={describedBy}
-                {...rest}
-                ref={ref}
-                id={fieldId}
-                ids={{ ...ids, label: labelId }}
-                invalid={status === "invalid"}
-            />
+            <UISelect aria-describedby={describedBy} {...rest} ref={ref} id={fieldId} invalid={status === "invalid"} />
         </FormGroup>
     );
 });

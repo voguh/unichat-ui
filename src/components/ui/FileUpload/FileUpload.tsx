@@ -10,63 +10,122 @@
 
 import type PReact from "preact";
 import { forwardRef } from "preact/compat";
-import { useId } from "preact/hooks";
-
-import * as fileUpload from "@zag-js/file-upload";
-import { mergeProps, normalizeProps, useMachine } from "@zag-js/preact";
+import { useRef, useState } from "preact/hooks";
 
 import { clsx } from "~/utils/clsx";
+import { mergeRefs } from "~/utils/mergeRefs";
 
 import styles from "./styles.module.css";
 
-type VanillaProps = Omit<PReact.InputHTMLAttributes<HTMLInputElement>, keyof fileUpload.Props | "type">;
-export interface FileUploadProps extends VanillaProps, Partial<Omit<fileUpload.Props, "id">> {
-    id?: string;
+const SIZE_UNITS = ["B", "KB", "MB", "GB"];
+
+function formatFileSize(bytes: number): string {
+    let size = bytes;
+    let unit = 0;
+    while (size >= 1024 && unit < SIZE_UNITS.length - 1) {
+        size /= 1024;
+        unit++;
+    }
+
+    return `${Number(size.toFixed(1))} ${SIZE_UNITS[unit]}`;
+}
+
+type VanillaProps = Omit<PReact.InputHTMLAttributes<HTMLInputElement>, "type" | "value" | "defaultValue">;
+export interface FileUploadProps extends VanillaProps {
+    invalid?: boolean;
     rootProps?: PReact.HTMLAttributes<HTMLDivElement>;
 }
 
 export const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(function FileUpload(
-    { id, rootProps, className, children, ...props },
+    { invalid = false, rootProps = {}, multiple, disabled, onChange, className, children, ...rest },
     ref
 ) {
-    const [machineProps, rest] = fileUpload.splitProps(props);
-    const rootClassName = rootProps != null ? rootProps.className : undefined;
+    const inputRef = useRef<HTMLInputElement>(null);
+    const [files, setFiles] = useState<File[]>([]);
+    const [dragging, setDragging] = useState(false);
 
-    const machineId = useId();
-    const service = useMachine(fileUpload.machine, {
-        ...machineProps,
-        id: machineId,
-        ids: { ...machineProps.ids, hiddenInput: id }
-    });
-    const api = fileUpload.connect(service, normalizeProps);
+    function assignFiles(selected: File[]): void {
+        const transfer = new DataTransfer();
+        for (const file of selected) {
+            transfer.items.add(file);
+        }
+
+        const input = inputRef.current!;
+        input.files = transfer.files;
+        input.dispatchEvent(new Event("change", { bubbles: true }));
+    }
+
+    function handleChange(event: PReact.TargetedEvent<HTMLInputElement, Event>): void {
+        setFiles(Array.from(event.currentTarget.files ?? []));
+        if (onChange != null) {
+            onChange(event);
+        }
+    }
+
+    function handleDragOver(event: PReact.TargetedDragEvent<HTMLLabelElement>): void {
+        event.preventDefault();
+        if (!disabled) {
+            setDragging(true);
+        }
+    }
+
+    function handleDrop(event: PReact.TargetedDragEvent<HTMLLabelElement>): void {
+        event.preventDefault();
+        setDragging(false);
+        if (disabled || event.dataTransfer == null) {
+            return;
+        }
+
+        const dropped = Array.from(event.dataTransfer.files);
+        if (multiple) {
+            assignFiles(dropped);
+        } else {
+            assignFiles(dropped.slice(0, 1));
+        }
+    }
 
     return (
-        <div
-            {...mergeProps(api.getRootProps(), rootProps ?? {})}
-            className={clsx(styles.root, className, rootClassName)}
-        >
-            <div {...api.getDropzoneProps()} className={styles.dropzone}>
+        <div {...rootProps} className={clsx(styles.root, className, rootProps.className)}>
+            <label
+                data-dragging={dragging || undefined}
+                data-invalid={invalid || undefined}
+                data-disabled={disabled || undefined}
+                onDragOver={handleDragOver}
+                onDragLeave={() => setDragging(false)}
+                onDrop={handleDrop}
+                className={styles.dropzone}
+            >
+                <input
+                    {...rest}
+                    ref={mergeRefs(ref, inputRef)}
+                    type="file"
+                    multiple={multiple}
+                    disabled={disabled}
+                    onChange={handleChange}
+                    className={styles.input}
+                />
                 <i className="fas fa-cloud-upload-alt" aria-hidden="true" />
                 {children}
-            </div>
-            {api.acceptedFiles.length > 0 && (
-                <ul {...api.getItemGroupProps()} className={styles.itemGroup}>
-                    {api.acceptedFiles.map((file) => (
-                        <li key={file.name} {...api.getItemProps({ file })} className={styles.item}>
-                            <span {...api.getItemNameProps({ file })} className={styles.itemName}>
-                                {file.name}
-                            </span>
-                            <span {...api.getItemSizeTextProps({ file })} className={styles.itemSize}>
-                                {api.getFileSize(file)}
-                            </span>
-                            <button {...api.getItemDeleteTriggerProps({ file })} className={styles.itemDeleteTrigger}>
+            </label>
+            {files.length > 0 && (
+                <ul className={styles.itemGroup}>
+                    {files.map((file, index) => (
+                        <li key={`${file.name}-${file.lastModified}`} className={styles.item}>
+                            <span className={styles.itemName}>{file.name}</span>
+                            <span className={styles.itemSize}>{formatFileSize(file.size)}</span>
+                            <button
+                                type="button"
+                                aria-label={`Remove ${file.name}`}
+                                disabled={disabled}
+                                onClick={() => assignFiles(files.filter((_, current) => current !== index))}
+                                className={styles.itemDeleteTrigger}
+                            >
                                 <i className="fas fa-times" aria-hidden="true" />
                             </button>
                         </li>
                     ))}
                 </ul>
             )}
-            <input {...mergeProps(api.getHiddenInputProps(), rest)} ref={ref} />
         </div>
     );
 });

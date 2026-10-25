@@ -13,34 +13,40 @@ import { createRef } from "preact";
 import { render, screen } from "@testing-library/preact";
 import userEvent from "@testing-library/user-event";
 
-import { Dialog } from "~/components/ui/Dialog";
+import {
+    Dialog,
+    DialogBackdrop,
+    DialogBody,
+    DialogCloseButton,
+    DialogHeader,
+    DialogPanel,
+    DialogTitle
+} from "~/components/ui/Dialog";
 
 describe("Dialog", () => {
     it("renders nothing while closed", () => {
         render(
-            <Dialog open={false} onClose={() => {}} title="Settings">
-                Body
+            <Dialog open={false} onClose={() => {}}>
+                <DialogPanel>Body</DialogPanel>
             </Dialog>
         );
 
         expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
     });
 
-    it("forwards ref and props, renders title, actions, size and body props", async () => {
-        const ref = createRef<HTMLDivElement>();
+    it("forwards ref and props, names the dialog by its title and sizes the panel", async () => {
+        const ref = createRef<HTMLElement>();
+        const panelRef = createRef<HTMLElement>();
         render(
-            <Dialog
-                ref={ref}
-                open
-                onClose={() => {}}
-                size="xl"
-                title="Settings"
-                actions={<button type="button">Save</button>}
-                bodyProps={{ className: "custom-body" }}
-                className="extra"
-                data-tour="settings"
-            >
-                Body
+            <Dialog ref={ref} open onClose={() => {}} className="extra" data-tour="settings">
+                <DialogBackdrop />
+                <DialogPanel ref={panelRef} size="xl">
+                    <DialogHeader>
+                        <DialogTitle>Settings</DialogTitle>
+                        <DialogCloseButton />
+                    </DialogHeader>
+                    <DialogBody className="custom-body">Body</DialogBody>
+                </DialogPanel>
             </Dialog>
         );
 
@@ -48,17 +54,19 @@ describe("Dialog", () => {
         expect(ref.current).toBe(dialog);
         expect(dialog).toHaveClass("extra");
         expect(dialog).toHaveAttribute("data-tour", "settings");
-        expect(dialog).toHaveAttribute("data-size", "xl");
         expect(dialog).toHaveAccessibleName("Settings");
-        expect(screen.getByRole("button", { name: "Save" })).toBeInTheDocument();
+        expect(panelRef.current).toHaveAttribute("data-size", "xl");
         expect(screen.getByText("Body")).toHaveClass("custom-body");
     });
 
-    it("calls onClose from the close button, Escape and outside click", async () => {
+    it("calls onClose from the close button and Escape", async () => {
         const onClose = rstest.fn();
         render(
-            <Dialog open onClose={onClose} title="Settings">
-                Body
+            <Dialog open onClose={onClose}>
+                <DialogPanel>
+                    <DialogTitle>Settings</DialogTitle>
+                    <DialogCloseButton />
+                </DialogPanel>
             </Dialog>
         );
 
@@ -67,34 +75,24 @@ describe("Dialog", () => {
 
         await userEvent.keyboard("{Escape}");
         expect(onClose).toHaveBeenCalledTimes(2);
-
-        await userEvent.click(document.body);
-        expect(onClose).toHaveBeenCalledTimes(3);
     });
 
-    it("respects disabled dismiss options, close button, backdrop and portal", async () => {
+    it("ignores outside clicks with closeOnInteractOutside disabled but still closes on Escape", async () => {
         const onClose = rstest.fn();
-        const { container } = render(
-            <Dialog
-                open
-                onClose={onClose}
-                role="alertdialog"
-                title="Tour"
-                withCloseButton={false}
-                backdrop={false}
-                portal={false}
-                closeOnEscape={false}
-                closeOnInteractOutside={false}
-            />
+        render(
+            <Dialog open onClose={onClose} closeOnInteractOutside={false}>
+                <DialogBackdrop data-testid="backdrop" />
+                <DialogPanel>
+                    <DialogTitle>Tour</DialogTitle>
+                </DialogPanel>
+            </Dialog>
         );
 
-        const dialog = await screen.findByRole("alertdialog");
-        expect(container).toContainElement(dialog);
-        expect(screen.queryByRole("button")).not.toBeInTheDocument();
-        expect(container.childElementCount).toBe(1);
+        await screen.findByRole("dialog");
+        await userEvent.click(screen.getByTestId("backdrop"));
+        expect(onClose).not.toHaveBeenCalled();
 
         await userEvent.keyboard("{Escape}");
-        await userEvent.click(document.body);
-        expect(onClose).not.toHaveBeenCalled();
+        expect(onClose).toHaveBeenCalledTimes(1);
     });
 });

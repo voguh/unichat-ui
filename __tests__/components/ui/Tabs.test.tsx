@@ -13,22 +13,23 @@ import { createRef } from "preact";
 import { render, screen } from "@testing-library/preact";
 import userEvent from "@testing-library/user-event";
 
-import { Tabs } from "~/components/ui/Tabs";
+import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "~/components/ui/Tabs";
 
 describe("Tabs", () => {
     it("selects tabs by click and arrow keys", async () => {
         const onChange = rstest.fn();
-        const rootRef = createRef<HTMLDivElement>();
+        const rootRef = createRef<HTMLElement>();
         render(
-            <Tabs
-                ref={rootRef}
-                items={[
-                    { value: "users", label: "Users", content: "Users panel" },
-                    { value: "releases", label: "Releases", content: "Releases panel" }
-                ]}
-                onChange={onChange}
-                data-testid="root"
-            />
+            <TabGroup ref={rootRef} onChange={onChange} data-testid="root">
+                <TabList>
+                    <Tab>Users</Tab>
+                    <Tab>Releases</Tab>
+                </TabList>
+                <TabPanels>
+                    <TabPanel>Users panel</TabPanel>
+                    <TabPanel>Releases panel</TabPanel>
+                </TabPanels>
+            </TabGroup>
         );
 
         expect(rootRef.current).toBe(screen.getByTestId("root"));
@@ -36,7 +37,7 @@ describe("Tabs", () => {
         expect(screen.getByRole("tabpanel")).toHaveTextContent("Users panel");
 
         await userEvent.click(screen.getByRole("tab", { name: "Releases" }));
-        expect(onChange).toHaveBeenLastCalledWith("releases");
+        expect(onChange).toHaveBeenLastCalledWith(1);
         expect(screen.getByRole("tabpanel")).toHaveTextContent("Releases panel");
 
         await userEvent.keyboard("{ArrowLeft}");
@@ -44,15 +45,18 @@ describe("Tabs", () => {
         expect(screen.getByRole("tabpanel")).toHaveTextContent("Users panel");
     });
 
-    it("starts on the default value", () => {
+    it("starts on the default index", () => {
         render(
-            <Tabs
-                items={[
-                    { value: "users", label: "Users", content: "Users panel" },
-                    { value: "releases", label: "Releases", content: "Releases panel" }
-                ]}
-                defaultValue="releases"
-            />
+            <TabGroup defaultIndex={1}>
+                <TabList>
+                    <Tab>Users</Tab>
+                    <Tab>Releases</Tab>
+                </TabList>
+                <TabPanels>
+                    <TabPanel>Users panel</TabPanel>
+                    <TabPanel>Releases panel</TabPanel>
+                </TabPanels>
+            </TabGroup>
         );
 
         expect(screen.getByRole("tab", { name: "Releases" })).toHaveAttribute("aria-selected", "true");

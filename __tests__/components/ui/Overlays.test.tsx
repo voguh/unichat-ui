@@ -13,48 +13,32 @@ import { createRef } from "preact";
 import { render, screen, waitFor } from "@testing-library/preact";
 import userEvent from "@testing-library/user-event";
 
-import { Dropdown } from "~/components/ui/Dropdown";
-import { Popover } from "~/components/ui/Popover";
+import { Popover, PopoverButton, PopoverPanel } from "~/components/ui/Popover";
 import { Tooltip } from "~/components/ui/Tooltip";
 
 describe("Popover", () => {
-    it("toggles on click, keeps child props and ref, and closes on outside click", async () => {
-        const ref = createRef<HTMLButtonElement>();
+    it("toggles on click, forwards refs and closes on outside click", async () => {
+        const buttonRef = createRef<HTMLButtonElement>();
         render(
-            <Popover title="Release" content="Published today">
-                <button ref={ref} type="button" className="custom">
+            <Popover>
+                <PopoverButton ref={buttonRef} className="custom">
                     Details
-                </button>
+                </PopoverButton>
+                <PopoverPanel>Published today</PopoverPanel>
             </Popover>
         );
 
         const trigger = screen.getByRole("button", { name: "Details" });
-        expect(ref.current).toBe(trigger);
+        expect(buttonRef.current).toBe(trigger);
         expect(trigger).toHaveClass("custom");
-        expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+        expect(screen.queryByText("Published today")).not.toBeInTheDocument();
 
         await userEvent.click(trigger);
-        expect(await screen.findByRole("dialog", { name: "Release" })).toHaveTextContent("Published today");
+        expect(await screen.findByText("Published today")).toBeInTheDocument();
         expect(trigger).toHaveAttribute("aria-expanded", "true");
 
         await userEvent.click(document.body);
-        await waitFor(() => expect(screen.queryByRole("dialog")).not.toBeInTheDocument());
-    });
-
-    it("opens while the child has focus with trigger focus", async () => {
-        render(
-            <Popover trigger="focus" content="Hint">
-                <div>
-                    <input aria-label="Channel" />
-                </div>
-            </Popover>
-        );
-
-        await userEvent.click(screen.getByLabelText("Channel"));
-        expect(await screen.findByRole("dialog")).toHaveTextContent("Hint");
-
-        await userEvent.tab();
-        await waitFor(() => expect(screen.queryByRole("dialog")).not.toBeInTheDocument());
+        await waitFor(() => expect(screen.queryByText("Published today")).not.toBeInTheDocument());
     });
 });
 
@@ -76,57 +60,18 @@ describe("Tooltip", () => {
         await userEvent.keyboard("{Escape}");
         await waitFor(() => expect(screen.queryByRole("tooltip")).not.toBeInTheDocument());
     });
-});
 
-describe("Dropdown", () => {
-    it("opens the menu, navigates with keyboard and selects an item", async () => {
-        const onSelect = rstest.fn();
-        const itemRef = createRef<HTMLDivElement>();
+    it("shows while a descendant of a wrapper child has focus", async () => {
         render(
-            <Dropdown.Root onSelect={onSelect}>
-                <Dropdown.Trigger>Actions</Dropdown.Trigger>
-                <Dropdown.Content>
-                    <Dropdown.ItemGroup id="manage">
-                        <Dropdown.ItemGroupLabel htmlFor="manage">Manage</Dropdown.ItemGroupLabel>
-                        <Dropdown.Item ref={itemRef} value="edit">
-                            Edit
-                        </Dropdown.Item>
-                        <Dropdown.Separator />
-                        <Dropdown.Item value="delete">Delete</Dropdown.Item>
-                    </Dropdown.ItemGroup>
-                </Dropdown.Content>
-            </Dropdown.Root>
+            <Tooltip content="Hint">
+                <div>
+                    <input aria-label="Channel" />
+                </div>
+            </Tooltip>
         );
 
-        await userEvent.click(screen.getByRole("button", { name: "Actions" }));
-        const menu = await screen.findByRole("menu");
-        expect(itemRef.current).toBe(screen.getByRole("menuitem", { name: "Edit" }));
-
-        await userEvent.click(screen.getByRole("menuitem", { name: "Delete" }));
-        expect(onSelect).toHaveBeenCalledWith(expect.objectContaining({ value: "delete" }));
-        await waitFor(() => expect(menu).not.toBeInTheDocument());
-    });
-
-    it("renders radio option items and reports checked changes", async () => {
-        const onCheckedChange = rstest.fn();
-        render(
-            <Dropdown.Root>
-                <Dropdown.Trigger>Language</Dropdown.Trigger>
-                <Dropdown.Content>
-                    <Dropdown.OptionItem type="radio" value="en" checked>
-                        English
-                    </Dropdown.OptionItem>
-                    <Dropdown.OptionItem type="radio" value="pt" checked={false} onCheckedChange={onCheckedChange}>
-                        Português
-                    </Dropdown.OptionItem>
-                </Dropdown.Content>
-            </Dropdown.Root>
-        );
-
-        await userEvent.click(screen.getByRole("button", { name: "Language" }));
-        expect(await screen.findByRole("menuitemradio", { name: "English" })).toHaveAttribute("aria-checked", "true");
-
-        await userEvent.click(screen.getByRole("menuitemradio", { name: "Português" }));
-        expect(onCheckedChange).toHaveBeenCalledWith(true);
+        await userEvent.tab();
+        expect(screen.getByLabelText("Channel")).toHaveFocus();
+        expect(await screen.findByRole("tooltip")).toHaveTextContent("Hint");
     });
 });

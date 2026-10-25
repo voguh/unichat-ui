@@ -10,133 +10,67 @@
 
 import type PReact from "preact";
 import { forwardRef } from "preact/compat";
-import { useEffect, useId } from "preact/hooks";
+import { useEffect, useRef } from "preact/hooks";
 
-import { Portal } from "~/components/ui/Portal";
-import { useClickOutside } from "~/hooks/useClickOutside";
+import { Dialog as HeadlessDialog } from "@headlessui/react";
+
 import { clsx } from "~/utils/clsx";
-import { mergeRefs } from "~/utils/mergeRefs";
 
 import styles from "./styles.module.css";
 
-export type DialogSize = "sm" | "md" | "lg" | "xl" | "fullscreen";
-
-type VanillaProps = Omit<PReact.HTMLAttributes<HTMLDivElement>, "title" | "size">;
+type VanillaProps = Omit<PReact.HTMLAttributes<HTMLDivElement>, "role" | "autoFocus">;
 export interface DialogProps extends VanillaProps {
+    role?: "dialog" | "alertdialog";
+    autoFocus?: boolean;
     open: boolean;
     onClose: () => void;
-    size?: DialogSize;
-    title?: PReact.ComponentChildren;
-    actions?: PReact.ComponentChildren;
-    withCloseButton?: boolean;
-    backdrop?: boolean;
-    portal?: boolean;
-    closeOnEscape?: boolean;
     closeOnInteractOutside?: boolean;
-    bodyProps?: PReact.HTMLAttributes<HTMLDivElement>;
 }
 
-export const Dialog = forwardRef<HTMLDivElement, DialogProps>(function Dialog(
-    {
-        open,
-        onClose,
-        size = "md",
-        title,
-        actions,
-        withCloseButton = true,
-        backdrop = true,
-        portal = true,
-        closeOnEscape = true,
-        closeOnInteractOutside = true,
-        bodyProps,
-        onKeyDown,
-        className,
-        children,
-        ...rest
-    },
+export const Dialog = forwardRef<HTMLElement, DialogProps>(function Dialog(
+    { open, onClose, closeOnInteractOutside = true, className, ...rest },
     ref
 ) {
-    const titleId = useId();
-    const bodyClassName = bodyProps != null ? bodyProps.className : undefined;
+    const pointerInteractionRef = useRef(false);
 
-    const contentRef = useClickOutside<HTMLDivElement>(() => {
-        if (open && closeOnInteractOutside) {
-            onClose();
-        }
-    });
-
-    function handleKeyDown(event: PReact.TargetedKeyboardEvent<HTMLDivElement>): void {
-        if (onKeyDown != null) {
-            onKeyDown(event);
-        }
-
-        if (closeOnEscape && event.key === "Escape") {
-            onClose();
-        }
-    }
-
-    useEffect(() => {
-        if (!open) {
+    function handleClose(): void {
+        if (!closeOnInteractOutside && pointerInteractionRef.current) {
             return;
         }
 
-        const previousFocus = document.activeElement;
-        contentRef.current!.focus();
-
-        return () => {
-            if (previousFocus instanceof HTMLElement) {
-                previousFocus.focus();
-            }
-        };
-    }, [open, contentRef]);
-
-    if (!open) {
-        return null;
+        onClose();
     }
 
+    useEffect(() => {
+        if (!open || closeOnInteractOutside) {
+            return;
+        }
+
+        function markPointer(): void {
+            pointerInteractionRef.current = true;
+        }
+
+        function markKeyboard(): void {
+            pointerInteractionRef.current = false;
+        }
+
+        // Headless reports Escape and outside clicks through the same onClose; the last input tells them apart.
+        window.addEventListener("pointerdown", markPointer, true);
+        window.addEventListener("keydown", markKeyboard, true);
+
+        return () => {
+            window.removeEventListener("pointerdown", markPointer, true);
+            window.removeEventListener("keydown", markKeyboard, true);
+        };
+    }, [open, closeOnInteractOutside]);
+
     return (
-        <Portal disabled={!portal}>
-            {backdrop && <div className={styles.backdrop} />}
-            <div className={styles.positioner}>
-                <div
-                    role="dialog"
-                    aria-labelledby={title != null ? titleId : undefined}
-                    {...rest}
-                    ref={mergeRefs(ref, contentRef)}
-                    tabIndex={-1}
-                    onKeyDown={handleKeyDown}
-                    data-size={size}
-                    className={clsx(styles.content, className)}
-                >
-                    {(title != null || actions != null || withCloseButton) && (
-                        <div className={styles.header}>
-                            {title != null && (
-                                <h2 id={titleId} className={styles.title}>
-                                    {title}
-                                </h2>
-                            )}
-                            <div className={styles.headerActions}>
-                                {actions}
-                                {withCloseButton && (
-                                    <button
-                                        type="button"
-                                        aria-label="Close"
-                                        onClick={onClose}
-                                        className={styles.closeButton}
-                                    >
-                                        <i className="fas fa-times" aria-hidden="true" />
-                                    </button>
-                                )}
-                            </div>
-                        </div>
-                    )}
-                    {children != null && (
-                        <div {...bodyProps} className={clsx(styles.body, bodyClassName)}>
-                            {children}
-                        </div>
-                    )}
-                </div>
-            </div>
-        </Portal>
+        <HeadlessDialog
+            {...rest}
+            ref={ref}
+            open={open}
+            onClose={handleClose}
+            className={clsx(styles.root, className)}
+        />
     );
 });

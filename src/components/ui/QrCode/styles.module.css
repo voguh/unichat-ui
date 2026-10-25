@@ -9,7 +9,7 @@
  ******************************************************************************/
 
 .root {
-    @apply rounded;
+    @apply bg-white rounded;
 
     image-rendering: pixelated;
 }

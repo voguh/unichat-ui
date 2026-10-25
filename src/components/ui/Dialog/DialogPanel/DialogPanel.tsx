@@ -1,0 +1,32 @@
+/*!******************************************************************************
+ * Copyright (c) 2026 Voguh
+ *
+ * This program and the accompanying materials are made
+ * available under the terms of the Eclipse Public License 2.0
+ * which is available at https://www.eclipse.org/legal/epl-2.0/
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ ******************************************************************************/
+
+import type PReact from "preact";
+import { forwardRef } from "preact/compat";
+
+import { DialogPanel as HeadlessDialogPanel } from "@headlessui/react";
+
+import { clsx } from "~/utils/clsx";
+
+import styles from "./styles.module.css";
+
+export type DialogPanelSize = "sm" | "md" | "lg" | "xl" | "fullscreen";
+
+type VanillaProps = Omit<PReact.HTMLAttributes<HTMLDivElement>, "size">;
+export interface DialogPanelProps extends VanillaProps {
+    size?: DialogPanelSize;
+}
+
+export const DialogPanel = forwardRef<HTMLElement, DialogPanelProps>(function DialogPanel(
+    { size = "md", className, ...rest },
+    ref
+) {
+    return <HeadlessDialogPanel {...rest} ref={ref} data-size={size} className={clsx(styles.root, className)} />;
+});

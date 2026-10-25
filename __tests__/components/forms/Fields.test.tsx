@@ -47,9 +47,9 @@ describe("forms/TextInput", () => {
         expect(screen.getByLabelText("Email").id).not.toBe("");
     });
 
-    it("describes the input with description and status message", () => {
+    it("describes the input with the status message over the description", () => {
         render(<TextInput label="Nickname" description="Shown in chat" status="invalid" statusMessage="Too long" />);
-        expect(screen.getByLabelText("Nickname")).toHaveAccessibleDescription("Shown in chat Too long");
+        expect(screen.getByLabelText("Nickname")).toHaveAccessibleDescription("Too long");
     });
 });
 
@@ -79,8 +79,8 @@ describe("forms/Checkbox", () => {
 describe("forms/Select", () => {
     it("labels the trigger through the FormGroup label", () => {
         const ref = createRef<HTMLSelectElement>();
-        render(<Select ref={ref} label="Sort by" name="sort" items={[{ value: "a", label: "A" }]} />);
-        expect(screen.getByRole("combobox", { name: "Sort by" })).toBeInTheDocument();
+        render(<Select ref={ref} label="Sort by" name="sort" options={[{ value: "a", label: "A" }]} />);
+        expect(screen.getByRole("button", { name: "Sort by" })).toBeInTheDocument();
         expect(ref.current).not.toBeNull();
         expect(ref.current!.tagName).toBe("SELECT");
     });

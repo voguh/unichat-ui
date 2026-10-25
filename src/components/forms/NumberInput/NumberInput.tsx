@@ -23,7 +23,6 @@ export interface NumberInputProps extends Omit<UINumberInputProps, "id">, FormGr
 export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(function NumberInput(
     {
         id,
-        ids,
         label,
         labelProps,
         description,
@@ -38,7 +37,6 @@ export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(functi
 ) {
     const generatedId = useId();
     const fieldId = id ?? generatedId;
-    const labelId = `${fieldId}-label`;
     const describedBy = getFormGroupDescribedBy(fieldId, { description, status, statusMessage });
 
     return (
@@ -46,7 +44,7 @@ export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(functi
             {...groupProps}
             id={fieldId}
             label={label}
-            labelProps={{ ...labelProps, id: labelId }}
+            labelProps={labelProps}
             description={description}
             descriptionProps={descriptionProps}
             status={status}
@@ -58,8 +56,7 @@ export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(functi
                 {...rest}
                 ref={ref}
                 id={fieldId}
-                ids={{ ...ids, label: labelId }}
-                invalid={status === "invalid"}
+                aria-invalid={status === "invalid" || undefined}
             />
         </FormGroup>
     );

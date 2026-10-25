@@ -45,7 +45,7 @@ describe("FormGroup", () => {
         expect(message).toHaveAttribute("data-status", "invalid");
     });
 
-    it("renders the description between the label and the control", () => {
+    it("renders the description after the control", () => {
         render(
             <FormGroup id="nickname" label="Nickname" description="Shown in chat" data-testid="group">
                 <input id="nickname" />
@@ -54,6 +54,16 @@ describe("FormGroup", () => {
         const description = screen.getByText("Shown in chat");
         expect(description.tagName).toBe("SMALL");
         expect(description).toHaveAttribute("id", "nickname-description");
-        expect(screen.getByTestId("group").children[1]).toBe(description);
+        expect(screen.getByTestId("group").children[2]).toBe(description);
+    });
+
+    it("hides the description when a status message is shown", () => {
+        render(
+            <FormGroup id="nickname" description="Shown in chat" status="invalid" statusMessage="Too long">
+                <input id="nickname" />
+            </FormGroup>
+        );
+        expect(screen.queryByText("Shown in chat")).not.toBeInTheDocument();
+        expect(screen.getByText("Too long")).toBeInTheDocument();
     });
 });

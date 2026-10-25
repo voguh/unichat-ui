@@ -10,6 +10,7 @@
 /** biome-ignore-all lint/security/noDangerouslySetInnerHtml: HTML sanitized by DOMPurify */
 
 import type PReact from "preact";
+import { forwardRef } from "preact/compat";
 import { useMemo } from "preact/hooks";
 
 import DOMPurify from "dompurify";
@@ -19,7 +20,8 @@ import { clsx } from "~/utils/clsx";
 
 import styles from "./styles.module.css";
 
-export interface MarkdownProps {
+type VanillaProps = Omit<PReact.HTMLAttributes<HTMLDivElement>, "content" | "dangerouslySetInnerHTML">;
+export interface MarkdownProps extends VanillaProps {
     content: string | null;
     relativeLinksBaseUrl?: string;
     headingOffset?: number;
@@ -47,11 +49,10 @@ function tokenIsHeading(token: Token): token is import("marked").Tokens.Heading 
     return token.type === "heading";
 }
 
-export function Markdown({
-    content,
-    relativeLinksBaseUrl,
-    headingOffset = 0
-}: MarkdownProps): PReact.ComponentChildren {
+export const Markdown = forwardRef<HTMLDivElement, MarkdownProps>(function Markdown(
+    { content, relativeLinksBaseUrl, headingOffset = 0, className, ...rest },
+    ref
+) {
     const marked = useMemo(() => {
         const marked = new Marked();
 
@@ -60,7 +61,7 @@ export function Markdown({
                 codespan({ text }) {
                     if (isColor(text)) {
                         const color = text.trim();
-                        return `<code>${color}<span style="display:inline-block;width:.65rem;height:.65rem;border-radius:50%;background:${color};margin-left:.5rem;vertical-align:middle;" aria-hidden="true"></span></code>`;
+                        return `<code>${color}<span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:${color};margin-left:8px;vertical-align:middle;" aria-hidden="true"></span></code>`;
                     }
 
                     return false;
@@ -94,8 +95,10 @@ export function Markdown({
 
     return (
         <div
-            className={clsx(styles.root, "prose prose-invert max-w-none overflow-y-auto")}
+            {...rest}
+            ref={ref}
+            className={clsx(styles.root, "prose prose-invert max-w-none overflow-y-auto", className)}
             dangerouslySetInnerHTML={{ __html: marked(content) }}
         />
     );
-}
+});

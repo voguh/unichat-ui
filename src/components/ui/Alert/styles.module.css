@@ -9,36 +9,61 @@
  ******************************************************************************/
 
 .root {
-    @apply border-l-4 rounded;
-    @apply flex items-start gap-3 px-4 py-3;
+    @apply border rounded;
+    @apply text-stone-300 text-sm;
+    @apply flex items-start gap-3 px-4 py-3.5;
+
+    /* Mixed against a fixed stone-900 instead of using alpha, so the alert looks the same on any background. */
+    background-color: color-mix(in srgb, var(--accent) 10%, --theme(--color-stone-900 inline));
+    border-color: color-mix(in srgb, var(--accent) 28%, --theme(--color-stone-900 inline));
 
     &[data-variant="info"] {
-        @apply bg-blue-950/50 border-l-blue-600;
+        --accent: --theme(--color-blue-500 inline);
+
+        .icon {
+            @apply text-blue-400;
+        }
     }
 
     &[data-variant="success"] {
-        @apply bg-green-950/50 border-l-green-600;
+        --accent: --theme(--color-green-500 inline);
+
+        .icon {
+            @apply text-green-400;
+        }
     }
 
     &[data-variant="warning"] {
-        @apply bg-yellow-950/50 border-l-yellow-600;
+        --accent: --theme(--color-amber-500 inline);
+
+        .icon {
+            @apply text-amber-400;
+        }
     }
 
     &[data-variant="danger"] {
-        @apply bg-red-950/50 border-l-red-600;
+        --accent: --theme(--color-red-500 inline);
+
+        .icon {
+            @apply text-red-400;
+        }
     }
 }
 
 .icon {
-    @apply text-lg;
+    @apply rounded-full;
+    @apply text-base;
+    @apply size-8 shrink-0 flex items-center justify-center;
+
+    background-color: color-mix(in srgb, var(--accent) 28%, --theme(--color-stone-900 inline));
 }
 
 .content {
-    @apply flex-1 flex flex-col gap-1;
+    @apply flex-1 flex flex-col gap-0.5 pt-1.5;
 }
 
 .title {
-    @apply font-bold;
+    @apply text-stone-50 font-semibold;
 }
 
 .action {

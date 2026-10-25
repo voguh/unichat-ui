@@ -8,4 +8,8 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-export * from "./Tabs";
+export * from "./Tab";
+export * from "./TabGroup";
+export * from "./TabList";
+export * from "./TabPanel";
+export * from "./TabPanels";

@@ -12,3 +12,7 @@
     @apply bg-stone-950/25;
     @apply fixed inset-0 flex justify-center items-center;
 }
+
+.label {
+    @apply sr-only;
+}

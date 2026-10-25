@@ -15,8 +15,10 @@
         @apply flex-row flex-wrap gap-4;
     }
 
-    &[aria-invalid="true"] .itemControl {
-        @apply border-red-600;
+    &[aria-invalid="true"] {
+        & .itemControl {
+            @apply border-red-600;
+        }
     }
 }
 
@@ -24,7 +26,8 @@
     @apply relative inline-flex items-center gap-2 cursor-pointer;
 
     &:has(.input:disabled) {
-        @apply opacity-50 cursor-not-allowed;
+        @apply text-stone-500;
+        @apply cursor-not-allowed;
     }
 }
 
@@ -36,18 +39,32 @@
 .input {
     @apply sr-only;
 
-    &:focus-visible + .itemControl {
-        @apply ring-2 ring-blue-500;
+    &:focus-visible {
+        & + .itemControl {
+            @apply ring-2 ring-blue-500;
+        }
     }
 
-    &:checked + .itemControl {
-        @apply border-red-800;
+    &:checked {
+        & + .itemControl {
+            @apply border-red-800;
 
-        &::after {
-            @apply bg-red-800 rounded-full;
-            @apply w-2.5 h-2.5;
+            &::after {
+                @apply bg-red-800 rounded-full;
+                @apply w-2.5 h-2.5;
 
-            content: "";
+                content: "";
+            }
+        }
+    }
+
+    &:disabled {
+        & + .itemControl {
+            @apply bg-stone-900 border-stone-700;
+
+            &::after {
+                @apply bg-stone-600;
+            }
         }
     }
 }

@@ -21,7 +21,14 @@
     }
 
     &:has(> .input:disabled) {
-        @apply opacity-50 cursor-not-allowed;
+        @apply bg-stone-900;
+        @apply text-stone-500;
+        @apply cursor-not-allowed;
+
+        .visibilityTrigger,
+        .input::placeholder {
+            @apply text-stone-600;
+        }
     }
 }
 

@@ -36,61 +36,66 @@ export function getFormGroupDescribedBy(
     id: string,
     { description, status, statusMessage }: Pick<FormGroupBaseProps, "description" | "status" | "statusMessage">
 ): string | undefined {
-    const ids: string[] = [];
-    if (description != null) {
-        ids.push(`${id}-description`);
-    }
-
     if (status != null && statusMessage != null) {
-        ids.push(`${id}-status`);
+        return `${id}-status`;
     }
 
-    return ids.length > 0 ? ids.join(" ") : undefined;
+    if (description != null) {
+        return `${id}-description`;
+    }
+
+    return undefined;
 }
 
 export const FormGroup = forwardRef<HTMLDivElement, FormGroupProps>(function FormGroup(
     {
         id,
         label,
-        labelProps,
+        labelProps = {},
         description,
-        descriptionProps,
+        descriptionProps = {},
         status,
         statusMessage,
-        statusMessageProps,
+        statusMessageProps = {},
         className,
         children,
         ...rest
     },
     ref
 ) {
-    const labelClassName = labelProps != null ? labelProps.className : undefined;
-    const descriptionClassName = descriptionProps != null ? descriptionProps.className : undefined;
-    const statusMessageClassName = statusMessageProps != null ? statusMessageProps.className : undefined;
+    const hasStatusMessage = status != null && statusMessage != null;
+
+    function partId(part: string): string | undefined {
+        if (id != null) {
+            return `${id}-${part}`;
+        }
+
+        return undefined;
+    }
 
     return (
         <div {...rest} ref={ref} data-status={status} className={clsx(styles.root, className)}>
             {label != null && (
-                <label {...labelProps} htmlFor={id} className={clsx(styles.label, labelClassName)}>
+                <label {...labelProps} htmlFor={id} className={clsx(styles.label, labelProps.className)}>
                     {label}
                 </label>
             )}
-            {description != null && (
+            {children}
+            {!hasStatusMessage && description != null && (
                 <small
                     {...descriptionProps}
-                    id={id != null ? `${id}-description` : undefined}
-                    className={clsx(styles.description, descriptionClassName)}
+                    id={partId("description")}
+                    className={clsx(styles.description, descriptionProps.className)}
                 >
                     {description}
                 </small>
             )}
-            {children}
-            {status != null && statusMessage != null && (
+            {hasStatusMessage && (
                 <small
                     {...statusMessageProps}
-                    id={id != null ? `${id}-status` : undefined}
+                    id={partId("status")}
                     data-status={status}
-                    className={clsx(styles.statusMessage, statusMessageClassName)}
+                    className={clsx(styles.statusMessage, statusMessageProps.className)}
                 >
                     {statusMessage}
                 </small>

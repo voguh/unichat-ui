@@ -11,9 +11,24 @@
 import type PReact from "preact";
 import { cloneElement, toChildArray } from "preact";
 
-import { mergeProps } from "@zag-js/preact";
-
 import { mergeRefs, type Ref } from "~/utils/mergeRefs";
+
+type Handler = (...args: unknown[]) => void;
+
+function mergeProps(props: Record<string, unknown>, childProps: Record<string, unknown>): Record<string, unknown> {
+    const merged = { ...props, ...childProps };
+    for (const [key, value] of Object.entries(props)) {
+        const childValue = childProps[key];
+        if (key.startsWith("on") && typeof value === "function" && typeof childValue === "function") {
+            merged[key] = (...args: unknown[]) => {
+                (childValue as Handler)(...args);
+                (value as Handler)(...args);
+            };
+        }
+    }
+
+    return merged;
+}
 
 export function cloneAsChild<T>(
     children: PReact.ComponentChildren,

@@ -27,64 +27,59 @@ const ITEMS = [
 describe("Select", () => {
     it("forwards ref and native props to the hidden select", () => {
         const ref = createRef<HTMLSelectElement>();
-        render(<Select ref={ref} id="sort" name="sort" items={ITEMS} required data-testid="select" />);
+        render(<Select ref={ref} name="sort" options={ITEMS} required data-testid="select" />);
         const hidden = screen.getByTestId("select");
         expect(ref.current).toBe(hidden);
         expect(hidden.tagName).toBe("SELECT");
-        expect(hidden).toHaveAttribute("id", "sort");
         expect(hidden).toHaveAttribute("name", "sort");
         expect(hidden).toBeRequired();
     });
 
-    it("names the trigger with aria-label instead of the hidden select", () => {
-        render(<Select items={ITEMS} aria-label="Sort by" data-testid="select" />);
-        expect(screen.getByRole("combobox", { name: "Sort by" })).toBeInTheDocument();
+    it("puts id and aria-label on the trigger instead of the hidden select", () => {
+        render(<Select id="sort" options={ITEMS} aria-label="Sort by" data-testid="select" />);
+        const trigger = screen.getByRole("button", { name: "Sort by" });
+        expect(trigger).toHaveAttribute("id", "sort");
         expect(screen.getByTestId("select")).not.toHaveAttribute("aria-label");
     });
 
-    it("selects an item from the listbox and syncs the hidden select", async () => {
+    it("selects an option and dispatches a native change on the hidden select", async () => {
         const ref = createRef<HTMLSelectElement>();
-        const onValueChange = rstest.fn();
-        render(<Select ref={ref} items={ITEMS} placeholder="Sort by" onValueChange={onValueChange} />);
+        const onChange = rstest.fn();
+        render(<Select ref={ref} options={ITEMS} placeholder="Sort by" aria-label="Sort" onChange={onChange} />);
 
-        const trigger = screen.getByRole("combobox");
+        const trigger = screen.getByRole("button", { name: "Sort" });
         expect(trigger).toHaveTextContent("Sort by");
 
         await userEvent.click(trigger);
         await userEvent.click(await screen.findByRole("option", { name: "Most stars" }));
 
-        expect(onValueChange).toHaveBeenLastCalledWith(expect.objectContaining({ value: ["stars"] }));
+        expect(onChange).toHaveBeenCalledTimes(1);
+        expect(onChange.mock.lastCall![0].target.value).toBe("stars");
         expect(trigger).toHaveTextContent("Most stars");
         expect(ref.current).toHaveValue("stars");
     });
 
-    it("supports keyboard selection", async () => {
-        const onValueChange = rstest.fn();
-        render(<Select items={ITEMS} onValueChange={onValueChange} />);
+    it("follows the controlled value", () => {
+        const { rerender } = render(<Select options={ITEMS} value="newest" aria-label="Sort" />);
+        expect(screen.getByRole("button", { name: "Sort" })).toHaveTextContent("Newest");
 
-        screen.getByRole("combobox").focus();
-        await userEvent.keyboard("{ArrowDown}");
-        await waitFor(() => expect(screen.getByRole("option", { name: "Newest" })).toHaveAttribute("data-highlighted"));
-        await userEvent.keyboard("{ArrowDown}");
-        await waitFor(() =>
-            expect(screen.getByRole("option", { name: "Most stars" })).toHaveAttribute("data-highlighted")
-        );
-        await userEvent.keyboard("{Enter}");
-        expect(onValueChange).toHaveBeenLastCalledWith(expect.objectContaining({ value: ["stars"] }));
+        rerender(<Select options={ITEMS} value="stars" aria-label="Sort" />);
+        expect(screen.getByRole("button", { name: "Sort" })).toHaveTextContent("Most stars");
     });
 
-    it("renders item groups in the listbox and optgroups in the hidden select", async () => {
+    it("renders option groups in the listbox and optgroups in the hidden select", async () => {
         render(
             <Select
                 data-testid="select"
-                items={[
+                aria-label="Platform"
+                options={[
                     { value: "all", label: "All" },
-                    { label: "Desktop", items: [{ value: "linux", label: "Linux" }] }
+                    { label: "Desktop", options: [{ value: "linux", label: "Linux" }] }
                 ]}
             />
         );
 
-        await userEvent.click(screen.getByRole("combobox"));
+        await userEvent.click(screen.getByRole("button", { name: "Platform" }));
         const group = await screen.findByRole("group");
         expect(group).toHaveTextContent("Desktop");
         expect(group).toContainElement(screen.getByRole("option", { name: "Linux" }));
@@ -94,22 +89,21 @@ describe("Select", () => {
 });
 
 describe("Combobox", () => {
-    it("filters items by typed text and selects one", async () => {
+    it("filters options by typed text and selects one", async () => {
         const ref = createRef<HTMLInputElement>();
         const onValueChange = rstest.fn();
-        render(<Combobox ref={ref} items={ITEMS} placeholder="Search" name="sort" onValueChange={onValueChange} />);
+        render(<Combobox ref={ref} options={ITEMS} placeholder="Search" name="sort" onValueChange={onValueChange} />);
 
         const input = screen.getByPlaceholderText("Search");
         expect(ref.current).toBe(input);
 
-        // zag syncs the input value asynchronously; zero-delay typing races it.
-        const user = userEvent.setup({ delay: 30 });
-        await user.type(input, "sta");
+        await userEvent.type(input, "sta");
         await waitFor(() => expect(screen.getAllByRole("option")).toHaveLength(1));
-        await user.click(screen.getByRole("option", { name: "Most stars" }));
+        await userEvent.click(screen.getByRole("option", { name: "Most stars" }));
 
-        expect(onValueChange).toHaveBeenLastCalledWith(expect.objectContaining({ value: ["stars"] }));
+        expect(onValueChange).toHaveBeenLastCalledWith("stars");
         expect(input).toHaveValue("Most stars");
+        expect(document.querySelector('input[name="sort"]')).toHaveValue("stars");
     });
 });
 

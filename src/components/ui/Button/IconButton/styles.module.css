@@ -10,14 +10,14 @@
 
 .root {
     &[data-size="sm"] {
-        @apply p-1;
+        @apply w-8 px-0;
     }
 
     &[data-size="md"] {
-        @apply p-2;
+        @apply w-10 px-0;
     }
 
     &[data-size="lg"] {
-        @apply p-3;
+        @apply w-12 px-0;
     }
 }

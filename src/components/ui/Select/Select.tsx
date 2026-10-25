@@ -7,143 +7,175 @@
  *
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
-/** biome-ignore-all lint/a11y/noLabelWithoutControl: htmlFor comes from zag label props */
+
+/** biome-ignore-all lint/a11y/useSemanticElements: option groups live inside the listbox popup, where a fieldset has no meaning */
 
 import type PReact from "preact";
 import { forwardRef } from "preact/compat";
-import { useId, useMemo } from "preact/hooks";
+import { useMemo, useRef, useState } from "preact/hooks";
 
-import { mergeProps, normalizeProps, useMachine } from "@zag-js/preact";
-import * as select from "@zag-js/select";
+import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/react";
 
-import { Portal } from "~/components/ui/Portal";
 import { clsx } from "~/utils/clsx";
+import { mergeRefs } from "~/utils/mergeRefs";
 
 import styles from "./styles.module.css";
 
-export interface SelectItem {
+export interface SelectOption {
     value: string;
     label: string;
     disabled?: boolean;
 }
 
-export interface SelectItemGroup {
+export interface SelectOptionGroup {
     label: string;
-    items: SelectItem[];
+    options: SelectOption[];
 }
 
-interface SelectCollectionItem extends SelectItem {
-    group?: string;
-}
-
-type VanillaProps = Omit<PReact.SelectHTMLAttributes<HTMLSelectElement>, keyof select.Props>;
-export interface SelectProps extends VanillaProps, Partial<Omit<select.Props, "id" | "collection">> {
-    id?: string;
-    items: Array<SelectItem | SelectItemGroup>;
+type VanillaProps = Omit<
+    PReact.SelectHTMLAttributes<HTMLSelectElement>,
+    "value" | "defaultValue" | "multiple" | "disabled" | "placeholder"
+>;
+export interface SelectProps extends VanillaProps {
+    options: Array<SelectOption | SelectOptionGroup>;
+    value?: string;
+    defaultValue?: string;
+    disabled?: boolean;
+    invalid?: boolean;
     placeholder?: string;
     rootProps?: PReact.HTMLAttributes<HTMLDivElement>;
 }
 
+function isOptionGroup(option: SelectOption | SelectOptionGroup): option is SelectOptionGroup {
+    return "options" in option;
+}
+
+function flattenOptions(options: Array<SelectOption | SelectOptionGroup>): SelectOption[] {
+    const flat: SelectOption[] = [];
+    for (const option of options) {
+        if (isOptionGroup(option)) {
+            flat.push(...option.options);
+        } else {
+            flat.push(option);
+        }
+    }
+
+    return flat;
+}
+
 export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select(
-    { id, items, placeholder, rootProps, className, "aria-label": ariaLabel, ...props },
+    {
+        options,
+        value,
+        defaultValue,
+        disabled = false,
+        invalid = false,
+        placeholder,
+        rootProps = {},
+        id,
+        className,
+        "aria-label": ariaLabel,
+        "aria-describedby": ariaDescribedBy,
+        ...rest
+    },
     ref
 ) {
-    const [machineProps, rest] = select.splitProps(props);
-    const rootClassName = rootProps != null ? rootProps.className : undefined;
+    const isControlled = value != null;
 
-    const machineId = useId();
-    const collection = useMemo(
-        () =>
-            select.collection<SelectCollectionItem>({
-                items: items.flatMap((item) =>
-                    "items" in item ? item.items.map((child) => ({ ...child, group: item.label })) : [item]
-                ),
-                itemToValue: (item) => item.value,
-                itemToString: (item) => item.label,
-                isItemDisabled: (item) => item.disabled === true,
-                groupBy: (item) => item.group ?? ""
-            }),
-        [items]
-    );
-    const groups = collection.group();
-    const service = useMachine(select.machine, {
-        ...machineProps,
-        positioning: { sameWidth: true, ...machineProps.positioning },
-        id: machineId,
-        ids: { ...machineProps.ids, hiddenSelect: id },
-        collection
-    });
-    const api = select.connect(service, normalizeProps);
+    const [innerValue, setInnerValue] = useState(defaultValue ?? "");
+    const selectRef = useRef<HTMLSelectElement>(null);
+    const flatOptions = useMemo(() => flattenOptions(options), [options]);
+
+    let currentValue = innerValue;
+    if (isControlled) {
+        currentValue = value;
+    }
+
+    const selected = flatOptions.find((option) => option.value === currentValue);
+
+    function handleChange(nextValue: string): void {
+        if (!isControlled) {
+            setInnerValue(nextValue);
+        }
+
+        const select = selectRef.current!;
+        select.value = nextValue;
+        select.dispatchEvent(new Event("change", { bubbles: true }));
+    }
+
+    function renderOption(option: SelectOption): PReact.VNode {
+        return (
+            <ListboxOption key={option.value} value={option.value} disabled={option.disabled} className={styles.item}>
+                <span>{option.label}</span>
+                <i className={clsx(styles.itemIndicator, "fas fa-check")} aria-hidden="true" />
+            </ListboxOption>
+        );
+    }
+
+    function renderValueText(): string | undefined {
+        if (selected != null) {
+            return selected.label;
+        }
+
+        return placeholder;
+    }
+
+    function renderNativeOption(option: SelectOption): PReact.VNode {
+        return (
+            <option key={option.value} value={option.value} disabled={option.disabled}>
+                {option.label}
+            </option>
+        );
+    }
 
     return (
-        <div
-            {...mergeProps(api.getRootProps(), rootProps ?? {})}
-            className={clsx(styles.root, className, rootClassName)}
-        >
-            {ariaLabel != null && (
-                <label {...api.getLabelProps()} className="sr-only">
-                    {ariaLabel}
-                </label>
-            )}
-            <div {...api.getControlProps()} className={styles.control}>
-                <button {...api.getTriggerProps()} className={styles.trigger}>
-                    <span {...api.getValueTextProps()} className={styles.valueText}>
-                        {api.valueAsString || placeholder}
+        <div {...rootProps} className={clsx(styles.root, className, rootProps.className)}>
+            <Listbox value={currentValue} onChange={handleChange} disabled={disabled} invalid={invalid}>
+                <ListboxButton
+                    id={id}
+                    aria-label={ariaLabel}
+                    aria-describedby={ariaDescribedBy}
+                    className={styles.trigger}
+                >
+                    <span data-placeholder={selected == null || undefined} className={styles.valueText}>
+                        {renderValueText()}
                     </span>
-                    <span {...api.getIndicatorProps()} className={styles.indicator}>
-                        <i className="fas fa-chevron-down" aria-hidden="true" />
-                    </span>
-                </button>
-            </div>
-            <Portal>
-                <div {...api.getPositionerProps()}>
-                    <ul {...api.getContentProps()} className={styles.content}>
-                        {groups.map(([group, groupItems]) => {
-                            const renderedItems = groupItems.map((item) => (
-                                <li key={item.value} {...api.getItemProps({ item })} className={styles.item}>
-                                    <span {...api.getItemTextProps({ item })}>{item.label}</span>
-                                    <span {...api.getItemIndicatorProps({ item })} className={styles.itemIndicator}>
-                                        <i className="fas fa-check" aria-hidden="true" />
-                                    </span>
-                                </li>
-                            ));
-
-                            if (group === "") {
-                                return renderedItems;
-                            }
-
+                    <i className={clsx(styles.indicator, "fas fa-chevron-down")} aria-hidden="true" />
+                </ListboxButton>
+                <ListboxOptions anchor="bottom start" className={styles.content}>
+                    {options.map((option) => {
+                        if (isOptionGroup(option)) {
                             return (
-                                <li key={group} {...api.getItemGroupProps({ id: group })}>
-                                    <div
-                                        {...api.getItemGroupLabelProps({ htmlFor: group })}
-                                        className={styles.itemGroupLabel}
-                                    >
-                                        {group}
-                                    </div>
-                                    <ul>{renderedItems}</ul>
-                                </li>
+                                <div key={option.label} role="group" aria-label={option.label}>
+                                    <div className={styles.itemGroupLabel}>{option.label}</div>
+                                    {option.options.map(renderOption)}
+                                </div>
                             );
-                        })}
-                    </ul>
-                </div>
-            </Portal>
-            <select {...mergeProps(api.getHiddenSelectProps(), rest)} ref={ref}>
-                {groups.map(([group, groupItems]) => {
-                    const renderedOptions = groupItems.map((item) => (
-                        <option key={item.value} value={item.value} disabled={item.disabled}>
-                            {item.label}
-                        </option>
-                    ));
+                        }
 
-                    if (group === "") {
-                        return renderedOptions;
+                        return renderOption(option);
+                    })}
+                </ListboxOptions>
+            </Listbox>
+            <select
+                {...rest}
+                ref={mergeRefs(ref, selectRef)}
+                value={currentValue}
+                disabled={disabled}
+                hidden
+                aria-hidden="true"
+                tabIndex={-1}
+            >
+                {options.map((option) => {
+                    if (isOptionGroup(option)) {
+                        return (
+                            <optgroup key={option.label} label={option.label}>
+                                {option.options.map(renderNativeOption)}
+                            </optgroup>
+                        );
                     }
 
-                    return (
-                        <optgroup key={group} label={group}>
-                            {renderedOptions}
-                        </optgroup>
-                    );
+                    return renderNativeOption(option);
                 })}
             </select>
         </div>

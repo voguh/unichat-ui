@@ -21,7 +21,14 @@
     }
 
     &[data-disabled] {
-        @apply opacity-50 cursor-not-allowed;
+        @apply bg-stone-900;
+        @apply text-stone-500;
+        @apply cursor-not-allowed;
+
+        .slot,
+        .input::placeholder {
+            @apply text-stone-600;
+        }
     }
 }
 

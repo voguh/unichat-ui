@@ -9,23 +9,30 @@
  ******************************************************************************/
 
 import type PReact from "preact";
+import { forwardRef } from "preact/compat";
+
+import { clsx } from "~/utils/clsx";
 
 import styles from "./styles.module.css";
 
-export interface LoadingProps {
+type VanillaProps = PReact.HTMLAttributes<HTMLDivElement>;
+export interface LoadingProps extends VanillaProps {
     show?: boolean;
     label: string;
 }
 
-export function Loading({ show = true, label }: LoadingProps): PReact.ComponentChildren {
+export const Loading = forwardRef<HTMLDivElement, LoadingProps>(function Loading(
+    { show = true, label, className, ...rest },
+    ref
+) {
     if (!show) {
         return null;
     }
 
     return (
-        <div role="status" className={styles.root}>
+        <div role="status" {...rest} ref={ref} className={clsx(styles.root, className)}>
             <i className="fas fa-spinner fa-spin fa-fw fa-2x" aria-hidden="true" />
-            <span className="sr-only">{label}</span>
+            <span className={styles.label}>{label}</span>
         </div>
     );
-}
+});

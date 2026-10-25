@@ -124,6 +124,23 @@ describe("Alert", () => {
         expect(screen.getByRole("status")).toHaveTextContent("Saved");
         expect(screen.queryByRole("alert")).not.toBeInTheDocument();
     });
+
+    it("renders the variant icon or a custom icon", () => {
+        render(
+            <>
+                <Alert variant="warning">Check input</Alert>
+                <Alert variant="info" icon={<i className="fas fa-users" />}>
+                    Raid
+                </Alert>
+            </>
+        );
+        expect(
+            screen.getByText("Check input").closest("[role='alert']")!.querySelector(".fa-exclamation-triangle")
+        ).not.toBeNull();
+        const raid = screen.getByText("Raid").closest("[role='status']")!;
+        expect(raid.querySelector(".fa-users")).not.toBeNull();
+        expect(raid.querySelector(".fa-info-circle")).toBeNull();
+    });
 });
 
 describe("Separator", () => {

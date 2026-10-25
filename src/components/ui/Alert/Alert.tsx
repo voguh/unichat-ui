@@ -17,6 +17,20 @@ import styles from "./styles.module.css";
 
 export type AlertVariant = "info" | "success" | "warning" | "danger";
 
+const DEFAULT_ICONS: Record<AlertVariant, string> = {
+    info: "fas fa-info-circle",
+    success: "fas fa-check-circle",
+    warning: "fas fa-exclamation-triangle",
+    danger: "fas fa-times-circle"
+};
+
+const ROLES: Record<AlertVariant, "alert" | "status"> = {
+    info: "status",
+    success: "status",
+    warning: "alert",
+    danger: "alert"
+};
+
 type VanillaProps = Omit<PReact.HTMLAttributes<HTMLDivElement>, "title">;
 export interface AlertProps extends VanillaProps {
     variant?: AlertVariant;
@@ -30,18 +44,10 @@ export const Alert = forwardRef<HTMLDivElement, AlertProps>(function Alert(
     ref
 ) {
     return (
-        <div
-            {...rest}
-            ref={ref}
-            role={variant === "danger" || variant === "warning" ? "alert" : "status"}
-            data-variant={variant}
-            className={clsx(styles.root, className)}
-        >
-            {icon != null && (
-                <span className={styles.icon} aria-hidden="true">
-                    {icon}
-                </span>
-            )}
+        <div {...rest} ref={ref} role={ROLES[variant]} data-variant={variant} className={clsx(styles.root, className)}>
+            <span className={styles.icon} aria-hidden="true">
+                {icon ?? <i className={DEFAULT_ICONS[variant]} />}
+            </span>
             <div className={styles.content}>
                 {title != null && <strong className={styles.title}>{title}</strong>}
                 {children}

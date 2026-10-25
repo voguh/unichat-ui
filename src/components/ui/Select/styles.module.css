@@ -12,15 +12,11 @@
     @apply flex flex-col;
 }
 
-.control {
-    @apply flex;
-}
-
 .trigger {
     @apply bg-stone-800 rounded outline-none;
-    @apply flex-1 flex items-center justify-between gap-2 cursor-pointer h-10 px-3 text-left;
+    @apply flex items-center justify-between gap-2 cursor-pointer h-10 px-3 text-left;
 
-    &:focus-visible {
+    &[data-focus] {
         @apply ring-2 ring-blue-500;
     }
 
@@ -29,7 +25,20 @@
     }
 
     &[data-disabled] {
-        @apply opacity-50 cursor-not-allowed;
+        @apply bg-stone-900;
+        @apply text-stone-500;
+        @apply cursor-not-allowed;
+
+        .indicator,
+        .valueText[data-placeholder] {
+            @apply text-stone-600;
+        }
+    }
+
+    &[data-open] {
+        & > .indicator {
+            @apply rotate-180;
+        }
     }
 }
 
@@ -44,15 +53,13 @@
 .indicator {
     @apply text-stone-500 text-xs;
     @apply transition-transform;
-
-    &[data-state="open"] {
-        @apply rotate-180;
-    }
 }
 
 .content {
     @apply bg-stone-800 border border-stone-700 rounded shadow-xl;
-    @apply relative z-50 flex flex-col max-h-64 overflow-y-auto py-1;
+    @apply z-50 flex flex-col max-h-64 overflow-y-auto py-1;
+
+    width: var(--button-width);
 
     &:focus-visible {
         @apply outline-none;
@@ -62,16 +69,21 @@
 .item {
     @apply flex items-center justify-between gap-2 cursor-pointer px-3 py-2;
 
-    &[data-highlighted] {
+    &[data-focus] {
         @apply bg-stone-700;
     }
 
-    &[data-state="checked"] {
+    &[data-selected] {
         @apply font-bold;
+
+        & > .itemIndicator {
+            @apply visible;
+        }
     }
 
     &[data-disabled] {
-        @apply opacity-50 cursor-not-allowed;
+        @apply text-stone-500;
+        @apply cursor-not-allowed;
     }
 }
 
@@ -82,4 +94,5 @@
 
 .itemIndicator {
     @apply text-red-600 text-xs;
+    @apply invisible;
 }

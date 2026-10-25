@@ -1,0 +1,95 @@
+/*!******************************************************************************
+ * Copyright (c) 2026 Voguh
+ *
+ * This program and the accompanying materials are made
+ * available under the terms of the Eclipse Public License 2.0
+ * which is available at https://www.eclipse.org/legal/epl-2.0/
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ ******************************************************************************/
+
+.root {
+    @apply relative overflow-hidden;
+}
+
+.viewport {
+    @apply size-full overflow-auto;
+
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+        @apply hidden;
+    }
+}
+
+.track {
+    @apply absolute select-none touch-none opacity-0 transition-opacity;
+
+    &[data-active],
+    &[data-dragging],
+    &:hover {
+        @apply opacity-100;
+    }
+
+    &[data-axis="vertical"] {
+        @apply top-0 right-0 bottom-0 w-3;
+
+        &[data-crossed] {
+            @apply bottom-3;
+        }
+
+        & > .thumb {
+            @apply right-0.5 w-1;
+
+            --thumb-length: max(24px, calc(var(--scroll-ratio) * 100%));
+
+            top: calc((100% - var(--thumb-length)) * var(--scroll-progress));
+            height: var(--thumb-length);
+        }
+
+        &:hover,
+        &[data-dragging] {
+            & > .thumb {
+                @apply w-2;
+            }
+        }
+    }
+
+    &[data-axis="horizontal"] {
+        @apply left-0 right-0 bottom-0 h-3;
+
+        &[data-crossed] {
+            @apply right-3;
+        }
+
+        & > .thumb {
+            @apply bottom-0.5 h-1;
+
+            --thumb-length: max(24px, calc(var(--scroll-ratio) * 100%));
+
+            left: calc((100% - var(--thumb-length)) * var(--scroll-progress));
+            width: var(--thumb-length);
+        }
+
+        &:hover,
+        &[data-dragging] {
+            & > .thumb {
+                @apply h-2;
+            }
+        }
+    }
+}
+
+.thumb {
+    @apply bg-red-800 rounded-full;
+    @apply absolute;
+
+    transition:
+        width 150ms,
+        height 150ms,
+        background-color 150ms;
+
+    &:hover {
+        @apply bg-red-700;
+    }
+}

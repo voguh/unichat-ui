@@ -104,7 +104,7 @@ describe("Toaster", () => {
 
         const saved = (await screen.findByText("Saved")).closest("[role='status']");
         const raid = (await screen.findByText("Raid")).closest("[role='status']");
-        expect(saved!.querySelector(".fa-check")).not.toBeNull();
+        expect(saved!.querySelector(".fa-check-circle")).not.toBeNull();
         expect(raid!.querySelector(".fa-users")).not.toBeNull();
         expect(raid!.querySelector(".fa-info-circle")).toBeNull();
         toaster.remove();

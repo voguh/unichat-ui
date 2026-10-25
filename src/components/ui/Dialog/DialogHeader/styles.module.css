@@ -1,0 +1,22 @@
+/*!******************************************************************************
+ * Copyright (c) 2026 Voguh
+ *
+ * This program and the accompanying materials are made
+ * available under the terms of the Eclipse Public License 2.0
+ * which is available at https://www.eclipse.org/legal/epl-2.0/
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ ******************************************************************************/
+
+.root {
+    @apply flex items-center justify-between gap-2 shrink-0 h-11 p-2;
+
+    &:not(:last-child) {
+        @apply border-b border-stone-800;
+    }
+
+    & > button,
+    & > button[data-size] {
+        @apply py-0 h-7;
+    }
+}

@@ -23,7 +23,6 @@ export interface ColorPickerProps extends Omit<UIColorPickerProps, "id">, FormGr
 export const ColorPicker = forwardRef<HTMLInputElement, ColorPickerProps>(function ColorPicker(
     {
         id,
-        ids,
         label,
         labelProps,
         description,
@@ -38,7 +37,6 @@ export const ColorPicker = forwardRef<HTMLInputElement, ColorPickerProps>(functi
 ) {
     const generatedId = useId();
     const fieldId = id ?? generatedId;
-    const labelId = `${fieldId}-label`;
     const describedBy = getFormGroupDescribedBy(fieldId, { description, status, statusMessage });
 
     return (
@@ -46,7 +44,7 @@ export const ColorPicker = forwardRef<HTMLInputElement, ColorPickerProps>(functi
             {...groupProps}
             id={fieldId}
             label={label}
-            labelProps={{ ...labelProps, id: labelId }}
+            labelProps={labelProps}
             description={description}
             descriptionProps={descriptionProps}
             status={status}
@@ -58,7 +56,6 @@ export const ColorPicker = forwardRef<HTMLInputElement, ColorPickerProps>(functi
                 {...rest}
                 ref={ref}
                 id={fieldId}
-                ids={{ ...ids, label: labelId }}
                 invalid={status === "invalid"}
             />
         </FormGroup>

@@ -1,0 +1,44 @@
+/*!******************************************************************************
+ * Copyright (c) 2026 Voguh
+ *
+ * This program and the accompanying materials are made
+ * available under the terms of the Eclipse Public License 2.0
+ * which is available at https://www.eclipse.org/legal/epl-2.0/
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ ******************************************************************************/
+
+.root {
+    --dialog-width: 32rem;
+    --dialog-height: 90vh;
+
+    @apply bg-stone-900 border border-stone-800 rounded;
+    @apply relative flex flex-col overflow-hidden;
+
+    width: var(--dialog-width);
+    max-width: 100vw;
+    max-height: var(--dialog-height);
+
+    &:focus-visible {
+        @apply outline-none;
+    }
+
+    &[data-size="sm"] {
+        --dialog-width: 24rem;
+    }
+
+    &[data-size="lg"] {
+        --dialog-width: 48rem;
+    }
+
+    &[data-size="xl"] {
+        --dialog-width: 64rem;
+    }
+
+    &[data-size="fullscreen"] {
+        --dialog-width: 100vw;
+        --dialog-height: 100vh;
+
+        @apply rounded-none border-none h-screen;
+    }
+}

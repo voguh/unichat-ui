@@ -12,7 +12,8 @@
     @apply relative inline-flex items-center gap-2 cursor-pointer;
 
     &:has(.input:disabled) {
-        @apply opacity-50 cursor-not-allowed;
+        @apply text-stone-500;
+        @apply cursor-not-allowed;
     }
 }
 
@@ -30,22 +31,53 @@
 .input {
     @apply sr-only;
 
-    &:focus-visible + .control {
-        @apply ring-2 ring-blue-500;
+    &:focus-visible {
+        & + .control {
+            @apply ring-2 ring-blue-500;
+        }
     }
 
-    &[aria-invalid="true"] + .control {
-        @apply border-red-600;
+    &[aria-invalid="true"] {
+        & + .control {
+            @apply border-red-600;
+        }
     }
 
-    &:checked + .control,
-    &:indeterminate + .control {
-        @apply bg-red-800 border-red-800;
+    &:checked,
+    &:indeterminate {
+        & + .control {
+            @apply bg-red-800 border-red-800;
+        }
     }
 
-    &:checked:not(:indeterminate) + .control .checkIcon,
-    &:indeterminate + .control .indeterminateIcon {
-        @apply inline-block;
+    &:checked:not(:indeterminate) {
+        & + .control {
+            & > .checkIcon {
+                @apply inline-block;
+            }
+        }
+    }
+
+    &:indeterminate {
+        & + .control {
+            & > .indeterminateIcon {
+                @apply inline-block;
+            }
+        }
+    }
+
+    &:disabled {
+        & + .control {
+            @apply bg-stone-900 border-stone-700;
+        }
+
+        &:checked,
+        &:indeterminate {
+            & + .control {
+                @apply bg-stone-700 border-stone-700;
+                @apply text-stone-500;
+            }
+        }
     }
 }
 

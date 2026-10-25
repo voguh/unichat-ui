@@ -10,93 +10,140 @@
 
 import type PReact from "preact";
 import { forwardRef } from "preact/compat";
-import { useId, useMemo, useState } from "preact/hooks";
+import { useMemo, useState } from "preact/hooks";
 
-import * as combobox from "@zag-js/combobox";
-import { mergeProps, normalizeProps, useMachine } from "@zag-js/preact";
+import {
+    ComboboxButton,
+    ComboboxInput,
+    ComboboxOptions,
+    Combobox as HeadlessCombobox,
+    ComboboxOption as HeadlessComboboxOption
+} from "@headlessui/react";
 
-import { Portal } from "~/components/ui/Portal";
 import { clsx } from "~/utils/clsx";
 
 import styles from "./styles.module.css";
 
-export interface ComboboxItem {
+export interface ComboboxOption {
     value: string;
     label: string;
     disabled?: boolean;
 }
 
-type VanillaProps = Omit<PReact.InputHTMLAttributes<HTMLInputElement>, keyof combobox.Props>;
-export interface ComboboxProps extends VanillaProps, Partial<Omit<combobox.Props, "id" | "collection">> {
-    id?: string;
-    items: ComboboxItem[];
+type VanillaProps = Omit<
+    PReact.InputHTMLAttributes<HTMLInputElement>,
+    "value" | "defaultValue" | "disabled" | "autoFocus" | "name"
+>;
+export interface ComboboxProps extends VanillaProps {
+    options: ComboboxOption[];
+    value?: string;
+    defaultValue?: string;
+    name?: string;
+    disabled?: boolean;
+    autoFocus?: boolean;
+    invalid?: boolean;
+    onValueChange?: (value: string) => void;
     rootProps?: PReact.HTMLAttributes<HTMLDivElement>;
 }
 
 export const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
-    { id, items, rootProps, className, ...props },
+    {
+        options,
+        value,
+        defaultValue,
+        name,
+        disabled = false,
+        invalid = false,
+        onValueChange,
+        onChange,
+        rootProps = {},
+        className,
+        ...rest
+    },
     ref
 ) {
-    const [machineProps, rest] = combobox.splitProps(props);
-    const rootClassName = rootProps != null ? rootProps.className : undefined;
+    const isControlled = value != null;
 
-    const machineId = useId();
+    const [innerValue, setInnerValue] = useState(defaultValue ?? "");
     const [query, setQuery] = useState("");
-    const filteredItems = useMemo(() => {
+    const filteredOptions = useMemo(() => {
         const normalized = query.trim().toLowerCase();
-        return normalized === "" ? items : items.filter((item) => item.label.toLowerCase().includes(normalized));
-    }, [items, query]);
-    const collection = useMemo(
-        () =>
-            combobox.collection<ComboboxItem>({
-                items: filteredItems,
-                itemToValue: (item) => item.value,
-                itemToString: (item) => item.label,
-                isItemDisabled: (item) => item.disabled === true
-            }),
-        [filteredItems]
-    );
-    const service = useMachine(combobox.machine, {
-        ...machineProps,
-        id: machineId,
-        ids: { ...machineProps.ids, input: id },
-        collection,
-        onInputValueChange: handleInputValueChange
-    });
-    const api = combobox.connect(service, normalizeProps);
+        if (normalized === "") {
+            return options;
+        }
 
-    function handleInputValueChange(details: combobox.InputValueChangeDetails): void {
-        setQuery(details.reason === "input-change" ? details.inputValue : "");
-        if (machineProps.onInputValueChange != null) {
-            machineProps.onInputValueChange(details);
+        return options.filter((option) => option.label.toLowerCase().includes(normalized));
+    }, [options, query]);
+
+    let currentValue = innerValue;
+    if (isControlled) {
+        currentValue = value;
+    }
+
+    function handleChange(nextValue: string | null): void {
+        const resolved = nextValue ?? "";
+        if (!isControlled) {
+            setInnerValue(resolved);
+        }
+
+        setQuery("");
+        if (onValueChange != null) {
+            onValueChange(resolved);
         }
     }
 
+    function handleInputChange(event: PReact.TargetedEvent<HTMLInputElement, Event>): void {
+        setQuery(event.currentTarget.value);
+        if (onChange != null) {
+            onChange(event);
+        }
+    }
+
+    function displayValue(optionValue: string): string {
+        const option = options.find((item) => item.value === optionValue);
+        if (option != null) {
+            return option.label;
+        }
+
+        return "";
+    }
+
     return (
-        <div
-            {...mergeProps(api.getRootProps(), rootProps ?? {})}
-            className={clsx(styles.root, className, rootClassName)}
-        >
-            <div {...api.getControlProps()} className={styles.control}>
-                <input {...mergeProps(api.getInputProps(), rest)} ref={ref} className={styles.input} />
-                <button {...api.getTriggerProps()} className={styles.trigger}>
-                    <i className="fas fa-chevron-down" aria-hidden="true" />
-                </button>
-            </div>
-            <Portal>
-                <div {...api.getPositionerProps()}>
-                    <ul {...api.getContentProps()} className={styles.content}>
-                        {filteredItems.map((item) => (
-                            <li key={item.value} {...api.getItemProps({ item })} className={styles.item}>
-                                <span {...api.getItemTextProps({ item })}>{item.label}</span>
-                                <span {...api.getItemIndicatorProps({ item })} className={styles.itemIndicator}>
-                                    <i className="fas fa-check" aria-hidden="true" />
-                                </span>
-                            </li>
-                        ))}
-                    </ul>
+        <div {...rootProps} className={clsx(styles.root, className, rootProps.className)}>
+            <HeadlessCombobox
+                value={currentValue}
+                onChange={handleChange}
+                onClose={() => setQuery("")}
+                name={name}
+                disabled={disabled}
+                invalid={invalid}
+            >
+                <div data-invalid={invalid || undefined} className={styles.control}>
+                    <ComboboxInput
+                        {...rest}
+                        ref={ref}
+                        displayValue={displayValue}
+                        onChange={handleInputChange}
+                        className={styles.input}
+                    />
+                    <ComboboxButton className={styles.trigger}>
+                        <i className="fas fa-chevron-down" aria-hidden="true" />
+                    </ComboboxButton>
                 </div>
-            </Portal>
+                <ComboboxOptions anchor="bottom start" className={styles.content}>
+                    {filteredOptions.map((option) => (
+                        <HeadlessComboboxOption
+                            key={option.value}
+                            value={option.value}
+                            disabled={option.disabled}
+                            className={styles.item}
+                        >
+                            <span>{option.label}</span>
+                            <i className={clsx(styles.itemIndicator, "fas fa-check")} aria-hidden="true" />
+                        </HeadlessComboboxOption>
+                    ))}
+                </ComboboxOptions>
+            </HeadlessCombobox>
         </div>
     );
 });

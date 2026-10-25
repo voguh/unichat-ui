@@ -12,7 +12,7 @@ import "@testing-library/jest-dom";
 
 import { cleanup } from "@testing-library/preact";
 
-// jsdom lacks ResizeObserver and Element.scrollTo; zag positioning and listbox scrolling require them.
+// jsdom lacks ResizeObserver and Element.scrollTo.
 globalThis.ResizeObserver ??= class {
     public observe(): void {}
     public unobserve(): void {}

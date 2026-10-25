@@ -57,11 +57,11 @@
         > tbody {
             > tr {
                 &:nth-child(odd) {
-                    @apply bg-stone-700/50;
+                    @apply bg-stone-800;
                 }
 
                 &:nth-child(even) {
-                    @apply bg-stone-700/25;
+                    @apply bg-stone-900;
                 }
 
                 > td {

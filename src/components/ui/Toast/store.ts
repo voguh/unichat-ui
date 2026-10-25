@@ -26,6 +26,7 @@ export interface ToastOptions {
 
 export interface Toast extends ToastOptions {
     id: string;
+    duration: number;
 }
 
 export interface ToasterOptions {
@@ -70,7 +71,12 @@ export function createToaster({
             }
         }
 
-        toasts = id != null ? toasts.filter((toast) => toast.id !== id) : [];
+        if (id != null) {
+            toasts = toasts.filter((toast) => toast.id !== id);
+        } else {
+            toasts = [];
+        }
+
         emit();
     }
 
@@ -79,7 +85,10 @@ export function createToaster({
         const toastDuration = options.duration ?? duration;
 
         clearTimeout(timers.get(id));
-        toasts = [...toasts.filter((toast) => toast.id !== id), { closable: true, ...options, id }].slice(-max);
+        toasts = [
+            ...toasts.filter((toast) => toast.id !== id),
+            { closable: true, ...options, id, duration: toastDuration }
+        ].slice(-max);
         if (Number.isFinite(toastDuration)) {
             timers.set(
                 id,

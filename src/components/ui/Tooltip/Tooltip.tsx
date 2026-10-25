@@ -57,8 +57,6 @@ export function Tooltip({ content, placement = "top", openDelay = 400, children 
         adjustFloatingPosition
     );
 
-    useEffect(() => () => clearTimeout(timerRef.current), []);
-
     function show(delay: number): void {
         clearTimeout(timerRef.current);
         timerRef.current = setTimeout(() => toggleVisualization(true), delay);
@@ -69,22 +67,40 @@ export function Tooltip({ content, placement = "top", openDelay = 400, children 
         toggleVisualization(false);
     }
 
+    function handlePointerDown(): void {
+        pointerDownRef.current = true;
+        hide();
+    }
+
+    function handleFocusIn(): void {
+        if (!pointerDownRef.current) {
+            show(0);
+        }
+    }
+
+    function handleFocusOut(): void {
+        pointerDownRef.current = false;
+        hide();
+    }
+
+    function handleKeyDown(event: KeyboardEvent): void {
+        if (event.key === "Escape") {
+            hide();
+        }
+    }
+
+    useEffect(() => () => clearTimeout(timerRef.current), []);
+
     const trigger = cloneAsChild(
         children,
         {
             "aria-describedby": contentId,
             onPointerEnter: () => show(openDelay),
             onPointerLeave: hide,
-            onPointerDown: () => {
-                pointerDownRef.current = true;
-                hide();
-            },
-            onFocus: () => !pointerDownRef.current && show(0),
-            onBlur: () => {
-                pointerDownRef.current = false;
-                hide();
-            },
-            onKeyDown: (event: KeyboardEvent) => event.key === "Escape" && hide()
+            onPointerDown: handlePointerDown,
+            onFocusIn: handleFocusIn,
+            onFocusOut: handleFocusOut,
+            onKeyDown: handleKeyDown
         },
         referenceRef
     );

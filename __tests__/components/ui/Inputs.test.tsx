@@ -10,39 +10,31 @@
 
 import { createRef } from "preact";
 
-import { render, screen, waitFor } from "@testing-library/preact";
+import { render, screen } from "@testing-library/preact";
 import userEvent from "@testing-library/user-event";
 
 import { NumberInput } from "~/components/ui/NumberInput";
 import { PasswordInput } from "~/components/ui/PasswordInput";
-import { TagsInput } from "~/components/ui/TagsInput";
 
 describe("NumberInput", () => {
-    it("forwards ref and native props to the input", () => {
+    it("forwards ref and native props to a number input", () => {
         const ref = createRef<HTMLInputElement>();
-        render(<NumberInput ref={ref} id="size" name="size" placeholder="Size" aria-describedby="hint" />);
+        render(<NumberInput ref={ref} id="size" name="size" min={0} max={10} step={2} placeholder="Size" />);
         const input = screen.getByPlaceholderText("Size");
         expect(ref.current).toBe(input);
+        expect(input).toHaveAttribute("type", "number");
         expect(input).toHaveAttribute("id", "size");
         expect(input).toHaveAttribute("name", "size");
-        expect(input).toHaveAttribute("aria-describedby", "hint");
+        expect(input).toHaveAttribute("step", "2");
     });
 
-    it("increments with the trigger", async () => {
-        render(<NumberInput defaultValue="1" max={2} aria-label="Size" />);
-        await userEvent.click(screen.getByRole("button", { name: /increment/i }));
-        expect(screen.getByRole("spinbutton", { name: "Size" })).toHaveValue("2");
-    });
+    it("emits native input events", async () => {
+        const onInput = rstest.fn();
+        render(<NumberInput aria-label="Size" onInput={onInput} />);
 
-    it("steps with arrow keys clamping to min", async () => {
-        const onValueChange = rstest.fn();
-        render(<NumberInput defaultValue="1" min={0} onValueChange={onValueChange} aria-label="Size" />);
-        const input = screen.getByRole("spinbutton", { name: "Size" });
-
-        input.focus();
-        await userEvent.keyboard("{ArrowDown}{ArrowDown}");
-        expect(input).toHaveValue("0");
-        expect(onValueChange).toHaveBeenLastCalledWith(expect.objectContaining({ valueAsNumber: 0 }));
+        await userEvent.type(screen.getByRole("spinbutton", { name: "Size" }), "42");
+        expect(onInput).toHaveBeenCalledTimes(2);
+        expect(screen.getByRole("spinbutton", { name: "Size" })).toHaveValue(42);
     });
 });
 
@@ -57,30 +49,5 @@ describe("PasswordInput", () => {
 
         await userEvent.click(screen.getByRole("button"));
         expect(input).toHaveAttribute("type", "text");
-    });
-});
-
-describe("TagsInput", () => {
-    it("adds a tag on Enter and clears the input", async () => {
-        const ref = createRef<HTMLInputElement>();
-        const onValueChange = rstest.fn();
-        render(<TagsInput ref={ref} placeholder="Add scope" onValueChange={onValueChange} />);
-        const input = screen.getByPlaceholderText("Add scope");
-        expect(ref.current).toBe(input);
-
-        // zag syncs the input value asynchronously; zero-delay typing races it.
-        await userEvent.setup({ delay: 30 }).type(input, "read:user{Enter}");
-        expect(onValueChange).toHaveBeenLastCalledWith(expect.objectContaining({ value: ["read:user"] }));
-        await waitFor(() => expect(input).toHaveValue(""));
-    });
-
-    it("removes tags with the delete trigger and syncs the hidden input", async () => {
-        const onValueChange = rstest.fn();
-        render(<TagsInput name="scopes" defaultValue={["read:user", "user:email"]} onValueChange={onValueChange} />);
-        expect(document.querySelector('input[name="scopes"]')).toHaveValue("read:user, user:email");
-
-        await userEvent.click(screen.getByRole("button", { name: "Delete tag read:user" }));
-        expect(onValueChange).toHaveBeenLastCalledWith(expect.objectContaining({ value: ["user:email"] }));
-        await waitFor(() => expect(document.querySelector('input[name="scopes"]')).toHaveValue("user:email"));
     });
 });

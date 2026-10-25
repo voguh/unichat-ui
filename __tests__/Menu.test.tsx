@@ -11,7 +11,7 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
-import { Menu, MenuButton, MenuItem, MenuItems } from "~/Menu";
+import { Menu, MenuButton, MenuHeading, MenuItem, MenuItems, MenuSection, MenuSeparator } from "~/Menu";
 
 describe("Menu", () => {
     it("opens the items and runs the item click", async () => {
@@ -30,5 +30,27 @@ describe("Menu", () => {
         await user.click(await screen.findByRole("menuitem", { name: "Edit" }));
 
         expect(onClick).toHaveBeenCalledTimes(1);
+    });
+
+    it("exposes the data-part structure", async () => {
+        render(
+            <Menu>
+                <MenuButton>Actions</MenuButton>
+                <MenuItems>
+                    <MenuSection>
+                        <MenuHeading>Release</MenuHeading>
+                        <MenuItem>Edit</MenuItem>
+                    </MenuSection>
+                    <MenuSeparator />
+                </MenuItems>
+            </Menu>
+        );
+        await userEvent.click(screen.getByRole("button", { name: "Actions" }));
+        await screen.findByRole("menu");
+        expect(document.querySelector('[data-part="Menu"] > [data-part="MenuButton"]')).not.toBeNull();
+        expect(document.querySelector('[data-part="MenuItems"] > [data-part="MenuSection"]')).not.toBeNull();
+        expect(document.querySelector('[data-part="MenuSection"] > [data-part="MenuHeading"]')).not.toBeNull();
+        expect(document.querySelector('[data-part="MenuSection"] > [data-part="MenuItem"]')).not.toBeNull();
+        expect(document.querySelector('[data-part="MenuItems"] > [data-part="MenuSeparator"]')).not.toBeNull();
     });
 });

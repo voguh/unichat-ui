@@ -62,4 +62,25 @@ describe("Tabs", () => {
         expect(screen.getByRole("tab", { name: "Releases" })).toHaveAttribute("aria-selected", "true");
         expect(screen.getByRole("tabpanel")).toHaveTextContent("Releases panel");
     });
+
+    it("exposes the data-part structure", () => {
+        render(
+            <TabGroup>
+                <TabList variant="segmented">
+                    <Tab>One</Tab>
+                </TabList>
+                <TabPanels>
+                    <TabPanel>Panel</TabPanel>
+                </TabPanels>
+            </TabGroup>
+        );
+        expect(
+            document.querySelector(
+                '[data-part="TabGroup"] > [data-part="TabList"][data-variant="segmented"] > [data-part="Tab"]'
+            )
+        ).not.toBeNull();
+        expect(
+            document.querySelector('[data-part="TabGroup"] > [data-part="TabPanels"] > [data-part="TabPanel"]')
+        ).not.toBeNull();
+    });
 });

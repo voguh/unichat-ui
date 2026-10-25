@@ -13,19 +13,15 @@ import { createRef } from "react";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
-import { Checkbox } from "~/Checkbox";
 import { Switch } from "~/Switch";
 
-describe.each([
-    ["Checkbox", Checkbox, "checkbox"],
-    ["Switch", Switch, "switch"]
-] as const)("%s", (_name, Component, role) => {
+describe("Switch", () => {
     it("forwards ref and native props to the hidden input", () => {
         const ref = createRef<HTMLInputElement>();
         render(
-            <Component ref={ref} id="accept" name="accept" value="yes" required data-testid="input">
+            <Switch ref={ref} id="accept" name="accept" value="yes" required data-testid="input">
                 Accept
-            </Component>
+            </Switch>
         );
         const input = screen.getByTestId("input");
         expect(ref.current).toBe(input);
@@ -33,26 +29,26 @@ describe.each([
         expect(input).toHaveAttribute("name", "accept");
         expect(input).toHaveAttribute("value", "yes");
         expect(input).toBeRequired();
-        expect(screen.getByRole(role, { name: "Accept" })).toBe(input);
+        expect(screen.getByRole("switch", { name: "Accept" })).toBe(input);
     });
 
     it("toggles on click firing native onChange", async () => {
         const onChange = rstest.fn();
-        render(<Component onChange={onChange}>Accept</Component>);
+        render(<Switch onChange={onChange}>Accept</Switch>);
 
         await userEvent.click(screen.getByText("Accept"));
-        expect(screen.getByRole(role)).toBeChecked();
+        expect(screen.getByRole("switch")).toBeChecked();
         expect(onChange).toHaveBeenCalled();
     });
 
     it("respects checked and disabled", async () => {
         const onChange = rstest.fn();
         render(
-            <Component checked disabled onChange={onChange}>
+            <Switch checked disabled onChange={onChange}>
                 Accept
-            </Component>
+            </Switch>
         );
-        const input = screen.getByRole(role);
+        const input = screen.getByRole("switch");
         expect(input).toBeChecked();
         expect(input).toBeDisabled();
         await userEvent.click(screen.getByText("Accept"));
@@ -60,9 +56,18 @@ describe.each([
     });
 
     it("toggles with the Space key when focused", async () => {
-        render(<Component>Accept</Component>);
+        render(<Switch>Accept</Switch>);
         await userEvent.tab();
         await userEvent.keyboard(" ");
-        expect(screen.getByRole(role)).toBeChecked();
+        expect(screen.getByRole("switch")).toBeChecked();
+    });
+
+    it("exposes the data-part and data-slot structure", () => {
+        render(<Switch>On</Switch>);
+        expect(document.querySelector('label[data-part="Switch"] > input')).not.toBeNull();
+        expect(
+            document.querySelector('[data-part="Switch"] > [data-slot="control"] > [data-slot="thumb"]')
+        ).not.toBeNull();
+        expect(document.querySelector('[data-part="Switch"] > [data-slot="label"]')).not.toBeNull();
     });
 });

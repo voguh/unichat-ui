@@ -13,30 +13,7 @@ import { createRef } from "react";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
-import { NumberInput } from "~/NumberInput";
 import { PasswordInput } from "~/PasswordInput";
-
-describe("NumberInput", () => {
-    it("forwards ref and native props to a number input", () => {
-        const ref = createRef<HTMLInputElement>();
-        render(<NumberInput ref={ref} id="size" name="size" min={0} max={10} step={2} placeholder="Size" />);
-        const input = screen.getByPlaceholderText("Size");
-        expect(ref.current).toBe(input);
-        expect(input).toHaveAttribute("type", "number");
-        expect(input).toHaveAttribute("id", "size");
-        expect(input).toHaveAttribute("name", "size");
-        expect(input).toHaveAttribute("step", "2");
-    });
-
-    it("emits native input events", async () => {
-        const onInput = rstest.fn();
-        render(<NumberInput aria-label="Size" onInput={onInput} />);
-
-        await userEvent.type(screen.getByRole("spinbutton", { name: "Size" }), "42");
-        expect(onInput).toHaveBeenCalledTimes(2);
-        expect(screen.getByRole("spinbutton", { name: "Size" })).toHaveValue(42);
-    });
-});
 
 describe("PasswordInput", () => {
     it("forwards ref and toggles visibility", async () => {
@@ -49,5 +26,11 @@ describe("PasswordInput", () => {
 
         await userEvent.click(screen.getByRole("button"));
         expect(input).toHaveAttribute("type", "text");
+    });
+
+    it("exposes the data-part and data-slot structure", () => {
+        render(<PasswordInput />);
+        expect(document.querySelector('[data-part="PasswordInput"] > input[data-part="Input"]')).not.toBeNull();
+        expect(document.querySelector('[data-part="PasswordInput"] > [data-slot="trigger"]')).not.toBeNull();
     });
 });

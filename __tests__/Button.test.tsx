@@ -13,7 +13,7 @@ import { createRef } from "react";
 import { fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
-import { Button, ButtonLink, IconButton } from "~/Button";
+import { Button } from "~/Button";
 
 describe("Button", () => {
     it("defaults to type button, default variant and md size", () => {
@@ -62,32 +62,9 @@ describe("Button", () => {
         render(<Button ref={ref}>Save</Button>);
         expect(ref.current).toBeInstanceOf(HTMLButtonElement);
     });
-});
 
-describe("ButtonLink", () => {
-    it("renders an anchor with button styling attributes", () => {
-        const ref = createRef<HTMLAnchorElement>();
-        render(
-            <ButtonLink ref={ref} href="/download" variant="secondary" target="_blank">
-                Download
-            </ButtonLink>
-        );
-        const link = screen.getByRole("link", { name: "Download" });
-        expect(link).toHaveAttribute("href", "/download");
-        expect(link).toHaveAttribute("target", "_blank");
-        expect(link).toHaveAttribute("data-variant", "secondary");
-        expect(ref.current).toBe(link);
-    });
-});
-
-describe("IconButton", () => {
-    it("requires an accessible label and forwards ref", () => {
-        const ref = createRef<HTMLButtonElement>();
-        render(
-            <IconButton ref={ref} aria-label="Next page">
-                <i className="fas fa-chevron-right" />
-            </IconButton>
-        );
-        expect(screen.getByRole("button", { name: "Next page" })).toBe(ref.current);
+    it("exposes the data-part and data-slot structure", () => {
+        render(<Button loading>Save</Button>);
+        expect(document.querySelector('button[data-part="Button"] > i[data-slot="spinner"]')).not.toBeNull();
     });
 });

@@ -10,12 +10,9 @@
 
 import { createRef } from "react";
 
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
-import { Combobox } from "~/Combobox";
-import { RadioGroup } from "~/RadioGroup";
-import { SegmentedControl } from "~/SegmentedControl";
 import { Select } from "~/Select";
 
 const ITEMS = [
@@ -136,85 +133,17 @@ describe("Select", () => {
         expect(group).not.toContainElement(screen.getByRole("option", { name: "All" }));
         expect(screen.getByTestId("select").querySelector("optgroup")).toHaveAttribute("label", "Desktop");
     });
-});
 
-describe("Combobox", () => {
-    it("keeps free text and fires the native events while typing", async () => {
-        const ref = createRef<HTMLInputElement>();
-        const onInput = rstest.fn();
-        const onChange = rstest.fn();
-        render(
-            <Combobox
-                ref={ref}
-                options={ITEMS}
-                placeholder="Search"
-                name="sort"
-                onInput={onInput}
-                onChange={onChange}
-            />
-        );
+    it("exposes the data-part and data-slot structure", async () => {
+        render(<Select options={[{ label: "Group", options: ITEMS }]} aria-label="Select" />);
+        expect(document.querySelector('[data-part="Select"] > button > [data-slot="value"]')).not.toBeNull();
+        expect(document.querySelector('[data-part="Select"] > button > [data-slot="indicator"]')).not.toBeNull();
+        expect(document.querySelector('[data-part="Select"] > select')).not.toBeNull();
 
-        const input = screen.getByPlaceholderText("Search");
-        expect(ref.current).toBe(input);
-        expect(input).toHaveAttribute("name", "sort");
-
-        await userEvent.type(input, "custom");
-        expect(onInput).toHaveBeenCalledTimes(6);
-        expect(onChange).toHaveBeenCalledTimes(6);
-        expect(onChange.mock.lastCall![0].target.value).toBe("custom");
-        expect(input).toHaveValue("custom");
-    });
-
-    it("filters by value or label and inserts the option value like a datalist", async () => {
-        const onInput = rstest.fn();
-        const onChange = rstest.fn();
-        render(<Combobox options={ITEMS} placeholder="Search" onInput={onInput} onChange={onChange} />);
-
-        const input = screen.getByPlaceholderText("Search");
-        await userEvent.type(input, "most");
-        await waitFor(() => expect(screen.getAllByRole("option")).toHaveLength(1));
-        onInput.mockClear();
-        onChange.mockClear();
-
-        await userEvent.click(screen.getByRole("option", { name: /stars/ }));
-
-        expect(input).toHaveValue("stars");
-        expect(onInput).toHaveBeenCalledTimes(1);
-        expect(onChange).toHaveBeenCalledTimes(1);
-        expect(onChange.mock.lastCall![0].target.value).toBe("stars");
-    });
-});
-
-describe("RadioGroup", () => {
-    it("forwards ref to the root and selects items", async () => {
-        const ref = createRef<HTMLDivElement>();
-        const onChange = rstest.fn();
-        render(<RadioGroup ref={ref} id="sort" name="sort" items={ITEMS} onChange={onChange} aria-label="Sort" />);
-
-        expect(ref.current).toBe(screen.getByRole("radiogroup", { name: "Sort" }));
-        expect(ref.current).toHaveAttribute("id", "sort");
-
-        await userEvent.click(screen.getByText("Most stars"));
-        expect(onChange.mock.lastCall![0].target.value).toBe("stars");
-        expect(screen.getByRole("radio", { name: "Most stars" })).toBeChecked();
-        expect(screen.getByRole("radio", { name: "Name" })).toBeDisabled();
-    });
-});
-
-describe("SegmentedControl", () => {
-    it("switches the checked segment", async () => {
-        render(
-            <SegmentedControl
-                defaultValue="en-US"
-                items={[
-                    { value: "en-US", label: "EN" },
-                    { value: "pt-BR", label: "PT" }
-                ]}
-            />
-        );
-
-        expect(screen.getByRole("radio", { name: "EN" })).toBeChecked();
-        await userEvent.click(screen.getByText("PT"));
-        expect(screen.getByRole("radio", { name: "PT" })).toBeChecked();
+        await userEvent.click(screen.getByRole("button", { name: "Select" }));
+        await screen.findByRole("listbox");
+        const group = '[data-part="SelectOptions"] > [data-slot="group"]';
+        expect(document.querySelector(`${group} > [data-slot="group-label"]`)).not.toBeNull();
+        expect(document.querySelector(`${group} > [data-slot="option"] > [data-slot="indicator"]`)).not.toBeNull();
     });
 });

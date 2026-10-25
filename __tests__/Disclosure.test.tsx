@@ -68,4 +68,17 @@ describe("Disclosure", () => {
         expect(screen.getByText("Notes 2")).toBeInTheDocument();
         await waitFor(() => expect(screen.queryByText("Notes 1")).not.toBeInTheDocument());
     });
+
+    it("exposes the data-part and data-slot structure", () => {
+        render(
+            <Disclosure defaultOpen>
+                <DisclosureButton>Title</DisclosureButton>
+                <DisclosurePanel>Body</DisclosurePanel>
+            </Disclosure>
+        );
+        const button = '[data-part="Disclosure"] > [data-part="DisclosureButton"]';
+        expect(document.querySelector(`${button} > [data-slot="title"]`)).not.toBeNull();
+        expect(document.querySelector(`${button} > [data-slot="indicator"]`)).not.toBeNull();
+        expect(document.querySelector('[data-part="Disclosure"] > [data-part="DisclosurePanel"]')).not.toBeNull();
+    });
 });

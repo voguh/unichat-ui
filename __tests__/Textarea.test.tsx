@@ -34,4 +34,9 @@ describe("Textarea", () => {
         await userEvent.type(textarea, "ab");
         expect(onInput).toHaveBeenCalledTimes(2);
     });
+
+    it("exposes the data-part structure", () => {
+        render(<Textarea autoResize />);
+        expect(document.querySelector('textarea[data-part="Textarea"][data-auto-resize]')).not.toBeNull();
+    });
 });

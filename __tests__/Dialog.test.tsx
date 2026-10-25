@@ -111,4 +111,25 @@ describe("Dialog", () => {
         await userEvent.click(await screen.findByRole("button", { name: "Close" }));
         expect(onClose).toHaveBeenCalledTimes(1);
     });
+
+    it("exposes the data-part structure", async () => {
+        render(
+            <Dialog open onClose={() => {}}>
+                <DialogBackdrop />
+                <DialogPanel>
+                    <DialogHeader>
+                        <DialogTitle>Title</DialogTitle>
+                        <DialogCloseButton />
+                    </DialogHeader>
+                    <DialogBody>Body</DialogBody>
+                </DialogPanel>
+            </Dialog>
+        );
+        const header = '[data-part="DialogPanel"] > [data-part="DialogHeader"]';
+        expect(await screen.findByRole("dialog")).toHaveAttribute("data-part", "Dialog");
+        expect(document.querySelector('[data-part="Dialog"] [data-part="DialogBackdrop"]')).not.toBeNull();
+        expect(document.querySelector(`${header} > [data-part="DialogTitle"]`)).not.toBeNull();
+        expect(document.querySelector(`${header} > [data-part="DialogCloseButton"] > i`)).not.toBeNull();
+        expect(document.querySelector('[data-part="DialogPanel"] > [data-part="DialogBody"]')).not.toBeNull();
+    });
 });

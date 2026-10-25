@@ -45,4 +45,11 @@ describe("Input", () => {
         await userEvent.type(screen.getByRole("textbox"), "abc");
         expect(onInput).toHaveBeenCalledTimes(3);
     });
+
+    it("exposes the data-part and data-slot structure", () => {
+        render(<Input startSlot="$" endSlot="USD" />);
+        expect(document.querySelector('[data-part="Input"] > [data-slot="start"]')).not.toBeNull();
+        expect(document.querySelector('[data-part="Input"] > input')).not.toBeNull();
+        expect(document.querySelector('[data-part="Input"] > [data-slot="end"]')).not.toBeNull();
+    });
 });

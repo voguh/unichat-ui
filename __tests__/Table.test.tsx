@@ -37,4 +37,17 @@ describe("Table", () => {
         expect(screen.getByRole("columnheader", { name: "Name" })).toHaveAttribute("scope", "col");
         expect(screen.getByRole("cell", { name: "voguh" })).toHaveAttribute("colspan", "2");
     });
+
+    it("exposes the data-part structure", () => {
+        render(
+            <Table>
+                <tbody>
+                    <tr>
+                        <td>x</td>
+                    </tr>
+                </tbody>
+            </Table>
+        );
+        expect(document.querySelector('table[data-part="Table"] > tbody > tr > td')).not.toBeNull();
+    });
 });

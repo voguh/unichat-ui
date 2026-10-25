@@ -50,4 +50,9 @@ describe("Avatar", () => {
         rerender(<Avatar src="/other.png" alt="Plugin" fallback={<span>fb</span>} />);
         expect(screen.getByRole("img")).toHaveAttribute("src", "/other.png");
     });
+
+    it("exposes the data-part structure", () => {
+        render(<Avatar alt="User" />);
+        expect(document.querySelector('[data-part="Avatar"][data-fallback]')).not.toBeNull();
+    });
 });

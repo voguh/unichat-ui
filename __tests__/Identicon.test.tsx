@@ -51,4 +51,9 @@ describe("Identicon", () => {
             expect(cells.has(`${15 - x},${y}`)).toBe(true);
         }
     });
+
+    it("exposes the data-part structure", () => {
+        render(<Identicon value="seed" />);
+        expect(document.querySelector('svg[data-part="Identicon"] > rect')).not.toBeNull();
+    });
 });

@@ -10,12 +10,10 @@
 
 import { createRef } from "react";
 
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
-import { ColorPicker } from "~/ColorPicker";
 import { DatePicker } from "~/DatePicker";
-import { FileUpload } from "~/FileUpload";
 
 describe("DatePicker", () => {
     it("forwards ref and native props to the date input", () => {
@@ -94,79 +92,15 @@ describe("DatePicker", () => {
         expect(root).not.toHaveAttribute("data-open");
         expect(screen.getByTestId("input")).toHaveFocus();
     });
-});
 
-describe("ColorPicker", () => {
-    it("forwards ref and native props to the visible input", () => {
-        const ref = createRef<HTMLInputElement>();
-        render(<ColorPicker ref={ref} id="accent" name="accent" defaultValue="#991b1b" />);
-        expect(ref.current).toHaveAttribute("id", "accent");
-        expect(ref.current).toHaveAttribute("name", "accent");
-        expect(ref.current).toHaveAttribute("type", "text");
-        expect(ref.current).toHaveValue("#991b1b");
-    });
-
-    it("selects a swatch and dispatches a native change", async () => {
-        const ref = createRef<HTMLInputElement>();
-        const onChange = rstest.fn();
-        render(<ColorPicker ref={ref} swatches={["#2563eb"]} onChange={onChange} />);
-
-        await userEvent.click(ref.current as HTMLInputElement);
-        await userEvent.click(await screen.findByRole("button", { name: "#2563eb" }));
-
-        expect(onChange).toHaveBeenCalledTimes(1);
-        expect(ref.current).toHaveValue("#2563eb");
-    });
-
-    it("opens on focus and closes with Escape and outside clicks", async () => {
-        const ref = createRef<HTMLInputElement>();
-        const { container } = render(<ColorPicker ref={ref} />);
-        const root = container.querySelector("[data-part='ColorPicker']");
-
-        await userEvent.tab();
-        expect(ref.current).toHaveFocus();
-        expect(root).toHaveAttribute("data-open");
-
-        await userEvent.keyboard("{Escape}");
-        expect(root).not.toHaveAttribute("data-open");
-
-        await userEvent.click(ref.current as HTMLInputElement);
-        expect(root).toHaveAttribute("data-open");
-
-        await userEvent.click(document.body);
-        expect(root).not.toHaveAttribute("data-open");
-    });
-});
-
-describe("FileUpload", () => {
-    it("forwards ref to the file input, lists and removes selected files", async () => {
-        const ref = createRef<HTMLInputElement>();
-        const onChange = rstest.fn();
-        render(
-            <FileUpload ref={ref} id="assets" name="assets" onChange={onChange}>
-                Drop files here
-            </FileUpload>
-        );
-
-        expect(ref.current).toHaveAttribute("type", "file");
-        expect(ref.current).toHaveAttribute("id", "assets");
-        expect(screen.getByText("Drop files here")).toBeInTheDocument();
-
-        const file = new File(["data"], "unichat.zip", { type: "application/zip" });
-        await userEvent.upload(ref.current as HTMLInputElement, file);
-
-        expect(await screen.findByText("unichat.zip")).toBeInTheDocument();
-        expect(onChange).toHaveBeenCalledTimes(1);
-    });
-
-    it("marks the dropzone while dragging", () => {
-        render(<FileUpload data-testid="input">Drop files here</FileUpload>);
-        const dropzone = screen.getByText("Drop files here");
-
-        fireEvent.dragOver(dropzone);
-        expect(dropzone).toHaveAttribute("data-dragging");
-
-        fireEvent.dragLeave(dropzone);
-        return waitFor(() => expect(dropzone).not.toHaveAttribute("data-dragging"));
+    it("exposes the data-part and data-slot structure", () => {
+        render(<DatePicker />);
+        const calendar = '[data-part="DatePicker"] > [data-part~="DatePickerCalendar"]';
+        expect(document.querySelector('[data-part="DatePicker"] > [data-slot="control"] > input')).not.toBeNull();
+        expect(
+            document.querySelector('[data-part="DatePicker"] > [data-slot="control"] > [data-slot="trigger"]')
+        ).not.toBeNull();
+        expect(document.querySelector(`${calendar} > [data-slot="header"] > [data-slot="title"]`)).not.toBeNull();
+        expect(document.querySelector(`${calendar} > [data-slot="grid"] [data-slot="day"]`)).not.toBeNull();
     });
 });

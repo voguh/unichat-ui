@@ -66,4 +66,14 @@ describe("FormGroup", () => {
         expect(screen.queryByText("Shown in chat")).not.toBeInTheDocument();
         expect(screen.getByText("Too long")).toBeInTheDocument();
     });
+
+    it("exposes the data-slot structure", () => {
+        render(
+            <FormGroup id="field" label="Label" description="Hint">
+                <input id="field" />
+            </FormGroup>
+        );
+        expect(document.querySelector('[data-part="FormGroup"] > [data-slot="label"]')).not.toBeNull();
+        expect(document.querySelector('[data-part="FormGroup"] > [data-slot="description"]')).not.toBeNull();
+    });
 });

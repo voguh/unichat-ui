@@ -37,9 +37,13 @@ jobs:
             exit 1
           fi
 
+  package:
+    needs: [prepare-release]
+    uses: ./.github/workflows/package.yaml
+
   publish:
     runs-on: ubuntu-24.04
-    needs: [prepare-release]
+    needs: [package]
     permissions:
       contents: write
       id-token: write
@@ -52,17 +56,15 @@ jobs:
         with:
           node-version-file: .nvmrc
 
-      - name: Install dependencies
-        run: ./pnpmw install --frozen-lockfile
+      - name: Download package artifact
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: package
+          path: release
 
-      - name: Build
-        run: ./pnpmw build
-
-      - name: Pack package
+      - name: Prepare release assets
         run: |
           export VERSION="${{ github.ref_name }}"
-          mkdir -p release
-          npm pack . --pack-destination release
           mv "release/voguh-unichat-ui-$VERSION.tgz" "release/unichat-ui-$VERSION.tgz"
           for file in release/*; do
             if [ -f "$file" ]; then
@@ -70,22 +72,36 @@ jobs:
             fi
           done
 
-      - name: Create and upload Release
+      - name: Create draft Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           export VERSION="${{ github.ref_name }}"
+          if [[ "$(gh release view "$VERSION" --json isDraft --jq .isDraft 2> /dev/null)" == "true" ]]; then
+            gh release delete "$VERSION" --yes
+          fi
           if [[ "$VERSION" == *"-"* || "$VERSION" == *"+"* ]]; then
-            gh release create "$VERSION" release/* --prerelease
+            gh release create "$VERSION" release/* --draft --prerelease
           else
-            gh release create "$VERSION" release/*
+            gh release create "$VERSION" release/* --draft
           fi
 
       - name: Publish to zbell
         run: |
+          export VERSION="${{ github.ref_name }}"
+          PACKAGE_NAME="$(jq -r '.name' package.json)"
+          if npm view "$PACKAGE_NAME@$VERSION" version --registry "$ZBELL_REGISTRY" > /dev/null 2>&1; then
+            echo "$PACKAGE_NAME@$VERSION is already published to zBell."
+            exit 0
+          fi
           TOKEN=$(curl -sSf -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=$ZBELL_REGISTRY" | jq -r .value)
           echo "::add-mask::$TOKEN"
-          if ! npm publish --registry "$ZBELL_REGISTRY" --tag "latest" "--${ZBELL_REGISTRY#*:}/:_authToken=$TOKEN" --logs-dir npm-logs; then
+          if ! npm publish "release/unichat-ui-$VERSION.tgz" --registry "$ZBELL_REGISTRY" --tag "latest" "--${ZBELL_REGISTRY#*:}/:_authToken=$TOKEN" --logs-dir npm-logs; then
             cat npm-logs/*.log
             exit 1
           fi
+
+      - name: Publish Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh release edit "${{ github.ref_name }}" --draft=false

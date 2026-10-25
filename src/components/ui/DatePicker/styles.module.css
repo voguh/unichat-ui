@@ -10,7 +10,6 @@
 
 @layer theme, base, unichat-ui, components, utilities;
 
-/* Imported into the layer so the calendar theme below can override vanilla-calendar-pro's own rules. */
 @import "vanilla-calendar-pro/styles/index.css" layer(unichat-ui);
 
 @layer unichat-ui {

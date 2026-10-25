@@ -16,7 +16,6 @@
         @apply text-text-secondary text-sm;
         @apply flex items-start gap-3 px-4 py-3.5;
 
-        /* Mixed against the surface instead of using alpha, so the alert looks the same on any background. */
         background-color: color-mix(in oklab, var(--variant) 15%, var(--ucui-color-surface));
         border-color: color-mix(in oklab, var(--variant) 40%, var(--ucui-color-surface));
 

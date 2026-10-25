@@ -16,7 +16,6 @@ const GLOBAL_STYLESHEET = path.resolve(__dirname, "src/styles/global.css");
 
 /* ========================================================================== */
 
-// Gives every CSS module the Tailwind theme for @apply.
 function tailwindReference() {
     return {
         postcssPlugin: "tailwind-reference",

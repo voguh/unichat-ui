@@ -4,8 +4,9 @@
 !/.vscode/*.code-snippets
 /coverage/*
 /dist/*
-/dist-showcase/*
 /node_modules/*
+/showcase/dist/*
+/showcase/node_modules/*
 
 /.env*
 !/.env.example

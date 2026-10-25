@@ -4,7 +4,8 @@
     "files": {
         "includes": [
             "**",
-            "!!**/{generated,dist,dist-showcase,coverage,public,node_modules,.swc}/**"
+            "!showcase",
+            "!!**/{generated,dist,coverage,public,node_modules,.swc}/**"
         ]
     },
     "formatter": {
@@ -20,7 +21,8 @@
         "rules": {
             "preset": "recommended",
             "complexity": {
-                "noUselessConstructor": "off"
+                "noUselessConstructor": "off",
+                "useOptionalChain": "off"
             },
             "correctness": {
                 "noUnusedVariables": "warn"

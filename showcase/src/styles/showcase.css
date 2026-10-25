@@ -1,0 +1,46 @@
+/*!******************************************************************************
+ * Copyright (c) 2026 Voguh
+ *
+ * This program and the accompanying materials are made
+ * available under the terms of the Eclipse Public License 2.0
+ * which is available at https://www.eclipse.org/legal/epl-2.0/
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ ******************************************************************************/
+
+/* unichat-ui components ship in their own layer, below Tailwind components and utilities. */
+@layer theme, base, unichat-ui, components, utilities;
+
+@import "tailwindcss";
+
+@theme {
+    --text-base: 0.875rem;
+    --text-sm: 0.75rem;
+    --text-xs: 0.625rem;
+}
+
+:root {
+    --ucui-font-size-base: 0.875rem;
+    --ucui-font-size-sm: 0.75rem;
+    --ucui-font-size-xs: 0.625rem;
+}
+
+html {
+    color-scheme: dark;
+}
+
+html,
+body,
+#root {
+    height: 100%;
+    margin: 0;
+}
+
+body,
+#root {
+    @apply text-base;
+}
+
+#root {
+    overflow: hidden;
+}

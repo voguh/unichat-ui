@@ -56,8 +56,7 @@ export const Dialog = forwardRef<HTMLElement, DialogProps>(function Dialog(
             outsidePointerRef.current = false;
         }
 
-        // Headless reports Escape, outside clicks and CloseButton through the same onClose; the last input tells them
-        // apart.
+        // Headless reports Escape, outside clicks and CloseButton through the same onClose.
         window.addEventListener("pointerdown", markPointer, true);
         window.addEventListener("keydown", markKeyboard, true);
 

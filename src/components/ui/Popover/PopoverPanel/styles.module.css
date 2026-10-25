@@ -12,11 +12,11 @@
 
 @layer unichat-ui {
     .root {
-        --anchor-gap: 8px;
-        --anchor-padding: 8px;
-
         @apply bg-surface-raised border border-border rounded shadow-xl;
         @apply z-50 flex flex-col gap-2 max-w-sm p-4;
+
+        --anchor-gap: 8px;
+        --anchor-padding: 8px;
 
         &:focus-visible {
             @apply outline-none;

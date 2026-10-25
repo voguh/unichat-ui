@@ -8,16 +8,15 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-/* Every component stylesheet lives in unichat-ui: unlayered consumer CSS and Tailwind utilities override it. */
 @layer theme, base, unichat-ui, components, utilities;
 
-/* theme(inline) writes theme values into the compiled modules, which ship without Tailwind's theme variables. */
+/* The compiled modules ship without Tailwind's theme variables. */
 @import "tailwindcss/theme.css" layer(theme) theme(inline);
 @import "tailwindcss/preflight.css" layer(base);
 @import "tailwindcss/utilities.css" layer(utilities);
 @plugin "@tailwindcss/typography";
 
-/* Cleared scales make any utility that bypasses the --ucui-* tokens (tokens.css) fail to compile. */
+/* Utilities outside the --ucui-* tokens fail to compile. */
 @theme inline {
     --color-*: initial;
     --color-surface-sunken: var(--ucui-color-surface-sunken);

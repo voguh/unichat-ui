@@ -19,7 +19,7 @@ import { Progress } from "~/components/ui/Progress";
 import { QrCode } from "~/components/ui/QrCode";
 import { Toaster, toaster } from "~/components/ui/Toast";
 
-// jsdom has no canvas, which lean-qr's toDataURL draws on.
+// jsdom has no canvas for lean-qr's toDataURL.
 rstest.mock("lean-qr", () => ({ generate: () => ({ toDataURL: () => "data:image/png;base64,qr" }) }));
 
 describe("Pagination", () => {

@@ -1,3 +1,5 @@
+packages:
+  - showcase
 saveExact: true
 savePrefix: ""
 minimumReleaseAge: 10080

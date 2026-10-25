@@ -21,7 +21,7 @@ export function clickOutside(cb: (event?: Event) => void, ...elements: RefObject
         }
 
         for (const ref of elements) {
-            if (ref.current?.contains(event.target)) {
+            if (ref.current != null && ref.current.contains(event.target)) {
                 return;
             }
         }

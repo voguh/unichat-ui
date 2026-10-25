@@ -12,11 +12,11 @@
 
 @layer unichat-ui {
     .root {
-        --dialog-width: 32rem;
-        --dialog-height: 90vh;
-
         @apply bg-surface border border-border-subtle rounded;
         @apply relative flex flex-col overflow-hidden;
+
+        --dialog-width: 32rem;
+        --dialog-height: 90vh;
 
         width: var(--dialog-width);
         max-width: 100vw;
@@ -39,10 +39,10 @@
         }
 
         &[data-size="fullscreen"] {
+            @apply rounded-none border-none h-screen;
+
             --dialog-width: 100vw;
             --dialog-height: 100vh;
-
-            @apply rounded-none border-none h-screen;
         }
     }
 }

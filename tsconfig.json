@@ -1,5 +1,5 @@
 {
-    "include": ["./__tests__/**/*", "./src/**/*", "./showcase/**/*"],
+    "include": ["./__tests__/**/*", "./src/**/*"],
     "compilerOptions": {
         /* Visit https://aka.ms/tsconfig to read more about this file */
 
@@ -112,7 +112,6 @@
 
         "paths": {
             "~/*": ["./src/*"],
-            "~showcase/*": ["./showcase/*"],
             "react": ["./node_modules/preact/compat/"],
             "react/jsx-runtime": ["./node_modules/preact/jsx-runtime"],
             "react-dom": ["./node_modules/preact/compat/"],

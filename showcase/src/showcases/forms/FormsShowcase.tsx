@@ -172,7 +172,7 @@ div[data-part~="FormGroup"]   (groupProps)
                         ...FORM_GROUP_PROPS,
                         {
                             name: 'status="invalid"',
-                            type: "—",
+                            type: "---",
                             description: "Also marks the control as invalid (invalid or aria-invalid)."
                         },
                         {

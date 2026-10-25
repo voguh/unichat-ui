@@ -152,8 +152,8 @@ div[data-part~="Dialog"][role]   (portal)
                     ref: "HTMLElement",
                     nonStandard: [
                         {
-                            name: "—",
-                            type: "—",
+                            name: "---",
+                            type: "---",
                             description: "Rendered as <h2> and used as the dialog's accessible name."
                         }
                     ]

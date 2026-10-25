@@ -328,7 +328,7 @@ div[data-part~="ScrollableView"]   (rootProps)
                 <ScrollableView rootProps={{ style: { height: "240px" } }}>
                     <div style={{ width: "1600px" }}>
                         {SCROLL_ITEMS.map((item) => (
-                            <p key={item}>{item} — a wide row that overflows horizontally.</p>
+                            <p key={item}>{item} - a wide row that overflows horizontally.</p>
                         ))}
                     </div>
                 </ScrollableView>

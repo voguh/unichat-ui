@@ -299,7 +299,7 @@ div[data-part="SelectOptions"]   (portal, while open)
                         { name: "defaultValue", type: "string", description: "Selected value when uncontrolled." },
                         {
                             name: "multiple",
-                            type: "—",
+                            type: "---",
                             description: "Not supported: always a single selection."
                         },
                         {

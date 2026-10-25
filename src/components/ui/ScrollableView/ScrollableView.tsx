@@ -198,14 +198,26 @@ export const ScrollableView = forwardRef<HTMLDivElement, ScrollableViewProps>(fu
         setMetrics({ vertical: measureAxis(viewport, "vertical"), horizontal: measureAxis(viewport, "horizontal") });
     }
 
-    function handleScroll(event: PReact.TargetedUIEvent<HTMLDivElement>): void {
-        updateMetrics();
+    function reveal(): void {
         setActive(true);
         clearTimeout(hideTimerRef.current);
         hideTimerRef.current = setTimeout(() => setActive(false), HIDE_DELAY);
+    }
+
+    function handleScroll(event: PReact.TargetedUIEvent<HTMLDivElement>): void {
+        updateMetrics();
+        reveal();
 
         if (onScroll != null) {
             onScroll(event);
+        }
+    }
+
+    function handlePointerMove(event: PReact.TargetedPointerEvent<HTMLDivElement>): void {
+        reveal();
+
+        if (rootProps.onPointerMove != null) {
+            rootProps.onPointerMove(event);
         }
     }
 
@@ -239,6 +251,7 @@ export const ScrollableView = forwardRef<HTMLDivElement, ScrollableViewProps>(fu
         <div
             {...rootProps}
             data-part={dataPart("ScrollableView", rest)}
+            onPointerMove={handlePointerMove}
             className={clsx(styles.root, rootProps.className)}
         >
             <div

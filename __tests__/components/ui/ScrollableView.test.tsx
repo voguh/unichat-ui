@@ -94,6 +94,33 @@ describe("ScrollableView", () => {
         expect(getVerticalTrack(container)).not.toHaveAttribute("data-active");
     });
 
+    it("shows the track again when the pointer moves over it", () => {
+        rstest.useFakeTimers();
+        const onPointerMove = rstest.fn();
+        const { container } = render(
+            <ScrollableView data-testid="viewport" rootProps={{ onPointerMove }}>
+                Content
+            </ScrollableView>
+        );
+
+        const viewport = screen.getByTestId("viewport");
+        overflowVertically(viewport);
+        fireEvent.scroll(viewport);
+        act(() => {
+            rstest.advanceTimersByTime(1000);
+        });
+
+        fireEvent.pointerMove(viewport);
+
+        expect(onPointerMove).toHaveBeenCalledTimes(1);
+        expect(getVerticalTrack(container)).toHaveAttribute("data-active");
+
+        act(() => {
+            rstest.advanceTimersByTime(1000);
+        });
+        expect(getVerticalTrack(container)).not.toHaveAttribute("data-active");
+    });
+
     it("pages towards the clicked side of the track", () => {
         const { container } = render(<ScrollableView data-testid="viewport">Content</ScrollableView>);
 

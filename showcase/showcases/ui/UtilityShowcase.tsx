@@ -305,7 +305,7 @@ div[data-part~="ScrollableView"]   (rootProps)
                             name: "alwaysVisible",
                             type: "boolean",
                             defaultValue: "false",
-                            description: "Keeps the scrollbar visible; false hides it 1s after scrolling stops."
+                            description: "Keeps the scrollbar visible instead of showing it on scroll or pointer move."
                         },
                         {
                             name: "rootProps",
@@ -323,13 +323,20 @@ div[data-part~="ScrollableView"]   (rootProps)
                     ))}
                 </ScrollableView>
             </Example>
-            <Example title="Both axes, always visible" vertical>
-                <ScrollableView alwaysVisible rootProps={{ style: { height: "240px" } }}>
+            <Example title="Both axes" vertical>
+                <ScrollableView rootProps={{ style: { height: "240px" } }}>
                     <div style={{ width: "1600px" }}>
                         {SCROLL_ITEMS.map((item) => (
                             <p key={item}>{item} — a wide row that overflows horizontally.</p>
                         ))}
                     </div>
+                </ScrollableView>
+            </Example>
+            <Example title="Always visible" vertical>
+                <ScrollableView alwaysVisible rootProps={{ style: { height: "240px" } }}>
+                    {SCROLL_ITEMS.map((item) => (
+                        <p key={item}>{item}</p>
+                    ))}
                 </ScrollableView>
             </Example>
         </ShowcasePage>

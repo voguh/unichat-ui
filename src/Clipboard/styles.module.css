@@ -18,7 +18,7 @@
             @apply text-text-secondary text-sm font-semibold;
         }
 
-        & > [data-slot="control"] {
+        & > div[data-slot="control"] {
             @apply bg-surface-raised rounded;
             @apply flex items-center gap-2 h-10 px-3;
 

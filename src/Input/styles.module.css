@@ -23,8 +23,8 @@
             @apply ring-2 ring-invalid;
         }
 
-        & > [data-slot="start"],
-        & > [data-slot="end"] {
+        & > span[data-slot="start"],
+        & > span[data-slot="end"] {
             @apply text-text-placeholder;
             @apply flex items-center;
         }
@@ -47,8 +47,8 @@
             @apply text-text-placeholder;
             @apply cursor-not-allowed;
 
-            & > [data-slot="start"],
-            & > [data-slot="end"],
+            & > span[data-slot="start"],
+            & > span[data-slot="end"],
             & > input::placeholder {
                 @apply text-text-disabled;
             }

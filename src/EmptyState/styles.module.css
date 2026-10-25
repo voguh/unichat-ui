@@ -15,15 +15,15 @@
         @apply text-center text-text-placeholder;
         @apply flex flex-col items-center gap-4 py-12;
 
-        & > [data-slot="icon"] {
+        & > span[data-slot="icon"] {
             @apply text-4xl;
         }
 
-        & > [data-slot="title"] {
+        & > :is(h1, h2, h3)[data-slot="title"] {
             @apply text-lg font-bold text-text-secondary;
         }
 
-        & > [data-slot="description"] {
+        & > p[data-slot="description"] {
             @apply text-sm;
         }
     }

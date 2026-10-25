@@ -19,7 +19,7 @@
             @apply text-left;
             @apply flex items-center justify-between gap-2 cursor-pointer h-10 px-3;
 
-            & > [data-slot="value"] {
+            & > span[data-slot="value"] {
                 @apply truncate;
 
                 &[data-placeholder] {
@@ -27,7 +27,7 @@
                 }
             }
 
-            & > [data-slot="indicator"] {
+            & > i[data-slot="indicator"] {
                 @apply text-text-placeholder text-xs;
                 @apply transition-transform;
             }
@@ -41,7 +41,7 @@
             }
 
             &[data-open] {
-                & > [data-slot="indicator"] {
+                & > i[data-slot="indicator"] {
                     @apply rotate-180;
                 }
             }
@@ -51,8 +51,8 @@
                 @apply text-text-placeholder;
                 @apply cursor-not-allowed;
 
-                & > [data-slot="indicator"],
-                & > [data-slot="value"][data-placeholder] {
+                & > i[data-slot="indicator"],
+                & > span[data-slot="value"][data-placeholder] {
                     @apply text-text-disabled;
                 }
             }
@@ -69,8 +69,8 @@
             @apply outline-none;
         }
 
-        & > [data-slot="group"] {
-            & > [data-slot="group-label"] {
+        & > div[data-slot="group"] {
+            & > div[data-slot="group-label"] {
                 @apply text-text-placeholder text-xs font-semibold uppercase;
                 @apply px-3 pt-2 pb-1;
             }
@@ -80,7 +80,7 @@
     .option {
         @apply flex items-center justify-between gap-2 cursor-pointer px-3 py-2;
 
-        & > [data-slot="indicator"] {
+        & > i[data-slot="indicator"] {
             @apply text-xs;
             @apply invisible;
 
@@ -94,7 +94,7 @@
         &[data-selected] {
             @apply font-bold;
 
-            & > [data-slot="indicator"] {
+            & > i[data-slot="indicator"] {
                 @apply visible;
             }
         }

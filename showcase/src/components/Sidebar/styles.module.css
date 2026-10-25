@@ -12,7 +12,7 @@
     @apply bg-stone-900 border-r border-r-stone-800;
     @apply shrink-0 w-60 flex flex-col gap-4 py-4;
 
-    > :global(.brand) {
+    > div:global(.brand) {
         @apply text-lg font-bold;
         @apply shrink-0 flex items-center gap-2 px-6;
 
@@ -21,13 +21,13 @@
         }
     }
 
-    > :global(.groups) {
+    > div:global(.groups) {
         @apply flex-1 min-h-0;
 
-        > :global(.group-list) {
+        > div:global(.group-list) {
             @apply flex flex-col gap-4 px-4;
 
-            > :global(.group) {
+            > div {
                 @apply flex flex-col;
 
                 > h2 {

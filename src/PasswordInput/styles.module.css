@@ -36,7 +36,7 @@
             }
         }
 
-        & > [data-slot="trigger"] {
+        & > button[data-slot="trigger"] {
             @apply text-text-placeholder;
             @apply cursor-pointer;
 
@@ -50,7 +50,7 @@
             @apply text-text-placeholder;
             @apply cursor-not-allowed;
 
-            & > [data-slot="trigger"],
+            & > button[data-slot="trigger"],
             & > input::placeholder {
                 @apply text-text-disabled;
             }

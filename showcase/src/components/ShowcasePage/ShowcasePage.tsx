@@ -57,7 +57,7 @@ function renderComponentDoc(doc: ComponentDoc): PReact.ComponentChildren {
     const nonStandard = doc.nonStandard ?? [];
 
     return (
-        <section key={doc.name} className={styles.componentDoc}>
+        <section key={doc.name} className="component-doc">
             <h3>{doc.name}</h3>
             <dl>
                 <dt>Props</dt>
@@ -104,7 +104,7 @@ export function ShowcasePage({
                 <h1>{title}</h1>
                 {description != null && <p>{description}</p>}
             </header>
-            <section className={styles.section}>
+            <section className="section">
                 <h2>Usage</h2>
                 <pre className={styles.code}>
                     <code>{usage.trim()}</code>
@@ -112,7 +112,7 @@ export function ShowcasePage({
             </section>
             {children}
             {api != null && (
-                <section className={styles.section}>
+                <section className="section">
                     <h2>API</h2>
                     {api.map(renderComponentDoc)}
                 </section>

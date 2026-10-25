@@ -16,7 +16,7 @@
     .root {
         @apply flex flex-col;
 
-        & > [data-slot="control"] {
+        & > div[data-slot="control"] {
             @apply bg-surface-raised rounded;
             @apply flex items-center gap-2 h-10 px-3;
 
@@ -37,7 +37,7 @@
                 }
             }
 
-            & > [data-slot="trigger"] {
+            & > button[data-slot="trigger"] {
                 @apply text-text-placeholder;
                 @apply cursor-pointer;
 
@@ -55,7 +55,7 @@
                 @apply text-text-placeholder;
                 @apply cursor-not-allowed;
 
-                & > [data-slot="trigger"],
+                & > button[data-slot="trigger"],
                 & > input::placeholder {
                     @apply text-text-disabled;
                 }

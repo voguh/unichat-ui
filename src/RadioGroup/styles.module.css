@@ -26,12 +26,12 @@
                 @apply cursor-not-allowed;
             }
 
-            & > [data-slot="control"] {
+            & > span[data-slot="control"] {
                 @apply bg-surface-raised border border-border-strong rounded-full;
                 @apply inline-flex items-center justify-center shrink-0 w-5 h-5;
             }
 
-            & > [data-slot="label"] {
+            & > span[data-slot="label"] {
                 @apply select-none;
             }
 
@@ -71,7 +71,7 @@
 
         &[aria-invalid="true"] {
             & > label {
-                & > [data-slot="control"] {
+                & > span[data-slot="control"] {
                     @apply border-invalid;
                 }
             }

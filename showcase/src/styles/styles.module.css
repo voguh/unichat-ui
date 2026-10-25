@@ -15,6 +15,14 @@
 
     > main {
         @apply flex-1 min-w-0;
+
+        > div[data-part~="ScrollableView"] {
+            @apply h-full;
+
+            > div[data-slot="viewport"] {
+                @apply p-8;
+            }
+        }
     }
 
     ::-webkit-scrollbar {
@@ -32,12 +40,4 @@
             @apply bg-stone-950/75;
         }
     }
-}
-
-.scroll {
-    @apply h-full;
-}
-
-.content {
-    @apply p-8;
 }

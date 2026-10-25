@@ -14,23 +14,23 @@
     .root {
         @apply flex flex-col gap-1;
 
-        & > [data-slot="header"] {
+        & > div[data-slot="header"] {
             @apply flex items-center justify-between gap-2;
 
-            & > [data-slot="label"] {
+            & > span[data-slot="label"] {
                 @apply text-text-secondary text-sm font-semibold;
             }
 
-            & > [data-slot="value"] {
+            & > span[data-slot="value"] {
                 @apply text-text-muted text-xs;
             }
         }
 
-        & > [data-slot="track"] {
+        & > div[data-slot="track"] {
             @apply bg-surface-hover rounded-full;
             @apply h-2 overflow-hidden;
 
-            & > [data-slot="range"] {
+            & > div[data-slot="range"] {
                 @apply bg-primary;
                 @apply h-full transition-all;
 

@@ -14,7 +14,7 @@
     .root {
         @apply flex flex-col gap-2;
 
-        & > [data-slot="dropzone"] {
+        & > label[data-slot="dropzone"] {
             @apply bg-surface border-2 border-dashed border-border rounded;
             @apply text-text-muted text-center;
             @apply flex flex-col items-center justify-center gap-2 cursor-pointer p-6;
@@ -23,7 +23,7 @@
                 @apply sr-only;
             }
 
-            & > [data-slot="icon"] {
+            & > i[data-slot="icon"] {
                 @apply text-2xl;
             }
 
@@ -53,11 +53,11 @@
                 @apply bg-surface-raised rounded;
                 @apply flex items-center gap-2 px-3 py-2;
 
-                & > [data-slot="name"] {
+                & > span[data-slot="name"] {
                     @apply flex-1 truncate;
                 }
 
-                & > [data-slot="size"] {
+                & > span[data-slot="size"] {
                     @apply text-sm text-text-muted;
                 }
 

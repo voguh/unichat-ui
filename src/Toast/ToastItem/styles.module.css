@@ -15,12 +15,12 @@
         @apply bg-surface-raised border border-border rounded shadow-xl;
         @apply flex items-center gap-3 min-w-100 py-2.5 pr-2.5 pl-3.5;
 
-        & > [data-slot="icon"] {
+        & > span[data-slot="icon"] {
             @apply text-text-muted text-lg;
             @apply shrink-0 flex items-center justify-center;
         }
 
-        & > [data-slot="body"] {
+        & > div[data-slot="body"] {
             @apply flex-1 min-w-0 flex flex-col gap-px;
 
             & > strong {
@@ -32,7 +32,7 @@
             }
         }
 
-        & > [data-slot="action"] {
+        & > button[data-slot="action"] {
             @apply bg-surface-hover border border-border-strong rounded;
             @apply text-text text-sm font-semibold;
             @apply shrink-0 h-7 px-2.5 cursor-pointer;
@@ -42,7 +42,7 @@
             }
         }
 
-        & > [data-slot="close"] {
+        & > button[data-slot="close"] {
             @apply rounded-full;
             @apply text-text-muted text-xs;
             @apply relative size-8 shrink-0 flex items-center justify-center cursor-pointer;
@@ -55,11 +55,11 @@
             & > svg {
                 @apply absolute inset-0 size-full -rotate-90 pointer-events-none;
 
-                & > [data-slot="track"] {
+                & > circle[data-slot="track"] {
                     @apply fill-none stroke-border stroke-2;
                 }
 
-                & > [data-slot="progress"] {
+                & > circle[data-slot="progress"] {
                     @apply fill-none stroke-text-muted stroke-2;
 
                     stroke-linecap: round;
@@ -86,13 +86,13 @@
         }
 
         &[data-variant] {
-            & > [data-slot="icon"] {
+            & > span[data-slot="icon"] {
                 color: color-mix(in oklab, var(--variant) 60%, white);
             }
 
-            & > [data-slot="close"] {
+            & > button[data-slot="close"] {
                 & > svg {
-                    & > [data-slot="progress"] {
+                    & > circle[data-slot="progress"] {
                         stroke: color-mix(in oklab, var(--variant) 80%, white);
                     }
                 }

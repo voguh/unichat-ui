@@ -14,7 +14,7 @@
     .root {
         @apply flex flex-col;
 
-        & > [data-slot="control"] {
+        & > div[data-slot="control"] {
             @apply bg-surface-raised rounded;
             @apply flex items-center gap-2 h-10 px-2 cursor-text;
 
@@ -32,7 +32,7 @@
                 @apply cursor-not-allowed;
             }
 
-            & > [data-slot="preview"] {
+            & > span[data-slot="preview"] {
                 @apply rounded;
                 @apply relative shrink-0 w-6 h-6 overflow-hidden cursor-pointer;
             }
@@ -48,7 +48,7 @@
     .panel {
         @apply fixed top-0 left-0 gap-3 w-64 p-3;
 
-        & > [data-slot="area"] {
+        & > div[data-slot="area"] {
             @apply rounded;
             @apply relative h-40 cursor-crosshair touch-none;
 
@@ -58,7 +58,7 @@
                 @apply outline-none ring-2 ring-focus;
             }
 
-            & > [data-slot="thumb"] {
+            & > span[data-slot="thumb"] {
                 @apply border-2 border-text rounded-full shadow;
                 @apply absolute w-4 h-4 pointer-events-none;
 
@@ -66,15 +66,15 @@
             }
         }
 
-        & > [data-slot="hue"] {
+        & > input[data-slot="hue"] {
             background-image: linear-gradient(to right, #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);
         }
 
-        & > [data-slot="alpha"] {
+        & > div[data-slot="alpha"] {
             @apply relative h-3;
 
-            & > [data-slot="grid"],
-            & > [data-slot="gradient"] {
+            & > span[data-slot="grid"],
+            & > span[data-slot="gradient"] {
                 @apply rounded-full;
             }
 
@@ -84,7 +84,7 @@
             }
         }
 
-        & > [data-slot="swatches"] {
+        & > div[data-slot="swatches"] {
             @apply flex flex-wrap gap-2;
 
             & > button {

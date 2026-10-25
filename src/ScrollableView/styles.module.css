@@ -14,7 +14,7 @@
     .root {
         @apply relative overflow-hidden;
 
-        & > [data-slot="viewport"] {
+        & > div[data-slot="viewport"] {
             @apply size-full overflow-auto;
 
             scrollbar-width: none;
@@ -24,7 +24,7 @@
             }
         }
 
-        & > [data-slot="track"] {
+        & > div[data-slot="track"] {
             @apply absolute select-none touch-none opacity-0 transition-opacity;
 
             &[data-active],
@@ -33,7 +33,7 @@
                 @apply opacity-100;
             }
 
-            & > [data-slot="thumb"] {
+            & > div[data-slot="thumb"] {
                 @apply bg-primary rounded-full;
                 @apply absolute;
 
@@ -56,7 +56,7 @@
                     @apply bottom-3;
                 }
 
-                & > [data-slot="thumb"] {
+                & > div[data-slot="thumb"] {
                     @apply right-0.5 w-1;
 
                     top: calc((100% - var(--thumb-length)) * var(--scroll-progress));
@@ -65,7 +65,7 @@
 
                 &:hover,
                 &[data-dragging] {
-                    & > [data-slot="thumb"] {
+                    & > div[data-slot="thumb"] {
                         @apply w-2;
                     }
                 }
@@ -78,7 +78,7 @@
                     @apply right-3;
                 }
 
-                & > [data-slot="thumb"] {
+                & > div[data-slot="thumb"] {
                     @apply bottom-0.5 h-1;
 
                     left: calc((100% - var(--thumb-length)) * var(--scroll-progress));
@@ -87,7 +87,7 @@
 
                 &:hover,
                 &[data-dragging] {
-                    & > [data-slot="thumb"] {
+                    & > div[data-slot="thumb"] {
                         @apply h-2;
                     }
                 }

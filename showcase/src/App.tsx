@@ -26,7 +26,7 @@ export function App(): PReact.ComponentChildren {
             <div className={styles.root}>
                 <Sidebar />
                 <main>
-                    <ScrollableView rootProps={{ className: styles.scroll }} className={styles.content}>
+                    <ScrollableView>
                         <Switch>
                             {SHOWCASES.map((showcase) => (
                                 <Route key={showcase.path} path={showcase.path} component={showcase.component} />

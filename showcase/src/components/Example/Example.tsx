@@ -22,9 +22,7 @@ export function Example({ title, vertical = false, children }: ExampleProps): PR
     return (
         <section className={styles.root}>
             <h2>{title}</h2>
-            <div className="preview" data-vertical={vertical}>
-                {children}
-            </div>
+            <div data-vertical={vertical}>{children}</div>
         </section>
     );
 }

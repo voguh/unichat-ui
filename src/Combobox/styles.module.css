@@ -14,7 +14,7 @@
     .root {
         @apply flex flex-col;
 
-        & > [data-slot="control"] {
+        & > div[data-slot="control"] {
             @apply bg-surface-raised rounded;
             @apply flex items-center gap-2 h-10 px-3;
 
@@ -35,7 +35,7 @@
                 }
             }
 
-            & > [data-slot="trigger"] {
+            & > button[data-slot="trigger"] {
                 @apply text-text-placeholder text-xs;
                 @apply cursor-pointer transition-transform;
 
@@ -49,7 +49,7 @@
                 @apply text-text-placeholder;
                 @apply cursor-not-allowed;
 
-                & > [data-slot="trigger"],
+                & > button[data-slot="trigger"],
                 & > input::placeholder {
                     @apply text-text-disabled;
                 }
@@ -71,10 +71,10 @@
             @apply invisible;
         }
 
-        & > [data-slot="option"] {
+        & > div[data-slot="option"] {
             @apply flex items-center justify-between gap-2 cursor-pointer px-3 py-2;
 
-            & > [data-slot="indicator"] {
+            & > i[data-slot="indicator"] {
                 @apply text-xs;
                 @apply invisible;
 
@@ -88,7 +88,7 @@
             &[data-selected] {
                 @apply font-bold;
 
-                & > [data-slot="indicator"] {
+                & > i[data-slot="indicator"] {
                     @apply visible;
                 }
             }

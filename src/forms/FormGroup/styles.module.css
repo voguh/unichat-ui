@@ -14,15 +14,15 @@
     .root {
         @apply flex flex-col gap-1;
 
-        & > [data-slot="label"] {
+        & > label[data-slot="label"] {
             @apply text-sm font-semibold text-text-secondary;
         }
 
-        & > [data-slot="description"] {
+        & > small[data-slot="description"] {
             @apply text-xs text-text-placeholder;
         }
 
-        & > [data-slot="status-message"] {
+        & > small[data-slot="status-message"] {
             @apply text-xs;
 
             &[data-status="valid"] {

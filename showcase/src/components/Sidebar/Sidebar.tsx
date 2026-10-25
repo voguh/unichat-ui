@@ -28,7 +28,7 @@ export function Sidebar(): PReact.ComponentChildren {
             </div>
             <ScrollableView rootProps={{ className: "groups" }} className="group-list">
                 {SHOWCASE_GROUPS.map((group) => (
-                    <div key={group} className="group">
+                    <div key={group}>
                         <h2>{group}</h2>
                         {SHOWCASES.filter((showcase) => showcase.group === group).map((showcase) => (
                             <Link key={showcase.path} to={showcase.path} data-selected={location === showcase.path}>

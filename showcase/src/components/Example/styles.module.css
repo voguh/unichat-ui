@@ -15,7 +15,7 @@
         @apply text-sm font-semibold uppercase text-stone-400;
     }
 
-    > :global(.preview) {
+    > div {
         @apply border border-stone-800 rounded;
         @apply flex flex-wrap items-start gap-4 p-6;
 

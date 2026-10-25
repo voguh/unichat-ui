@@ -14,12 +14,12 @@
     .root {
         @apply fixed top-0 left-0 z-50 pointer-events-none;
 
-        & > [data-slot="content"] {
+        & > div[data-slot="content"] {
             @apply bg-surface-sunken border border-border rounded shadow;
             @apply text-sm text-text;
             @apply relative max-w-xs px-2 py-1;
 
-            & > [data-slot="arrow"] {
+            & > div[data-slot="arrow"] {
                 @apply absolute size-1.5;
 
                 & > div {
@@ -30,32 +30,32 @@
         }
 
         &[data-side="top"] {
-            & > [data-slot="content"] {
-                & > [data-slot="arrow"] {
+            & > div[data-slot="content"] {
+                & > div[data-slot="arrow"] {
                     @apply -bottom-0.75 -translate-x-1/2 rotate-225;
                 }
             }
         }
 
         &[data-side="bottom"] {
-            & > [data-slot="content"] {
-                & > [data-slot="arrow"] {
+            & > div[data-slot="content"] {
+                & > div[data-slot="arrow"] {
                     @apply -top-0.75 -translate-x-1/2 rotate-45;
                 }
             }
         }
 
         &[data-side="left"] {
-            & > [data-slot="content"] {
-                & > [data-slot="arrow"] {
+            & > div[data-slot="content"] {
+                & > div[data-slot="arrow"] {
                     @apply -right-0.75 -translate-y-1/2 rotate-135;
                 }
             }
         }
 
         &[data-side="right"] {
-            & > [data-slot="content"] {
-                & > [data-slot="arrow"] {
+            & > div[data-slot="content"] {
+                & > div[data-slot="arrow"] {
                     @apply -left-0.75 -translate-y-1/2 -rotate-45;
                 }
             }

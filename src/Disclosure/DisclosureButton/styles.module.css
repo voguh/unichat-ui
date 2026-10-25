@@ -22,16 +22,16 @@
             @apply outline-none;
         }
 
-        & > [data-slot="title"] {
+        & > span[data-slot="title"] {
             @apply flex-1;
         }
 
-        & > [data-slot="indicator"] {
+        & > i[data-slot="indicator"] {
             @apply transition-transform;
         }
 
         &[data-open] {
-            & > [data-slot="indicator"] {
+            & > i[data-slot="indicator"] {
                 @apply rotate-180;
             }
         }

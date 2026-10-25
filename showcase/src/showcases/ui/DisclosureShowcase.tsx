@@ -11,10 +11,10 @@
 import type PReact from "preact";
 import { useState } from "preact/hooks";
 
-import { Code } from "@voguh/unichat-ui/components/ui/Code";
-import { Disclosure, DisclosureButton, DisclosurePanel } from "@voguh/unichat-ui/components/ui/Disclosure";
-import { Pagination } from "@voguh/unichat-ui/components/ui/Pagination";
-import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@voguh/unichat-ui/components/ui/Tabs";
+import { Code } from "@voguh/unichat-ui/Code";
+import { Disclosure, DisclosureButton, DisclosurePanel } from "@voguh/unichat-ui/Disclosure";
+import { Pagination } from "@voguh/unichat-ui/Pagination";
+import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@voguh/unichat-ui/Tabs";
 
 import { Example } from "~showcase/components/Example";
 import { type PropDoc, ShowcasePage } from "~showcase/components/ShowcasePage";
@@ -37,7 +37,7 @@ export function DisclosureShowcase(): PReact.ComponentChildren {
             title="Disclosure"
             description="Headless UI Disclosure with an optional exclusive group."
             usage={`
-import { Disclosure, DisclosureButton, DisclosurePanel } from "@voguh/unichat-ui/components/ui/Disclosure";
+import { Disclosure, DisclosureButton, DisclosurePanel } from "@voguh/unichat-ui/Disclosure";
 
 <Disclosure name="releases" defaultOpen>
     <DisclosureButton>v1.2.0</DisclosureButton>
@@ -111,7 +111,7 @@ export function TabsShowcase(): PReact.ComponentChildren {
             title="Tabs"
             description="Headless UI tabs with arrow key navigation."
             usage={`
-import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@voguh/unichat-ui/components/ui/Tabs";
+import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@voguh/unichat-ui/Tabs";
 
 <TabGroup defaultIndex={0} onChange={setTabIndex}>
     <TabList variant="segmented">
@@ -221,7 +221,7 @@ export function PaginationShowcase(): PReact.ComponentChildren {
             title="Pagination"
             description="Controlled page navigation in a <nav>."
             usage={`
-import { Pagination } from "@voguh/unichat-ui/components/ui/Pagination";
+import { Pagination } from "@voguh/unichat-ui/Pagination";
 
 <Pagination count={totalItems} pageSize={20} page={page} onChange={setPage} />
 `}

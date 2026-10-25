@@ -10,8 +10,8 @@
 
 import type PReact from "preact";
 
-import { Code } from "@voguh/unichat-ui/components/ui/Code";
-import { Table } from "@voguh/unichat-ui/components/ui/Table";
+import { Code } from "@voguh/unichat-ui/Code";
+import { Table } from "@voguh/unichat-ui/Table";
 
 import styles from "./styles.module.css";
 

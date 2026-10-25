@@ -12,9 +12,8 @@ import type PReact from "preact";
 import { useState } from "preact/hooks";
 
 import type { Placement } from "@floating-ui/dom";
-import { TextInput } from "@voguh/unichat-ui/components/forms/TextInput";
-import { Button } from "@voguh/unichat-ui/components/ui/Button";
-import { Code } from "@voguh/unichat-ui/components/ui/Code";
+import { Button } from "@voguh/unichat-ui/Button";
+import { Code } from "@voguh/unichat-ui/Code";
 import {
     Dialog,
     DialogBackdrop,
@@ -24,18 +23,11 @@ import {
     DialogPanel,
     type DialogPanelSize,
     DialogTitle
-} from "@voguh/unichat-ui/components/ui/Dialog";
-import {
-    Menu,
-    MenuButton,
-    MenuHeading,
-    MenuItem,
-    MenuItems,
-    MenuSection,
-    MenuSeparator
-} from "@voguh/unichat-ui/components/ui/Menu";
-import { Popover, PopoverButton, PopoverPanel } from "@voguh/unichat-ui/components/ui/Popover";
-import { Tooltip } from "@voguh/unichat-ui/components/ui/Tooltip";
+} from "@voguh/unichat-ui/Dialog";
+import { TextInput } from "@voguh/unichat-ui/forms/TextInput";
+import { Menu, MenuButton, MenuHeading, MenuItem, MenuItems, MenuSection, MenuSeparator } from "@voguh/unichat-ui/Menu";
+import { Popover, PopoverButton, PopoverPanel } from "@voguh/unichat-ui/Popover";
+import { Tooltip } from "@voguh/unichat-ui/Tooltip";
 
 import { Example } from "~showcase/components/Example";
 import { type PropDoc, ShowcasePage } from "~showcase/components/ShowcasePage";
@@ -90,7 +82,7 @@ import {
     DialogHeader,
     DialogPanel,
     DialogTitle
-} from "@voguh/unichat-ui/components/ui/Dialog";
+} from "@voguh/unichat-ui/Dialog";
 
 <Dialog open={open} onClose={() => setOpen(false)}>
     <DialogBackdrop />
@@ -247,7 +239,7 @@ export function PopoverShowcase(): PReact.ComponentChildren {
             title="Popover"
             description="Headless UI Popover, opened by its button."
             usage={`
-import { Popover, PopoverButton, PopoverPanel } from "@voguh/unichat-ui/components/ui/Popover";
+import { Popover, PopoverButton, PopoverPanel } from "@voguh/unichat-ui/Popover";
 
 <Popover>
     <PopoverButton as={Button} variant="secondary">Details</PopoverButton>
@@ -307,7 +299,7 @@ export function TooltipShowcase(): PReact.ComponentChildren {
             title="Tooltip"
             description="Wraps its trigger, positioned with Floating UI."
             usage={`
-import { Tooltip } from "@voguh/unichat-ui/components/ui/Tooltip";
+import { Tooltip } from "@voguh/unichat-ui/Tooltip";
 
 <Tooltip placement="bottom" content="Reload widget view">
     <IconButton aria-label="Reload" onClick={reload}>
@@ -376,7 +368,7 @@ export function MenuShowcase(): PReact.ComponentChildren {
             title="Menu"
             description="Headless UI Menu."
             usage={`
-import { Menu, MenuButton, MenuItem, MenuItems, MenuSeparator } from "@voguh/unichat-ui/components/ui/Menu";
+import { Menu, MenuButton, MenuItem, MenuItems, MenuSeparator } from "@voguh/unichat-ui/Menu";
 
 <Menu>
     <MenuButton>Actions</MenuButton>

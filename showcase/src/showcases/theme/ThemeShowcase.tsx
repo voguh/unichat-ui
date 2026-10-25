@@ -10,8 +10,8 @@
 
 import type PReact from "preact";
 
-import { Code } from "@voguh/unichat-ui/components/ui/Code";
-import { Table } from "@voguh/unichat-ui/components/ui/Table";
+import { Code } from "@voguh/unichat-ui/Code";
+import { Table } from "@voguh/unichat-ui/Table";
 
 import { Example } from "~showcase/components/Example";
 import { ShowcasePage } from "~showcase/components/ShowcasePage";
@@ -126,7 +126,7 @@ export function ThemeShowcase(): PReact.ComponentChildren {
             description="CSS variables read by every component; values below are the ones in effect on this page."
             usage={`
 /* Components import their own CSS and the tokens. Without Tailwind, import the preflight once: */
-import "@voguh/unichat-ui/styles/preflight.css";
+import "@voguh/unichat-ui/preflight.css";
 
 /* Unlayered CSS overrides the tokens: */
 :root {

@@ -11,20 +11,20 @@
 import type PReact from "preact";
 import { useState } from "preact/hooks";
 
-import { Loading } from "@voguh/unichat-ui/components/Loading";
-import { Markdown } from "@voguh/unichat-ui/components/Markdown";
-import { Alert, type AlertVariant } from "@voguh/unichat-ui/components/ui/Alert";
-import { Avatar } from "@voguh/unichat-ui/components/ui/Avatar";
-import { Badge, type BadgeVariant } from "@voguh/unichat-ui/components/ui/Badge";
-import { Button } from "@voguh/unichat-ui/components/ui/Button";
-import { Card, CardBody, CardFooter, CardHeader } from "@voguh/unichat-ui/components/ui/Card";
-import { Code } from "@voguh/unichat-ui/components/ui/Code";
-import { EmptyState } from "@voguh/unichat-ui/components/ui/EmptyState";
-import { Identicon } from "@voguh/unichat-ui/components/ui/Identicon";
-import { Separator } from "@voguh/unichat-ui/components/ui/Separator";
-import { Skeleton } from "@voguh/unichat-ui/components/ui/Skeleton";
-import { Spinner } from "@voguh/unichat-ui/components/ui/Spinner";
-import { Table } from "@voguh/unichat-ui/components/ui/Table";
+import { Alert, type AlertVariant } from "@voguh/unichat-ui/Alert";
+import { Avatar } from "@voguh/unichat-ui/Avatar";
+import { Badge, type BadgeVariant } from "@voguh/unichat-ui/Badge";
+import { Button } from "@voguh/unichat-ui/Button";
+import { Card, CardBody, CardFooter, CardHeader } from "@voguh/unichat-ui/Card";
+import { Code } from "@voguh/unichat-ui/Code";
+import { EmptyState } from "@voguh/unichat-ui/EmptyState";
+import { Identicon } from "@voguh/unichat-ui/Identicon";
+import { Loading } from "@voguh/unichat-ui/Loading";
+import { Markdown } from "@voguh/unichat-ui/Markdown";
+import { Separator } from "@voguh/unichat-ui/Separator";
+import { Skeleton } from "@voguh/unichat-ui/Skeleton";
+import { Spinner } from "@voguh/unichat-ui/Spinner";
+import { Table } from "@voguh/unichat-ui/Table";
 
 import { Example } from "~showcase/components/Example";
 import { ShowcasePage } from "~showcase/components/ShowcasePage";
@@ -56,7 +56,7 @@ export function BadgeShowcase(): PReact.ComponentChildren {
             title="Badge"
             description="Inline <span> label."
             usage={`
-import { Badge } from "@voguh/unichat-ui/components/ui/Badge";
+import { Badge } from "@voguh/unichat-ui/Badge";
 
 <Badge variant="success">Installed</Badge>
 `}
@@ -104,7 +104,7 @@ export function CardShowcase(): PReact.ComponentChildren {
             title="Card"
             description="Surface <div> with optional header, body and footer."
             usage={`
-import { Card, CardBody, CardFooter, CardHeader } from "@voguh/unichat-ui/components/ui/Card";
+import { Card, CardBody, CardFooter, CardHeader } from "@voguh/unichat-ui/Card";
 
 <Card>
     <CardHeader>plugin-goals</CardHeader>
@@ -154,7 +154,7 @@ export function AvatarShowcase(): PReact.ComponentChildren {
             title="Avatar"
             description="Native <img> that falls back to an icon on error or missing src."
             usage={`
-import { Avatar } from "@voguh/unichat-ui/components/ui/Avatar";
+import { Avatar } from "@voguh/unichat-ui/Avatar";
 
 <Avatar src={author.avatarUrl} alt={author.name} width={64} height={64} />
 `}
@@ -198,7 +198,7 @@ export function IdenticonShowcase(): PReact.ComponentChildren {
             title="Identicon"
             description="Native <svg> with a pattern derived from a value."
             usage={`
-import { Identicon } from "@voguh/unichat-ui/components/ui/Identicon";
+import { Identicon } from "@voguh/unichat-ui/Identicon";
 
 <Identicon value={user.id} aria-label={user.name} />
 `}
@@ -241,7 +241,7 @@ export function SpinnerShowcase(): PReact.ComponentChildren {
             title="Spinner"
             description="Loading indicator on a <span role='status'>."
             usage={`
-import { Spinner } from "@voguh/unichat-ui/components/ui/Spinner";
+import { Spinner } from "@voguh/unichat-ui/Spinner";
 
 <Spinner size="sm" aria-label="Loading releases" />
 `}
@@ -280,7 +280,7 @@ export function SkeletonShowcase(): PReact.ComponentChildren {
             title="Skeleton"
             description="Content placeholder <div>, hidden from assistive technology."
             usage={`
-import { Skeleton } from "@voguh/unichat-ui/components/ui/Skeleton";
+import { Skeleton } from "@voguh/unichat-ui/Skeleton";
 
 <Skeleton className={styles.titlePlaceholder} />
 `}
@@ -308,7 +308,7 @@ export function AlertShowcase(): PReact.ComponentChildren {
             title="Alert"
             description="Inline status message on a <div>."
             usage={`
-import { Alert } from "@voguh/unichat-ui/components/ui/Alert";
+import { Alert } from "@voguh/unichat-ui/Alert";
 
 <Alert variant="danger" title="Install failed" action={<Button size="sm">Retry</Button>}>
     Could not download the release.
@@ -383,7 +383,7 @@ export function EmptyStateShowcase(): PReact.ComponentChildren {
             title="EmptyState"
             description="Placeholder <div> for empty content."
             usage={`
-import { EmptyState } from "@voguh/unichat-ui/components/ui/EmptyState";
+import { EmptyState } from "@voguh/unichat-ui/EmptyState";
 
 <EmptyState icon={<i className="fas fa-box-open" />} title="No releases" description="Nothing was published yet.">
     <Button size="sm">Create release</Button>
@@ -437,7 +437,7 @@ export function CodeShowcase(): PReact.ComponentChildren {
             title="Code"
             description="Native inline <code>."
             usage={`
-import { Code } from "@voguh/unichat-ui/components/ui/Code";
+import { Code } from "@voguh/unichat-ui/Code";
 
 <p>Run <Code>pnpm build</Code> before publishing.</p>
 `}
@@ -468,7 +468,7 @@ export function SeparatorShowcase(): PReact.ComponentChildren {
             title="Separator"
             description="Native <hr>."
             usage={`
-import { Separator } from "@voguh/unichat-ui/components/ui/Separator";
+import { Separator } from "@voguh/unichat-ui/Separator";
 
 <Separator />
 `}
@@ -496,7 +496,7 @@ export function TableShowcase(): PReact.ComponentChildren {
             title="Table"
             description="Native <table>; thead, tbody, tr, th and td are plain elements styled from the table."
             usage={`
-import { Table } from "@voguh/unichat-ui/components/ui/Table";
+import { Table } from "@voguh/unichat-ui/Table";
 
 <Table aria-label="Users">
     <thead>
@@ -563,7 +563,7 @@ export function LoadingShowcase(): PReact.ComponentChildren {
             title="Loading"
             description="Full-screen overlay <div role='status'> with a spinner."
             usage={`
-import { Loading } from "@voguh/unichat-ui/components/Loading";
+import { Loading } from "@voguh/unichat-ui/Loading";
 
 <Loading show={uploading} label="Uploading" />
 `}
@@ -607,7 +607,7 @@ export function MarkdownShowcase(): PReact.ComponentChildren {
             title="Markdown"
             description="Sanitized Markdown rendered into a <div>."
             usage={`
-import { Markdown } from "@voguh/unichat-ui/components/Markdown";
+import { Markdown } from "@voguh/unichat-ui/Markdown";
 
 <Markdown content={readme} relativeLinksBaseUrl={\`\${repositoryUrl}/blob/HEAD\`} headingOffset={1} />
 `}

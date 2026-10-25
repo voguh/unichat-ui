@@ -20,15 +20,15 @@
         "**/*.css"
     ],
     "exports": {
-        "./components/*": {
-            "types": "./dist/components/*/index.d.ts",
-            "import": "./dist/components/*/index.mjs"
+        "./*": {
+            "types": "./dist/*/index.d.ts",
+            "import": "./dist/*/index.mjs"
         },
         "./hooks/*": {
             "types": "./dist/hooks/*.d.ts",
             "import": "./dist/hooks/*.mjs"
         },
-        "./styles/preflight.css": "./dist/styles/preflight.css",
+        "./preflight.css": "./dist/preflight.css",
         "./utils/*": {
             "types": "./dist/utils/*.d.ts",
             "import": "./dist/utils/*.mjs"

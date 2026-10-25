@@ -11,9 +11,9 @@
 import type PReact from "preact";
 import { useState } from "preact/hooks";
 
-import { Code } from "@voguh/unichat-ui/components/ui/Code";
-import { Input } from "@voguh/unichat-ui/components/ui/Input";
-import { Textarea } from "@voguh/unichat-ui/components/ui/Textarea";
+import { Code } from "@voguh/unichat-ui/Code";
+import { Input } from "@voguh/unichat-ui/Input";
+import { Textarea } from "@voguh/unichat-ui/Textarea";
 
 import { Example } from "~showcase/components/Example";
 import { ShowcasePage } from "~showcase/components/ShowcasePage";
@@ -26,7 +26,7 @@ export function InputShowcase(): PReact.ComponentChildren {
             title="Input"
             description="Native <input> with optional start/end slots."
             usage={`
-import { Input } from "@voguh/unichat-ui/components/ui/Input";
+import { Input } from "@voguh/unichat-ui/Input";
 
 <Input type="search" placeholder="Search plugins" startSlot={<i className="fas fa-search" />} />
 `}
@@ -84,7 +84,7 @@ export function TextareaShowcase(): PReact.ComponentChildren {
             title="Textarea"
             description="Native <textarea> with optional auto-resize."
             usage={`
-import { Textarea } from "@voguh/unichat-ui/components/ui/Textarea";
+import { Textarea } from "@voguh/unichat-ui/Textarea";
 
 <Textarea placeholder="Release notes" autoResize />
 `}

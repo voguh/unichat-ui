@@ -11,12 +11,12 @@
 import type PReact from "preact";
 import { useState } from "preact/hooks";
 
-import { Code } from "@voguh/unichat-ui/components/ui/Code";
-import { ColorPicker } from "@voguh/unichat-ui/components/ui/ColorPicker";
-import { DatePicker } from "@voguh/unichat-ui/components/ui/DatePicker";
-import { FileUpload } from "@voguh/unichat-ui/components/ui/FileUpload";
-import { NumberInput } from "@voguh/unichat-ui/components/ui/NumberInput";
-import { PasswordInput } from "@voguh/unichat-ui/components/ui/PasswordInput";
+import { Code } from "@voguh/unichat-ui/Code";
+import { ColorPicker } from "@voguh/unichat-ui/ColorPicker";
+import { DatePicker } from "@voguh/unichat-ui/DatePicker";
+import { FileUpload } from "@voguh/unichat-ui/FileUpload";
+import { NumberInput } from "@voguh/unichat-ui/NumberInput";
+import { PasswordInput } from "@voguh/unichat-ui/PasswordInput";
 
 import { Example } from "~showcase/components/Example";
 import { type PropDoc, ShowcasePage } from "~showcase/components/ShowcasePage";
@@ -42,7 +42,7 @@ export function NumberInputShowcase(): PReact.ComponentChildren {
             title="NumberInput"
             description="Input with type=number and the native spinner."
             usage={`
-import { NumberInput } from "@voguh/unichat-ui/components/ui/NumberInput";
+import { NumberInput } from "@voguh/unichat-ui/NumberInput";
 
 <NumberInput min={0} max={10} value={maxFiles} onInput={(event) => setMaxFiles(event.currentTarget.value)} />
 `}
@@ -86,7 +86,7 @@ export function PasswordInputShowcase(): PReact.ComponentChildren {
             title="PasswordInput"
             description="Password <input> with a button that toggles visibility."
             usage={`
-import { PasswordInput } from "@voguh/unichat-ui/components/ui/PasswordInput";
+import { PasswordInput } from "@voguh/unichat-ui/PasswordInput";
 
 <PasswordInput name="clientSecret" autoComplete="new-password" />
 `}
@@ -120,7 +120,7 @@ export function DatePickerShowcase(): PReact.ComponentChildren {
             title="DatePicker"
             description="vanilla-calendar-pro bound to a native text input."
             usage={`
-import { DatePicker } from "@voguh/unichat-ui/components/ui/DatePicker";
+import { DatePicker } from "@voguh/unichat-ui/DatePicker";
 
 <DatePicker format="YYYY-MM-DD" min="2026-01-01" value={date} onInput={(event) => setDate(event.currentTarget.value)} />
 `}
@@ -187,7 +187,7 @@ export function ColorPickerShowcase(): PReact.ComponentChildren {
             title="ColorPicker"
             description="Native text input; clicking the field or focusing the input opens the color panel."
             usage={`
-import { ColorPicker } from "@voguh/unichat-ui/components/ui/ColorPicker";
+import { ColorPicker } from "@voguh/unichat-ui/ColorPicker";
 
 <ColorPicker value={color} swatches={["#991b1b", "#2563eb"]} onInput={(event) => setColor(event.currentTarget.value)} />
 `}
@@ -266,7 +266,7 @@ export function FileUploadShowcase(): PReact.ComponentChildren {
             title="FileUpload"
             description="Native <input type=file> with a drop zone."
             usage={`
-import { FileUpload } from "@voguh/unichat-ui/components/ui/FileUpload";
+import { FileUpload } from "@voguh/unichat-ui/FileUpload";
 
 <FileUpload accept="application/zip" multiple onChange={(event) => upload(event.currentTarget.files)}>
     Drop release assets here or click to choose

@@ -20,7 +20,7 @@ const postcssConfig = require("../postcss.config.cjs");
 /* ========================================================================== */
 
 const SRC_DIR = path.resolve(__dirname, "../src");
-const TOKENS_STYLESHEET = "styles/tokens.css";
+const TOKENS_STYLESHEET = "tokens.css";
 
 // Tailwind v4 browser baseline.
 const CSS_TARGETS = { chrome: 111 << 16, firefox: 128 << 16, safari: (16 << 16) | (4 << 8) };
@@ -40,9 +40,9 @@ class CompileStylesPlugin {
                 async () => {
                     // Stylesheets are externals, invisible to watch mode.
                     compilation.contextDependencies.add(SRC_DIR);
-                    compilation.fileDependencies.add(path.join(SRC_DIR, "styles/global.css"));
+                    compilation.fileDependencies.add(path.join(SRC_DIR, "global.css"));
 
-                    const files = fs.globSync("**/*.css", { cwd: SRC_DIR, exclude: ["styles/global.css"] });
+                    const files = fs.globSync("**/*.css", { cwd: SRC_DIR, exclude: ["global.css"] });
                     for (const file of files) {
                         await this.compile(compilation, file.split(path.sep).join("/"));
                     }

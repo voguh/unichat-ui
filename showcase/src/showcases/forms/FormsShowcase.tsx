@@ -11,20 +11,20 @@
 import type PReact from "preact";
 import { useState } from "preact/hooks";
 
-import { Checkbox } from "@voguh/unichat-ui/components/forms/Checkbox";
-import { ColorPicker } from "@voguh/unichat-ui/components/forms/ColorPicker";
-import { Combobox } from "@voguh/unichat-ui/components/forms/Combobox";
-import { DatePicker } from "@voguh/unichat-ui/components/forms/DatePicker";
-import { FileUpload } from "@voguh/unichat-ui/components/forms/FileUpload";
-import { type FieldStatus, FormGroup } from "@voguh/unichat-ui/components/forms/FormGroup";
-import { NumberInput } from "@voguh/unichat-ui/components/forms/NumberInput";
-import { PasswordInput } from "@voguh/unichat-ui/components/forms/PasswordInput";
-import { RadioGroup } from "@voguh/unichat-ui/components/forms/RadioGroup";
-import { Select } from "@voguh/unichat-ui/components/forms/Select";
-import { Switch } from "@voguh/unichat-ui/components/forms/Switch";
-import { Textarea } from "@voguh/unichat-ui/components/forms/Textarea";
-import { TextInput } from "@voguh/unichat-ui/components/forms/TextInput";
-import { SegmentedControl } from "@voguh/unichat-ui/components/ui/SegmentedControl";
+import { Checkbox } from "@voguh/unichat-ui/forms/Checkbox";
+import { ColorPicker } from "@voguh/unichat-ui/forms/ColorPicker";
+import { Combobox } from "@voguh/unichat-ui/forms/Combobox";
+import { DatePicker } from "@voguh/unichat-ui/forms/DatePicker";
+import { FileUpload } from "@voguh/unichat-ui/forms/FileUpload";
+import { type FieldStatus, FormGroup } from "@voguh/unichat-ui/forms/FormGroup";
+import { NumberInput } from "@voguh/unichat-ui/forms/NumberInput";
+import { PasswordInput } from "@voguh/unichat-ui/forms/PasswordInput";
+import { RadioGroup } from "@voguh/unichat-ui/forms/RadioGroup";
+import { Select } from "@voguh/unichat-ui/forms/Select";
+import { Switch } from "@voguh/unichat-ui/forms/Switch";
+import { Textarea } from "@voguh/unichat-ui/forms/Textarea";
+import { TextInput } from "@voguh/unichat-ui/forms/TextInput";
+import { SegmentedControl } from "@voguh/unichat-ui/SegmentedControl";
 
 import { Example } from "~showcase/components/Example";
 import { type PropDoc, ShowcasePage } from "~showcase/components/ShowcasePage";
@@ -69,7 +69,7 @@ export function FormGroupShowcase(): PReact.ComponentChildren {
             title="FormGroup"
             description="Wrapper <div> with an embedded <label> and status <small>."
             usage={`
-import { FormGroup, getFormGroupDescribedBy } from "@voguh/unichat-ui/components/forms/FormGroup";
+import { FormGroup, getFormGroupDescribedBy } from "@voguh/unichat-ui/forms/FormGroup";
 
 <FormGroup id="nickname" label="Nickname" status="invalid" statusMessage="Too long">
     <input id="nickname" aria-describedby={getFormGroupDescribedBy("nickname", { status, statusMessage })} />
@@ -146,7 +146,7 @@ export function FormFieldsShowcase(): PReact.ComponentChildren {
             title="Form fields"
             description="ui controls wrapped by FormGroup (label, status, aria wiring)."
             usage={`
-import { Select } from "@voguh/unichat-ui/components/forms/Select";
+import { Select } from "@voguh/unichat-ui/forms/Select";
 
 <Select label="Channel" description="Release channel to follow." options={channels} status="invalid" statusMessage="Required" />
 `}

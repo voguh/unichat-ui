@@ -11,13 +11,13 @@
 import type PReact from "preact";
 import { useState } from "preact/hooks";
 
-import { Checkbox } from "@voguh/unichat-ui/components/ui/Checkbox";
-import { Code } from "@voguh/unichat-ui/components/ui/Code";
-import { Combobox } from "@voguh/unichat-ui/components/ui/Combobox";
-import { RadioGroup } from "@voguh/unichat-ui/components/ui/RadioGroup";
-import { SegmentedControl } from "@voguh/unichat-ui/components/ui/SegmentedControl";
-import { Select } from "@voguh/unichat-ui/components/ui/Select";
-import { Switch } from "@voguh/unichat-ui/components/ui/Switch";
+import { Checkbox } from "@voguh/unichat-ui/Checkbox";
+import { Code } from "@voguh/unichat-ui/Code";
+import { Combobox } from "@voguh/unichat-ui/Combobox";
+import { RadioGroup } from "@voguh/unichat-ui/RadioGroup";
+import { SegmentedControl } from "@voguh/unichat-ui/SegmentedControl";
+import { Select } from "@voguh/unichat-ui/Select";
+import { Switch } from "@voguh/unichat-ui/Switch";
 
 import { Example } from "~showcase/components/Example";
 import { type PropDoc, ShowcasePage } from "~showcase/components/ShowcasePage";
@@ -74,7 +74,7 @@ export function CheckboxShowcase(): PReact.ComponentChildren {
             title="Checkbox"
             description="Native checkbox <input> inside a <label>."
             usage={`
-import { Checkbox } from "@voguh/unichat-ui/components/ui/Checkbox";
+import { Checkbox } from "@voguh/unichat-ui/Checkbox";
 
 <Checkbox checked={accepted} onChange={(event) => setAccepted(event.currentTarget.checked)}>
     I accept the terms
@@ -126,7 +126,7 @@ export function SwitchShowcase(): PReact.ComponentChildren {
             title="Switch"
             description="Native checkbox <input role='switch'> inside a <label>."
             usage={`
-import { Switch } from "@voguh/unichat-ui/components/ui/Switch";
+import { Switch } from "@voguh/unichat-ui/Switch";
 
 <Switch defaultChecked name="openToLan">Open to LAN</Switch>
 `}
@@ -161,7 +161,7 @@ export function RadioShowcase(): PReact.ComponentChildren {
             title="RadioGroup"
             description="Native radio inputs inside a <div role='radiogroup'>."
             usage={`
-import { RadioGroup } from "@voguh/unichat-ui/components/ui/RadioGroup";
+import { RadioGroup } from "@voguh/unichat-ui/RadioGroup";
 
 <RadioGroup
     aria-label="Sort"
@@ -212,7 +212,7 @@ export function SegmentedControlShowcase(): PReact.ComponentChildren {
             title="SegmentedControl"
             description="Native radio inputs drawn as a button group inside a <div role='radiogroup'>."
             usage={`
-import { SegmentedControl } from "@voguh/unichat-ui/components/ui/SegmentedControl";
+import { SegmentedControl } from "@voguh/unichat-ui/SegmentedControl";
 
 <SegmentedControl
     items={[{ value: "en-US", label: "EN" }, { value: "pt-BR", label: "PT" }]}
@@ -259,7 +259,7 @@ export function SelectShowcase(): PReact.ComponentChildren {
             title="Select"
             description="Headless UI Listbox. Ref and form props go to a hidden <select>."
             usage={`
-import { Select } from "@voguh/unichat-ui/components/ui/Select";
+import { Select } from "@voguh/unichat-ui/Select";
 
 <Select
     name="sort"
@@ -361,7 +361,7 @@ export function ComboboxShowcase(): PReact.ComponentChildren {
             title="Combobox"
             description="Headless UI Combobox with built-in label filtering."
             usage={`
-import { Combobox } from "@voguh/unichat-ui/components/ui/Combobox";
+import { Combobox } from "@voguh/unichat-ui/Combobox";
 
 <Combobox
     name="platform"

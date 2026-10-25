@@ -11,8 +11,8 @@
 import "./styles/showcase.css";
 import type PReact from "preact";
 
-import { ScrollableView } from "@voguh/unichat-ui/components/ui/ScrollableView";
-import { Toaster } from "@voguh/unichat-ui/components/ui/Toast";
+import { ScrollableView } from "@voguh/unichat-ui/ScrollableView";
+import { Toaster } from "@voguh/unichat-ui/Toast";
 import { Route, Router, Switch } from "wouter-preact";
 import { useHashLocation } from "wouter-preact/use-hash-location";
 

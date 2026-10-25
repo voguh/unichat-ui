@@ -12,7 +12,7 @@ const path = require("node:path");
 
 const tailwindcss = require("@tailwindcss/postcss");
 
-const GLOBAL_STYLESHEET = path.resolve(__dirname, "src/styles/global.css");
+const GLOBAL_STYLESHEET = path.resolve(__dirname, "src/global.css");
 
 /* ========================================================================== */
 

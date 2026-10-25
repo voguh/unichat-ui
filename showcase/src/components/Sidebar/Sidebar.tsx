@@ -10,7 +10,7 @@
 
 import type PReact from "preact";
 
-import { ScrollableView } from "@voguh/unichat-ui/components/ui/ScrollableView";
+import { ScrollableView } from "@voguh/unichat-ui/ScrollableView";
 import { Link, useLocation } from "wouter-preact";
 
 import { SHOWCASE_GROUPS, SHOWCASES } from "~showcase/showcases";

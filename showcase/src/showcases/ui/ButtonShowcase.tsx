@@ -10,13 +10,7 @@
 
 import type PReact from "preact";
 
-import {
-    Button,
-    ButtonLink,
-    type ButtonSize,
-    type ButtonVariant,
-    IconButton
-} from "@voguh/unichat-ui/components/ui/Button";
+import { Button, ButtonLink, type ButtonSize, type ButtonVariant, IconButton } from "@voguh/unichat-ui/Button";
 
 import { Example } from "~showcase/components/Example";
 import { type PropDoc, ShowcasePage } from "~showcase/components/ShowcasePage";
@@ -44,7 +38,7 @@ export function ButtonShowcase(): PReact.ComponentChildren {
             title="Button"
             description="Native <button>."
             usage={`
-import { Button } from "@voguh/unichat-ui/components/ui/Button";
+import { Button } from "@voguh/unichat-ui/Button";
 
 <Button variant="primary" loading={saving} onClick={save}>
     Save
@@ -119,7 +113,7 @@ export function IconButtonShowcase(): PReact.ComponentChildren {
             title="IconButton"
             description="Square Button for a single icon."
             usage={`
-import { IconButton } from "@voguh/unichat-ui/components/ui/Button";
+import { IconButton } from "@voguh/unichat-ui/Button";
 
 <IconButton aria-label="Delete" variant="danger" onClick={remove}>
     <i className="fas fa-trash" />
@@ -169,7 +163,7 @@ export function ButtonLinkShowcase(): PReact.ComponentChildren {
             title="ButtonLink"
             description="Native <a> styled as a Button."
             usage={`
-import { ButtonLink } from "@voguh/unichat-ui/components/ui/Button";
+import { ButtonLink } from "@voguh/unichat-ui/Button";
 
 <ButtonLink href="https://unichat.voguh.me" target="_blank" variant="primary">
     Open website

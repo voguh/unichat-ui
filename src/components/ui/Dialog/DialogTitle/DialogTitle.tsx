@@ -14,6 +14,7 @@ import { forwardRef } from "preact/compat";
 import { DialogTitle as HeadlessDialogTitle } from "@headlessui/react";
 
 import { clsx } from "~/utils/clsx";
+import { dataPart } from "~/utils/dataAttributes";
 
 import styles from "./styles.module.css";
 
@@ -21,5 +22,12 @@ type VanillaProps = PReact.HTMLAttributes<HTMLHeadingElement>;
 export interface DialogTitleProps extends VanillaProps {}
 
 export const DialogTitle = forwardRef<HTMLElement, DialogTitleProps>(function DialogTitle({ className, ...rest }, ref) {
-    return <HeadlessDialogTitle {...rest} ref={ref} className={clsx(styles.root, className)} />;
+    return (
+        <HeadlessDialogTitle
+            {...rest}
+            ref={ref}
+            data-part={dataPart("DialogTitle", rest)}
+            className={clsx(styles.root, className)}
+        />
+    );
 });

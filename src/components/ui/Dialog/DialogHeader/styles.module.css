@@ -8,15 +8,19 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-.root {
-    @apply flex items-center justify-between gap-2 shrink-0 h-11 p-2;
+@layer theme, base, unichat-ui, components, utilities;
 
-    &:not(:last-child) {
-        @apply border-b border-stone-800;
-    }
+@layer unichat-ui {
+    .root {
+        @apply flex items-center justify-between gap-2 shrink-0 h-11 p-2;
 
-    & > button,
-    & > button[data-size] {
-        @apply py-0 h-7;
+        &:not(:last-child) {
+            @apply border-b border-stone-800;
+        }
+
+        & > button,
+        & > button[data-size] {
+            @apply py-0 h-7;
+        }
     }
 }

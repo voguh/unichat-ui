@@ -12,6 +12,7 @@ import type PReact from "preact";
 import { forwardRef } from "preact/compat";
 
 import { clsx } from "~/utils/clsx";
+import { dataPart } from "~/utils/dataAttributes";
 
 import styles from "./styles.module.css";
 
@@ -28,14 +29,14 @@ export const EmptyState = forwardRef<HTMLDivElement, EmptyStateProps>(function E
     ref
 ) {
     return (
-        <div {...rest} ref={ref} className={clsx(styles.root, className)}>
+        <div {...rest} ref={ref} data-part={dataPart("EmptyState", rest)} className={clsx(styles.root, className)}>
             {icon != null && (
-                <span className={styles.icon} aria-hidden="true">
+                <span data-slot="icon" aria-hidden="true">
                     {icon}
                 </span>
             )}
-            {title != null && <Title className={styles.title}>{title}</Title>}
-            {description != null && <p className={styles.description}>{description}</p>}
+            {title != null && <Title data-slot="title">{title}</Title>}
+            {description != null && <p data-slot="description">{description}</p>}
             {children}
         </div>
     );

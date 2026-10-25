@@ -12,6 +12,7 @@ import type PReact from "preact";
 import { forwardRef } from "preact/compat";
 
 import { clsx } from "~/utils/clsx";
+import { dataPart } from "~/utils/dataAttributes";
 
 import type { ButtonSize, ButtonVariant } from "../Button";
 import buttonStyles from "../styles.module.css";
@@ -27,6 +28,13 @@ export const ButtonLink = forwardRef<HTMLAnchorElement, ButtonLinkProps>(functio
     ref
 ) {
     return (
-        <a {...rest} ref={ref} data-variant={variant} data-size={size} className={clsx(buttonStyles.root, className)} />
+        <a
+            {...rest}
+            ref={ref}
+            data-part={dataPart("ButtonLink", rest)}
+            data-variant={variant}
+            data-size={size}
+            className={clsx(buttonStyles.root, className)}
+        />
     );
 });

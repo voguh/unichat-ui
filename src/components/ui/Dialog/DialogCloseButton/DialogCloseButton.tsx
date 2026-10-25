@@ -14,6 +14,7 @@ import { forwardRef } from "preact/compat";
 import { CloseButton } from "@headlessui/react";
 
 import { clsx } from "~/utils/clsx";
+import { dataPart } from "~/utils/dataAttributes";
 
 import styles from "./styles.module.css";
 
@@ -29,7 +30,13 @@ export const DialogCloseButton = forwardRef<HTMLElement, DialogCloseButtonProps>
     ref
 ) {
     return (
-        <CloseButton {...rest} ref={ref} aria-label={ariaLabel} className={clsx(styles.root, className)}>
+        <CloseButton
+            {...rest}
+            ref={ref}
+            aria-label={ariaLabel}
+            data-part={dataPart("DialogCloseButton", rest)}
+            className={clsx(styles.root, className)}
+        >
             {children ?? <i className="fas fa-times" aria-hidden="true" />}
         </CloseButton>
     );

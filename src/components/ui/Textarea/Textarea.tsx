@@ -13,6 +13,7 @@ import { forwardRef } from "preact/compat";
 import { useLayoutEffect, useRef } from "preact/hooks";
 
 import { clsx } from "~/utils/clsx";
+import { dataFlag, dataPart } from "~/utils/dataAttributes";
 import { mergeRefs } from "~/utils/mergeRefs";
 
 import styles from "./styles.module.css";
@@ -56,7 +57,8 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(function 
             ref={mergeRefs(innerRef, ref)}
             value={value}
             onInput={handleInput}
-            data-auto-resize={autoResize || undefined}
+            data-part={dataPart("Textarea", rest)}
+            data-auto-resize={dataFlag(autoResize)}
             className={clsx(styles.root, className)}
         />
     );

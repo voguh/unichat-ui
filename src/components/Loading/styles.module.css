@@ -8,11 +8,15 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-.root {
-    @apply bg-stone-950/25;
-    @apply fixed inset-0 flex justify-center items-center;
-}
+@layer theme, base, unichat-ui, components, utilities;
 
-.label {
-    @apply sr-only;
+@layer unichat-ui {
+    .root {
+        @apply bg-stone-950/25;
+        @apply fixed inset-0 flex justify-center items-center;
+
+        & > span {
+            @apply sr-only;
+        }
+    }
 }

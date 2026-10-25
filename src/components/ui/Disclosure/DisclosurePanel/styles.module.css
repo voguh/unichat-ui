@@ -8,7 +8,11 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-.root {
-    @apply border-t border-t-stone-600;
-    @apply px-4 py-2;
+@layer theme, base, unichat-ui, components, utilities;
+
+@layer unichat-ui {
+    .root {
+        @apply border-t border-t-stone-600;
+        @apply px-4 py-2;
+    }
 }

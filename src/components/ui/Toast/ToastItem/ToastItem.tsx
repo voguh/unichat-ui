@@ -36,39 +36,37 @@ function getDefaultIcon(type: ToastType | undefined): string {
 export function ToastItem({ toast, onDismiss }: ToastItemProps): PReact.ComponentChildren {
     const defaultIcon = getDefaultIcon(toast.type);
 
+    function handleAction(): void {
+        toast.action!.onClick();
+        onDismiss();
+    }
+
     return (
-        <div role="status" data-type={toast.type} className={styles.root}>
-            <span className={styles.icon} aria-hidden="true">
+        <div role="status" data-part="ToastItem" data-variant={toast.type} className={styles.root}>
+            <span data-slot="icon" aria-hidden="true">
                 {toast.icon ?? <i className={defaultIcon} />}
             </span>
-            <div className={styles.body}>
-                {toast.title != null && <strong className={styles.title}>{toast.title}</strong>}
-                {toast.description != null && <p className={styles.description}>{toast.description}</p>}
+            <div data-slot="body">
+                {toast.title != null && <strong>{toast.title}</strong>}
+                {toast.description != null && <p>{toast.description}</p>}
             </div>
             {toast.action != null && (
-                <button
-                    type="button"
-                    onClick={() => {
-                        toast.action!.onClick();
-                        onDismiss();
-                    }}
-                    className={styles.actionTrigger}
-                >
+                <button type="button" data-slot="action" onClick={handleAction}>
                     {toast.action.label}
                 </button>
             )}
             {toast.closable && (
-                <button type="button" aria-label="Dismiss" onClick={onDismiss} className={styles.closeTrigger}>
+                <button type="button" data-slot="close" aria-label="Dismiss" onClick={onDismiss}>
                     {Number.isFinite(toast.duration) && (
-                        <svg viewBox="0 0 32 32" aria-hidden="true" className={styles.timer}>
-                            <circle cx="16" cy="16" r="14" className={styles.timerTrack} />
+                        <svg viewBox="0 0 32 32" aria-hidden="true">
+                            <circle cx="16" cy="16" r="14" data-slot="track" />
                             <circle
                                 cx="16"
                                 cy="16"
                                 r="14"
                                 pathLength={100}
+                                data-slot="progress"
                                 style={{ animationDuration: `${toast.duration}ms` }}
-                                className={styles.timerProgress}
                             />
                         </svg>
                     )}

@@ -14,6 +14,7 @@ import { forwardRef } from "preact/compat";
 import { MenuItem as HeadlessMenuItem } from "@headlessui/react";
 
 import { clsx } from "~/utils/clsx";
+import { dataPart } from "~/utils/dataAttributes";
 
 import styles from "./styles.module.css";
 
@@ -26,5 +27,14 @@ export const MenuItem = forwardRef<HTMLElement, MenuItemProps>(function MenuItem
     { type = "button", className, ...rest },
     ref
 ) {
-    return <HeadlessMenuItem {...rest} as="button" ref={ref} type={type} className={clsx(styles.root, className)} />;
+    return (
+        <HeadlessMenuItem
+            {...rest}
+            as="button"
+            ref={ref}
+            type={type}
+            data-part={dataPart("MenuItem", rest)}
+            className={clsx(styles.root, className)}
+        />
+    );
 });

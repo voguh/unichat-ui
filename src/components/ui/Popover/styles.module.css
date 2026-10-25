@@ -8,6 +8,10 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-.root {
-    @apply relative;
+@layer theme, base, unichat-ui, components, utilities;
+
+@layer unichat-ui {
+    .root {
+        @apply relative;
+    }
 }

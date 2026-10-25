@@ -8,6 +8,9 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
+/* Every component stylesheet lives in unichat-ui: unlayered consumer CSS and Tailwind utilities override it. */
+@layer theme, base, unichat-ui, components, utilities;
+
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 

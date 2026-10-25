@@ -8,10 +8,14 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-.root {
-    @apply w-8 h-8 rounded shrink-0;
-}
+@layer theme, base, unichat-ui, components, utilities;
 
-.background {
-    @apply fill-stone-100;
+@layer unichat-ui {
+    .root {
+        @apply w-8 h-8 rounded shrink-0;
+
+        & > rect {
+            @apply fill-stone-100;
+        }
+    }
 }

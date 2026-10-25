@@ -12,6 +12,7 @@ import type PReact from "preact";
 import { forwardRef } from "preact/compat";
 
 import { clsx } from "~/utils/clsx";
+import { dataPart } from "~/utils/dataAttributes";
 
 import styles from "./styles.module.css";
 
@@ -19,5 +20,5 @@ type VanillaProps = PReact.HTMLAttributes<HTMLHRElement>;
 export interface SeparatorProps extends VanillaProps {}
 
 export const Separator = forwardRef<HTMLHRElement, SeparatorProps>(function Separator({ className, ...rest }, ref) {
-    return <hr {...rest} ref={ref} className={clsx(styles.root, className)} />;
+    return <hr {...rest} ref={ref} data-part={dataPart("Separator", rest)} className={clsx(styles.root, className)} />;
 });

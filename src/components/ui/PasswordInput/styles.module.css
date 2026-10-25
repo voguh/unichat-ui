@@ -8,48 +8,52 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-.root {
-    @apply bg-stone-800 rounded;
-    @apply flex items-center gap-2 h-10 px-3;
+@layer theme, base, unichat-ui, components, utilities;
 
-    &:focus-within {
-        @apply ring-2 ring-blue-500;
-    }
+@layer unichat-ui {
+    .root {
+        @apply bg-stone-800 rounded;
+        @apply flex items-center gap-2 h-10 px-3;
 
-    &:has(> .input[aria-invalid="true"]) {
-        @apply ring-2 ring-red-600;
-    }
-
-    &:has(> .input:disabled) {
-        @apply bg-stone-900;
-        @apply text-stone-500;
-        @apply cursor-not-allowed;
-
-        .visibilityTrigger,
-        .input::placeholder {
-            @apply text-stone-600;
+        &:focus-within {
+            @apply ring-2 ring-blue-500;
         }
-    }
-}
 
-.input {
-    @apply bg-transparent outline-none;
-    @apply flex-1 min-w-0;
+        &:has(> input[aria-invalid="true"]) {
+            @apply ring-2 ring-red-600;
+        }
 
-    &::placeholder {
-        @apply text-stone-500;
-    }
+        & > input {
+            @apply bg-transparent outline-none;
+            @apply flex-1 min-w-0;
 
-    &:disabled {
-        @apply cursor-not-allowed;
-    }
-}
+            &::placeholder {
+                @apply text-stone-500;
+            }
 
-.visibilityTrigger {
-    @apply text-stone-500;
-    @apply cursor-pointer;
+            &:disabled {
+                @apply cursor-not-allowed;
+            }
+        }
 
-    &:hover:not(:disabled) {
-        @apply text-stone-50;
+        & > [data-slot="trigger"] {
+            @apply text-stone-500;
+            @apply cursor-pointer;
+
+            &:hover:not(:disabled) {
+                @apply text-stone-50;
+            }
+        }
+
+        &:has(> input:disabled) {
+            @apply bg-stone-900;
+            @apply text-stone-500;
+            @apply cursor-not-allowed;
+
+            & > [data-slot="trigger"],
+            & > input::placeholder {
+                @apply text-stone-600;
+            }
+        }
     }
 }

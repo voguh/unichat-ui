@@ -14,6 +14,7 @@ import { forwardRef } from "preact/compat";
 import { DialogPanel as HeadlessDialogPanel } from "@headlessui/react";
 
 import { clsx } from "~/utils/clsx";
+import { dataPart } from "~/utils/dataAttributes";
 
 import styles from "./styles.module.css";
 
@@ -28,5 +29,13 @@ export const DialogPanel = forwardRef<HTMLElement, DialogPanelProps>(function Di
     { size = "md", className, ...rest },
     ref
 ) {
-    return <HeadlessDialogPanel {...rest} ref={ref} data-size={size} className={clsx(styles.root, className)} />;
+    return (
+        <HeadlessDialogPanel
+            {...rest}
+            ref={ref}
+            data-part={dataPart("DialogPanel", rest)}
+            data-size={size}
+            className={clsx(styles.root, className)}
+        />
+    );
 });

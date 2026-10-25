@@ -11,9 +11,10 @@
 import { forwardRef } from "preact/compat";
 
 import { Input, type InputProps } from "~/components/ui/Input";
+import { dataPart } from "~/utils/dataAttributes";
 
 export interface NumberInputProps extends Omit<InputProps, "type"> {}
 
 export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(function NumberInput(props, ref) {
-    return <Input {...props} ref={ref} type="number" />;
+    return <Input {...props} ref={ref} type="number" data-part={dataPart("NumberInput", props)} />;
 });

@@ -8,14 +8,18 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-.root {
-    --anchor-gap: 8px;
-    --anchor-padding: 8px;
+@layer theme, base, unichat-ui, components, utilities;
 
-    @apply bg-stone-800 border border-stone-700 rounded shadow-xl;
-    @apply z-50 flex flex-col gap-2 max-w-sm p-4;
+@layer unichat-ui {
+    .root {
+        --anchor-gap: 8px;
+        --anchor-padding: 8px;
 
-    &:focus-visible {
-        @apply outline-none;
+        @apply bg-stone-800 border border-stone-700 rounded shadow-xl;
+        @apply z-50 flex flex-col gap-2 max-w-sm p-4;
+
+        &:focus-visible {
+            @apply outline-none;
+        }
     }
 }

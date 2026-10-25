@@ -8,7 +8,11 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-.root {
-    @apply text-stone-50;
-    @apply flex-1 min-h-0 overflow-y-auto p-4;
+@layer theme, base, unichat-ui, components, utilities;
+
+@layer unichat-ui {
+    .root {
+        @apply text-stone-50;
+        @apply flex-1 min-h-0 overflow-y-auto p-4;
+    }
 }

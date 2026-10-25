@@ -13,6 +13,7 @@ import { forwardRef } from "preact/compat";
 import { useLayoutEffect, useRef } from "preact/hooks";
 
 import { clsx } from "~/utils/clsx";
+import { dataPart, omitDataPart } from "~/utils/dataAttributes";
 import { mergeRefs } from "~/utils/mergeRefs";
 
 import styles from "./styles.module.css";
@@ -24,24 +25,27 @@ export interface CheckboxProps extends VanillaProps {
 }
 
 export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(function Checkbox(
-    { indeterminate = false, rootProps, className, children, ...rest },
+    { indeterminate = false, rootProps = {}, className, children, ...rest },
     ref
 ) {
     const inputRef = useRef<HTMLInputElement>(null);
-    const rootClassName = rootProps != null ? rootProps.className : undefined;
 
     useLayoutEffect(() => {
         inputRef.current!.indeterminate = indeterminate;
     }, [indeterminate]);
 
     return (
-        <label {...rootProps} className={clsx(styles.root, className, rootClassName)}>
-            <input {...rest} ref={mergeRefs(ref, inputRef)} type="checkbox" className={styles.input} />
-            <span className={styles.control}>
-                <i className={clsx(styles.checkIcon, "fas fa-check")} aria-hidden="true" />
-                <i className={clsx(styles.indeterminateIcon, "fas fa-minus")} aria-hidden="true" />
+        <label
+            {...rootProps}
+            data-part={dataPart("Checkbox", rest)}
+            className={clsx(styles.root, className, rootProps.className)}
+        >
+            <input {...omitDataPart(rest)} ref={mergeRefs(ref, inputRef)} type="checkbox" />
+            <span data-slot="control">
+                <i data-slot="check" className="fas fa-check" aria-hidden="true" />
+                <i data-slot="indeterminate" className="fas fa-minus" aria-hidden="true" />
             </span>
-            {children != null && <span className={styles.label}>{children}</span>}
+            {children != null && <span data-slot="label">{children}</span>}
         </label>
     );
 });

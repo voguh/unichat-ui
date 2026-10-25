@@ -13,6 +13,7 @@ import { forwardRef } from "preact/compat";
 import { useId } from "preact/hooks";
 
 import { clsx } from "~/utils/clsx";
+import { dataFlag, dataPart } from "~/utils/dataAttributes";
 
 import styles from "./styles.module.css";
 
@@ -23,37 +24,59 @@ export interface ProgressProps extends VanillaProps {
     label?: PReact.ComponentChildren;
 }
 
+function toPercent(value: number | null, max: number): number | null {
+    if (value != null) {
+        return Math.round((value / max) * 100);
+    }
+
+    return null;
+}
+
 export const Progress = forwardRef<HTMLDivElement, ProgressProps>(function Progress(
     { value, max = 100, label, className, ...rest },
     ref
 ) {
+    const percent = toPercent(value, max);
+
     const labelId = useId();
-    const percent = value != null ? Math.round((value / max) * 100) : null;
+
+    function getLabelledBy(): string | undefined {
+        if (label != null) {
+            return labelId;
+        }
+
+        return undefined;
+    }
+
+    function getRangeStyle(): PReact.CSSProperties | undefined {
+        if (percent != null) {
+            return { width: `${percent}%` };
+        }
+
+        return undefined;
+    }
 
     return (
-        <div {...rest} ref={ref} className={clsx(styles.root, className)}>
+        <div {...rest} ref={ref} data-part={dataPart("Progress", rest)} className={clsx(styles.root, className)}>
             {(label != null || percent != null) && (
-                <div className={styles.header}>
+                <div data-slot="header">
                     {label != null && (
-                        <span id={labelId} className={styles.label}>
+                        <span id={labelId} data-slot="label">
                             {label}
                         </span>
                     )}
-                    {percent != null && <span className={styles.valueText}>{percent}%</span>}
+                    {percent != null && <span data-slot="value">{percent}%</span>}
                 </div>
             )}
             <div
                 role="progressbar"
-                aria-labelledby={label != null ? labelId : undefined}
+                aria-labelledby={getLabelledBy()}
                 aria-valuemin={0}
                 aria-valuemax={max}
                 aria-valuenow={value ?? undefined}
-                className={styles.track}
+                data-slot="track"
             >
-                <div
-                    style={percent != null ? { width: `${percent}%` } : undefined}
-                    className={clsx(styles.range, { [styles.indeterminate]: percent == null })}
-                />
+                <div data-slot="range" data-indeterminate={dataFlag(percent == null)} style={getRangeStyle()} />
             </div>
         </div>
     );

@@ -21,6 +21,7 @@ import {
 } from "@headlessui/react";
 
 import { clsx } from "~/utils/clsx";
+import { dataFlag, dataPart, omitDataPart } from "~/utils/dataAttributes";
 
 import styles from "./styles.module.css";
 
@@ -109,7 +110,11 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Com
     }
 
     return (
-        <div {...rootProps} className={clsx(styles.root, className, rootProps.className)}>
+        <div
+            {...rootProps}
+            data-part={dataPart("Combobox", rest)}
+            className={clsx(styles.root, className, rootProps.className)}
+        >
             <HeadlessCombobox
                 value={currentValue}
                 onChange={handleChange}
@@ -118,28 +123,27 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Com
                 disabled={disabled}
                 invalid={invalid}
             >
-                <div data-invalid={invalid || undefined} className={styles.control}>
+                <div data-slot="control" data-invalid={dataFlag(invalid)}>
                     <ComboboxInput
-                        {...rest}
+                        {...omitDataPart(rest)}
                         ref={ref}
                         displayValue={displayValue}
                         onChange={handleInputChange}
-                        className={styles.input}
                     />
-                    <ComboboxButton className={styles.trigger}>
+                    <ComboboxButton data-slot="trigger">
                         <i className="fas fa-chevron-down" aria-hidden="true" />
                     </ComboboxButton>
                 </div>
-                <ComboboxOptions anchor="bottom start" className={styles.content}>
+                <ComboboxOptions anchor="bottom start" data-part="ComboboxOptions" className={styles.options}>
                     {filteredOptions.map((option) => (
                         <HeadlessComboboxOption
                             key={option.value}
                             value={option.value}
                             disabled={option.disabled}
-                            className={styles.item}
+                            data-slot="option"
                         >
                             <span>{option.label}</span>
-                            <i className={clsx(styles.itemIndicator, "fas fa-check")} aria-hidden="true" />
+                            <i data-slot="indicator" className="fas fa-check" aria-hidden="true" />
                         </HeadlessComboboxOption>
                     ))}
                 </ComboboxOptions>

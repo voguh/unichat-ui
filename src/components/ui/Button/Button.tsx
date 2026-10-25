@@ -12,6 +12,7 @@ import type PReact from "preact";
 import { forwardRef } from "preact/compat";
 
 import { clsx } from "~/utils/clsx";
+import { dataPart } from "~/utils/dataAttributes";
 
 import styles from "./styles.module.css";
 
@@ -36,11 +37,12 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
             type={type}
             disabled={disabled || loading}
             aria-busy={loading || undefined}
+            data-part={dataPart("Button", rest)}
             data-variant={variant}
             data-size={size}
             className={clsx(styles.root, className)}
         >
-            {loading && <i className="fas fa-spinner fa-spin" aria-hidden="true" />}
+            {loading && <i data-slot="spinner" className="fas fa-spinner fa-spin" aria-hidden="true" />}
             {children}
         </button>
     );

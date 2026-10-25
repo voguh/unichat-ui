@@ -8,11 +8,15 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-.root {
-    @apply bg-stone-900 border border-stone-700 text-stone-50 rounded;
-    @apply flex items-center justify-center size-7 cursor-pointer;
+@layer theme, base, unichat-ui, components, utilities;
 
-    &:hover {
-        @apply bg-stone-800;
+@layer unichat-ui {
+    .root {
+        @apply bg-stone-900 border border-stone-700 text-stone-50 rounded;
+        @apply flex items-center justify-center size-7 cursor-pointer;
+
+        &:hover {
+            @apply bg-stone-800;
+        }
     }
 }

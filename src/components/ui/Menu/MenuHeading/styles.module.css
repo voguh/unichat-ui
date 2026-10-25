@@ -8,7 +8,11 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-.root {
-    @apply text-xs font-semibold uppercase text-stone-500;
-    @apply px-3 py-1;
+@layer theme, base, unichat-ui, components, utilities;
+
+@layer unichat-ui {
+    .root {
+        @apply text-xs font-semibold uppercase text-stone-500;
+        @apply px-3 py-1;
+    }
 }

@@ -109,10 +109,10 @@ export function Tooltip({ content, placement = "top", openDelay = 400, children 
         <>
             {trigger}
             <Portal>
-                <div ref={floatingRef} style={HIDDEN_STYLE} className={styles.positioner}>
-                    <div id={contentId} role="tooltip" className={styles.content}>
-                        <div ref={arrowRef} className={styles.arrow}>
-                            <div className={styles.arrowTip} />
+                <div ref={floatingRef} data-part="Tooltip" style={HIDDEN_STYLE} className={styles.root}>
+                    <div id={contentId} role="tooltip" data-slot="content">
+                        <div ref={arrowRef} data-slot="arrow">
+                            <div />
                         </div>
                         {content}
                     </div>

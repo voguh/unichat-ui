@@ -24,7 +24,7 @@ import { Identicon } from "~/components/ui/Identicon";
 import { Separator } from "~/components/ui/Separator";
 import { Skeleton } from "~/components/ui/Skeleton";
 import { Spinner } from "~/components/ui/Spinner";
-import { Table, TBody, Td, THead, Th, Tr } from "~/components/ui/Table";
+import { Table } from "~/components/ui/Table";
 import { Example } from "~showcase/components/Example";
 import { ShowcasePage } from "~showcase/components/ShowcasePage";
 
@@ -64,6 +64,7 @@ import { Badge } from "@voguh/unichat-ui/components/ui/Badge";
                     name: "Badge",
                     props: "HTMLAttributes<HTMLSpanElement>",
                     ref: "HTMLSpanElement",
+                    structure: `span[data-part~="Badge"][data-variant]`,
                     nonStandard: [
                         {
                             name: "variant",
@@ -113,7 +114,17 @@ import { Card, CardBody, CardFooter, CardHeader } from "@voguh/unichat-ui/compon
 </Card>
 `}
             api={[
-                { name: "Card", props: "HTMLAttributes<HTMLDivElement>", ref: "HTMLDivElement" },
+                {
+                    name: "Card",
+                    props: "HTMLAttributes<HTMLDivElement>",
+                    ref: "HTMLDivElement",
+                    structure: `
+div[data-part~="Card"]
+  > div[data-part~="CardHeader"]
+  > div[data-part~="CardBody"]
+  > div[data-part~="CardFooter"]
+`
+                },
                 { name: "CardHeader", props: "HTMLAttributes<HTMLDivElement>", ref: "HTMLDivElement" },
                 { name: "CardBody", props: "HTMLAttributes<HTMLDivElement>", ref: "HTMLDivElement" },
                 { name: "CardFooter", props: "HTMLAttributes<HTMLDivElement>", ref: "HTMLDivElement" }
@@ -151,6 +162,10 @@ import { Avatar } from "@voguh/unichat-ui/components/ui/Avatar";
                     name: "Avatar",
                     props: "ImgHTMLAttributes<HTMLImageElement>",
                     ref: "HTMLImageElement",
+                    structure: `
+img[data-part~="Avatar"]
+span[data-part~="Avatar"][data-fallback]   (instead of the img on error or empty src)
+`,
                     nonStandard: [
                         {
                             name: "fallback",
@@ -191,6 +206,11 @@ import { Identicon } from "@voguh/unichat-ui/components/ui/Identicon";
                     name: "Identicon",
                     props: "SVGAttributes<SVGSVGElement>",
                     ref: "SVGSVGElement",
+                    structure: `
+svg[data-part~="Identicon"]
+  > rect   (background)
+  > g   (cells)
+`,
                     nonStandard: [
                         {
                             name: "value",
@@ -229,6 +249,10 @@ import { Spinner } from "@voguh/unichat-ui/components/ui/Spinner";
                     name: "Spinner",
                     props: "HTMLAttributes<HTMLSpanElement>",
                     ref: "HTMLSpanElement",
+                    structure: `
+span[data-part~="Spinner"][data-size]
+  > i
+`,
                     nonStandard: [
                         {
                             name: "size",
@@ -259,7 +283,14 @@ import { Skeleton } from "@voguh/unichat-ui/components/ui/Skeleton";
 
 <Skeleton className={styles.titlePlaceholder} />
 `}
-            api={[{ name: "Skeleton", props: "HTMLAttributes<HTMLDivElement>", ref: "HTMLDivElement" }]}
+            api={[
+                {
+                    name: "Skeleton",
+                    props: "HTMLAttributes<HTMLDivElement>",
+                    ref: "HTMLDivElement",
+                    structure: `div[data-part~="Skeleton"]`
+                }
+            ]}
         >
             <Example title="Default" vertical>
                 <Skeleton style={{ height: "20px", width: "50%" }} />
@@ -287,6 +318,13 @@ import { Alert } from "@voguh/unichat-ui/components/ui/Alert";
                     name: "Alert",
                     props: "HTMLAttributes<HTMLDivElement>",
                     ref: "HTMLDivElement",
+                    structure: `
+div[data-part~="Alert"][data-variant]
+  > span[data-slot="icon"]
+  > div[data-slot="content"]
+    > strong[data-slot="title"]
+  > div[data-slot="action"]
+`,
                     nonStandard: [
                         {
                             name: "variant",
@@ -355,6 +393,12 @@ import { EmptyState } from "@voguh/unichat-ui/components/ui/EmptyState";
                     name: "EmptyState",
                     props: "HTMLAttributes<HTMLDivElement>",
                     ref: "HTMLDivElement",
+                    structure: `
+div[data-part~="EmptyState"]
+  > span[data-slot="icon"]
+  > h1|h2|h3[data-slot="title"]
+  > p[data-slot="description"]
+`,
                     nonStandard: [
                         { name: "icon", type: "ComponentChildren", description: "Large icon above the title." },
                         {
@@ -396,7 +440,14 @@ import { Code } from "@voguh/unichat-ui/components/ui/Code";
 
 <p>Run <Code>pnpm build</Code> before publishing.</p>
 `}
-            api={[{ name: "Code", props: "HTMLAttributes<HTMLElement>", ref: "HTMLElement" }]}
+            api={[
+                {
+                    name: "Code",
+                    props: "HTMLAttributes<HTMLElement>",
+                    ref: "HTMLElement",
+                    structure: `code[data-part~="Code"]`
+                }
+            ]}
         >
             <Example title="Inline" vertical>
                 <p>
@@ -420,7 +471,14 @@ import { Separator } from "@voguh/unichat-ui/components/ui/Separator";
 
 <Separator />
 `}
-            api={[{ name: "Separator", props: "HTMLAttributes<HTMLHRElement>", ref: "HTMLHRElement" }]}
+            api={[
+                {
+                    name: "Separator",
+                    props: "HTMLAttributes<HTMLHRElement>",
+                    ref: "HTMLHRElement",
+                    structure: `hr[data-part~="Separator"]`
+                }
+            ]}
         >
             <Example title="Default" vertical>
                 <p>Above</p>
@@ -435,52 +493,56 @@ export function TableShowcase(): PReact.ComponentChildren {
     return (
         <ShowcasePage
             title="Table"
-            description="Native table parts."
+            description="Native <table>; thead, tbody, tr, th and td are plain elements styled from the table."
             usage={`
-import { Table, TBody, Td, THead, Th, Tr } from "@voguh/unichat-ui/components/ui/Table";
+import { Table } from "@voguh/unichat-ui/components/ui/Table";
 
 <Table aria-label="Users">
-    <THead>
-        <Tr>
-            <Th scope="col">Nickname</Th>
-        </Tr>
-    </THead>
-    <TBody>
-        <Tr>
-            <Td>voguh</Td>
-        </Tr>
-    </TBody>
+    <thead>
+        <tr>
+            <th scope="col">Nickname</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>voguh</td>
+        </tr>
+    </tbody>
 </Table>
 `}
             api={[
-                { name: "Table", props: "TableHTMLAttributes<HTMLTableElement>", ref: "HTMLTableElement" },
-                { name: "THead", props: "HTMLAttributes<HTMLTableSectionElement>", ref: "HTMLTableSectionElement" },
-                { name: "TBody", props: "HTMLAttributes<HTMLTableSectionElement>", ref: "HTMLTableSectionElement" },
-                { name: "Tr", props: "HTMLAttributes<HTMLTableRowElement>", ref: "HTMLTableRowElement" },
-                { name: "Th", props: "ThHTMLAttributes<HTMLTableCellElement>", ref: "HTMLTableCellElement" },
-                { name: "Td", props: "TdHTMLAttributes<HTMLTableCellElement>", ref: "HTMLTableCellElement" }
+                {
+                    name: "Table",
+                    props: "TableHTMLAttributes<HTMLTableElement>",
+                    ref: "HTMLTableElement",
+                    structure: `
+table[data-part~="Table"]
+  > thead > tr > th
+  > tbody > tr > td
+`
+                }
             ]}
         >
             <Example title="Default" vertical>
                 <Table aria-label="Users">
-                    <THead>
-                        <Tr>
-                            <Th scope="col">Nickname</Th>
-                            <Th scope="col">Provider</Th>
-                            <Th scope="col">Status</Th>
-                        </Tr>
-                    </THead>
-                    <TBody>
+                    <thead>
+                        <tr>
+                            <th scope="col">Nickname</th>
+                            <th scope="col">Provider</th>
+                            <th scope="col">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
                         {USERS.map((user) => (
-                            <Tr key={user.nickname}>
-                                <Td>{user.nickname}</Td>
-                                <Td>{user.provider}</Td>
-                                <Td>
+                            <tr key={user.nickname}>
+                                <td>{user.nickname}</td>
+                                <td>{user.provider}</td>
+                                <td>
                                     <Badge variant={STATUS_BADGE_VARIANTS[user.status]}>{user.status}</Badge>
-                                </Td>
-                            </Tr>
+                                </td>
+                            </tr>
                         ))}
-                    </TBody>
+                    </tbody>
                 </Table>
             </Example>
         </ShowcasePage>
@@ -509,6 +571,11 @@ import { Loading } from "@voguh/unichat-ui/components/Loading";
                     name: "Loading",
                     props: "HTMLAttributes<HTMLDivElement>",
                     ref: "HTMLDivElement",
+                    structure: `
+div[data-part~="Loading"]
+  > i
+  > span   (visually hidden label)
+`,
                     nonStandard: [
                         {
                             name: "show",
@@ -548,6 +615,10 @@ import { Markdown } from "@voguh/unichat-ui/components/Markdown";
                     name: "Markdown",
                     props: "HTMLAttributes<HTMLDivElement>",
                     ref: "HTMLDivElement",
+                    structure: `
+div[data-part~="Markdown"]
+  > (generated HTML: h1–h6, p, a, ul, ol, code, table…)
+`,
                     nonStandard: [
                         {
                             name: "content",

@@ -12,6 +12,7 @@ import type PReact from "preact";
 import { forwardRef } from "preact/compat";
 
 import { clsx } from "~/utils/clsx";
+import { dataPart } from "~/utils/dataAttributes";
 
 import styles from "./styles.module.css";
 
@@ -30,9 +31,15 @@ export const Loading = forwardRef<HTMLDivElement, LoadingProps>(function Loading
     }
 
     return (
-        <div role="status" {...rest} ref={ref} className={clsx(styles.root, className)}>
+        <div
+            role="status"
+            {...rest}
+            ref={ref}
+            data-part={dataPart("Loading", rest)}
+            className={clsx(styles.root, className)}
+        >
             <i className="fas fa-spinner fa-spin fa-fw fa-2x" aria-hidden="true" />
-            <span className={styles.label}>{label}</span>
+            <span>{label}</span>
         </div>
     );
 });

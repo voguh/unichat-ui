@@ -13,6 +13,7 @@ import type PReact from "preact";
 import { forwardRef } from "preact/compat";
 
 import { clsx } from "~/utils/clsx";
+import { dataPart, omitDataPart } from "~/utils/dataAttributes";
 
 import styles from "./styles.module.css";
 
@@ -22,18 +23,20 @@ export interface SwitchProps extends VanillaProps {
 }
 
 export const Switch = forwardRef<HTMLInputElement, SwitchProps>(function Switch(
-    { rootProps, className, children, ...rest },
+    { rootProps = {}, className, children, ...rest },
     ref
 ) {
-    const rootClassName = rootProps != null ? rootProps.className : undefined;
-
     return (
-        <label {...rootProps} className={clsx(styles.root, className, rootClassName)}>
-            <input {...rest} ref={ref} type="checkbox" role="switch" className={styles.input} />
-            <span className={styles.control}>
-                <span className={styles.thumb} />
+        <label
+            {...rootProps}
+            data-part={dataPart("Switch", rest)}
+            className={clsx(styles.root, className, rootProps.className)}
+        >
+            <input {...omitDataPart(rest)} ref={ref} type="checkbox" role="switch" />
+            <span data-slot="control">
+                <span data-slot="thumb" />
             </span>
-            {children != null && <span className={styles.label}>{children}</span>}
+            {children != null && <span data-slot="label">{children}</span>}
         </label>
     );
 });

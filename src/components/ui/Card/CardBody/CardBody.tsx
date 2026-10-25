@@ -12,6 +12,7 @@ import type PReact from "preact";
 import { forwardRef } from "preact/compat";
 
 import { clsx } from "~/utils/clsx";
+import { dataPart } from "~/utils/dataAttributes";
 
 import styles from "./styles.module.css";
 
@@ -19,5 +20,5 @@ type VanillaProps = PReact.HTMLAttributes<HTMLDivElement>;
 export interface CardBodyProps extends VanillaProps {}
 
 export const CardBody = forwardRef<HTMLDivElement, CardBodyProps>(function CardBody({ className, ...rest }, ref) {
-    return <div {...rest} ref={ref} className={clsx(styles.root, className)} />;
+    return <div {...rest} ref={ref} data-part={dataPart("CardBody", rest)} className={clsx(styles.root, className)} />;
 });

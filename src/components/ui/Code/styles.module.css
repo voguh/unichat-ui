@@ -8,8 +8,12 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-.root {
-    @apply bg-stone-900 rounded;
-    @apply font-mono text-sm text-stone-300;
-    @apply px-1.5 py-0.5;
+@layer theme, base, unichat-ui, components, utilities;
+
+@layer unichat-ui {
+    .root {
+        @apply bg-stone-900 rounded;
+        @apply font-mono text-sm text-stone-300;
+        @apply px-1.5 py-0.5;
+    }
 }

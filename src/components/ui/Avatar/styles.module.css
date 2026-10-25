@@ -8,13 +8,17 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-.root {
-    @apply rounded;
-    @apply shrink-0 object-cover;
+@layer theme, base, unichat-ui, components, utilities;
 
-    &[data-fallback] {
-        @apply bg-stone-900;
-        @apply text-stone-500;
-        @apply inline-flex items-center justify-center;
+@layer unichat-ui {
+    .root {
+        @apply rounded;
+        @apply shrink-0 object-cover;
+
+        &[data-fallback] {
+            @apply bg-stone-900;
+            @apply text-stone-500;
+            @apply inline-flex items-center justify-center;
+        }
     }
 }

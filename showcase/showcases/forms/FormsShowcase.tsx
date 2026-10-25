@@ -79,6 +79,13 @@ import { FormGroup, getFormGroupDescribedBy } from "@voguh/unichat-ui/components
                     name: "FormGroup",
                     props: "HTMLAttributes<HTMLDivElement>",
                     ref: "HTMLDivElement",
+                    structure: `
+div[data-part~="FormGroup"][data-status]
+  > label[data-slot="label"]
+  > (children)
+  > small[data-slot="description"]
+  > small[data-slot="status-message"][data-status]
+`,
                     nonStandard: [
                         {
                             name: "id",
@@ -147,6 +154,13 @@ import { Select } from "@voguh/unichat-ui/components/forms/Select";
                     name: "forms/* (TextInput, PasswordInput, Textarea, NumberInput, Select, Combobox, RadioGroup, Checkbox, Switch, DatePicker, ColorPicker, FileUpload)",
                     props: "props of the ui component with the same name, plus the FormGroup props",
                     ref: "same element as the ui component",
+                    structure: `
+div[data-part~="FormGroup"]   (groupProps)
+  > label[data-slot="label"]
+  > (ui component, with its own data-part)
+  > small[data-slot="description"]
+  > small[data-slot="status-message"]
+`,
                     nonStandard: [
                         {
                             name: "id",

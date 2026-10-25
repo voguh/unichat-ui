@@ -12,6 +12,7 @@ import type PReact from "preact";
 import { forwardRef } from "preact/compat";
 
 import { clsx } from "~/utils/clsx";
+import { dataPart } from "~/utils/dataAttributes";
 
 import styles from "./styles.module.css";
 
@@ -19,5 +20,5 @@ type VanillaProps = PReact.TableHTMLAttributes<HTMLTableElement>;
 export interface TableProps extends VanillaProps {}
 
 export const Table = forwardRef<HTMLTableElement, TableProps>(function Table({ className, ...rest }, ref) {
-    return <table {...rest} ref={ref} className={clsx(styles.root, className)} />;
+    return <table {...rest} ref={ref} data-part={dataPart("Table", rest)} className={clsx(styles.root, className)} />;
 });

@@ -50,6 +50,10 @@ import { NumberInput } from "@voguh/unichat-ui/components/ui/NumberInput";
                     name: "NumberInput",
                     props: 'InputProps (InputHTMLAttributes<HTMLInputElement>, without "type")',
                     ref: "HTMLInputElement",
+                    structure: `
+div[data-part="Input NumberInput"]   (same structure as Input)
+  > input[type="number"]
+`,
                     nonStandard: [
                         {
                             name: "startSlot / endSlot / rootProps",
@@ -90,6 +94,11 @@ import { PasswordInput } from "@voguh/unichat-ui/components/ui/PasswordInput";
                     name: "PasswordInput",
                     props: 'InputHTMLAttributes<HTMLInputElement> (without "type")',
                     ref: "HTMLInputElement",
+                    structure: `
+div[data-part~="PasswordInput"]   (rootProps, className)
+  > input[data-part="Input"]   (ref and the other props)
+  > button[data-slot="trigger"]   (toggles visibility)
+`,
                     nonStandard: [ROOT_PROPS]
                 }
             ]}
@@ -119,6 +128,14 @@ import { DatePicker } from "@voguh/unichat-ui/components/ui/DatePicker";
                     name: "DatePicker",
                     props: 'InputHTMLAttributes<HTMLInputElement> (text input, without "type")',
                     ref: "HTMLInputElement",
+                    structure: `
+div[data-part~="DatePicker"]   (rootProps, className)
+  > div[data-slot="control"][data-invalid][data-disabled]
+    > input   (ref and the other props)
+    > button[data-slot="trigger"]
+
+div[data-part="DatePickerCalendar"]   (appended to body; its content is vanilla-calendar-pro markup, not part of the contract)
+`,
                     nonStandard: [
                         {
                             name: "value / defaultValue",
@@ -167,7 +184,7 @@ export function ColorPickerShowcase(): PReact.ComponentChildren {
     return (
         <ShowcasePage
             title="ColorPicker"
-            description="Native text input with a color popover."
+            description="Native text input; clicking the field or focusing the input opens the color panel."
             usage={`
 import { ColorPicker } from "@voguh/unichat-ui/components/ui/ColorPicker";
 
@@ -178,6 +195,26 @@ import { ColorPicker } from "@voguh/unichat-ui/components/ui/ColorPicker";
                     name: "ColorPicker",
                     props: 'InputHTMLAttributes<HTMLInputElement> (text input, without "type")',
                     ref: "HTMLInputElement",
+                    structure: `
+div[data-part~="ColorPicker"][data-open]   (rootProps, className)
+  > div[data-slot="control"][data-invalid][data-disabled]
+    > span[data-slot="preview"]
+      > span[data-slot="grid"]
+      > span[data-slot="color"]
+    > input   (ref and the other props)
+  > div[data-part="PopoverPanel ColorPickerPopover"]   (fixed position, shown while open)
+    > div[data-slot="area"]
+      > span[data-slot="thumb"]
+    > input[data-slot="hue"]
+    > div[data-slot="alpha"]
+      > span[data-slot="grid"]
+      > span[data-slot="gradient"]
+      > input
+    > div[data-slot="swatches"]
+      > button[data-selected]
+        > span[data-slot="grid"]
+        > span[data-slot="color"]
+`,
                     nonStandard: [
                         {
                             name: "value / defaultValue",
@@ -239,6 +276,17 @@ import { FileUpload } from "@voguh/unichat-ui/components/ui/FileUpload";
                     name: "FileUpload",
                     props: 'InputHTMLAttributes<HTMLInputElement> (without "type", "value" and "defaultValue")',
                     ref: "HTMLInputElement",
+                    structure: `
+div[data-part~="FileUpload"]   (rootProps, className)
+  > label[data-slot="dropzone"][data-dragging][data-invalid][data-disabled]
+    > input[type="file"]   (ref and the other props)
+    > i[data-slot="icon"]
+  > ul   (selected files)
+    > li
+      > span[data-slot="name"]
+      > span[data-slot="size"]
+      > button   (removes the file)
+`,
                     nonStandard: [
                         {
                             name: "children",

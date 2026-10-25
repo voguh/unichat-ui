@@ -8,79 +8,82 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-.root {
-    @apply relative inline-flex items-center gap-2 cursor-pointer;
+@layer theme, base, unichat-ui, components, utilities;
 
-    &:has(.input:disabled) {
-        @apply text-stone-500;
-        @apply cursor-not-allowed;
-    }
-}
+@layer unichat-ui {
+    .root {
+        @apply relative inline-flex items-center gap-2 cursor-pointer;
 
-.control {
-    @apply bg-stone-800 border border-stone-600 rounded;
-    @apply text-stone-50 text-xs;
-    @apply flex items-center justify-center shrink-0 w-5 h-5;
-}
-
-.checkIcon,
-.indeterminateIcon {
-    @apply hidden;
-}
-
-.input {
-    @apply sr-only;
-
-    &:focus-visible {
-        & + .control {
-            @apply ring-2 ring-blue-500;
+        &:has(> input:disabled) {
+            @apply text-stone-500;
+            @apply cursor-not-allowed;
         }
-    }
 
-    &[aria-invalid="true"] {
-        & + .control {
-            @apply border-red-600;
+        & > [data-slot="control"] {
+            @apply bg-stone-800 border border-stone-600 rounded;
+            @apply text-stone-50 text-xs;
+            @apply flex items-center justify-center shrink-0 w-5 h-5;
+
+            & > i {
+                @apply hidden;
+            }
         }
-    }
 
-    &:checked,
-    &:indeterminate {
-        & + .control {
-            @apply bg-red-800 border-red-800;
+        & > [data-slot="label"] {
+            @apply select-none;
         }
-    }
 
-    &:checked:not(:indeterminate) {
-        & + .control {
-            & > .checkIcon {
-                @apply inline-block;
+        & > input {
+            @apply sr-only;
+
+            &:focus-visible {
+                & + [data-slot="control"] {
+                    @apply ring-2 ring-blue-500;
+                }
+            }
+
+            &[aria-invalid="true"] {
+                & + [data-slot="control"] {
+                    @apply border-red-600;
+                }
+            }
+
+            &:checked,
+            &:indeterminate {
+                & + [data-slot="control"] {
+                    @apply bg-red-800 border-red-800;
+                }
+            }
+
+            &:checked:not(:indeterminate) {
+                & + [data-slot="control"] {
+                    & > [data-slot="check"] {
+                        @apply inline-block;
+                    }
+                }
+            }
+
+            &:indeterminate {
+                & + [data-slot="control"] {
+                    & > [data-slot="indeterminate"] {
+                        @apply inline-block;
+                    }
+                }
+            }
+
+            &:disabled {
+                & + [data-slot="control"] {
+                    @apply bg-stone-900 border-stone-700;
+                }
+
+                &:checked,
+                &:indeterminate {
+                    & + [data-slot="control"] {
+                        @apply bg-stone-700 border-stone-700;
+                        @apply text-stone-500;
+                    }
+                }
             }
         }
     }
-
-    &:indeterminate {
-        & + .control {
-            & > .indeterminateIcon {
-                @apply inline-block;
-            }
-        }
-    }
-
-    &:disabled {
-        & + .control {
-            @apply bg-stone-900 border-stone-700;
-        }
-
-        &:checked,
-        &:indeterminate {
-            & + .control {
-                @apply bg-stone-700 border-stone-700;
-                @apply text-stone-500;
-            }
-        }
-    }
-}
-
-.label {
-    @apply select-none;
 }

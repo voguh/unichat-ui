@@ -12,6 +12,7 @@ import type PReact from "preact";
 import { forwardRef } from "preact/compat";
 
 import { clsx } from "~/utils/clsx";
+import { dataPart } from "~/utils/dataAttributes";
 
 import styles from "./styles.module.css";
 
@@ -44,15 +45,22 @@ export const Alert = forwardRef<HTMLDivElement, AlertProps>(function Alert(
     ref
 ) {
     return (
-        <div {...rest} ref={ref} role={ROLES[variant]} data-variant={variant} className={clsx(styles.root, className)}>
-            <span className={styles.icon} aria-hidden="true">
+        <div
+            {...rest}
+            ref={ref}
+            role={ROLES[variant]}
+            data-part={dataPart("Alert", rest)}
+            data-variant={variant}
+            className={clsx(styles.root, className)}
+        >
+            <span data-slot="icon" aria-hidden="true">
                 {icon ?? <i className={DEFAULT_ICONS[variant]} />}
             </span>
-            <div className={styles.content}>
-                {title != null && <strong className={styles.title}>{title}</strong>}
+            <div data-slot="content">
+                {title != null && <strong data-slot="title">{title}</strong>}
                 {children}
             </div>
-            {action != null && <div className={styles.action}>{action}</div>}
+            {action != null && <div data-slot="action">{action}</div>}
         </div>
     );
 });

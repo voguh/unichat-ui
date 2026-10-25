@@ -15,6 +15,7 @@ import { useMemo } from "preact/hooks";
 import { generate } from "lean-qr";
 
 import { clsx } from "~/utils/clsx";
+import { dataPart } from "~/utils/dataAttributes";
 
 import styles from "./styles.module.css";
 
@@ -30,5 +31,14 @@ export const QrCode = forwardRef<HTMLImageElement, QrCodeProps>(function QrCode(
 ) {
     const src = useMemo(() => generate(value).toDataURL({ scale: 10, pad: 1 }), [value]);
 
-    return <img {...rest} ref={ref} src={src} alt={alt} className={clsx(styles.root, className)} />;
+    return (
+        <img
+            {...rest}
+            ref={ref}
+            src={src}
+            alt={alt}
+            data-part={dataPart("QrCode", rest)}
+            className={clsx(styles.root, className)}
+        />
+    );
 });

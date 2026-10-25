@@ -48,6 +48,10 @@ import { Button } from "@voguh/unichat-ui/components/ui/Button";
                     name: "Button",
                     props: "ButtonHTMLAttributes<HTMLButtonElement>",
                     ref: "HTMLButtonElement",
+                    structure: `
+button[data-part~="Button"][data-variant][data-size][aria-busy]
+  > i[data-slot="spinner"]   (only while loading)
+`,
                     nonStandard: [
                         VARIANT_PROP,
                         SIZE_PROP,
@@ -119,6 +123,9 @@ import { IconButton } from "@voguh/unichat-ui/components/ui/Button";
                     name: "IconButton",
                     props: "ButtonProps (ButtonHTMLAttributes<HTMLButtonElement>)",
                     ref: "HTMLButtonElement",
+                    structure: `
+button[data-part="Button IconButton"][data-variant][data-size]
+`,
                     nonStandard: [
                         {
                             name: "aria-label",
@@ -166,6 +173,9 @@ import { ButtonLink } from "@voguh/unichat-ui/components/ui/Button";
                     name: "ButtonLink",
                     props: "AnchorHTMLAttributes<HTMLAnchorElement>",
                     ref: "HTMLAnchorElement",
+                    structure: `
+a[data-part~="ButtonLink"][data-variant][data-size]
+`,
                     nonStandard: [VARIANT_PROP, SIZE_PROP]
                 }
             ]}

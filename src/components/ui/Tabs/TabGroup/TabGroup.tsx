@@ -14,6 +14,7 @@ import { forwardRef } from "preact/compat";
 import { TabGroup as HeadlessTabGroup, type TabGroupProps as HeadlessTabGroupProps } from "@headlessui/react";
 
 import { clsx } from "~/utils/clsx";
+import { dataPart } from "~/utils/dataAttributes";
 
 import styles from "./styles.module.css";
 
@@ -23,5 +24,12 @@ export interface TabGroupProps
         Pick<HeadlessTabGroupProps, "defaultIndex" | "selectedIndex" | "onChange" | "vertical" | "manual"> {}
 
 export const TabGroup = forwardRef<HTMLElement, TabGroupProps>(function TabGroup({ className, ...rest }, ref) {
-    return <HeadlessTabGroup {...rest} ref={ref} className={clsx(styles.root, className)} />;
+    return (
+        <HeadlessTabGroup
+            {...rest}
+            ref={ref}
+            data-part={dataPart("TabGroup", rest)}
+            className={clsx(styles.root, className)}
+        />
+    );
 });

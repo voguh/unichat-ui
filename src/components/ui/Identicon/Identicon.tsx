@@ -14,6 +14,7 @@ import { forwardRef } from "preact/compat";
 import { useMemo } from "preact/hooks";
 
 import { clsx } from "~/utils/clsx";
+import { dataPart } from "~/utils/dataAttributes";
 
 import styles from "./styles.module.css";
 
@@ -79,9 +80,10 @@ export const Identicon = forwardRef<SVGSVGElement, IdenticonProps>(function Iden
             ref={ref}
             viewBox={`0 0 ${GRID_SIZE} ${GRID_SIZE}`}
             shapeRendering="crispEdges"
+            data-part={dataPart("Identicon", rest)}
             className={clsx(styles.root, className)}
         >
-            <rect width={GRID_SIZE} height={GRID_SIZE} className={styles.background} />
+            <rect width={GRID_SIZE} height={GRID_SIZE} />
             <g fill={color}>
                 {cells.map((cell) => (
                     <rect key={`${cell.x}-${cell.y}`} x={cell.x} y={cell.y} width={1} height={1} />

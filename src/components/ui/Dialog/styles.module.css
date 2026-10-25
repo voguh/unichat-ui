@@ -8,6 +8,10 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-.root {
-    @apply fixed inset-0 z-50 flex items-center justify-center;
+@layer theme, base, unichat-ui, components, utilities;
+
+@layer unichat-ui {
+    .root {
+        @apply fixed inset-0 z-50 flex items-center justify-center;
+    }
 }

@@ -13,9 +13,11 @@ import { forwardRef } from "preact/compat";
 
 import { TabPanels as HeadlessTabPanels } from "@headlessui/react";
 
+import { dataPart } from "~/utils/dataAttributes";
+
 type VanillaProps = PReact.HTMLAttributes<HTMLDivElement>;
 export interface TabPanelsProps extends VanillaProps {}
 
 export const TabPanels = forwardRef<HTMLElement, TabPanelsProps>(function TabPanels(props, ref) {
-    return <HeadlessTabPanels {...props} ref={ref} />;
+    return <HeadlessTabPanels {...props} ref={ref} data-part={dataPart("TabPanels", props)} />;
 });

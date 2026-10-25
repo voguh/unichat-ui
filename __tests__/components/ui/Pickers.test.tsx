@@ -58,11 +58,30 @@ describe("ColorPicker", () => {
         const onChange = rstest.fn();
         render(<ColorPicker ref={ref} swatches={["#2563eb"]} onChange={onChange} />);
 
-        await userEvent.click(screen.getByRole("button", { name: "Open color picker" }));
+        await userEvent.click(ref.current as HTMLInputElement);
         await userEvent.click(await screen.findByRole("button", { name: "#2563eb" }));
 
         expect(onChange).toHaveBeenCalledTimes(1);
         expect(ref.current).toHaveValue("#2563eb");
+    });
+
+    it("opens on focus and closes with Escape and outside clicks", async () => {
+        const ref = createRef<HTMLInputElement>();
+        const { container } = render(<ColorPicker ref={ref} />);
+        const root = container.querySelector("[data-part='ColorPicker']");
+
+        await userEvent.tab();
+        expect(ref.current).toHaveFocus();
+        expect(root).toHaveAttribute("data-open");
+
+        await userEvent.keyboard("{Escape}");
+        expect(root).not.toHaveAttribute("data-open");
+
+        await userEvent.click(ref.current as HTMLInputElement);
+        expect(root).toHaveAttribute("data-open");
+
+        await userEvent.click(document.body);
+        expect(root).not.toHaveAttribute("data-open");
     });
 });
 

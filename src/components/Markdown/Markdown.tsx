@@ -17,6 +17,7 @@ import DOMPurify from "dompurify";
 import { Marked, type Token } from "marked";
 
 import { clsx } from "~/utils/clsx";
+import { dataPart } from "~/utils/dataAttributes";
 
 import styles from "./styles.module.css";
 
@@ -97,7 +98,8 @@ export const Markdown = forwardRef<HTMLDivElement, MarkdownProps>(function Markd
         <div
             {...rest}
             ref={ref}
-            className={clsx(styles.root, "prose prose-invert max-w-none overflow-y-auto", className)}
+            data-part={dataPart("Markdown", rest)}
+            className={clsx(styles.root, className)}
             dangerouslySetInnerHTML={{ __html: marked(content) }}
         />
     );

@@ -17,6 +17,7 @@ import {
 } from "@headlessui/react";
 
 import { clsx } from "~/utils/clsx";
+import { dataPart } from "~/utils/dataAttributes";
 
 import styles from "./styles.module.css";
 
@@ -29,5 +30,12 @@ export const DisclosurePanel = forwardRef<HTMLElement, DisclosurePanelProps>(fun
     { className, ...rest },
     ref
 ) {
-    return <HeadlessDisclosurePanel {...rest} ref={ref} className={clsx(styles.root, className)} />;
+    return (
+        <HeadlessDisclosurePanel
+            {...rest}
+            ref={ref}
+            data-part={dataPart("DisclosurePanel", rest)}
+            className={clsx(styles.root, className)}
+        />
+    );
 });

@@ -8,14 +8,18 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-.root {
-    &[data-variant="default"] {
-        @apply border-b border-b-stone-800;
-        @apply flex gap-4;
-    }
+@layer theme, base, unichat-ui, components, utilities;
 
-    &[data-variant="segmented"] {
-        @apply bg-stone-900 rounded;
-        @apply relative inline-flex self-start gap-1 p-1;
+@layer unichat-ui {
+    .root {
+        &[data-variant="default"] {
+            @apply border-b border-b-stone-800;
+            @apply flex gap-4;
+        }
+
+        &[data-variant="segmented"] {
+            @apply bg-stone-900 rounded;
+            @apply relative inline-flex self-start gap-1 p-1;
+        }
     }
 }

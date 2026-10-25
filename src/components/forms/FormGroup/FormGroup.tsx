@@ -12,6 +12,7 @@ import type PReact from "preact";
 import { forwardRef } from "preact/compat";
 
 import { clsx } from "~/utils/clsx";
+import { dataPart } from "~/utils/dataAttributes";
 
 import styles from "./styles.module.css";
 
@@ -74,29 +75,26 @@ export const FormGroup = forwardRef<HTMLDivElement, FormGroupProps>(function For
     }
 
     return (
-        <div {...rest} ref={ref} data-status={status} className={clsx(styles.root, className)}>
+        <div
+            {...rest}
+            ref={ref}
+            data-part={dataPart("FormGroup", rest)}
+            data-status={status}
+            className={clsx(styles.root, className)}
+        >
             {label != null && (
-                <label {...labelProps} htmlFor={id} className={clsx(styles.label, labelProps.className)}>
+                <label {...labelProps} htmlFor={id} data-slot="label">
                     {label}
                 </label>
             )}
             {children}
             {!hasStatusMessage && description != null && (
-                <small
-                    {...descriptionProps}
-                    id={partId("description")}
-                    className={clsx(styles.description, descriptionProps.className)}
-                >
+                <small {...descriptionProps} id={partId("description")} data-slot="description">
                     {description}
                 </small>
             )}
             {hasStatusMessage && (
-                <small
-                    {...statusMessageProps}
-                    id={partId("status")}
-                    data-status={status}
-                    className={clsx(styles.statusMessage, statusMessageProps.className)}
-                >
+                <small {...statusMessageProps} id={partId("status")} data-slot="status-message" data-status={status}>
                     {statusMessage}
                 </small>
             )}

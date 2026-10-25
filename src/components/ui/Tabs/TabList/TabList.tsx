@@ -14,6 +14,7 @@ import { forwardRef } from "preact/compat";
 import { TabList as HeadlessTabList } from "@headlessui/react";
 
 import { clsx } from "~/utils/clsx";
+import { dataPart } from "~/utils/dataAttributes";
 
 import styles from "./styles.module.css";
 
@@ -28,5 +29,13 @@ export const TabList = forwardRef<HTMLElement, TabListProps>(function TabList(
     { variant = "default", className, ...rest },
     ref
 ) {
-    return <HeadlessTabList {...rest} ref={ref} data-variant={variant} className={clsx(styles.root, className)} />;
+    return (
+        <HeadlessTabList
+            {...rest}
+            ref={ref}
+            data-part={dataPart("TabList", rest)}
+            data-variant={variant}
+            className={clsx(styles.root, className)}
+        />
+    );
 });

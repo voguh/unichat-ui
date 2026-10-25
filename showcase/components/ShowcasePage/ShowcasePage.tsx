@@ -11,7 +11,7 @@
 import type PReact from "preact";
 
 import { Code } from "~/components/ui/Code";
-import { Table, TBody, Td, THead, Th, Tr } from "~/components/ui/Table";
+import { Table } from "~/components/ui/Table";
 
 import styles from "./styles.module.css";
 
@@ -26,6 +26,7 @@ export interface ComponentDoc {
     name: string;
     props: string;
     ref: string;
+    structure?: string;
     nonStandard?: PropDoc[];
 }
 
@@ -39,16 +40,16 @@ export interface ShowcasePageProps {
 
 function renderPropRows(nonStandard: PropDoc[]): PReact.ComponentChildren {
     return nonStandard.map((prop) => (
-        <Tr key={prop.name}>
-            <Td>
+        <tr key={prop.name}>
+            <td>
                 <Code>{prop.name}</Code>
-            </Td>
-            <Td>
+            </td>
+            <td>
                 <Code>{prop.type}</Code>
-            </Td>
-            <Td>{prop.defaultValue != null && <Code>{prop.defaultValue}</Code>}</Td>
-            <Td>{prop.description}</Td>
-        </Tr>
+            </td>
+            <td>{prop.defaultValue != null && <Code>{prop.defaultValue}</Code>}</td>
+            <td>{prop.description}</td>
+        </tr>
     ));
 }
 
@@ -68,17 +69,22 @@ function renderComponentDoc(doc: ComponentDoc): PReact.ComponentChildren {
                     <Code>{doc.ref}</Code>
                 </dd>
             </dl>
+            {doc.structure != null && (
+                <pre className={styles.code}>
+                    <code>{doc.structure.trim()}</code>
+                </pre>
+            )}
             {nonStandard.length > 0 && (
                 <Table aria-label={`${doc.name} non-standard props`}>
-                    <THead>
-                        <Tr>
-                            <Th scope="col">Prop</Th>
-                            <Th scope="col">Type</Th>
-                            <Th scope="col">Default</Th>
-                            <Th scope="col">Description</Th>
-                        </Tr>
-                    </THead>
-                    <TBody>{renderPropRows(nonStandard)}</TBody>
+                    <thead>
+                        <tr>
+                            <th scope="col">Prop</th>
+                            <th scope="col">Type</th>
+                            <th scope="col">Default</th>
+                            <th scope="col">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>{renderPropRows(nonStandard)}</tbody>
                 </Table>
             )}
         </section>
@@ -100,7 +106,7 @@ export function ShowcasePage({
             </header>
             <section className={styles.section}>
                 <h2>Usage</h2>
-                <pre className={styles.usage}>
+                <pre className={styles.code}>
                     <code>{usage.trim()}</code>
                 </pre>
             </section>

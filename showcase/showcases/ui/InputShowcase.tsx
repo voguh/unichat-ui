@@ -34,6 +34,12 @@ import { Input } from "@voguh/unichat-ui/components/ui/Input";
                     name: "Input",
                     props: "InputHTMLAttributes<HTMLInputElement>",
                     ref: "HTMLInputElement",
+                    structure: `
+div[data-part~="Input"][data-disabled]   (rootProps, className)
+  > span[data-slot="start"]
+  > input   (ref and the other props)
+  > span[data-slot="end"]
+`,
                     nonStandard: [
                         {
                             name: "startSlot",
@@ -86,6 +92,7 @@ import { Textarea } from "@voguh/unichat-ui/components/ui/Textarea";
                     name: "Textarea",
                     props: "TextareaHTMLAttributes<HTMLTextAreaElement>",
                     ref: "HTMLTextAreaElement",
+                    structure: `textarea[data-part~="Textarea"][data-auto-resize]`,
                     nonStandard: [
                         {
                             name: "autoResize",

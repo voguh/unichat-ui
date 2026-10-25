@@ -8,65 +8,69 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-.root {
-    @apply relative inline-flex items-center gap-2 cursor-pointer;
+@layer theme, base, unichat-ui, components, utilities;
 
-    &:has(.input:disabled) {
-        @apply text-stone-500;
-        @apply cursor-not-allowed;
-    }
-}
+@layer unichat-ui {
+    .root {
+        @apply relative inline-flex items-center gap-2 cursor-pointer;
 
-.control {
-    @apply bg-stone-700 rounded-full;
-    @apply inline-flex items-center shrink-0 w-10 h-6 p-0.5 transition-colors;
-}
-
-.thumb {
-    @apply bg-stone-50 rounded-full;
-    @apply w-5 h-5 transition-transform;
-}
-
-.input {
-    @apply sr-only;
-
-    &:focus-visible {
-        & + .control {
-            @apply ring-2 ring-blue-500;
+        &:has(> input:disabled) {
+            @apply text-stone-500;
+            @apply cursor-not-allowed;
         }
-    }
 
-    &:checked {
-        & + .control {
-            @apply bg-red-800;
+        & > [data-slot="control"] {
+            @apply bg-stone-700 rounded-full;
+            @apply inline-flex items-center shrink-0 w-10 h-6 p-0.5 transition-colors;
 
-            & > .thumb {
-                @apply translate-x-4;
-            }
-        }
-    }
-
-    &:disabled {
-        & + .control {
-            @apply bg-stone-800;
-
-            & > .thumb {
-                @apply bg-stone-600;
+            & > [data-slot="thumb"] {
+                @apply bg-stone-50 rounded-full;
+                @apply w-5 h-5 transition-transform;
             }
         }
 
-        &:checked {
-            & + .control {
-                @apply bg-stone-700;
+        & > [data-slot="label"] {
+            @apply select-none;
+        }
 
-                & > .thumb {
-                    @apply bg-stone-500;
+        & > input {
+            @apply sr-only;
+
+            &:focus-visible {
+                & + [data-slot="control"] {
+                    @apply ring-2 ring-blue-500;
+                }
+            }
+
+            &:checked {
+                & + [data-slot="control"] {
+                    @apply bg-red-800;
+
+                    & > [data-slot="thumb"] {
+                        @apply translate-x-4;
+                    }
+                }
+            }
+
+            &:disabled {
+                & + [data-slot="control"] {
+                    @apply bg-stone-800;
+
+                    & > [data-slot="thumb"] {
+                        @apply bg-stone-600;
+                    }
+                }
+
+                &:checked {
+                    & + [data-slot="control"] {
+                        @apply bg-stone-700;
+
+                        & > [data-slot="thumb"] {
+                            @apply bg-stone-500;
+                        }
+                    }
                 }
             }
         }
     }
-}
-
-.label {
-    @apply select-none;
 }

@@ -15,6 +15,7 @@ import { useEffect, useRef } from "preact/hooks";
 import { Disclosure as HeadlessDisclosure } from "@headlessui/react";
 
 import { clsx } from "~/utils/clsx";
+import { dataPart } from "~/utils/dataAttributes";
 
 import styles from "./styles.module.css";
 
@@ -73,6 +74,7 @@ export const Disclosure = forwardRef<HTMLElement, DisclosureProps>(function Disc
             as="div"
             ref={ref}
             defaultOpen={defaultOpen}
+            data-part={dataPart("Disclosure", rest)}
             className={clsx(styles.root, className)}
         >
             {({ open, close }) => (

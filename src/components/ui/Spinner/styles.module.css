@@ -8,18 +8,22 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-.root {
-    @apply inline-flex items-center justify-center;
+@layer theme, base, unichat-ui, components, utilities;
 
-    &[data-size="sm"] {
-        @apply text-sm;
-    }
+@layer unichat-ui {
+    .root {
+        @apply inline-flex items-center justify-center;
 
-    &[data-size="md"] {
-        @apply text-xl;
-    }
+        &[data-size="sm"] {
+            @apply text-sm;
+        }
 
-    &[data-size="lg"] {
-        @apply text-3xl;
+        &[data-size="md"] {
+            @apply text-xl;
+        }
+
+        &[data-size="lg"] {
+            @apply text-3xl;
+        }
     }
 }

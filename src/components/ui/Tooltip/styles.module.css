@@ -8,37 +8,57 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-.positioner {
-    @apply fixed top-0 left-0 z-50 pointer-events-none;
-}
+@layer theme, base, unichat-ui, components, utilities;
 
-.content {
-    @apply bg-stone-950 border border-stone-700 rounded shadow;
-    @apply text-sm text-stone-50;
-    @apply relative max-w-xs px-2 py-1;
-}
+@layer unichat-ui {
+    .root {
+        @apply fixed top-0 left-0 z-50 pointer-events-none;
 
-.arrow {
-    @apply absolute size-1.5;
-}
+        & > [data-slot="content"] {
+            @apply bg-stone-950 border border-stone-700 rounded shadow;
+            @apply text-sm text-stone-50;
+            @apply relative max-w-xs px-2 py-1;
 
-.arrowTip {
-    @apply bg-stone-950 border-t border-l border-stone-700;
-    @apply w-full h-full;
-}
+            & > [data-slot="arrow"] {
+                @apply absolute size-1.5;
 
-.positioner[data-side="top"] .arrow {
-    @apply -bottom-0.75 -translate-x-1/2 rotate-225;
-}
+                & > div {
+                    @apply bg-stone-950 border-t border-l border-stone-700;
+                    @apply w-full h-full;
+                }
+            }
+        }
 
-.positioner[data-side="bottom"] .arrow {
-    @apply -top-0.75 -translate-x-1/2 rotate-45;
-}
+        &[data-side="top"] {
+            & > [data-slot="content"] {
+                & > [data-slot="arrow"] {
+                    @apply -bottom-0.75 -translate-x-1/2 rotate-225;
+                }
+            }
+        }
 
-.positioner[data-side="left"] .arrow {
-    @apply -right-0.75 -translate-y-1/2 rotate-135;
-}
+        &[data-side="bottom"] {
+            & > [data-slot="content"] {
+                & > [data-slot="arrow"] {
+                    @apply -top-0.75 -translate-x-1/2 rotate-45;
+                }
+            }
+        }
 
-.positioner[data-side="right"] .arrow {
-    @apply -left-0.75 -translate-y-1/2 -rotate-45;
+        &[data-side="left"] {
+            & > [data-slot="content"] {
+                & > [data-slot="arrow"] {
+                    @apply -right-0.75 -translate-y-1/2 rotate-135;
+                }
+            }
+        }
+
+        &[data-side="right"] {
+            & > [data-slot="content"] {
+                & > [data-slot="arrow"] {
+                    @apply -left-0.75 -translate-y-1/2 -rotate-45;
+                }
+            }
+        }
+    }
 }

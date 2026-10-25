@@ -13,6 +13,7 @@ import type PReact from "preact";
 import { forwardRef } from "preact/compat";
 
 import { clsx } from "~/utils/clsx";
+import { dataPart } from "~/utils/dataAttributes";
 
 import styles from "./styles.module.css";
 
@@ -52,58 +53,66 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(function Pagi
 ) {
     const totalPages = Math.max(1, Math.ceil(count / pageSize));
 
+    function renderPage(value: number | null, index: number): PReact.ComponentChildren {
+        if (value == null) {
+            return (
+                <span key={`ellipsis-${index}`} aria-hidden="true">
+                    &#8230;
+                </span>
+            );
+        }
+
+        if (value === page) {
+            return (
+                <button key={value} type="button" aria-current="page" onClick={() => onChange(value)}>
+                    {value}
+                </button>
+            );
+        }
+
+        return (
+            <button key={value} type="button" onClick={() => onChange(value)}>
+                {value}
+            </button>
+        );
+    }
+
     return (
-        <nav {...rest} ref={ref} className={clsx(styles.root, className)}>
+        <nav {...rest} ref={ref} data-part={dataPart("Pagination", rest)} className={clsx(styles.root, className)}>
             <button
                 type="button"
+                data-slot="first"
                 aria-label="First page"
                 disabled={page <= 1}
                 onClick={() => onChange(1)}
-                className={styles.item}
             >
                 <i className="fas fa-angle-double-left" aria-hidden="true" />
             </button>
             <button
                 type="button"
+                data-slot="previous"
                 aria-label="Previous page"
                 disabled={page <= 1}
                 onClick={() => onChange(page - 1)}
-                className={styles.item}
             >
                 <i className="fas fa-chevron-left" aria-hidden="true" />
             </button>
-            {getPages(page, totalPages, siblingCount).map((value, index) =>
-                value != null ? (
-                    <button
-                        key={value}
-                        type="button"
-                        aria-current={value === page ? "page" : undefined}
-                        onClick={() => onChange(value)}
-                        className={styles.item}
-                    >
-                        {value}
-                    </button>
-                ) : (
-                    <span key={`ellipsis-${index}`} aria-hidden="true" className={styles.ellipsis}>
-                        &#8230;
-                    </span>
-                )
-            )}
+            {getPages(page, totalPages, siblingCount).map(renderPage)}
             <button
                 type="button"
+                data-slot="next"
                 aria-label="Next page"
                 disabled={page >= totalPages}
                 onClick={() => onChange(page + 1)}
-                className={styles.item}
             >
                 <i className="fas fa-chevron-right" aria-hidden="true" />
             </button>
             <button
                 type="button"
+                data-slot="last"
                 aria-label="Last page"
                 disabled={page >= totalPages}
                 onClick={() => onChange(totalPages)}
-                className={styles.item}
             >
                 <i className="fas fa-angle-double-right" aria-hidden="true" />
             </button>

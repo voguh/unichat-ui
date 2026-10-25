@@ -14,6 +14,7 @@ import { forwardRef } from "preact/compat";
 import { Tab as HeadlessTab } from "@headlessui/react";
 
 import { clsx } from "~/utils/clsx";
+import { dataPart } from "~/utils/dataAttributes";
 
 import styles from "./styles.module.css";
 
@@ -25,5 +26,7 @@ export interface TabProps extends VanillaProps {
 }
 
 export const Tab = forwardRef<HTMLElement, TabProps>(function Tab({ className, ...rest }, ref) {
-    return <HeadlessTab {...rest} ref={ref} className={clsx(styles.root, className)} />;
+    return (
+        <HeadlessTab {...rest} ref={ref} data-part={dataPart("Tab", rest)} className={clsx(styles.root, className)} />
+    );
 });

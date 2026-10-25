@@ -52,6 +52,14 @@ import { Progress } from "@voguh/unichat-ui/components/ui/Progress";
                     name: "Progress",
                     props: "HTMLAttributes<HTMLDivElement>",
                     ref: "HTMLDivElement",
+                    structure: `
+div[data-part~="Progress"]
+  > div[data-slot="header"]
+    > span[data-slot="label"]
+    > span[data-slot="value"]
+  > div[data-slot="track"]
+    > div[data-slot="range"][data-indeterminate]
+`,
                     nonStandard: [
                         {
                             name: "value",
@@ -93,6 +101,13 @@ import { Clipboard } from "@voguh/unichat-ui/components/ui/Clipboard";
                     name: "Clipboard",
                     props: "HTMLAttributes<HTMLDivElement>",
                     ref: "HTMLDivElement",
+                    structure: `
+div[data-part~="Clipboard"]
+  > label
+  > div[data-slot="control"]
+    > input
+    > button[data-copied]
+`,
                     nonStandard: [
                         { name: "value", type: "string", description: "Required: text shown and copied." },
                         {
@@ -129,6 +144,7 @@ import { QrCode } from "@voguh/unichat-ui/components/ui/QrCode";
                     name: "QrCode",
                     props: 'ImgHTMLAttributes<HTMLImageElement> (without "src")',
                     ref: "HTMLImageElement",
+                    structure: `img[data-part~="QrCode"]`,
                     nonStandard: [
                         {
                             name: "value",
@@ -169,6 +185,20 @@ toaster.create({ type: "info", title: "Release deleted", action: { label: "Undo"
                     name: "Toaster",
                     props: "HTMLAttributes<HTMLDivElement>",
                     ref: "HTMLDivElement",
+                    structure: `
+div[data-part~="Toaster"][data-placement]   (portal)
+  > div[data-part="ToastItem"][data-variant]   (data-variant is the "type" option)
+    > span[data-slot="icon"]
+    > div[data-slot="body"]
+      > strong   (title)
+      > p   (description)
+    > button[data-slot="action"]
+    > button[data-slot="close"]
+      > svg   (timer)
+        > circle[data-slot="track"]
+        > circle[data-slot="progress"]
+      > i
+`,
                     nonStandard: [
                         {
                             name: "store",
@@ -264,6 +294,12 @@ import { ScrollableView } from "@voguh/unichat-ui/components/ui/ScrollableView";
                     name: "ScrollableView",
                     props: "HTMLAttributes<HTMLDivElement> (the scrolling viewport)",
                     ref: "HTMLDivElement (the scrolling viewport)",
+                    structure: `
+div[data-part~="ScrollableView"]   (rootProps)
+  > div[data-slot="viewport"]   (ref, className and the other props)
+  > div[data-slot="track"][data-axis][data-active][data-crossed][data-dragging]
+    > div[data-slot="thumb"]
+`,
                     nonStandard: [
                         {
                             name: "alwaysVisible",

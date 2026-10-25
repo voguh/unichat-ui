@@ -8,64 +8,68 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-.root {
-    @apply flex flex-col gap-2;
-}
+@layer theme, base, unichat-ui, components, utilities;
 
-.dropzone {
-    @apply bg-stone-900 border-2 border-dashed border-stone-700 rounded;
-    @apply text-stone-400;
-    @apply flex flex-col items-center justify-center gap-2 cursor-pointer p-6 text-center;
+@layer unichat-ui {
+    .root {
+        @apply flex flex-col gap-2;
 
-    > i {
-        @apply text-2xl;
-    }
+        & > [data-slot="dropzone"] {
+            @apply bg-stone-900 border-2 border-dashed border-stone-700 rounded;
+            @apply text-stone-400;
+            @apply flex flex-col items-center justify-center gap-2 cursor-pointer p-6 text-center;
 
-    &[data-dragging] {
-        @apply border-red-800 bg-stone-800;
-    }
+            & > input {
+                @apply sr-only;
+            }
 
-    &:has(> input:focus-visible) {
-        @apply ring-2 ring-blue-500;
-    }
+            & > [data-slot="icon"] {
+                @apply text-2xl;
+            }
 
-    &[data-invalid] {
-        @apply border-red-600;
-    }
+            &[data-dragging] {
+                @apply border-red-800 bg-stone-800;
+            }
 
-    &[data-disabled] {
-        @apply border-stone-800;
-        @apply text-stone-600;
-        @apply cursor-not-allowed;
-    }
-}
+            &:has(> input:focus-visible) {
+                @apply ring-2 ring-blue-500;
+            }
 
-.input {
-    @apply sr-only;
-}
+            &[data-invalid] {
+                @apply border-red-600;
+            }
 
-.itemGroup {
-    @apply flex flex-col gap-1;
-}
+            &[data-disabled] {
+                @apply border-stone-800;
+                @apply text-stone-600;
+                @apply cursor-not-allowed;
+            }
+        }
 
-.item {
-    @apply bg-stone-800 rounded;
-    @apply flex items-center gap-2 px-3 py-2;
-}
+        & > ul {
+            @apply flex flex-col gap-1;
 
-.itemName {
-    @apply flex-1 truncate;
-}
+            & > li {
+                @apply bg-stone-800 rounded;
+                @apply flex items-center gap-2 px-3 py-2;
 
-.itemSize {
-    @apply text-sm text-stone-400;
-}
+                & > [data-slot="name"] {
+                    @apply flex-1 truncate;
+                }
 
-.itemDeleteTrigger {
-    @apply text-stone-400;
-    @apply cursor-pointer;
+                & > [data-slot="size"] {
+                    @apply text-sm text-stone-400;
+                }
 
-    &:hover {
-        @apply text-stone-50;
+                & > button {
+                    @apply text-stone-400;
+                    @apply cursor-pointer;
+
+                    &:hover {
+                        @apply text-stone-50;
+                    }
+                }
+            }
+        }
     }
 }

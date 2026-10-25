@@ -45,6 +45,6 @@ describe("Markdown", () => {
 
     it("keeps the color swatch rendered for color code spans", () => {
         const container = renderHtml("`#991b1b`");
-        expect(container.querySelector("code span")).toHaveStyle({ background: "#991b1b" });
+        expect(container.querySelector("code span")).toHaveStyle({ backgroundColor: "#991b1b" });
     });
 });

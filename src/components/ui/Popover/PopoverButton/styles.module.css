@@ -8,10 +8,14 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-.root {
-    @apply cursor-pointer;
+@layer theme, base, unichat-ui, components, utilities;
 
-    &:focus-visible {
-        @apply outline-none ring-2 ring-blue-500 rounded;
+@layer unichat-ui {
+    .root {
+        @apply cursor-pointer;
+
+        &:focus-visible {
+            @apply outline-none ring-2 ring-blue-500 rounded;
+        }
     }
 }

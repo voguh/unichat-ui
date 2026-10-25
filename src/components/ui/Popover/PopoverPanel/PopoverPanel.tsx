@@ -17,6 +17,7 @@ import {
 } from "@headlessui/react";
 
 import { clsx } from "~/utils/clsx";
+import { dataPart } from "~/utils/dataAttributes";
 
 import styles from "./styles.module.css";
 
@@ -29,5 +30,13 @@ export const PopoverPanel = forwardRef<HTMLElement, PopoverPanelProps>(function 
     { anchor = "bottom", className, ...rest },
     ref
 ) {
-    return <HeadlessPopoverPanel {...rest} ref={ref} anchor={anchor} className={clsx(styles.root, className)} />;
+    return (
+        <HeadlessPopoverPanel
+            {...rest}
+            ref={ref}
+            anchor={anchor}
+            data-part={dataPart("PopoverPanel", rest)}
+            className={clsx(styles.root, className)}
+        />
+    );
 });

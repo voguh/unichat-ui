@@ -8,88 +8,90 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-.root {
-    @apply relative overflow-hidden;
-}
+@layer theme, base, unichat-ui, components, utilities;
 
-.viewport {
-    @apply size-full overflow-auto;
+@layer unichat-ui {
+    .root {
+        @apply relative overflow-hidden;
 
-    scrollbar-width: none;
+        & > [data-slot="viewport"] {
+            @apply size-full overflow-auto;
 
-    &::-webkit-scrollbar {
-        @apply hidden;
-    }
-}
+            scrollbar-width: none;
 
-.track {
-    @apply absolute select-none touch-none opacity-0 transition-opacity;
-
-    &[data-active],
-    &[data-dragging],
-    &:hover {
-        @apply opacity-100;
-    }
-
-    &[data-axis="vertical"] {
-        @apply top-0 right-0 bottom-0 w-3;
-
-        &[data-crossed] {
-            @apply bottom-3;
-        }
-
-        & > .thumb {
-            @apply right-0.5 w-1;
-
-            --thumb-length: max(24px, calc(var(--scroll-ratio) * 100%));
-
-            top: calc((100% - var(--thumb-length)) * var(--scroll-progress));
-            height: var(--thumb-length);
-        }
-
-        &:hover,
-        &[data-dragging] {
-            & > .thumb {
-                @apply w-2;
+            &::-webkit-scrollbar {
+                @apply hidden;
             }
         }
-    }
 
-    &[data-axis="horizontal"] {
-        @apply left-0 right-0 bottom-0 h-3;
+        & > [data-slot="track"] {
+            @apply absolute select-none touch-none opacity-0 transition-opacity;
 
-        &[data-crossed] {
-            @apply right-3;
-        }
+            &[data-active],
+            &[data-dragging],
+            &:hover {
+                @apply opacity-100;
+            }
 
-        & > .thumb {
-            @apply bottom-0.5 h-1;
+            & > [data-slot="thumb"] {
+                @apply bg-red-800 rounded-full;
+                @apply absolute;
 
-            --thumb-length: max(24px, calc(var(--scroll-ratio) * 100%));
+                --thumb-length: max(24px, calc(var(--scroll-ratio) * 100%));
 
-            left: calc((100% - var(--thumb-length)) * var(--scroll-progress));
-            width: var(--thumb-length);
-        }
+                transition:
+                    width 150ms,
+                    height 150ms,
+                    background-color 150ms;
 
-        &:hover,
-        &[data-dragging] {
-            & > .thumb {
-                @apply h-2;
+                &:hover {
+                    @apply bg-red-700;
+                }
+            }
+
+            &[data-axis="vertical"] {
+                @apply top-0 right-0 bottom-0 w-3;
+
+                &[data-crossed] {
+                    @apply bottom-3;
+                }
+
+                & > [data-slot="thumb"] {
+                    @apply right-0.5 w-1;
+
+                    top: calc((100% - var(--thumb-length)) * var(--scroll-progress));
+                    height: var(--thumb-length);
+                }
+
+                &:hover,
+                &[data-dragging] {
+                    & > [data-slot="thumb"] {
+                        @apply w-2;
+                    }
+                }
+            }
+
+            &[data-axis="horizontal"] {
+                @apply left-0 right-0 bottom-0 h-3;
+
+                &[data-crossed] {
+                    @apply right-3;
+                }
+
+                & > [data-slot="thumb"] {
+                    @apply bottom-0.5 h-1;
+
+                    left: calc((100% - var(--thumb-length)) * var(--scroll-progress));
+                    width: var(--thumb-length);
+                }
+
+                &:hover,
+                &[data-dragging] {
+                    & > [data-slot="thumb"] {
+                        @apply h-2;
+                    }
+                }
             }
         }
-    }
-}
-
-.thumb {
-    @apply bg-red-800 rounded-full;
-    @apply absolute;
-
-    transition:
-        width 150ms,
-        height 150ms,
-        background-color 150ms;
-
-    &:hover {
-        @apply bg-red-700;
     }
 }

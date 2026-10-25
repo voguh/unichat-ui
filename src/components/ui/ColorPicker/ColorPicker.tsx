@@ -8,19 +8,27 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
+/** biome-ignore-all lint/a11y/noStaticElementInteractions: the field forwards pointer, focus and Escape handling to the native input it wraps */
+/** biome-ignore-all lint/a11y/useKeyWithClickEvents: keyboard users open the panel by focusing the input; the click is a pointer shortcut */
+
 import type PReact from "preact";
 import { forwardRef } from "preact/compat";
-import { useMemo, useRef, useState } from "preact/hooks";
+import { useEffect, useMemo, useRef, useState } from "preact/hooks";
 
 import { TinyColor } from "@ctrl/tinycolor";
+import { flip, offset, shift } from "@floating-ui/dom";
 
-import { Popover, PopoverButton, PopoverPanel } from "~/components/ui/Popover";
+import popoverPanelStyles from "~/components/ui/Popover/PopoverPanel/styles.module.css";
+import { useComputePosition } from "~/hooks/useComputePosition";
+import { clickOutside } from "~/utils/clickOutside";
 import { clsx } from "~/utils/clsx";
+import { dataFlag, dataPart, omitDataPart } from "~/utils/dataAttributes";
 import { mergeRefs } from "~/utils/mergeRefs";
 
 import styles from "./styles.module.css";
 
 const AREA_KEY_STEP = 0.01;
+const HIDDEN_STYLE = { visibility: "hidden", opacity: "0" };
 
 function clamp(value: number): number {
     return Math.min(Math.max(value, 0), 1);
@@ -50,7 +58,14 @@ export const ColorPicker = forwardRef<HTMLInputElement, ColorPickerProps>(functi
     const isControlled = value != null;
 
     const [innerValue, setInnerValue] = useState(defaultValue ?? "");
+    const [open, setOpen] = useState(false);
+    const rootRef = useRef<HTMLDivElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
+    const [controlRef, panelRef, toggleVisualization] = useComputePosition<HTMLDivElement, HTMLDivElement>({
+        strategy: "fixed",
+        placement: "bottom-start",
+        middleware: [offset(4), flip(), shift({ padding: 8 })]
+    });
 
     let currentValue = innerValue;
     if (isControlled) {
@@ -62,6 +77,27 @@ export const ColorPicker = forwardRef<HTMLInputElement, ColorPickerProps>(functi
     const hueColor = new TinyColor({ h: hsv.h, s: 1, v: 1 }).toHexString();
     const opaqueColor = new TinyColor({ ...hsv, a: 1 }).toHexString();
     const formattedColor = formatColor(color);
+    const previewStyle = { backgroundColor: color.toRgbString() };
+
+    function openPanel(): void {
+        if (!disabled) {
+            setOpen(true);
+        }
+    }
+
+    function handleKeyDown(event: PReact.TargetedKeyboardEvent<HTMLDivElement>): void {
+        if (open && event.key === "Escape") {
+            setOpen(false);
+            inputRef.current!.focus();
+        }
+    }
+
+    function handleFocusOut(event: PReact.TargetedFocusEvent<HTMLDivElement>): void {
+        const next = event.relatedTarget;
+        if (!(next instanceof Node) || !rootRef.current!.contains(next)) {
+            setOpen(false);
+        }
+    }
 
     function commit(next: TinyColor): void {
         const formatted = formatColor(next);
@@ -127,24 +163,56 @@ export const ColorPicker = forwardRef<HTMLInputElement, ColorPickerProps>(functi
         commit(new TinyColor({ ...hsv, s, v }));
     }
 
+    // biome-ignore lint/correctness/useExhaustiveDependencies: toggleVisualization is recreated every render
+    useEffect(() => {
+        toggleVisualization(open);
+    }, [open]);
+
+    useEffect(() => {
+        if (!open) {
+            return;
+        }
+
+        return clickOutside(() => setOpen(false), rootRef);
+    }, [open]);
+
     return (
-        <Popover {...rootProps} className={clsx(styles.root, className, rootProps.className)}>
-            <div data-invalid={invalid || undefined} data-disabled={disabled || undefined} className={styles.control}>
-                <PopoverButton disabled={disabled === true} aria-label="Open color picker" className={styles.trigger}>
-                    <span className={styles.transparencyGrid} />
-                    <span style={{ backgroundColor: color.toRgbString() }} className={styles.swatch} />
-                </PopoverButton>
+        <div
+            {...rootProps}
+            ref={rootRef}
+            data-part={dataPart("ColorPicker", rest)}
+            data-open={dataFlag(open)}
+            onKeyDown={handleKeyDown}
+            onFocusOut={handleFocusOut}
+            className={clsx(styles.root, className, rootProps.className)}
+        >
+            <div
+                ref={controlRef}
+                data-slot="control"
+                data-invalid={dataFlag(invalid)}
+                data-disabled={dataFlag(disabled)}
+                onClick={openPanel}
+                onFocusIn={openPanel}
+            >
+                <span data-slot="preview" aria-hidden="true">
+                    <span data-slot="grid" className={styles.transparencyGrid} />
+                    <span data-slot="color" style={previewStyle} className={styles.swatch} />
+                </span>
                 <input
-                    {...rest}
+                    {...omitDataPart(rest)}
                     ref={mergeRefs(ref, inputRef)}
                     type="text"
                     value={currentValue}
                     disabled={disabled}
                     onInput={handleInput}
-                    className={styles.input}
                 />
             </div>
-            <PopoverPanel anchor="bottom start" className={styles.content}>
+            <div
+                ref={panelRef}
+                data-part="PopoverPanel ColorPickerPopover"
+                style={HIDDEN_STYLE}
+                className={clsx(popoverPanelStyles.root, styles.panel)}
+            >
                 <div
                     role="slider"
                     tabIndex={0}
@@ -153,16 +221,13 @@ export const ColorPicker = forwardRef<HTMLInputElement, ColorPickerProps>(functi
                     aria-valuemax={100}
                     aria-valuenow={Math.round(hsv.s * 100)}
                     aria-valuetext={`${Math.round(hsv.s * 100)}% saturation, ${Math.round(hsv.v * 100)}% brightness`}
+                    data-slot="area"
                     style={{ backgroundColor: hueColor }}
                     onPointerDown={handleAreaPointerDown}
                     onPointerMove={handleAreaPointerMove}
                     onKeyDown={handleAreaKeyDown}
-                    className={styles.area}
                 >
-                    <span
-                        style={{ left: `${hsv.s * 100}%`, top: `${(1 - hsv.v) * 100}%` }}
-                        className={styles.areaThumb}
-                    />
+                    <span data-slot="thumb" style={{ left: `${hsv.s * 100}%`, top: `${(1 - hsv.v) * 100}%` }} />
                 </div>
                 <input
                     type="range"
@@ -170,12 +235,14 @@ export const ColorPicker = forwardRef<HTMLInputElement, ColorPickerProps>(functi
                     max={360}
                     value={hsv.h}
                     aria-label="Hue"
+                    data-slot="hue"
                     onInput={(event) => commit(new TinyColor({ ...hsv, h: Number(event.currentTarget.value) }))}
-                    className={styles.hue}
+                    className={styles.range}
                 />
-                <div className={styles.alphaTrack}>
-                    <span className={styles.transparencyGrid} />
+                <div data-slot="alpha">
+                    <span data-slot="grid" className={styles.transparencyGrid} />
                     <span
+                        data-slot="gradient"
                         style={{ backgroundImage: `linear-gradient(to right, transparent, ${opaqueColor})` }}
                         className={styles.swatch}
                     />
@@ -187,27 +254,26 @@ export const ColorPicker = forwardRef<HTMLInputElement, ColorPickerProps>(functi
                         value={hsv.a}
                         aria-label="Alpha"
                         onInput={(event) => commit(new TinyColor({ ...hsv, a: Number(event.currentTarget.value) }))}
-                        className={styles.alpha}
+                        className={styles.range}
                     />
                 </div>
                 {swatches != null && swatches.length > 0 && (
-                    <div className={styles.swatchGroup}>
+                    <div data-slot="swatches">
                         {swatches.map((swatch) => (
                             <button
                                 key={swatch}
                                 type="button"
                                 aria-label={swatch}
-                                data-selected={formatColor(new TinyColor(swatch)) === formattedColor || undefined}
+                                data-selected={dataFlag(formatColor(new TinyColor(swatch)) === formattedColor)}
                                 onClick={() => commit(new TinyColor(swatch))}
-                                className={styles.swatchTrigger}
                             >
-                                <span className={styles.transparencyGrid} />
-                                <span style={{ backgroundColor: swatch }} className={styles.swatch} />
+                                <span data-slot="grid" className={styles.transparencyGrid} />
+                                <span data-slot="color" style={{ backgroundColor: swatch }} className={styles.swatch} />
                             </button>
                         ))}
                     </div>
                 )}
-            </PopoverPanel>
-        </Popover>
+            </div>
+        </div>
     );
 });

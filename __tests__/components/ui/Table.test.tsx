@@ -12,31 +12,29 @@ import { createRef } from "preact";
 
 import { render, screen } from "@testing-library/preact";
 
-import { Table, TBody, Td, THead, Th, Tr } from "~/components/ui/Table";
+import { Table } from "~/components/ui/Table";
 
 describe("Table", () => {
-    it("renders native table parts with props and refs", () => {
+    it("renders native table children with props and the ref on the table", () => {
         const tableRef = createRef<HTMLTableElement>();
-        const cellRef = createRef<HTMLTableCellElement>();
         render(
             <Table ref={tableRef} aria-label="Users">
-                <THead>
-                    <Tr>
-                        <Th scope="col">Name</Th>
-                    </Tr>
-                </THead>
-                <TBody>
-                    <Tr>
-                        <Td ref={cellRef} colSpan={2}>
-                            voguh
-                        </Td>
-                    </Tr>
-                </TBody>
+                <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colSpan={2}>voguh</td>
+                    </tr>
+                </tbody>
             </Table>
         );
-        expect(screen.getByRole("table", { name: "Users" })).toBe(tableRef.current);
+        const table = screen.getByRole("table", { name: "Users" });
+        expect(table).toBe(tableRef.current);
+        expect(table).toHaveAttribute("data-part", "Table");
         expect(screen.getByRole("columnheader", { name: "Name" })).toHaveAttribute("scope", "col");
-        expect(cellRef.current).toBe(screen.getByRole("cell", { name: "voguh" }));
-        expect(cellRef.current).toHaveAttribute("colspan", "2");
+        expect(screen.getByRole("cell", { name: "voguh" })).toHaveAttribute("colspan", "2");
     });
 });

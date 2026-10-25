@@ -14,6 +14,7 @@ import { forwardRef } from "preact/compat";
 import { MenuItems as HeadlessMenuItems, type MenuItemsProps as HeadlessMenuItemsProps } from "@headlessui/react";
 
 import { clsx } from "~/utils/clsx";
+import { dataPart } from "~/utils/dataAttributes";
 
 import styles from "./styles.module.css";
 
@@ -24,5 +25,13 @@ export const MenuItems = forwardRef<HTMLElement, MenuItemsProps>(function MenuIt
     { anchor = "bottom start", className, ...rest },
     ref
 ) {
-    return <HeadlessMenuItems {...rest} ref={ref} anchor={anchor} className={clsx(styles.root, className)} />;
+    return (
+        <HeadlessMenuItems
+            {...rest}
+            ref={ref}
+            anchor={anchor}
+            data-part={dataPart("MenuItems", rest)}
+            className={clsx(styles.root, className)}
+        />
+    );
 });

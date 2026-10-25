@@ -12,6 +12,7 @@ import type PReact from "preact";
 import { forwardRef } from "preact/compat";
 
 import { clsx } from "~/utils/clsx";
+import { dataPart } from "~/utils/dataAttributes";
 
 import styles from "./styles.module.css";
 
@@ -26,5 +27,13 @@ export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(function Badge(
     { variant = "secondary", className, ...rest },
     ref
 ) {
-    return <span {...rest} ref={ref} data-variant={variant} className={clsx(styles.root, className)} />;
+    return (
+        <span
+            {...rest}
+            ref={ref}
+            data-part={dataPart("Badge", rest)}
+            data-variant={variant}
+            className={clsx(styles.root, className)}
+        />
+    );
 });

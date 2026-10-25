@@ -8,107 +8,105 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-.root {
-    @apply bg-stone-800 border border-stone-700 rounded shadow-xl;
-    @apply flex items-center gap-3 min-w-100 py-2.5 pr-2.5 pl-3.5;
+@layer theme, base, unichat-ui, components, utilities;
 
-    &[data-type="info"] {
-        .icon {
-            @apply text-blue-400;
+@layer unichat-ui {
+    .root {
+        @apply bg-stone-800 border border-stone-700 rounded shadow-xl;
+        @apply flex items-center gap-3 min-w-100 py-2.5 pr-2.5 pl-3.5;
+
+        & > [data-slot="icon"] {
+            @apply text-stone-400 text-lg;
+            @apply shrink-0 flex items-center justify-center;
         }
 
-        .timerProgress {
-            @apply stroke-blue-500;
+        & > [data-slot="body"] {
+            @apply flex-1 min-w-0 flex flex-col gap-px;
+
+            & > strong {
+                @apply text-stone-50 text-sm font-semibold;
+            }
+
+            & > p {
+                @apply text-stone-400 text-sm;
+            }
+        }
+
+        & > [data-slot="action"] {
+            @apply bg-stone-700 border border-stone-600 rounded;
+            @apply text-stone-50 text-sm font-semibold;
+            @apply shrink-0 h-7 px-2.5 cursor-pointer;
+
+            &:hover {
+                @apply bg-stone-600;
+            }
+        }
+
+        & > [data-slot="close"] {
+            @apply rounded-full;
+            @apply text-stone-400 text-xs;
+            @apply relative size-8 shrink-0 flex items-center justify-center cursor-pointer;
+
+            &:hover {
+                @apply bg-stone-700;
+                @apply text-stone-50;
+            }
+
+            & > svg {
+                @apply absolute inset-0 size-full -rotate-90 pointer-events-none;
+
+                & > [data-slot="track"] {
+                    @apply fill-none stroke-stone-700 stroke-2;
+                }
+
+                & > [data-slot="progress"] {
+                    @apply fill-none stroke-stone-400 stroke-2;
+
+                    stroke-linecap: round;
+                    stroke-dasharray: 100;
+                    animation: timer linear forwards;
+                }
+            }
+        }
+
+        &[data-variant="info"] {
+            --toast-icon: --theme(--color-blue-400 inline);
+            --toast-timer: --theme(--color-blue-500 inline);
+        }
+
+        &[data-variant="success"] {
+            --toast-icon: --theme(--color-green-400 inline);
+            --toast-timer: --theme(--color-green-500 inline);
+        }
+
+        &[data-variant="warning"] {
+            --toast-icon: --theme(--color-amber-400 inline);
+            --toast-timer: --theme(--color-amber-500 inline);
+        }
+
+        &[data-variant="error"] {
+            --toast-icon: --theme(--color-red-400 inline);
+            --toast-timer: --theme(--color-red-500 inline);
+        }
+
+        &[data-variant] {
+            & > [data-slot="icon"] {
+                color: var(--toast-icon);
+            }
+
+            & > [data-slot="close"] {
+                & > svg {
+                    & > [data-slot="progress"] {
+                        stroke: var(--toast-timer);
+                    }
+                }
+            }
         }
     }
 
-    &[data-type="success"] {
-        .icon {
-            @apply text-green-400;
+    @keyframes timer {
+        to {
+            stroke-dashoffset: 100;
         }
-
-        .timerProgress {
-            @apply stroke-green-500;
-        }
-    }
-
-    &[data-type="warning"] {
-        .icon {
-            @apply text-amber-400;
-        }
-
-        .timerProgress {
-            @apply stroke-amber-500;
-        }
-    }
-
-    &[data-type="error"] {
-        .icon {
-            @apply text-red-400;
-        }
-
-        .timerProgress {
-            @apply stroke-red-500;
-        }
-    }
-}
-
-.icon {
-    @apply text-stone-400 text-lg;
-    @apply shrink-0 flex items-center justify-center;
-}
-
-.body {
-    @apply flex-1 min-w-0 flex flex-col gap-px;
-}
-
-.title {
-    @apply text-stone-50 text-sm font-semibold;
-}
-
-.description {
-    @apply text-stone-400 text-sm;
-}
-
-.actionTrigger {
-    @apply bg-stone-700 border border-stone-600 rounded;
-    @apply text-stone-50 text-sm font-semibold;
-    @apply shrink-0 h-7 px-2.5 cursor-pointer;
-
-    &:hover {
-        @apply bg-stone-600;
-    }
-}
-
-.closeTrigger {
-    @apply rounded-full;
-    @apply text-stone-400 text-xs;
-    @apply relative size-8 shrink-0 flex items-center justify-center cursor-pointer;
-
-    &:hover {
-        @apply bg-stone-700;
-        @apply text-stone-50;
-    }
-}
-
-.timer {
-    @apply absolute inset-0 size-full -rotate-90 pointer-events-none;
-}
-
-.timerTrack {
-    @apply fill-none stroke-stone-700 stroke-2;
-}
-
-.timerProgress {
-    @apply fill-none stroke-stone-400 stroke-2;
-
-    stroke-linecap: round;
-    stroke-dasharray: 100;
-    animation: timer linear forwards;
-}
-
-@keyframes timer {
-    to {
-        stroke-dashoffset: 100;
     }
 }

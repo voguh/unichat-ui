@@ -8,92 +8,99 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-.root {
-    @apply flex flex-col;
-}
+@layer theme, base, unichat-ui, components, utilities;
 
-.control {
-    @apply bg-stone-800 rounded;
-    @apply flex items-center gap-2 h-10 px-3;
+/* Imported into the layer so the calendar theme below can override vanilla-calendar-pro's own rules. */
+@import "vanilla-calendar-pro/styles/index.css" layer(unichat-ui);
 
-    &:focus-within {
-        @apply ring-2 ring-blue-500;
-    }
+@layer unichat-ui {
+    .root {
+        @apply flex flex-col;
 
-    &[data-invalid] {
-        @apply ring-2 ring-red-600;
-    }
+        & > [data-slot="control"] {
+            @apply bg-stone-800 rounded;
+            @apply flex items-center gap-2 h-10 px-3;
 
-    &[data-disabled] {
-        @apply bg-stone-900;
-        @apply text-stone-500;
-        @apply cursor-not-allowed;
+            &:focus-within {
+                @apply ring-2 ring-blue-500;
+            }
 
-        .trigger,
-        .input::placeholder {
-            @apply text-stone-600;
+            &[data-invalid] {
+                @apply ring-2 ring-red-600;
+            }
+
+            & > input {
+                @apply bg-transparent outline-none;
+                @apply flex-1 min-w-0;
+
+                &::placeholder {
+                    @apply text-stone-500;
+                }
+            }
+
+            & > [data-slot="trigger"] {
+                @apply text-stone-500;
+                @apply cursor-pointer;
+
+                &:hover {
+                    @apply text-stone-50;
+                }
+
+                &:disabled {
+                    @apply cursor-not-allowed;
+                }
+            }
+
+            &[data-disabled] {
+                @apply bg-stone-900;
+                @apply text-stone-500;
+                @apply cursor-not-allowed;
+
+                & > [data-slot="trigger"],
+                & > input::placeholder {
+                    @apply text-stone-600;
+                }
+            }
         }
     }
-}
 
-.input {
-    @apply bg-transparent outline-none;
-    @apply flex-1 min-w-0;
+    .calendar {
+        @apply border border-stone-700 rounded;
+        @apply z-50 p-3;
 
-    &::placeholder {
-        @apply text-stone-500;
-    }
-}
-
-.calendar {
-    @apply border border-stone-700 rounded;
-    @apply z-50 p-3;
-
-    --vc-bg: --theme(--color-stone-800 inline);
-    --vc-color: --theme(--color-stone-50 inline);
-    --vc-focus-outline-color: --theme(--color-blue-500 inline);
-    --vc-header-color: --theme(--color-stone-50 inline);
-    --vc-title-color: --theme(--color-stone-50 inline);
-    --vc-title-color-hover: --theme(--color-stone-400 inline);
-    --vc-title-color-disabled: --theme(--color-stone-600 inline);
-    --vc-week-day-color: --theme(--color-stone-400 inline);
-    --vc-week-day-off-color: --theme(--color-red-500 inline);
-    --vc-date-bg: --theme(--color-stone-800 inline);
-    --vc-date-color: --theme(--color-stone-300 inline);
-    --vc-date-bg-hover: --theme(--color-stone-700 inline);
-    --vc-date-color-hover: --theme(--color-stone-50 inline);
-    --vc-date-outside-color: --theme(--color-stone-600 inline);
-    --vc-date-disabled-color: --theme(--color-stone-600 inline);
-    --vc-date-today-bg: --theme(--color-stone-700 inline);
-    --vc-date-today-color: --theme(--color-stone-50 inline);
-    --vc-date-today-outside-color: --theme(--color-stone-500 inline);
-    --vc-date-selected-bg: --theme(--color-red-800 inline);
-    --vc-date-selected-color: --theme(--color-stone-50 inline);
-    --vc-date-selected-outside-bg: --theme(--color-red-900 inline);
-    --vc-date-selected-outside-color: --theme(--color-stone-300 inline);
-    --vc-date-weekend-color: --theme(--color-red-500 inline);
-    --vc-date-weekend-bg-hover: --theme(--color-stone-700 inline);
-    --vc-date-weekend-today-color: --theme(--color-red-500 inline);
-    --vc-date-weekend-outside-color: --theme(--color-red-900 inline);
-    --vc-date-weekend-selected-bg: --theme(--color-red-800 inline);
-    --vc-date-weekend-selected-color: --theme(--color-stone-50 inline);
-    --vc-months-years-bg: --theme(--color-stone-800 inline);
-    --vc-months-years-bg-hover: --theme(--color-stone-700 inline);
-    --vc-months-years-bg-selected: --theme(--color-red-800 inline);
-    --vc-months-years-color: --theme(--color-stone-50 inline);
-    --vc-months-years-color-selected: --theme(--color-stone-50 inline);
-    --vc-months-years-color-disabled: --theme(--color-stone-600 inline);
-}
-
-.trigger {
-    @apply text-stone-500;
-    @apply cursor-pointer;
-
-    &:hover {
-        @apply text-stone-50;
-    }
-
-    &:disabled {
-        @apply cursor-not-allowed;
+        --vc-bg: --theme(--color-stone-800 inline);
+        --vc-color: --theme(--color-stone-50 inline);
+        --vc-focus-outline-color: --theme(--color-blue-500 inline);
+        --vc-header-color: --theme(--color-stone-50 inline);
+        --vc-title-color: --theme(--color-stone-50 inline);
+        --vc-title-color-hover: --theme(--color-stone-400 inline);
+        --vc-title-color-disabled: --theme(--color-stone-600 inline);
+        --vc-week-day-color: --theme(--color-stone-400 inline);
+        --vc-week-day-off-color: --theme(--color-red-500 inline);
+        --vc-date-bg: --theme(--color-stone-800 inline);
+        --vc-date-color: --theme(--color-stone-300 inline);
+        --vc-date-bg-hover: --theme(--color-stone-700 inline);
+        --vc-date-color-hover: --theme(--color-stone-50 inline);
+        --vc-date-outside-color: --theme(--color-stone-600 inline);
+        --vc-date-disabled-color: --theme(--color-stone-600 inline);
+        --vc-date-today-bg: --theme(--color-stone-700 inline);
+        --vc-date-today-color: --theme(--color-stone-50 inline);
+        --vc-date-today-outside-color: --theme(--color-stone-500 inline);
+        --vc-date-selected-bg: --theme(--color-red-800 inline);
+        --vc-date-selected-color: --theme(--color-stone-50 inline);
+        --vc-date-selected-outside-bg: --theme(--color-red-900 inline);
+        --vc-date-selected-outside-color: --theme(--color-stone-300 inline);
+        --vc-date-weekend-color: --theme(--color-red-500 inline);
+        --vc-date-weekend-bg-hover: --theme(--color-stone-700 inline);
+        --vc-date-weekend-today-color: --theme(--color-red-500 inline);
+        --vc-date-weekend-outside-color: --theme(--color-red-900 inline);
+        --vc-date-weekend-selected-bg: --theme(--color-red-800 inline);
+        --vc-date-weekend-selected-color: --theme(--color-stone-50 inline);
+        --vc-months-years-bg: --theme(--color-stone-800 inline);
+        --vc-months-years-bg-hover: --theme(--color-stone-700 inline);
+        --vc-months-years-bg-selected: --theme(--color-red-800 inline);
+        --vc-months-years-color: --theme(--color-stone-50 inline);
+        --vc-months-years-color-selected: --theme(--color-stone-50 inline);
+        --vc-months-years-color-disabled: --theme(--color-stone-600 inline);
     }
 }

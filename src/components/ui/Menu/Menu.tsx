@@ -14,6 +14,7 @@ import { forwardRef } from "preact/compat";
 import { Menu as HeadlessMenu } from "@headlessui/react";
 
 import { clsx } from "~/utils/clsx";
+import { dataPart } from "~/utils/dataAttributes";
 
 import styles from "./styles.module.css";
 
@@ -21,5 +22,13 @@ type VanillaProps = PReact.HTMLAttributes<HTMLDivElement>;
 export interface MenuProps extends VanillaProps {}
 
 export const Menu = forwardRef<HTMLElement, MenuProps>(function Menu({ className, ...rest }, ref) {
-    return <HeadlessMenu {...rest} as="div" ref={ref} className={clsx(styles.root, className)} />;
+    return (
+        <HeadlessMenu
+            {...rest}
+            as="div"
+            ref={ref}
+            data-part={dataPart("Menu", rest)}
+            className={clsx(styles.root, className)}
+        />
+    );
 });

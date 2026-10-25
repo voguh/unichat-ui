@@ -13,6 +13,7 @@ import { forwardRef } from "preact/compat";
 import { useState } from "preact/hooks";
 
 import { clsx } from "~/utils/clsx";
+import { dataPart, omitDataPart } from "~/utils/dataAttributes";
 
 import styles from "./styles.module.css";
 
@@ -22,23 +23,50 @@ export interface PasswordInputProps extends VanillaProps {
 }
 
 export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(function PasswordInput(
-    { rootProps, className, ...rest },
+    { rootProps = {}, className, ...rest },
     ref
 ) {
     const [visible, setVisible] = useState(false);
-    const rootClassName = rootProps != null ? rootProps.className : undefined;
+
+    function getType(): string {
+        if (visible) {
+            return "text";
+        }
+
+        return "password";
+    }
+
+    function getToggleLabel(): string {
+        if (visible) {
+            return "Hide password";
+        }
+
+        return "Show password";
+    }
+
+    function getToggleIcon(): string {
+        if (visible) {
+            return "fas fa-eye-slash";
+        }
+
+        return "fas fa-eye";
+    }
 
     return (
-        <div {...rootProps} className={clsx(styles.root, className, rootClassName)}>
-            <input {...rest} ref={ref} type={visible ? "text" : "password"} className={styles.input} />
+        <div
+            {...rootProps}
+            data-part={dataPart("PasswordInput", rest)}
+            className={clsx(styles.root, className, rootProps.className)}
+        >
+            <input {...omitDataPart(rest)} ref={ref} type={getType()} data-part="Input" />
             <button
                 type="button"
-                aria-label={visible ? "Hide password" : "Show password"}
+                data-slot="trigger"
+                aria-label={getToggleLabel()}
                 disabled={rest.disabled}
                 onClick={() => setVisible(!visible)}
-                className={styles.visibilityTrigger}
             >
-                <i className={visible ? "fas fa-eye-slash" : "fas fa-eye"} aria-hidden="true" />
+                <i className={getToggleIcon()} aria-hidden="true" />
             </button>
         </div>
     );

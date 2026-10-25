@@ -8,33 +8,37 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-.root {
-    @apply bg-stone-800 rounded outline-none;
-    @apply w-full min-h-20 px-3 py-2;
+@layer theme, base, unichat-ui, components, utilities;
 
-    &::placeholder {
-        @apply text-stone-500;
-    }
-
-    &:focus-visible {
-        @apply ring-2 ring-blue-500;
-    }
-
-    &[aria-invalid="true"] {
-        @apply ring-2 ring-red-600;
-    }
-
-    &:disabled {
-        @apply bg-stone-900;
-        @apply text-stone-500;
-        @apply cursor-not-allowed;
+@layer unichat-ui {
+    .root {
+        @apply bg-stone-800 rounded outline-none;
+        @apply w-full min-h-20 px-3 py-2;
 
         &::placeholder {
-            @apply text-stone-600;
+            @apply text-stone-500;
         }
-    }
 
-    &[data-auto-resize] {
-        @apply resize-none overflow-hidden;
+        &:focus-visible {
+            @apply ring-2 ring-blue-500;
+        }
+
+        &[aria-invalid="true"] {
+            @apply ring-2 ring-red-600;
+        }
+
+        &:disabled {
+            @apply bg-stone-900;
+            @apply text-stone-500;
+            @apply cursor-not-allowed;
+
+            &::placeholder {
+                @apply text-stone-600;
+            }
+        }
+
+        &[data-auto-resize] {
+            @apply resize-none overflow-hidden;
+        }
     }
 }

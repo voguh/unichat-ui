@@ -15,6 +15,7 @@ import { useEffect, useRef } from "preact/hooks";
 import { Dialog as HeadlessDialog } from "@headlessui/react";
 
 import { clsx } from "~/utils/clsx";
+import { dataPart } from "~/utils/dataAttributes";
 
 import styles from "./styles.module.css";
 
@@ -70,6 +71,7 @@ export const Dialog = forwardRef<HTMLElement, DialogProps>(function Dialog(
             ref={ref}
             open={open}
             onClose={handleClose}
+            data-part={dataPart("Dialog", rest)}
             className={clsx(styles.root, className)}
         />
     );

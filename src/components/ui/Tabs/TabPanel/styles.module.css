@@ -8,8 +8,12 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-.root {
-    &:focus-visible {
-        @apply outline-none;
+@layer theme, base, unichat-ui, components, utilities;
+
+@layer unichat-ui {
+    .root {
+        &:focus-visible {
+            @apply outline-none;
+        }
     }
 }

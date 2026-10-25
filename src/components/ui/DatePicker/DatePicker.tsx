@@ -8,8 +8,6 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-import "vanilla-calendar-pro/styles/index.css";
-
 import type PReact from "preact";
 import { forwardRef } from "preact/compat";
 import { useEffect, useRef } from "preact/hooks";
@@ -17,6 +15,7 @@ import { useEffect, useRef } from "preact/hooks";
 import { Calendar, type FormatDateString, type Options, type WeekDayID } from "vanilla-calendar-pro";
 
 import { clsx } from "~/utils/clsx";
+import { dataFlag, dataPart, omitDataPart } from "~/utils/dataAttributes";
 import { mergeRefs } from "~/utils/mergeRefs";
 
 import styles from "./styles.module.css";
@@ -152,6 +151,9 @@ export const DatePicker = forwardRef<HTMLInputElement, DatePickerProps>(function
             inputMode: true,
             selectedTheme: "dark",
             styles: { calendar: clsx("vc", styles.calendar) },
+            onInit(self) {
+                self.context.mainElement.dataset.part = "DatePickerCalendar";
+            },
             locale: resolvedLocale,
             selectedDates: toSelectedDates(input.value, resolvedFormat),
             onClickDate(self) {
@@ -198,24 +200,27 @@ export const DatePicker = forwardRef<HTMLInputElement, DatePickerProps>(function
     }, [value, resolvedFormat]);
 
     return (
-        <div {...rootProps} className={clsx(styles.root, className, rootProps.className)}>
-            <div data-invalid={invalid || undefined} data-disabled={disabled || undefined} className={styles.control}>
+        <div
+            {...rootProps}
+            data-part={dataPart("DatePicker", rest)}
+            className={clsx(styles.root, className, rootProps.className)}
+        >
+            <div data-slot="control" data-invalid={dataFlag(invalid)} data-disabled={dataFlag(disabled)}>
                 <input
-                    {...rest}
+                    {...omitDataPart(rest)}
                     ref={mergeRefs(ref, inputRef)}
                     type="text"
                     value={value}
                     defaultValue={defaultValue}
                     placeholder={placeholder ?? resolvedFormat}
                     disabled={disabled}
-                    className={styles.input}
                 />
                 <button
                     type="button"
+                    data-slot="trigger"
                     aria-label="Open calendar"
                     disabled={disabled}
                     onClick={showCalendar}
-                    className={styles.trigger}
                 >
                     <i className="fas fa-calendar" aria-hidden="true" />
                 </button>

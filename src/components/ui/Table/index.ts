@@ -9,8 +9,3 @@
  ******************************************************************************/
 
 export * from "./Table";
-export * from "./TBody";
-export * from "./Td";
-export * from "./THead";
-export * from "./Th";
-export * from "./Tr";

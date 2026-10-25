@@ -14,6 +14,7 @@ import { forwardRef } from "preact/compat";
 import { Popover as HeadlessPopover } from "@headlessui/react";
 
 import { clsx } from "~/utils/clsx";
+import { dataPart } from "~/utils/dataAttributes";
 
 import styles from "./styles.module.css";
 
@@ -21,5 +22,13 @@ type VanillaProps = PReact.HTMLAttributes<HTMLDivElement>;
 export interface PopoverProps extends VanillaProps {}
 
 export const Popover = forwardRef<HTMLElement, PopoverProps>(function Popover({ className, ...rest }, ref) {
-    return <HeadlessPopover {...rest} as="div" ref={ref} className={clsx(styles.root, className)} />;
+    return (
+        <HeadlessPopover
+            {...rest}
+            as="div"
+            ref={ref}
+            data-part={dataPart("Popover", rest)}
+            className={clsx(styles.root, className)}
+        />
+    );
 });

@@ -8,8 +8,12 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-.root {
-    @apply bg-white rounded;
+@layer theme, base, unichat-ui, components, utilities;
 
-    image-rendering: pixelated;
+@layer unichat-ui {
+    .root {
+        @apply bg-white rounded;
+
+        image-rendering: pixelated;
+    }
 }

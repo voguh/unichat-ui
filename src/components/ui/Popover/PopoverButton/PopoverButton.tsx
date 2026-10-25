@@ -16,6 +16,7 @@ import { forwardRef } from "preact/compat";
 import { PopoverButton as HeadlessPopoverButton } from "@headlessui/react";
 
 import { clsx } from "~/utils/clsx";
+import { dataPart } from "~/utils/dataAttributes";
 
 import styles from "./styles.module.css";
 
@@ -24,10 +25,6 @@ type ElementType = keyof PReact.JSX.IntrinsicElements | PReact.ComponentType<any
 export type PopoverButtonProps<T extends ElementType = "button"> = Omit<PReact.ComponentProps<T>, "as"> & {
     as?: T;
 };
-
-type PopoverButtonComponent = <T extends ElementType = "button">(
-    props: PopoverButtonProps<T> & { ref?: PReact.Ref<HTMLElement> }
-) => PReact.VNode | null;
 
 export const PopoverButton = forwardRef<HTMLElement, PopoverButtonProps<ElementType>>(function PopoverButton(
     { as = "button", className, ...rest },
@@ -38,7 +35,8 @@ export const PopoverButton = forwardRef<HTMLElement, PopoverButtonProps<ElementT
             {...rest}
             as={as}
             ref={ref as PReact.Ref<HTMLButtonElement>}
+            data-part={dataPart("PopoverButton", rest)}
             className={clsx(styles.root, className)}
         />
     );
-}) as PopoverButtonComponent;
+});

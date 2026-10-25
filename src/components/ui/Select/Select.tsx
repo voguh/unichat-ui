@@ -17,6 +17,7 @@ import { useMemo, useRef, useState } from "preact/hooks";
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/react";
 
 import { clsx } from "~/utils/clsx";
+import { dataFlag, dataPart, omitDataPart } from "~/utils/dataAttributes";
 import { mergeRefs } from "~/utils/mergeRefs";
 
 import styles from "./styles.module.css";
@@ -105,9 +106,15 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select
 
     function renderOption(option: SelectOption): PReact.VNode {
         return (
-            <ListboxOption key={option.value} value={option.value} disabled={option.disabled} className={styles.item}>
+            <ListboxOption
+                key={option.value}
+                value={option.value}
+                disabled={option.disabled}
+                data-slot="option"
+                className={styles.option}
+            >
                 <span>{option.label}</span>
-                <i className={clsx(styles.itemIndicator, "fas fa-check")} aria-hidden="true" />
+                <i data-slot="indicator" className="fas fa-check" aria-hidden="true" />
             </ListboxOption>
         );
     }
@@ -129,25 +136,24 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select
     }
 
     return (
-        <div {...rootProps} className={clsx(styles.root, className, rootProps.className)}>
+        <div
+            {...rootProps}
+            data-part={dataPart("Select", rest)}
+            className={clsx(styles.root, className, rootProps.className)}
+        >
             <Listbox value={currentValue} onChange={handleChange} disabled={disabled} invalid={invalid}>
-                <ListboxButton
-                    id={id}
-                    aria-label={ariaLabel}
-                    aria-describedby={ariaDescribedBy}
-                    className={styles.trigger}
-                >
-                    <span data-placeholder={selected == null || undefined} className={styles.valueText}>
+                <ListboxButton id={id} aria-label={ariaLabel} aria-describedby={ariaDescribedBy}>
+                    <span data-slot="value" data-placeholder={dataFlag(selected == null)}>
                         {renderValueText()}
                     </span>
-                    <i className={clsx(styles.indicator, "fas fa-chevron-down")} aria-hidden="true" />
+                    <i data-slot="indicator" className="fas fa-chevron-down" aria-hidden="true" />
                 </ListboxButton>
-                <ListboxOptions anchor="bottom start" className={styles.content}>
+                <ListboxOptions anchor="bottom start" data-part="SelectOptions" className={styles.options}>
                     {options.map((option) => {
                         if (isOptionGroup(option)) {
                             return (
-                                <div key={option.label} role="group" aria-label={option.label}>
-                                    <div className={styles.itemGroupLabel}>{option.label}</div>
+                                <div key={option.label} role="group" aria-label={option.label} data-slot="group">
+                                    <div data-slot="group-label">{option.label}</div>
                                     {option.options.map(renderOption)}
                                 </div>
                             );
@@ -158,7 +164,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select
                 </ListboxOptions>
             </Listbox>
             <select
-                {...rest}
+                {...omitDataPart(rest)}
                 ref={mergeRefs(ref, selectRef)}
                 value={currentValue}
                 disabled={disabled}

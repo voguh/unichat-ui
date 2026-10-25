@@ -8,67 +8,73 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-.root {
-    @apply flex flex-col gap-2;
+@layer theme, base, unichat-ui, components, utilities;
 
-    &[data-orientation="horizontal"] {
-        @apply flex-row flex-wrap gap-4;
-    }
+@layer unichat-ui {
+    .root {
+        @apply flex flex-col gap-2;
 
-    &[aria-invalid="true"] {
-        & .itemControl {
-            @apply border-red-600;
+        &[data-orientation="horizontal"] {
+            @apply flex-row flex-wrap gap-4;
         }
-    }
-}
 
-.item {
-    @apply relative inline-flex items-center gap-2 cursor-pointer;
+        & > label {
+            @apply relative inline-flex items-center gap-2 cursor-pointer;
 
-    &:has(.input:disabled) {
-        @apply text-stone-500;
-        @apply cursor-not-allowed;
-    }
-}
+            &:has(> input:disabled) {
+                @apply text-stone-500;
+                @apply cursor-not-allowed;
+            }
 
-.itemControl {
-    @apply bg-stone-800 border border-stone-600 rounded-full;
-    @apply inline-flex items-center justify-center shrink-0 w-5 h-5;
-}
+            & > [data-slot="control"] {
+                @apply bg-stone-800 border border-stone-600 rounded-full;
+                @apply inline-flex items-center justify-center shrink-0 w-5 h-5;
+            }
 
-.input {
-    @apply sr-only;
+            & > [data-slot="label"] {
+                @apply select-none;
+            }
 
-    &:focus-visible {
-        & + .itemControl {
-            @apply ring-2 ring-blue-500;
+            & > input {
+                @apply sr-only;
+
+                &:focus-visible {
+                    & + [data-slot="control"] {
+                        @apply ring-2 ring-blue-500;
+                    }
+                }
+
+                &:checked {
+                    & + [data-slot="control"] {
+                        @apply border-red-800;
+
+                        &::after {
+                            @apply bg-red-800 rounded-full;
+                            @apply w-2.5 h-2.5;
+
+                            content: "";
+                        }
+                    }
+                }
+
+                &:disabled {
+                    & + [data-slot="control"] {
+                        @apply bg-stone-900 border-stone-700;
+
+                        &::after {
+                            @apply bg-stone-600;
+                        }
+                    }
+                }
+            }
         }
-    }
 
-    &:checked {
-        & + .itemControl {
-            @apply border-red-800;
-
-            &::after {
-                @apply bg-red-800 rounded-full;
-                @apply w-2.5 h-2.5;
-
-                content: "";
+        &[aria-invalid="true"] {
+            & > label {
+                & > [data-slot="control"] {
+                    @apply border-red-600;
+                }
             }
         }
     }
-
-    &:disabled {
-        & + .itemControl {
-            @apply bg-stone-900 border-stone-700;
-
-            &::after {
-                @apply bg-stone-600;
-            }
-        }
-    }
-}
-
-.itemText {
-    @apply select-none;
 }

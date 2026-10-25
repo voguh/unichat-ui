@@ -8,131 +8,123 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-.root {
-    @apply flex flex-col;
-}
+@layer theme, base, unichat-ui, components, utilities;
 
-.control {
-    @apply bg-stone-800 rounded;
-    @apply flex items-center gap-2 h-10 px-2;
+@layer unichat-ui {
+    .root {
+        @apply flex flex-col;
 
-    &:focus-within {
-        @apply ring-2 ring-blue-500;
+        & > [data-slot="control"] {
+            @apply bg-stone-800 rounded;
+            @apply flex items-center gap-2 h-10 px-2 cursor-text;
+
+            &:focus-within {
+                @apply ring-2 ring-blue-500;
+            }
+
+            &[data-invalid] {
+                @apply ring-2 ring-red-600;
+            }
+
+            &[data-disabled] {
+                @apply bg-stone-900;
+                @apply text-stone-500;
+                @apply cursor-not-allowed;
+            }
+
+            & > [data-slot="preview"] {
+                @apply rounded overflow-hidden;
+                @apply relative shrink-0 w-6 h-6 cursor-pointer;
+            }
+
+            & > input {
+                @apply bg-transparent outline-none;
+                @apply font-mono text-sm;
+                @apply flex-1 min-w-0;
+            }
+        }
     }
 
-    &[data-invalid] {
-        @apply ring-2 ring-red-600;
+    .panel {
+        @apply fixed top-0 left-0 gap-3 w-64 p-3;
+
+        & > [data-slot="area"] {
+            @apply rounded;
+            @apply relative h-40 cursor-crosshair touch-none;
+
+            background-image: linear-gradient(to top, #000, transparent), linear-gradient(to right, #fff, transparent);
+
+            &:focus-visible {
+                @apply outline-none ring-2 ring-blue-500;
+            }
+
+            & > [data-slot="thumb"] {
+                @apply border-2 border-stone-50 rounded-full shadow;
+                @apply absolute w-4 h-4 pointer-events-none;
+
+                transform: translate(-50%, -50%);
+            }
+        }
+
+        & > [data-slot="hue"] {
+            background-image: linear-gradient(to right, #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);
+        }
+
+        & > [data-slot="alpha"] {
+            @apply relative h-3;
+
+            & > [data-slot="grid"],
+            & > [data-slot="gradient"] {
+                @apply rounded-full;
+            }
+
+            & > input {
+                @apply bg-transparent;
+                @apply absolute inset-0;
+            }
+        }
+
+        & > [data-slot="swatches"] {
+            @apply flex flex-wrap gap-2;
+
+            & > button {
+                @apply rounded overflow-hidden;
+                @apply relative w-6 h-6 cursor-pointer;
+
+                &[data-selected] {
+                    @apply ring-2 ring-stone-50;
+                }
+            }
+        }
     }
 
-    &[data-disabled] {
-        @apply bg-stone-900;
-        @apply text-stone-500;
-        @apply cursor-not-allowed;
-    }
-}
-
-.trigger {
-    @apply rounded overflow-hidden;
-    @apply relative shrink-0 w-6 h-6 cursor-pointer;
-
-    &:focus-visible {
-        @apply outline-none ring-2 ring-stone-50;
-    }
-}
-
-.input {
-    @apply bg-transparent outline-none;
-    @apply font-mono text-sm;
-    @apply flex-1 min-w-0;
-}
-
-.content {
-    --anchor-gap: 4px;
-
-    @apply bg-stone-800 border border-stone-700 rounded shadow-xl;
-    @apply z-50 flex flex-col gap-3 w-64 p-3;
-
-    &:focus-visible {
-        @apply outline-none;
-    }
-}
-
-.area {
-    @apply rounded;
-    @apply relative h-40 cursor-crosshair touch-none;
-
-    background-image: linear-gradient(to top, #000, transparent), linear-gradient(to right, #fff, transparent);
-
-    &:focus-visible {
-        @apply outline-none ring-2 ring-blue-500;
-    }
-}
-
-.areaThumb {
-    @apply border-2 border-stone-50 rounded-full shadow;
-    @apply absolute w-4 h-4 pointer-events-none;
-
-    transform: translate(-50%, -50%);
-}
-
-.hue,
-.alpha {
-    @apply rounded-full;
-    @apply w-full h-3 cursor-pointer appearance-none;
-
-    &:focus-visible {
-        @apply outline-none ring-2 ring-blue-500;
-    }
-
-    &::-webkit-slider-thumb {
-        @apply border-2 border-stone-50 rounded-full shadow;
-        @apply w-4 h-4 appearance-none;
-    }
-
-    &::-moz-range-thumb {
-        @apply bg-transparent border-2 border-stone-50 rounded-full shadow;
-        @apply w-4 h-4;
-    }
-}
-
-.hue {
-    background-image: linear-gradient(to right, #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);
-}
-
-.alphaTrack {
-    @apply relative h-3;
-
-    & > .transparencyGrid,
-    & > .swatch {
+    .range {
         @apply rounded-full;
+        @apply w-full h-3 cursor-pointer appearance-none;
+
+        &:focus-visible {
+            @apply outline-none ring-2 ring-blue-500;
+        }
+
+        &::-webkit-slider-thumb {
+            @apply border-2 border-stone-50 rounded-full shadow;
+            @apply w-4 h-4 appearance-none;
+        }
+
+        &::-moz-range-thumb {
+            @apply bg-transparent border-2 border-stone-50 rounded-full shadow;
+            @apply w-4 h-4;
+        }
     }
 
-    & > .alpha {
-        @apply bg-transparent;
+    .transparencyGrid {
         @apply absolute inset-0;
+
+        background-image: conic-gradient(#a8a29e 25%, #e7e5e4 0 50%, #a8a29e 0 75%, #e7e5e4 0);
+        background-size: 8px 8px;
     }
-}
 
-.transparencyGrid {
-    @apply absolute inset-0;
-
-    background-image: conic-gradient(#a8a29e 25%, #e7e5e4 0 50%, #a8a29e 0 75%, #e7e5e4 0);
-    background-size: 8px 8px;
-}
-
-.swatch {
-    @apply absolute inset-0;
-}
-
-.swatchGroup {
-    @apply flex flex-wrap gap-2;
-}
-
-.swatchTrigger {
-    @apply rounded overflow-hidden;
-    @apply relative w-6 h-6 cursor-pointer;
-
-    &[data-selected] {
-        @apply ring-2 ring-stone-50;
+    .swatch {
+        @apply absolute inset-0;
     }
 }

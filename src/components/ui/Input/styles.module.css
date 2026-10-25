@@ -8,44 +8,50 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-.root {
-    @apply bg-stone-800 rounded;
-    @apply flex items-center gap-2 h-10 px-3;
+@layer theme, base, unichat-ui, components, utilities;
 
-    &:focus-within {
-        @apply ring-2 ring-blue-500;
-    }
+@layer unichat-ui {
+    .root {
+        @apply bg-stone-800 rounded;
+        @apply flex items-center gap-2 h-10 px-3;
 
-    &:has(> input[aria-invalid="true"]) {
-        @apply ring-2 ring-red-600;
-    }
-
-    &[data-disabled] {
-        @apply bg-stone-900;
-        @apply text-stone-500;
-        @apply cursor-not-allowed;
-
-        .slot,
-        .input::placeholder {
-            @apply text-stone-600;
+        &:focus-within {
+            @apply ring-2 ring-blue-500;
         }
-    }
-}
 
-.slot {
-    @apply text-stone-500;
-    @apply flex items-center;
-}
+        &:has(> input[aria-invalid="true"]) {
+            @apply ring-2 ring-red-600;
+        }
 
-.input {
-    @apply bg-transparent outline-none;
-    @apply flex-1 min-w-0;
+        & > [data-slot="start"],
+        & > [data-slot="end"] {
+            @apply text-stone-500;
+            @apply flex items-center;
+        }
 
-    &::placeholder {
-        @apply text-stone-500;
-    }
+        & > input {
+            @apply bg-transparent outline-none;
+            @apply flex-1 min-w-0;
 
-    &:disabled {
-        @apply cursor-not-allowed;
+            &::placeholder {
+                @apply text-stone-500;
+            }
+
+            &:disabled {
+                @apply cursor-not-allowed;
+            }
+        }
+
+        &[data-disabled] {
+            @apply bg-stone-900;
+            @apply text-stone-500;
+            @apply cursor-not-allowed;
+
+            & > [data-slot="start"],
+            & > [data-slot="end"],
+            & > input::placeholder {
+                @apply text-stone-600;
+            }
+        }
     }
 }

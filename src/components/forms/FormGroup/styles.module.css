@@ -8,26 +8,30 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-.root {
-    @apply flex flex-col gap-1;
-}
+@layer theme, base, unichat-ui, components, utilities;
 
-.label {
-    @apply text-sm font-semibold text-stone-300;
-}
+@layer unichat-ui {
+    .root {
+        @apply flex flex-col gap-1;
 
-.description {
-    @apply text-xs text-stone-500;
-}
+        & > [data-slot="label"] {
+            @apply text-sm font-semibold text-stone-300;
+        }
 
-.statusMessage {
-    @apply text-xs;
+        & > [data-slot="description"] {
+            @apply text-xs text-stone-500;
+        }
 
-    &[data-status="valid"] {
-        @apply text-green-500;
-    }
+        & > [data-slot="status-message"] {
+            @apply text-xs;
 
-    &[data-status="invalid"] {
-        @apply text-red-500;
+            &[data-status="valid"] {
+                @apply text-green-500;
+            }
+
+            &[data-status="invalid"] {
+                @apply text-red-500;
+            }
+        }
     }
 }

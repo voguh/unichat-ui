@@ -11,6 +11,7 @@
 import { forwardRef } from "preact/compat";
 
 import { clsx } from "~/utils/clsx";
+import { dataPart } from "~/utils/dataAttributes";
 
 import { Button, type ButtonProps } from "../Button";
 import styles from "./styles.module.css";
@@ -23,5 +24,7 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(functio
     { className, ...rest },
     ref
 ) {
-    return <Button {...rest} ref={ref} className={clsx(styles.root, className)} />;
+    return (
+        <Button {...rest} ref={ref} data-part={dataPart("IconButton", rest)} className={clsx(styles.root, className)} />
+    );
 });

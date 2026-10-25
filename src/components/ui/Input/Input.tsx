@@ -12,6 +12,7 @@ import type PReact from "preact";
 import { forwardRef } from "preact/compat";
 
 import { clsx } from "~/utils/clsx";
+import { dataFlag, dataPart, omitDataPart } from "~/utils/dataAttributes";
 
 import styles from "./styles.module.css";
 
@@ -23,20 +24,19 @@ export interface InputProps extends VanillaProps {
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
-    { startSlot, endSlot, rootProps, type = "text", className, ...rest },
+    { startSlot, endSlot, rootProps = {}, type = "text", className, ...rest },
     ref
 ) {
-    const rootClassName = rootProps != null ? rootProps.className : undefined;
-
     return (
         <div
             {...rootProps}
-            data-disabled={rest.disabled || undefined}
-            className={clsx(styles.root, className, rootClassName)}
+            data-part={dataPart("Input", rest)}
+            data-disabled={dataFlag(rest.disabled)}
+            className={clsx(styles.root, className, rootProps.className)}
         >
-            {startSlot != null && <span className={styles.slot}>{startSlot}</span>}
-            <input {...rest} ref={ref} type={type} className={styles.input} />
-            {endSlot != null && <span className={styles.slot}>{endSlot}</span>}
+            {startSlot != null && <span data-slot="start">{startSlot}</span>}
+            <input {...omitDataPart(rest)} ref={ref} type={type} />
+            {endSlot != null && <span data-slot="end">{endSlot}</span>}
         </div>
     );
 });

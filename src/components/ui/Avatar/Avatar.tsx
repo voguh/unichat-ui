@@ -13,12 +13,21 @@ import { forwardRef } from "preact/compat";
 import { useState } from "preact/hooks";
 
 import { clsx } from "~/utils/clsx";
+import { dataPart } from "~/utils/dataAttributes";
 
 import styles from "./styles.module.css";
 
 type VanillaProps = PReact.ImgHTMLAttributes<HTMLImageElement>;
 export interface AvatarProps extends VanillaProps {
     fallback?: PReact.ComponentChildren;
+}
+
+function toAriaLabel(alt: AvatarProps["alt"]): string | undefined {
+    if (typeof alt === "string") {
+        return alt;
+    }
+
+    return undefined;
 }
 
 export const Avatar = forwardRef<HTMLImageElement, AvatarProps>(function Avatar(
@@ -40,6 +49,7 @@ export const Avatar = forwardRef<HTMLImageElement, AvatarProps>(function Avatar(
                 <span
                     {...(rest as PReact.HTMLAttributes<HTMLSpanElement>)}
                     aria-hidden="true"
+                    data-part={dataPart("Avatar", rest)}
                     data-fallback=""
                     className={clsx(styles.root, className)}
                 >
@@ -52,7 +62,8 @@ export const Avatar = forwardRef<HTMLImageElement, AvatarProps>(function Avatar(
             <span
                 {...(rest as PReact.HTMLAttributes<HTMLSpanElement>)}
                 role="img"
-                aria-label={typeof alt === "string" ? alt : undefined}
+                aria-label={toAriaLabel(alt)}
+                data-part={dataPart("Avatar", rest)}
                 data-fallback=""
                 className={clsx(styles.root, className)}
             >
@@ -62,6 +73,14 @@ export const Avatar = forwardRef<HTMLImageElement, AvatarProps>(function Avatar(
     }
 
     return (
-        <img {...rest} ref={ref} src={src} alt={alt} onError={handleError} className={clsx(styles.root, className)} />
+        <img
+            {...rest}
+            ref={ref}
+            src={src}
+            alt={alt}
+            onError={handleError}
+            data-part={dataPart("Avatar", rest)}
+            className={clsx(styles.root, className)}
+        />
     );
 });

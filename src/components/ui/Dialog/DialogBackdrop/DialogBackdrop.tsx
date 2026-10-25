@@ -14,6 +14,7 @@ import { forwardRef } from "preact/compat";
 import { DialogBackdrop as HeadlessDialogBackdrop } from "@headlessui/react";
 
 import { clsx } from "~/utils/clsx";
+import { dataPart } from "~/utils/dataAttributes";
 
 import styles from "./styles.module.css";
 
@@ -24,5 +25,12 @@ export const DialogBackdrop = forwardRef<HTMLElement, DialogBackdropProps>(funct
     { className, ...rest },
     ref
 ) {
-    return <HeadlessDialogBackdrop {...rest} ref={ref} className={clsx(styles.root, className)} />;
+    return (
+        <HeadlessDialogBackdrop
+            {...rest}
+            ref={ref}
+            data-part={dataPart("DialogBackdrop", rest)}
+            className={clsx(styles.root, className)}
+        />
+    );
 });

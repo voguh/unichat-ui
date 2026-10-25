@@ -16,6 +16,7 @@ import { forwardRef } from "preact/compat";
 import { MenuButton as HeadlessMenuButton } from "@headlessui/react";
 
 import { clsx } from "~/utils/clsx";
+import { dataPart } from "~/utils/dataAttributes";
 
 import styles from "./styles.module.css";
 
@@ -38,6 +39,7 @@ export const MenuButton = forwardRef<HTMLElement, MenuButtonProps<ElementType>>(
             {...rest}
             as={as}
             ref={ref as PReact.Ref<HTMLButtonElement>}
+            data-part={dataPart("MenuButton", rest)}
             className={clsx(styles.root, className)}
         />
     );

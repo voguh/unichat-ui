@@ -14,6 +14,7 @@ import { forwardRef } from "preact/compat";
 import { MenuSeparator as HeadlessMenuSeparator } from "@headlessui/react";
 
 import { clsx } from "~/utils/clsx";
+import { dataPart } from "~/utils/dataAttributes";
 
 import styles from "./styles.module.css";
 
@@ -24,5 +25,13 @@ export const MenuSeparator = forwardRef<HTMLElement, MenuSeparatorProps>(functio
     { className, ...rest },
     ref
 ) {
-    return <HeadlessMenuSeparator {...rest} as="hr" ref={ref} className={clsx(styles.root, className)} />;
+    return (
+        <HeadlessMenuSeparator
+            {...rest}
+            as="hr"
+            ref={ref}
+            data-part={dataPart("MenuSeparator", rest)}
+            className={clsx(styles.root, className)}
+        />
+    );
 });

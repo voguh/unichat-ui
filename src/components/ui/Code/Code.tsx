@@ -12,6 +12,7 @@ import type PReact from "preact";
 import { forwardRef } from "preact/compat";
 
 import { clsx } from "~/utils/clsx";
+import { dataPart } from "~/utils/dataAttributes";
 
 import styles from "./styles.module.css";
 
@@ -19,5 +20,5 @@ type VanillaProps = PReact.HTMLAttributes<HTMLElement>;
 export interface CodeProps extends VanillaProps {}
 
 export const Code = forwardRef<HTMLElement, CodeProps>(function Code({ className, ...rest }, ref) {
-    return <code {...rest} ref={ref} className={clsx(styles.root, className)} />;
+    return <code {...rest} ref={ref} data-part={dataPart("Code", rest)} className={clsx(styles.root, className)} />;
 });

@@ -14,6 +14,7 @@ import { useEffect, useState } from "preact/hooks";
 
 import { Portal } from "~/components/ui/Portal";
 import { clsx } from "~/utils/clsx";
+import { dataPart } from "~/utils/dataAttributes";
 
 import { type ToasterStore, toaster } from "./store";
 import styles from "./styles.module.css";
@@ -42,6 +43,7 @@ export const Toaster = forwardRef<HTMLDivElement, ToasterProps>(function Toaster
                 {...rest}
                 ref={ref}
                 aria-live="polite"
+                data-part={dataPart("Toaster", rest)}
                 data-placement={store.placement}
                 className={clsx(styles.root, className)}
             >

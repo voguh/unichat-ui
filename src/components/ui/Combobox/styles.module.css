@@ -8,89 +8,93 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-.root {
-    @apply flex flex-col;
-}
+@layer theme, base, unichat-ui, components, utilities;
 
-.control {
-    @apply bg-stone-800 rounded;
-    @apply flex items-center gap-2 h-10 px-3;
+@layer unichat-ui {
+    .root {
+        @apply flex flex-col;
 
-    &:focus-within {
-        @apply ring-2 ring-blue-500;
-    }
+        & > [data-slot="control"] {
+            @apply bg-stone-800 rounded;
+            @apply flex items-center gap-2 h-10 px-3;
 
-    &[data-invalid] {
-        @apply ring-2 ring-red-600;
-    }
+            &:focus-within {
+                @apply ring-2 ring-blue-500;
+            }
 
-    &:has([data-disabled]) {
-        @apply bg-stone-900;
-        @apply text-stone-500;
-        @apply cursor-not-allowed;
+            &[data-invalid] {
+                @apply ring-2 ring-red-600;
+            }
 
-        .trigger,
-        .input::placeholder {
-            @apply text-stone-600;
-        }
-    }
-}
+            & > input {
+                @apply bg-transparent outline-none;
+                @apply flex-1 min-w-0;
 
-.input {
-    @apply bg-transparent outline-none;
-    @apply flex-1 min-w-0;
+                &::placeholder {
+                    @apply text-stone-500;
+                }
+            }
 
-    &::placeholder {
-        @apply text-stone-500;
-    }
-}
+            & > [data-slot="trigger"] {
+                @apply text-stone-500 text-xs;
+                @apply cursor-pointer transition-transform;
 
-.trigger {
-    @apply text-stone-500 text-xs;
-    @apply cursor-pointer transition-transform;
+                &[data-open] {
+                    @apply rotate-180;
+                }
+            }
 
-    &[data-open] {
-        @apply rotate-180;
-    }
-}
+            &:has([data-disabled]) {
+                @apply bg-stone-900;
+                @apply text-stone-500;
+                @apply cursor-not-allowed;
 
-.content {
-    @apply bg-stone-800 border border-stone-700 rounded shadow-xl;
-    @apply z-50 flex flex-col max-h-64 overflow-y-auto py-1;
-
-    width: var(--input-width);
-
-    &:focus-visible {
-        @apply outline-none;
-    }
-
-    &:empty {
-        @apply invisible;
-    }
-}
-
-.item {
-    @apply flex items-center justify-between gap-2 cursor-pointer px-3 py-2;
-
-    &[data-focus] {
-        @apply bg-stone-700;
-    }
-
-    &[data-selected] {
-        @apply font-bold;
-
-        & > .itemIndicator {
-            @apply visible;
+                & > [data-slot="trigger"],
+                & > input::placeholder {
+                    @apply text-stone-600;
+                }
+            }
         }
     }
 
-    &[data-disabled] {
-        @apply text-stone-500;
-        @apply cursor-not-allowed;
-    }
-}
+    .options {
+        @apply bg-stone-800 border border-stone-700 rounded shadow-xl;
+        @apply z-50 flex flex-col max-h-64 overflow-y-auto py-1;
 
-.itemIndicator {
-    @apply text-red-600 text-xs;
-    @apply invisible;
+        width: var(--input-width);
+
+        &:focus-visible {
+            @apply outline-none;
+        }
+
+        &:empty {
+            @apply invisible;
+        }
+
+        & > [data-slot="option"] {
+            @apply flex items-center justify-between gap-2 cursor-pointer px-3 py-2;
+
+            & > [data-slot="indicator"] {
+                @apply text-red-600 text-xs;
+                @apply invisible;
+            }
+
+            &[data-focus] {
+                @apply bg-stone-700;
+            }
+
+            &[data-selected] {
+                @apply font-bold;
+
+                & > [data-slot="indicator"] {
+                    @apply visible;
+                }
+            }
+
+            &[data-disabled] {
+                @apply text-stone-500;
+                @apply cursor-not-allowed;
+            }
+        }
+    }
 }

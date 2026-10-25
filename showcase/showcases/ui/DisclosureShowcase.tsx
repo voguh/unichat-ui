@@ -48,6 +48,13 @@ import { Disclosure, DisclosureButton, DisclosurePanel } from "@voguh/unichat-ui
                     name: "Disclosure",
                     props: "HTMLAttributes<HTMLDivElement>",
                     ref: "HTMLElement",
+                    structure: `
+div[data-part~="Disclosure"][data-open]
+  > button[data-part~="DisclosureButton"][data-open]
+    > span[data-slot="title"]   (children)
+    > i[data-slot="indicator"]
+  > div[data-part~="DisclosurePanel"]
+`,
                     nonStandard: [
                         { name: "defaultOpen", type: "boolean", defaultValue: "false", description: "Starts open." },
                         {
@@ -121,6 +128,13 @@ import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@voguh/unichat-ui/c
                     name: "TabGroup",
                     props: 'HTMLAttributes<HTMLDivElement> (without "onChange")',
                     ref: "HTMLElement",
+                    structure: `
+div[data-part~="TabGroup"]
+  > div[data-part~="TabList"][data-variant]
+    > button[data-part~="Tab"][data-selected][data-disabled]
+  > div[data-part~="TabPanels"]
+    > div[data-part~="TabPanel"]
+`,
                     nonStandard: [
                         { name: "defaultIndex", type: "number", defaultValue: "0", description: "Initial tab." },
                         { name: "selectedIndex", type: "number", description: "Selected tab when controlled." },
@@ -215,6 +229,15 @@ import { Pagination } from "@voguh/unichat-ui/components/ui/Pagination";
                     name: "Pagination",
                     props: 'HTMLAttributes<HTMLElement> (<nav>, without "onChange")',
                     ref: "HTMLElement",
+                    structure: `
+nav[data-part~="Pagination"]
+  > button[data-slot="first"]
+  > button[data-slot="previous"]
+  > button   (one per page; current page has [aria-current="page"])
+  > span   (ellipsis)
+  > button[data-slot="next"]
+  > button[data-slot="last"]
+`,
                     nonStandard: [
                         { name: "count", type: "number", description: "Total number of items, not of pages." },
                         { name: "pageSize", type: "number", defaultValue: "10", description: "Items per page." },

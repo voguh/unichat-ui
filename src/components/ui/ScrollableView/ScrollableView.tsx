@@ -13,6 +13,7 @@ import { forwardRef } from "preact/compat";
 import { useEffect, useRef, useState } from "preact/hooks";
 
 import { clsx } from "~/utils/clsx";
+import { dataFlag, dataPart, omitDataPart } from "~/utils/dataAttributes";
 import { mergeRefs } from "~/utils/mergeRefs";
 
 import styles from "./styles.module.css";
@@ -154,21 +155,21 @@ function ScrollTrack({ axis, metrics, active, crossed, viewportRef }: ScrollTrac
         <div
             ref={trackRef}
             aria-hidden="true"
+            data-slot="track"
             data-axis={axis}
-            data-active={active || undefined}
-            data-crossed={crossed || undefined}
-            data-dragging={dragging || undefined}
+            data-active={dataFlag(active)}
+            data-crossed={dataFlag(crossed)}
+            data-dragging={dataFlag(dragging)}
             onPointerDown={handleTrackPointerDown}
-            className={styles.track}
         >
             <div
                 ref={thumbRef}
+                data-slot="thumb"
                 style={`--scroll-ratio: ${metrics.ratio}; --scroll-progress: ${metrics.progress}`}
                 onPointerDown={handleThumbPointerDown}
                 onPointerMove={handleThumbPointerMove}
                 onPointerUp={handleThumbPointerUp}
                 onPointerCancel={handleThumbPointerUp}
-                className={styles.thumb}
             />
         </div>
     );
@@ -235,12 +236,17 @@ export const ScrollableView = forwardRef<HTMLDivElement, ScrollableViewProps>(fu
     }, []);
 
     return (
-        <div {...rootProps} className={clsx(styles.root, rootProps.className)}>
+        <div
+            {...rootProps}
+            data-part={dataPart("ScrollableView", rest)}
+            className={clsx(styles.root, rootProps.className)}
+        >
             <div
-                {...rest}
+                {...omitDataPart(rest)}
                 ref={mergeRefs(ref, viewportRef)}
+                data-slot="viewport"
                 onScroll={handleScroll}
-                className={clsx(styles.viewport, className)}
+                className={className}
             >
                 {children}
             </div>

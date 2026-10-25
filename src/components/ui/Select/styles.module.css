@@ -8,91 +8,97 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-.root {
-    @apply flex flex-col;
-}
+@layer theme, base, unichat-ui, components, utilities;
 
-.trigger {
-    @apply bg-stone-800 rounded outline-none;
-    @apply flex items-center justify-between gap-2 cursor-pointer h-10 px-3 text-left;
+@layer unichat-ui {
+    .root {
+        @apply flex flex-col;
 
-    &[data-focus] {
-        @apply ring-2 ring-blue-500;
-    }
+        & > button {
+            @apply bg-stone-800 rounded outline-none;
+            @apply flex items-center justify-between gap-2 cursor-pointer h-10 px-3 text-left;
 
-    &[data-invalid] {
-        @apply ring-2 ring-red-600;
-    }
+            & > [data-slot="value"] {
+                @apply truncate;
 
-    &[data-disabled] {
-        @apply bg-stone-900;
-        @apply text-stone-500;
-        @apply cursor-not-allowed;
+                &[data-placeholder] {
+                    @apply text-stone-500;
+                }
+            }
 
-        .indicator,
-        .valueText[data-placeholder] {
-            @apply text-stone-600;
+            & > [data-slot="indicator"] {
+                @apply text-stone-500 text-xs;
+                @apply transition-transform;
+            }
+
+            &[data-focus] {
+                @apply ring-2 ring-blue-500;
+            }
+
+            &[data-invalid] {
+                @apply ring-2 ring-red-600;
+            }
+
+            &[data-open] {
+                & > [data-slot="indicator"] {
+                    @apply rotate-180;
+                }
+            }
+
+            &[data-disabled] {
+                @apply bg-stone-900;
+                @apply text-stone-500;
+                @apply cursor-not-allowed;
+
+                & > [data-slot="indicator"],
+                & > [data-slot="value"][data-placeholder] {
+                    @apply text-stone-600;
+                }
+            }
         }
     }
 
-    &[data-open] {
-        & > .indicator {
-            @apply rotate-180;
+    .options {
+        @apply bg-stone-800 border border-stone-700 rounded shadow-xl;
+        @apply z-50 flex flex-col max-h-64 overflow-y-auto py-1;
+
+        width: var(--button-width);
+
+        &:focus-visible {
+            @apply outline-none;
         }
-    }
-}
 
-.valueText {
-    @apply truncate;
-
-    &[data-placeholder] {
-        @apply text-stone-500;
-    }
-}
-
-.indicator {
-    @apply text-stone-500 text-xs;
-    @apply transition-transform;
-}
-
-.content {
-    @apply bg-stone-800 border border-stone-700 rounded shadow-xl;
-    @apply z-50 flex flex-col max-h-64 overflow-y-auto py-1;
-
-    width: var(--button-width);
-
-    &:focus-visible {
-        @apply outline-none;
-    }
-}
-
-.item {
-    @apply flex items-center justify-between gap-2 cursor-pointer px-3 py-2;
-
-    &[data-focus] {
-        @apply bg-stone-700;
-    }
-
-    &[data-selected] {
-        @apply font-bold;
-
-        & > .itemIndicator {
-            @apply visible;
+        & > [data-slot="group"] {
+            & > [data-slot="group-label"] {
+                @apply text-stone-500 text-xs font-semibold uppercase;
+                @apply px-3 pt-2 pb-1;
+            }
         }
     }
 
-    &[data-disabled] {
-        @apply text-stone-500;
-        @apply cursor-not-allowed;
+    .option {
+        @apply flex items-center justify-between gap-2 cursor-pointer px-3 py-2;
+
+        & > [data-slot="indicator"] {
+            @apply text-red-600 text-xs;
+            @apply invisible;
+        }
+
+        &[data-focus] {
+            @apply bg-stone-700;
+        }
+
+        &[data-selected] {
+            @apply font-bold;
+
+            & > [data-slot="indicator"] {
+                @apply visible;
+            }
+        }
+
+        &[data-disabled] {
+            @apply text-stone-500;
+            @apply cursor-not-allowed;
+        }
     }
-}
-
-.itemGroupLabel {
-    @apply text-stone-500 text-xs font-semibold uppercase;
-    @apply px-3 pt-2 pb-1;
-}
-
-.itemIndicator {
-    @apply text-red-600 text-xs;
-    @apply invisible;
 }

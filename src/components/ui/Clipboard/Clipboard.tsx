@@ -13,6 +13,7 @@ import { forwardRef } from "preact/compat";
 import { useEffect, useId, useState } from "preact/hooks";
 
 import { clsx } from "~/utils/clsx";
+import { dataFlag, dataPart } from "~/utils/dataAttributes";
 
 import styles from "./styles.module.css";
 
@@ -34,6 +35,14 @@ export const Clipboard = forwardRef<HTMLDivElement, ClipboardProps>(function Cli
         setCopied(true);
     }
 
+    function getCopyIcon(): string {
+        if (copied) {
+            return "fas fa-check";
+        }
+
+        return "fas fa-copy";
+    }
+
     useEffect(() => {
         if (!copied) {
             return;
@@ -45,21 +54,12 @@ export const Clipboard = forwardRef<HTMLDivElement, ClipboardProps>(function Cli
     }, [copied]);
 
     return (
-        <div {...rest} ref={ref} className={clsx(styles.root, className)}>
-            {label != null && (
-                <label htmlFor={inputId} className={styles.label}>
-                    {label}
-                </label>
-            )}
-            <div className={styles.control}>
-                <input id={inputId} value={value} readOnly className={styles.input} />
-                <button
-                    type="button"
-                    aria-label="Copy to clipboard"
-                    onClick={copy}
-                    className={clsx(styles.trigger, { [styles.copied]: copied })}
-                >
-                    <i className={copied ? "fas fa-check" : "fas fa-copy"} aria-hidden="true" />
+        <div {...rest} ref={ref} data-part={dataPart("Clipboard", rest)} className={clsx(styles.root, className)}>
+            {label != null && <label htmlFor={inputId}>{label}</label>}
+            <div data-slot="control">
+                <input id={inputId} value={value} readOnly />
+                <button type="button" aria-label="Copy to clipboard" data-copied={dataFlag(copied)} onClick={copy}>
+                    <i className={getCopyIcon()} aria-hidden="true" />
                 </button>
             </div>
         </div>

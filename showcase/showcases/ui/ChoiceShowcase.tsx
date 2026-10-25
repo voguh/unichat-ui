@@ -84,6 +84,14 @@ import { Checkbox } from "@voguh/unichat-ui/components/ui/Checkbox";
                     name: "Checkbox",
                     props: 'InputHTMLAttributes<HTMLInputElement> (without "type")',
                     ref: "HTMLInputElement",
+                    structure: `
+label[data-part~="Checkbox"]   (rootProps, className)
+  > input   (ref and the other props)
+  > span[data-slot="control"]
+    > i[data-slot="check"]
+    > i[data-slot="indeterminate"]
+  > span[data-slot="label"]
+`,
                     nonStandard: [
                         {
                             name: "indeterminate",
@@ -126,6 +134,13 @@ import { Switch } from "@voguh/unichat-ui/components/ui/Switch";
                     name: "Switch",
                     props: 'InputHTMLAttributes<HTMLInputElement> (without "type")',
                     ref: "HTMLInputElement",
+                    structure: `
+label[data-part~="Switch"]   (rootProps, className)
+  > input[role="switch"]   (ref and the other props)
+  > span[data-slot="control"]
+    > span[data-slot="thumb"]
+  > span[data-slot="label"]
+`,
                     nonStandard: [LABEL_ROOT_PROPS, LABEL_CHILDREN]
                 }
             ]}
@@ -159,6 +174,13 @@ import { RadioGroup } from "@voguh/unichat-ui/components/ui/RadioGroup";
                     name: "RadioGroup",
                     props: 'HTMLAttributes<HTMLDivElement> (without "onChange" and "defaultValue")',
                     ref: "HTMLDivElement",
+                    structure: `
+div[data-part~="RadioGroup"][data-orientation]
+  > label   (one per item)
+    > input[type="radio"]
+    > span[data-slot="control"]
+    > span[data-slot="label"]
+`,
                     nonStandard: [
                         ...RADIO_PROPS,
                         {
@@ -202,6 +224,11 @@ import { SegmentedControl } from "@voguh/unichat-ui/components/ui/SegmentedContr
                     name: "SegmentedControl",
                     props: 'HTMLAttributes<HTMLDivElement> (without "onChange" and "defaultValue")',
                     ref: "HTMLDivElement",
+                    structure: `
+div[data-part~="SegmentedControl"]
+  > label   (one per item, holds the item label)
+    > input[type="radio"]
+`,
                     nonStandard: RADIO_PROPS
                 }
             ]}
@@ -246,6 +273,21 @@ import { Select } from "@voguh/unichat-ui/components/ui/Select";
                     name: "Select",
                     props: "SelectHTMLAttributes<HTMLSelectElement> (hidden <select>)",
                     ref: "HTMLSelectElement",
+                    structure: `
+div[data-part~="Select"]   (rootProps, className)
+  > button[data-open][data-focus][data-disabled][data-invalid]
+    > span[data-slot="value"][data-placeholder]
+    > i[data-slot="indicator"]
+  > select[hidden]   (ref, name and the other props)
+
+div[data-part="SelectOptions"]   (portal, while open)
+  > div[data-slot="option"][data-focus][data-selected][data-disabled]
+    > span
+    > i[data-slot="indicator"]
+  > div[data-slot="group"]
+    > div[data-slot="group-label"]
+    > div[data-slot="option"]
+`,
                     nonStandard: [
                         {
                             name: "options",
@@ -333,6 +375,17 @@ import { Combobox } from "@voguh/unichat-ui/components/ui/Combobox";
                     name: "Combobox",
                     props: "InputHTMLAttributes<HTMLInputElement> (visible text input)",
                     ref: "HTMLInputElement",
+                    structure: `
+div[data-part~="Combobox"]   (rootProps, className)
+  > div[data-slot="control"][data-invalid]
+    > input   (ref and the other props)
+    > button[data-slot="trigger"][data-open]
+
+div[data-part="ComboboxOptions"]   (portal, while open)
+  > div[data-slot="option"][data-focus][data-selected][data-disabled]
+    > span
+    > i[data-slot="indicator"]
+`,
                     nonStandard: [
                         {
                             name: "options",

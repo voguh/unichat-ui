@@ -12,6 +12,7 @@ import type PReact from "preact";
 import { forwardRef } from "preact/compat";
 
 import { clsx } from "~/utils/clsx";
+import { dataPart } from "~/utils/dataAttributes";
 
 import styles from "./styles.module.css";
 
@@ -27,7 +28,14 @@ export const Spinner = forwardRef<HTMLSpanElement, SpinnerProps>(function Spinne
     ref
 ) {
     return (
-        <span {...rest} ref={ref} role="status" data-size={size} className={clsx(styles.root, className)}>
+        <span
+            {...rest}
+            ref={ref}
+            role="status"
+            data-part={dataPart("Spinner", rest)}
+            data-size={size}
+            className={clsx(styles.root, className)}
+        >
             <i className="fas fa-spinner fa-spin" aria-hidden="true" />
         </span>
     );

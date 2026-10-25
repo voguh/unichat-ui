@@ -14,6 +14,7 @@ import { forwardRef } from "preact/compat";
 import { DisclosureButton as HeadlessDisclosureButton } from "@headlessui/react";
 
 import { clsx } from "~/utils/clsx";
+import { dataPart } from "~/utils/dataAttributes";
 
 import styles from "./styles.module.css";
 
@@ -29,9 +30,14 @@ export const DisclosureButton = forwardRef<HTMLButtonElement, DisclosureButtonPr
     ref
 ) {
     return (
-        <HeadlessDisclosureButton {...rest} ref={ref} className={clsx(styles.root, className)}>
-            <span className={styles.title}>{children}</span>
-            <i className={clsx(styles.indicator, "fas fa-chevron-down")} aria-hidden="true" />
+        <HeadlessDisclosureButton
+            {...rest}
+            ref={ref}
+            data-part={dataPart("DisclosureButton", rest)}
+            className={clsx(styles.root, className)}
+        >
+            <span data-slot="title">{children}</span>
+            <i data-slot="indicator" className="fas fa-chevron-down" aria-hidden="true" />
         </HeadlessDisclosureButton>
     );
 });

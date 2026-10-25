@@ -13,6 +13,7 @@ import { forwardRef } from "preact/compat";
 import { useId } from "preact/hooks";
 
 import { clsx } from "~/utils/clsx";
+import { dataPart } from "~/utils/dataAttributes";
 
 import styles from "./styles.module.css";
 
@@ -39,28 +40,36 @@ export const RadioGroup = forwardRef<HTMLDivElement, RadioGroupProps>(function R
 ) {
     const generatedName = useId();
 
+    function isChecked(itemValue: string): boolean | undefined {
+        if (value != null) {
+            return value === itemValue;
+        }
+
+        return undefined;
+    }
+
     return (
         <div
             {...rest}
             ref={ref}
             role="radiogroup"
+            data-part={dataPart("RadioGroup", rest)}
             data-orientation={orientation}
             className={clsx(styles.root, className)}
         >
             {items.map((item) => (
-                <label key={item.value} className={styles.item}>
+                <label key={item.value}>
                     <input
                         type="radio"
                         name={name ?? generatedName}
                         value={item.value}
-                        checked={value != null ? value === item.value : undefined}
+                        checked={isChecked(item.value)}
                         defaultChecked={defaultValue === item.value}
                         disabled={disabled || item.disabled}
                         onChange={onChange}
-                        className={styles.input}
                     />
-                    <span className={styles.itemControl} />
-                    <span className={styles.itemText}>{item.label}</span>
+                    <span data-slot="control" />
+                    <span data-slot="label">{item.label}</span>
                 </label>
             ))}
         </div>

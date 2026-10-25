@@ -8,15 +8,19 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-.root {
-    @apply flex items-center gap-2 cursor-pointer px-3 py-2 text-left;
+@layer theme, base, unichat-ui, components, utilities;
 
-    &[data-focus] {
-        @apply bg-stone-700;
-    }
+@layer unichat-ui {
+    .root {
+        @apply flex items-center gap-2 cursor-pointer px-3 py-2 text-left;
 
-    &[data-disabled] {
-        @apply text-stone-500;
-        @apply cursor-not-allowed;
+        &[data-focus] {
+            @apply bg-stone-700;
+        }
+
+        &[data-disabled] {
+            @apply text-stone-500;
+            @apply cursor-not-allowed;
+        }
     }
 }

@@ -13,6 +13,7 @@ import { forwardRef } from "preact/compat";
 import { useRef, useState } from "preact/hooks";
 
 import { clsx } from "~/utils/clsx";
+import { dataFlag, dataPart, omitDataPart } from "~/utils/dataAttributes";
 import { mergeRefs } from "~/utils/mergeRefs";
 
 import styles from "./styles.module.css";
@@ -85,40 +86,42 @@ export const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(function
     }
 
     return (
-        <div {...rootProps} className={clsx(styles.root, className, rootProps.className)}>
+        <div
+            {...rootProps}
+            data-part={dataPart("FileUpload", rest)}
+            className={clsx(styles.root, className, rootProps.className)}
+        >
             <label
-                data-dragging={dragging || undefined}
-                data-invalid={invalid || undefined}
-                data-disabled={disabled || undefined}
+                data-slot="dropzone"
+                data-dragging={dataFlag(dragging)}
+                data-invalid={dataFlag(invalid)}
+                data-disabled={dataFlag(disabled)}
                 onDragOver={handleDragOver}
                 onDragLeave={() => setDragging(false)}
                 onDrop={handleDrop}
-                className={styles.dropzone}
             >
                 <input
-                    {...rest}
+                    {...omitDataPart(rest)}
                     ref={mergeRefs(ref, inputRef)}
                     type="file"
                     multiple={multiple}
                     disabled={disabled}
                     onChange={handleChange}
-                    className={styles.input}
                 />
-                <i className="fas fa-cloud-upload-alt" aria-hidden="true" />
+                <i data-slot="icon" className="fas fa-cloud-upload-alt" aria-hidden="true" />
                 {children}
             </label>
             {files.length > 0 && (
-                <ul className={styles.itemGroup}>
+                <ul>
                     {files.map((file, index) => (
-                        <li key={`${file.name}-${file.lastModified}`} className={styles.item}>
-                            <span className={styles.itemName}>{file.name}</span>
-                            <span className={styles.itemSize}>{formatFileSize(file.size)}</span>
+                        <li key={`${file.name}-${file.lastModified}`}>
+                            <span data-slot="name">{file.name}</span>
+                            <span data-slot="size">{formatFileSize(file.size)}</span>
                             <button
                                 type="button"
                                 aria-label={`Remove ${file.name}`}
                                 disabled={disabled}
                                 onClick={() => assignFiles(files.filter((_, current) => current !== index))}
-                                className={styles.itemDeleteTrigger}
                             >
                                 <i className="fas fa-times" aria-hidden="true" />
                             </button>

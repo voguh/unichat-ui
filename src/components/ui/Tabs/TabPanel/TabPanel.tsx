@@ -14,6 +14,7 @@ import { forwardRef } from "preact/compat";
 import { TabPanel as HeadlessTabPanel, type TabPanelProps as HeadlessTabPanelProps } from "@headlessui/react";
 
 import { clsx } from "~/utils/clsx";
+import { dataPart } from "~/utils/dataAttributes";
 
 import styles from "./styles.module.css";
 
@@ -24,5 +25,12 @@ export interface TabPanelProps extends VanillaProps, Pick<HeadlessTabPanelProps,
 }
 
 export const TabPanel = forwardRef<HTMLElement, TabPanelProps>(function TabPanel({ className, ...rest }, ref) {
-    return <HeadlessTabPanel {...rest} ref={ref} className={clsx(styles.root, className)} />;
+    return (
+        <HeadlessTabPanel
+            {...rest}
+            ref={ref}
+            data-part={dataPart("TabPanel", rest)}
+            className={clsx(styles.root, className)}
+        />
+    );
 });

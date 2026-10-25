@@ -8,37 +8,41 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-.root {
-    --dialog-width: 32rem;
-    --dialog-height: 90vh;
+@layer theme, base, unichat-ui, components, utilities;
 
-    @apply bg-stone-900 border border-stone-800 rounded;
-    @apply relative flex flex-col overflow-hidden;
+@layer unichat-ui {
+    .root {
+        --dialog-width: 32rem;
+        --dialog-height: 90vh;
 
-    width: var(--dialog-width);
-    max-width: 100vw;
-    max-height: var(--dialog-height);
+        @apply bg-stone-900 border border-stone-800 rounded;
+        @apply relative flex flex-col overflow-hidden;
 
-    &:focus-visible {
-        @apply outline-none;
-    }
+        width: var(--dialog-width);
+        max-width: 100vw;
+        max-height: var(--dialog-height);
 
-    &[data-size="sm"] {
-        --dialog-width: 24rem;
-    }
+        &:focus-visible {
+            @apply outline-none;
+        }
 
-    &[data-size="lg"] {
-        --dialog-width: 48rem;
-    }
+        &[data-size="sm"] {
+            --dialog-width: 24rem;
+        }
 
-    &[data-size="xl"] {
-        --dialog-width: 64rem;
-    }
+        &[data-size="lg"] {
+            --dialog-width: 48rem;
+        }
 
-    &[data-size="fullscreen"] {
-        --dialog-width: 100vw;
-        --dialog-height: 100vh;
+        &[data-size="xl"] {
+            --dialog-width: 64rem;
+        }
 
-        @apply rounded-none border-none h-screen;
+        &[data-size="fullscreen"] {
+            --dialog-width: 100vw;
+            --dialog-height: 100vh;
+
+            @apply rounded-none border-none h-screen;
+        }
     }
 }

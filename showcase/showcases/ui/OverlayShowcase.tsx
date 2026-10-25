@@ -100,6 +100,16 @@ import {
                     name: "Dialog",
                     props: "HTMLAttributes<HTMLDivElement>",
                     ref: "HTMLElement",
+                    structure: `
+div[data-part~="Dialog"][role]   (portal)
+  > div[data-part~="DialogBackdrop"]
+  > div[data-part~="DialogPanel"][data-size]
+    > div[data-part~="DialogHeader"]
+      > h2[data-part~="DialogTitle"]
+      > button[data-part~="DialogCloseButton"]
+        > i   (when there are no children)
+    > div[data-part~="DialogBody"]
+`,
                     nonStandard: [
                         { name: "open", type: "boolean", description: "Required: whether the dialog is shown." },
                         {
@@ -237,7 +247,17 @@ import { Popover, PopoverButton, PopoverPanel } from "@voguh/unichat-ui/componen
 </Popover>
 `}
             api={[
-                { name: "Popover", props: "HTMLAttributes<HTMLDivElement>", ref: "HTMLElement" },
+                {
+                    name: "Popover",
+                    props: "HTMLAttributes<HTMLDivElement>",
+                    ref: "HTMLElement",
+                    structure: `
+div[data-part~="Popover"]
+  > [data-part~="PopoverButton"][data-open]   (element of "as"; as={Button} gives "Button PopoverButton")
+
+div[data-part~="PopoverPanel"]   (portal)
+`
+                },
                 {
                     name: "PopoverButton",
                     props: "props of `as` (ButtonHTMLAttributes<HTMLButtonElement> by default)",
@@ -292,6 +312,12 @@ import { Tooltip } from "@voguh/unichat-ui/components/ui/Tooltip";
                     name: "Tooltip",
                     props: "none: no element of its own",
                     ref: "none: the child keeps its own ref",
+                    structure: `
+div[data-part="Tooltip"][data-side]   (portal)
+  > div[data-slot="content"][role="tooltip"]
+    > div[data-slot="arrow"]
+      > div
+`,
                     nonStandard: [
                         {
                             name: "children",
@@ -354,7 +380,22 @@ import { Menu, MenuButton, MenuItem, MenuItems, MenuSeparator } from "@voguh/uni
 </Menu>
 `}
             api={[
-                { name: "Menu", props: "HTMLAttributes<HTMLDivElement>", ref: "HTMLElement" },
+                {
+                    name: "Menu",
+                    props: "HTMLAttributes<HTMLDivElement>",
+                    ref: "HTMLElement",
+                    structure: `
+div[data-part~="Menu"]
+  > [data-part~="MenuButton"][data-open]   (element of "as")
+
+div[data-part~="MenuItems"]   (portal)
+  > button[data-part~="MenuItem"][data-focus][data-disabled]
+  > hr[data-part~="MenuSeparator"]
+  > div[data-part~="MenuSection"]
+    > header[data-part~="MenuHeading"]
+    > button[data-part~="MenuItem"]
+`
+                },
                 {
                     name: "MenuButton",
                     props: "props of `as` (ButtonHTMLAttributes<HTMLButtonElement> by default)",

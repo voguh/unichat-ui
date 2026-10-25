@@ -12,6 +12,7 @@ import type PReact from "preact";
 import { forwardRef } from "preact/compat";
 
 import { clsx } from "~/utils/clsx";
+import { dataPart } from "~/utils/dataAttributes";
 
 import styles from "./styles.module.css";
 
@@ -19,5 +20,7 @@ type VanillaProps = PReact.HTMLAttributes<HTMLDivElement>;
 export interface CardFooterProps extends VanillaProps {}
 
 export const CardFooter = forwardRef<HTMLDivElement, CardFooterProps>(function CardFooter({ className, ...rest }, ref) {
-    return <div {...rest} ref={ref} className={clsx(styles.root, className)} />;
+    return (
+        <div {...rest} ref={ref} data-part={dataPart("CardFooter", rest)} className={clsx(styles.root, className)} />
+    );
 });

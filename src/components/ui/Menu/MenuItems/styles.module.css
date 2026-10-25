@@ -8,11 +8,15 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-.root {
-    @apply bg-stone-800 border border-stone-700 rounded shadow-xl;
-    @apply z-50 flex flex-col min-w-40 py-1;
+@layer theme, base, unichat-ui, components, utilities;
 
-    &:focus-visible {
-        @apply outline-none;
+@layer unichat-ui {
+    .root {
+        @apply bg-stone-800 border border-stone-700 rounded shadow-xl;
+        @apply z-50 flex flex-col min-w-40 py-1;
+
+        &:focus-visible {
+            @apply outline-none;
+        }
     }
 }

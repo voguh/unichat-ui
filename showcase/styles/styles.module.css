@@ -9,9 +9,35 @@
  ******************************************************************************/
 
 .root {
+    @apply bg-stone-950;
+    @apply text-stone-50;
     @apply h-full flex;
 
     > main {
-        @apply flex-1 min-w-0 overflow-y-auto p-8;
+        @apply flex-1 min-w-0;
     }
+
+    ::-webkit-scrollbar {
+        @apply w-2;
+    }
+
+    ::-webkit-scrollbar-track {
+        @apply bg-stone-700;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        @apply bg-stone-950/50 rounded-xs;
+
+        &:hover {
+            @apply bg-stone-950/75;
+        }
+    }
+}
+
+.scroll {
+    @apply h-full;
+}
+
+.content {
+    @apply p-8;
 }

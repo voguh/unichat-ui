@@ -12,14 +12,61 @@ import type PReact from "preact";
 
 import { Button, ButtonLink, type ButtonSize, type ButtonVariant, IconButton } from "~/components/ui/Button";
 import { Example } from "~showcase/components/Example";
-import { ShowcasePage } from "~showcase/components/ShowcasePage";
+import { type PropDoc, ShowcasePage } from "~showcase/components/ShowcasePage";
 
 const VARIANTS: ButtonVariant[] = ["default", "primary", "secondary", "success", "danger", "warning", "info"];
 const SIZES: ButtonSize[] = ["sm", "md", "lg"];
 
+const VARIANT_PROP: PropDoc = {
+    name: "variant",
+    type: '"default" | "primary" | "secondary" | "success" | "danger" | "warning" | "info"',
+    defaultValue: '"default"',
+    description: "Color scheme."
+};
+
+const SIZE_PROP: PropDoc = {
+    name: "size",
+    type: '"sm" | "md" | "lg"',
+    defaultValue: '"md"',
+    description: "Height and padding."
+};
+
 export function ButtonShowcase(): PReact.ComponentChildren {
     return (
-        <ShowcasePage title="Button" description="Native <button>, <a> and icon-only variants.">
+        <ShowcasePage
+            title="Button"
+            description="Native <button>."
+            usage={`
+import { Button } from "@voguh/unichat-ui/components/ui/Button";
+
+<Button variant="primary" loading={saving} onClick={save}>
+    Save
+</Button>
+`}
+            api={[
+                {
+                    name: "Button",
+                    props: "ButtonHTMLAttributes<HTMLButtonElement>",
+                    ref: "HTMLButtonElement",
+                    nonStandard: [
+                        VARIANT_PROP,
+                        SIZE_PROP,
+                        {
+                            name: "loading",
+                            type: "boolean",
+                            defaultValue: "false",
+                            description: "Shows a spinner, disables the button and sets aria-busy."
+                        },
+                        {
+                            name: "type",
+                            type: '"button" | "submit" | "reset"',
+                            defaultValue: '"button"',
+                            description: 'Native default is "submit"; here it is "button".'
+                        }
+                    ]
+                }
+            ]}
+        >
             <Example title="Variants">
                 {VARIANTS.map((variant) => (
                     <Button key={variant} variant={variant}>
@@ -51,22 +98,91 @@ export function ButtonShowcase(): PReact.ComponentChildren {
                     Saving
                 </Button>
             </Example>
-            <Example title="ButtonLink">
-                {VARIANTS.map((variant) => (
-                    <ButtonLink key={variant} href="#/button" variant={variant}>
-                        Link {variant}
-                    </ButtonLink>
-                ))}
-            </Example>
-            <Example title="IconButton">
+        </ShowcasePage>
+    );
+}
+
+export function IconButtonShowcase(): PReact.ComponentChildren {
+    return (
+        <ShowcasePage
+            title="IconButton"
+            description="Square Button for a single icon."
+            usage={`
+import { IconButton } from "@voguh/unichat-ui/components/ui/Button";
+
+<IconButton aria-label="Delete" variant="danger" onClick={remove}>
+    <i className="fas fa-trash" />
+</IconButton>
+`}
+            api={[
+                {
+                    name: "IconButton",
+                    props: "ButtonProps (ButtonHTMLAttributes<HTMLButtonElement>)",
+                    ref: "HTMLButtonElement",
+                    nonStandard: [
+                        {
+                            name: "aria-label",
+                            type: "string",
+                            description: "Required: the icon is the only content."
+                        },
+                        VARIANT_PROP,
+                        SIZE_PROP
+                    ]
+                }
+            ]}
+        >
+            <Example title="Sizes">
                 {SIZES.map((size) => (
                     <IconButton key={size} size={size} variant="secondary" aria-label="Settings">
                         <i className="fas fa-cog" />
                     </IconButton>
                 ))}
-                <IconButton aria-label="Delete" variant="danger">
-                    <i className="fas fa-trash" />
-                </IconButton>
+            </Example>
+            <Example title="Variants">
+                {VARIANTS.map((variant) => (
+                    <IconButton key={variant} variant={variant} aria-label={variant}>
+                        <i className="fas fa-star" />
+                    </IconButton>
+                ))}
+            </Example>
+        </ShowcasePage>
+    );
+}
+
+export function ButtonLinkShowcase(): PReact.ComponentChildren {
+    return (
+        <ShowcasePage
+            title="ButtonLink"
+            description="Native <a> styled as a Button."
+            usage={`
+import { ButtonLink } from "@voguh/unichat-ui/components/ui/Button";
+
+<ButtonLink href="https://unichat.voguh.me" target="_blank" variant="primary">
+    Open website
+</ButtonLink>
+`}
+            api={[
+                {
+                    name: "ButtonLink",
+                    props: "AnchorHTMLAttributes<HTMLAnchorElement>",
+                    ref: "HTMLAnchorElement",
+                    nonStandard: [VARIANT_PROP, SIZE_PROP]
+                }
+            ]}
+        >
+            <Example title="Variants">
+                {VARIANTS.map((variant) => (
+                    <ButtonLink key={variant} href="#/button-link" variant={variant}>
+                        Link {variant}
+                    </ButtonLink>
+                ))}
+            </Example>
+            <Example title="Sizes">
+                {SIZES.map((size) => (
+                    <ButtonLink key={size} href="#/button-link" size={size}>
+                        Size {size}
+                    </ButtonLink>
+                ))}
             </Example>
         </ShowcasePage>
     );

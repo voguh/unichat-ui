@@ -11,27 +11,47 @@
 import type PReact from "preact";
 
 import { FormFieldsShowcase, FormGroupShowcase } from "./forms/FormsShowcase";
-import { ButtonShowcase } from "./ui/ButtonShowcase";
-import { CheckboxShowcase, ComboboxShowcase, RadioShowcase, SelectShowcase } from "./ui/ChoiceShowcase";
-import { AccordionShowcase, PaginationShowcase, TabsShowcase } from "./ui/DisclosureShowcase";
+import { ButtonLinkShowcase, ButtonShowcase, IconButtonShowcase } from "./ui/ButtonShowcase";
 import {
+    CheckboxShowcase,
+    ComboboxShowcase,
+    RadioShowcase,
+    SegmentedControlShowcase,
+    SelectShowcase,
+    SwitchShowcase
+} from "./ui/ChoiceShowcase";
+import { DisclosureShowcase, PaginationShowcase, TabsShowcase } from "./ui/DisclosureShowcase";
+import {
+    AlertShowcase,
     AvatarShowcase,
     BadgeShowcase,
     CardShowcase,
-    FeedbackShowcase,
-    TableShowcase,
-    TypographyShowcase
+    CodeShowcase,
+    EmptyStateShowcase,
+    IdenticonShowcase,
+    LoadingShowcase,
+    MarkdownShowcase,
+    SeparatorShowcase,
+    SkeletonShowcase,
+    SpinnerShowcase,
+    TableShowcase
 } from "./ui/DisplayShowcase";
 import {
     ColorPickerShowcase,
     DatePickerShowcase,
     FileUploadShowcase,
     NumberInputShowcase,
-    TagsInputShowcase
+    PasswordInputShowcase
 } from "./ui/FieldShowcase";
 import { InputShowcase, TextareaShowcase } from "./ui/InputShowcase";
-import { DialogShowcase, DropdownShowcase, PopoverShowcase, TooltipShowcase } from "./ui/OverlayShowcase";
-import { ClipboardShowcase, ProgressShowcase, QrCodeShowcase, ToastShowcase } from "./ui/UtilityShowcase";
+import { DialogShowcase, MenuShowcase, PopoverShowcase, TooltipShowcase } from "./ui/OverlayShowcase";
+import {
+    ClipboardShowcase,
+    ProgressShowcase,
+    QrCodeShowcase,
+    ScrollableViewShowcase,
+    ToastShowcase
+} from "./ui/UtilityShowcase";
 
 export const SHOWCASE_GROUPS = ["Basics", "Data display", "Feedback", "Overlays", "Inputs", "Forms"] as const;
 
@@ -44,28 +64,45 @@ export interface Showcase {
 
 export const SHOWCASES: Showcase[] = [
     { path: "/button", title: "Button", group: "Basics", component: ButtonShowcase },
+    { path: "/icon-button", title: "IconButton", group: "Basics", component: IconButtonShowcase },
+    { path: "/button-link", title: "ButtonLink", group: "Basics", component: ButtonLinkShowcase },
     { path: "/badge", title: "Badge", group: "Basics", component: BadgeShowcase },
     { path: "/card", title: "Card", group: "Basics", component: CardShowcase },
     { path: "/avatar", title: "Avatar", group: "Basics", component: AvatarShowcase },
-    { path: "/typography", title: "Code & Separator", group: "Basics", component: TypographyShowcase },
+    { path: "/identicon", title: "Identicon", group: "Basics", component: IdenticonShowcase },
+    { path: "/code", title: "Code", group: "Basics", component: CodeShowcase },
+    { path: "/separator", title: "Separator", group: "Basics", component: SeparatorShowcase },
     { path: "/table", title: "Table", group: "Data display", component: TableShowcase },
-    { path: "/accordion", title: "Accordion", group: "Data display", component: AccordionShowcase },
+    { path: "/disclosure", title: "Disclosure", group: "Data display", component: DisclosureShowcase },
     { path: "/tabs", title: "Tabs", group: "Data display", component: TabsShowcase },
     { path: "/pagination", title: "Pagination", group: "Data display", component: PaginationShowcase },
     { path: "/qr-code", title: "QR Code", group: "Data display", component: QrCodeShowcase },
-    { path: "/feedback", title: "Spinner, Skeleton, Alert", group: "Feedback", component: FeedbackShowcase },
+    { path: "/scrollable-view", title: "ScrollableView", group: "Data display", component: ScrollableViewShowcase },
+    { path: "/markdown", title: "Markdown", group: "Data display", component: MarkdownShowcase },
+    { path: "/spinner", title: "Spinner", group: "Feedback", component: SpinnerShowcase },
+    { path: "/skeleton", title: "Skeleton", group: "Feedback", component: SkeletonShowcase },
+    { path: "/alert", title: "Alert", group: "Feedback", component: AlertShowcase },
+    { path: "/empty-state", title: "EmptyState", group: "Feedback", component: EmptyStateShowcase },
     { path: "/progress", title: "Progress", group: "Feedback", component: ProgressShowcase },
     { path: "/toast", title: "Toast", group: "Feedback", component: ToastShowcase },
+    { path: "/loading", title: "Loading", group: "Feedback", component: LoadingShowcase },
     { path: "/dialog", title: "Dialog", group: "Overlays", component: DialogShowcase },
     { path: "/popover", title: "Popover", group: "Overlays", component: PopoverShowcase },
     { path: "/tooltip", title: "Tooltip", group: "Overlays", component: TooltipShowcase },
-    { path: "/dropdown", title: "Dropdown", group: "Overlays", component: DropdownShowcase },
+    { path: "/menu", title: "Menu", group: "Overlays", component: MenuShowcase },
     { path: "/input", title: "Input", group: "Inputs", component: InputShowcase },
     { path: "/textarea", title: "Textarea", group: "Inputs", component: TextareaShowcase },
-    { path: "/number-input", title: "NumberInput & Password", group: "Inputs", component: NumberInputShowcase },
-    { path: "/tags-input", title: "TagsInput", group: "Inputs", component: TagsInputShowcase },
-    { path: "/checkbox", title: "Checkbox & Switch", group: "Inputs", component: CheckboxShowcase },
-    { path: "/radio", title: "Radio & Segmented", group: "Inputs", component: RadioShowcase },
+    { path: "/number-input", title: "NumberInput", group: "Inputs", component: NumberInputShowcase },
+    { path: "/password-input", title: "PasswordInput", group: "Inputs", component: PasswordInputShowcase },
+    { path: "/checkbox", title: "Checkbox", group: "Inputs", component: CheckboxShowcase },
+    { path: "/switch", title: "Switch", group: "Inputs", component: SwitchShowcase },
+    { path: "/radio-group", title: "RadioGroup", group: "Inputs", component: RadioShowcase },
+    {
+        path: "/segmented-control",
+        title: "SegmentedControl",
+        group: "Inputs",
+        component: SegmentedControlShowcase
+    },
     { path: "/select", title: "Select", group: "Inputs", component: SelectShowcase },
     { path: "/combobox", title: "Combobox", group: "Inputs", component: ComboboxShowcase },
     { path: "/date-picker", title: "DatePicker", group: "Inputs", component: DatePickerShowcase },

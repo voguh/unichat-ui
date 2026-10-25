@@ -11,35 +11,87 @@
 import type PReact from "preact";
 import { useState } from "preact/hooks";
 
-import { Accordion } from "~/components/ui/Accordion";
 import { Code } from "~/components/ui/Code";
+import { Disclosure, DisclosureButton, DisclosurePanel } from "~/components/ui/Disclosure";
 import { Pagination } from "~/components/ui/Pagination";
-import { Tabs } from "~/components/ui/Tabs";
+import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "~/components/ui/Tabs";
 import { Example } from "~showcase/components/Example";
-import { ShowcasePage } from "~showcase/components/ShowcasePage";
+import { type PropDoc, ShowcasePage } from "~showcase/components/ShowcasePage";
 
 const RELEASES = ["1.2.0", "1.1.1", "1.0.0"];
 
-export function AccordionShowcase(): PReact.ComponentChildren {
+const PANEL_PROPS: PropDoc[] = [
+    {
+        name: "unmount",
+        type: "boolean",
+        defaultValue: "true",
+        description: "Removes the panel from the DOM while closed; false keeps it hidden."
+    },
+    { name: "static", type: "boolean", defaultValue: "false", description: "Always renders, ignoring the state." }
+];
+
+export function DisclosureShowcase(): PReact.ComponentChildren {
     return (
-        <ShowcasePage title="Accordion" description="Native <details> and <summary>.">
+        <ShowcasePage
+            title="Disclosure"
+            description="Headless UI Disclosure with an optional exclusive group."
+            usage={`
+import { Disclosure, DisclosureButton, DisclosurePanel } from "@voguh/unichat-ui/components/ui/Disclosure";
+
+<Disclosure name="releases" defaultOpen>
+    <DisclosureButton>v1.2.0</DisclosureButton>
+    <DisclosurePanel>Release notes.</DisclosurePanel>
+</Disclosure>
+`}
+            api={[
+                {
+                    name: "Disclosure",
+                    props: "HTMLAttributes<HTMLDivElement>",
+                    ref: "HTMLElement",
+                    nonStandard: [
+                        { name: "defaultOpen", type: "boolean", defaultValue: "false", description: "Starts open." },
+                        {
+                            name: "name",
+                            type: "string",
+                            description: "Exclusive group, like <details name>: opening one closes the others."
+                        }
+                    ]
+                },
+                {
+                    name: "DisclosureButton",
+                    props: "ButtonHTMLAttributes<HTMLButtonElement>",
+                    ref: "HTMLButtonElement",
+                    nonStandard: [
+                        {
+                            name: "children",
+                            type: "ComponentChildren",
+                            description: "Title; a chevron is appended."
+                        }
+                    ]
+                },
+                {
+                    name: "DisclosurePanel",
+                    props: "HTMLAttributes<HTMLDivElement>",
+                    ref: "HTMLElement",
+                    nonStandard: PANEL_PROPS
+                }
+            ]}
+        >
             <Example title="Independent" vertical>
-                <Accordion.Root>
-                    {RELEASES.map((release, index) => (
-                        <Accordion.Item key={release} title={`v${release}`} open={index === 0}>
-                            Release notes for {release}.
-                        </Accordion.Item>
-                    ))}
-                </Accordion.Root>
+                {RELEASES.map((release, index) => (
+                    <Disclosure key={release} defaultOpen={index === 0}>
+                        <DisclosureButton>v{release}</DisclosureButton>
+                        <DisclosurePanel>Release notes for {release}.</DisclosurePanel>
+                    </Disclosure>
+                ))}
             </Example>
             <Example title="Exclusive (shared name)" vertical>
-                <Accordion.Root>
-                    {RELEASES.map((release) => (
-                        <Accordion.Item key={release} title={`v${release}`} name="releases">
-                            Release notes for {release}.
-                        </Accordion.Item>
-                    ))}
-                </Accordion.Root>
+                {RELEASES.map((release) => (
+                    <Disclosure key={release} name="releases">
+                        <DisclosureButton>v{release}</DisclosureButton>
+                        <DisclosurePanel>Release notes for {release}.</DisclosurePanel>
+                    </Disclosure>
+                ))}
             </Example>
         </ShowcasePage>
     );
@@ -47,15 +99,100 @@ export function AccordionShowcase(): PReact.ComponentChildren {
 
 export function TabsShowcase(): PReact.ComponentChildren {
     return (
-        <ShowcasePage title="Tabs" description="Data-driven tabs with arrow key navigation.">
+        <ShowcasePage
+            title="Tabs"
+            description="Headless UI tabs with arrow key navigation."
+            usage={`
+import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@voguh/unichat-ui/components/ui/Tabs";
+
+<TabGroup defaultIndex={0} onChange={setTabIndex}>
+    <TabList variant="segmented">
+        <Tab>Readme</Tab>
+        <Tab>Versions</Tab>
+    </TabList>
+    <TabPanels>
+        <TabPanel>Readme content</TabPanel>
+        <TabPanel>Versions content</TabPanel>
+    </TabPanels>
+</TabGroup>
+`}
+            api={[
+                {
+                    name: "TabGroup",
+                    props: 'HTMLAttributes<HTMLDivElement> (without "onChange")',
+                    ref: "HTMLElement",
+                    nonStandard: [
+                        { name: "defaultIndex", type: "number", defaultValue: "0", description: "Initial tab." },
+                        { name: "selectedIndex", type: "number", description: "Selected tab when controlled." },
+                        {
+                            name: "onChange",
+                            type: "(index: number) => void",
+                            description: "Called with the new tab index, not an event."
+                        },
+                        {
+                            name: "vertical",
+                            type: "boolean",
+                            defaultValue: "false",
+                            description: "Arrow up/down instead of left/right."
+                        },
+                        {
+                            name: "manual",
+                            type: "boolean",
+                            defaultValue: "false",
+                            description: "Arrow keys only move focus; Enter or Space selects."
+                        }
+                    ]
+                },
+                {
+                    name: "TabList",
+                    props: "HTMLAttributes<HTMLDivElement>",
+                    ref: "HTMLElement",
+                    nonStandard: [
+                        {
+                            name: "variant",
+                            type: '"default" | "segmented"',
+                            defaultValue: '"default"',
+                            description: "Underlined tabs or a SegmentedControl look."
+                        }
+                    ]
+                },
+                { name: "Tab", props: "ButtonHTMLAttributes<HTMLButtonElement>", ref: "HTMLElement" },
+                { name: "TabPanels", props: "HTMLAttributes<HTMLDivElement>", ref: "HTMLElement" },
+                {
+                    name: "TabPanel",
+                    props: "HTMLAttributes<HTMLDivElement>",
+                    ref: "HTMLElement",
+                    nonStandard: PANEL_PROPS
+                }
+            ]}
+        >
             <Example title="Default" vertical>
-                <Tabs
-                    items={[
-                        { value: "users", label: "Users", content: "Users panel" },
-                        { value: "releases", label: "Releases", content: "Releases panel" },
-                        { value: "settings", label: "Settings", content: "Settings panel", disabled: true }
-                    ]}
-                />
+                <TabGroup>
+                    <TabList>
+                        <Tab>Users</Tab>
+                        <Tab>Releases</Tab>
+                        <Tab disabled>Settings</Tab>
+                    </TabList>
+                    <TabPanels>
+                        <TabPanel>Users panel</TabPanel>
+                        <TabPanel>Releases panel</TabPanel>
+                        <TabPanel>Settings panel</TabPanel>
+                    </TabPanels>
+                </TabGroup>
+            </Example>
+            <Example title="Segmented" vertical>
+                <TabGroup>
+                    <TabList variant="segmented">
+                        <Tab>Users</Tab>
+                        <Tab>Releases</Tab>
+                        <Tab disabled>Settings</Tab>
+                    </TabList>
+                    <TabPanels>
+                        <TabPanel>Users panel</TabPanel>
+                        <TabPanel>Releases panel</TabPanel>
+                        <TabPanel>Settings panel</TabPanel>
+                    </TabPanels>
+                </TabGroup>
             </Example>
         </ShowcasePage>
     );
@@ -65,7 +202,38 @@ export function PaginationShowcase(): PReact.ComponentChildren {
     const [page, setPage] = useState(1);
 
     return (
-        <ShowcasePage title="Pagination" description="Controlled page navigation.">
+        <ShowcasePage
+            title="Pagination"
+            description="Controlled page navigation in a <nav>."
+            usage={`
+import { Pagination } from "@voguh/unichat-ui/components/ui/Pagination";
+
+<Pagination count={totalItems} pageSize={20} page={page} onChange={setPage} />
+`}
+            api={[
+                {
+                    name: "Pagination",
+                    props: 'HTMLAttributes<HTMLElement> (<nav>, without "onChange")',
+                    ref: "HTMLElement",
+                    nonStandard: [
+                        { name: "count", type: "number", description: "Total number of items, not of pages." },
+                        { name: "pageSize", type: "number", defaultValue: "10", description: "Items per page." },
+                        { name: "page", type: "number", description: "Current page, starting at 1." },
+                        {
+                            name: "siblingCount",
+                            type: "number",
+                            defaultValue: "1",
+                            description: "Pages shown on each side of the current one."
+                        },
+                        {
+                            name: "onChange",
+                            type: "(page: number) => void",
+                            description: "Called with the new page, not an event."
+                        }
+                    ]
+                }
+            ]}
+        >
             <Example title="Controlled" vertical>
                 <Pagination count={250} pageSize={10} page={page} onChange={setPage} />
                 <Code>page: {page}</Code>

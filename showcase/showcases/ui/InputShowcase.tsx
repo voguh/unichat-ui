@@ -21,7 +21,39 @@ export function InputShowcase(): PReact.ComponentChildren {
     const [value, setValue] = useState("");
 
     return (
-        <ShowcasePage title="Input" description="Native <input> with optional start/end slots.">
+        <ShowcasePage
+            title="Input"
+            description="Native <input> with optional start/end slots."
+            usage={`
+import { Input } from "@voguh/unichat-ui/components/ui/Input";
+
+<Input type="search" placeholder="Search plugins" startSlot={<i className="fas fa-search" />} />
+`}
+            api={[
+                {
+                    name: "Input",
+                    props: "InputHTMLAttributes<HTMLInputElement>",
+                    ref: "HTMLInputElement",
+                    nonStandard: [
+                        {
+                            name: "startSlot",
+                            type: "ComponentChildren",
+                            description: "Content before the input, inside the field."
+                        },
+                        {
+                            name: "endSlot",
+                            type: "ComponentChildren",
+                            description: "Content after the input, inside the field."
+                        },
+                        {
+                            name: "rootProps",
+                            type: "HTMLAttributes<HTMLDivElement>",
+                            description: "Props of the wrapper <div> that draws the field."
+                        }
+                    ]
+                }
+            ]}
+        >
             <Example title="Default" vertical>
                 <Input placeholder="Type something" value={value} onInput={(e) => setValue(e.currentTarget.value)} />
                 <Code>value: {JSON.stringify(value)}</Code>
@@ -41,7 +73,30 @@ export function InputShowcase(): PReact.ComponentChildren {
 
 export function TextareaShowcase(): PReact.ComponentChildren {
     return (
-        <ShowcasePage title="Textarea" description="Native <textarea> with optional auto-resize.">
+        <ShowcasePage
+            title="Textarea"
+            description="Native <textarea> with optional auto-resize."
+            usage={`
+import { Textarea } from "@voguh/unichat-ui/components/ui/Textarea";
+
+<Textarea placeholder="Release notes" autoResize />
+`}
+            api={[
+                {
+                    name: "Textarea",
+                    props: "TextareaHTMLAttributes<HTMLTextAreaElement>",
+                    ref: "HTMLTextAreaElement",
+                    nonStandard: [
+                        {
+                            name: "autoResize",
+                            type: "boolean",
+                            defaultValue: "false",
+                            description: "Grows with the content instead of scrolling; disables manual resize."
+                        }
+                    ]
+                }
+            ]}
+        >
             <Example title="Default" vertical>
                 <Textarea placeholder="Release notes" rows={3} />
             </Example>

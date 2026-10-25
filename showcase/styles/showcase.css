@@ -8,8 +8,26 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
+@theme {
+    --text-base: 0.875rem;
+    --text-sm: 0.75rem;
+    --text-xs: 0.625rem;
+}
+
 html {
     color-scheme: dark;
+}
+
+html,
+body,
+#root {
+    height: 100%;
+    margin: 0;
+}
+
+body,
+#root {
+    @apply text-base;
 }
 
 #root {

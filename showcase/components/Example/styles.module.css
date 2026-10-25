@@ -20,7 +20,7 @@
         @apply flex flex-wrap items-start gap-4 p-6;
 
         &[data-vertical="true"] {
-            @apply flex-col items-stretch;
+            @apply flex-col flex-nowrap items-stretch;
         }
     }
 }

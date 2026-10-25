@@ -13,18 +13,6 @@
 
 @import "tailwindcss";
 
-@theme {
-    --text-base: 0.875rem;
-    --text-sm: 0.75rem;
-    --text-xs: 0.625rem;
-}
-
-:root {
-    --ucui-font-size-base: 0.875rem;
-    --ucui-font-size-sm: 0.75rem;
-    --ucui-font-size-xs: 0.625rem;
-}
-
 html {
     color-scheme: dark;
 }

@@ -8,7 +8,7 @@
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 
-import "./styles/showcase.css";
+import "./styles/global.css";
 import type PReact from "preact";
 
 import { ScrollableView } from "@voguh/unichat-ui/ScrollableView";

@@ -39,14 +39,6 @@ export const RadioGroup = forwardRef<HTMLDivElement, RadioGroupProps>(function R
 ) {
     const generatedName = useId();
 
-    function isChecked(itemValue: string): boolean | undefined {
-        if (value != null) {
-            return value === itemValue;
-        }
-
-        return undefined;
-    }
-
     return (
         <div
             {...rest}
@@ -62,7 +54,7 @@ export const RadioGroup = forwardRef<HTMLDivElement, RadioGroupProps>(function R
                         type="radio"
                         name={name ?? generatedName}
                         value={item.value}
-                        checked={isChecked(item.value)}
+                        checked={value != null ? value === item.value : undefined}
                         defaultChecked={defaultValue === item.value}
                         disabled={disabled || item.disabled}
                         onChange={onChange}

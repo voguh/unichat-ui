@@ -21,14 +21,6 @@ export interface AvatarProps extends VanillaProps {
     fallback?: React.ReactNode;
 }
 
-function toAriaLabel(alt: AvatarProps["alt"]): string | undefined {
-    if (typeof alt === "string") {
-        return alt;
-    }
-
-    return undefined;
-}
-
 export const Avatar = forwardRef<HTMLImageElement, AvatarProps>(function Avatar(
     { src, alt, fallback = <i className="fas fa-image" aria-hidden="true" />, onError, className, ...rest },
     ref
@@ -61,7 +53,7 @@ export const Avatar = forwardRef<HTMLImageElement, AvatarProps>(function Avatar(
             <span
                 {...(rest as React.HTMLAttributes<HTMLSpanElement>)}
                 role="img"
-                aria-label={toAriaLabel(alt)}
+                aria-label={typeof alt === "string" ? alt : undefined}
                 data-part={dataPart("Avatar", rest)}
                 data-fallback=""
                 className={clsx(styles.root, className)}

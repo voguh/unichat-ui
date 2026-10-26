@@ -23,19 +23,11 @@ import { ShowcasePage } from "~showcase/components/ShowcasePage";
 
 const SCROLL_ITEMS = Array.from({ length: 40 }, (_, index) => `Message #${index + 1}`);
 
-function nextProgress(current: number): number {
-    if (current < 100) {
-        return current + 5;
-    }
-
-    return 0;
-}
-
 export function ProgressShowcase(): PReact.ComponentChildren {
     const [value, setValue] = useState(0);
 
     useEffect(() => {
-        const interval = setInterval(() => setValue(nextProgress), 300);
+        const interval = setInterval(() => setValue((current) => (current >= 100 ? 0 : current + 5)), 300);
         return () => clearInterval(interval);
     }, []);
 

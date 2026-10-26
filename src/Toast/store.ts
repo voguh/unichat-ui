@@ -71,11 +71,7 @@ export function createToaster({
             }
         }
 
-        if (id != null) {
-            toasts = toasts.filter((toast) => toast.id !== id);
-        } else {
-            toasts = [];
-        }
+        toasts = id != null ? toasts.filter((toast) => toast.id !== id) : [];
 
         emit();
     }

@@ -55,10 +55,7 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Com
     const [innerValue, setInnerValue] = useState(defaultValue ?? "");
     const inputRef = useRef<HTMLInputElement>(null);
 
-    let currentValue = innerValue;
-    if (isControlled) {
-        currentValue = value;
-    }
+    const currentValue = isControlled ? value : innerValue;
 
     const filteredOptions = useMemo(() => {
         const normalized = currentValue.trim().toLowerCase();

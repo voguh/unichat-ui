@@ -55,11 +55,7 @@ function buildIdenticon(value: string): { color: string; cells: IdenticonCell[] 
     const cells: IdenticonCell[] = [];
     for (let y = 0; y < GRID_SIZE; y++) {
         for (let x = 0; x < GRID_SIZE; x++) {
-            let mirroredX = x;
-            if (x >= HALF_SIZE) {
-                mirroredX = GRID_SIZE - 1 - x;
-            }
-
+            const mirroredX = x >= HALF_SIZE ? GRID_SIZE - 1 - x : x;
             const bitIndex = y * HALF_SIZE + mirroredX;
             if (((bits[bitIndex >>> 5] >>> (bitIndex & 31)) & 1) === 1) {
                 cells.push({ x, y });

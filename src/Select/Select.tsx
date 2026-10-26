@@ -110,10 +110,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select
     const invalidRef = useRef(false);
     const flatOptions = useMemo(() => flattenOptions(options), [options]);
 
-    let currentValue = innerValue;
-    if (isControlled) {
-        currentValue = value;
-    }
+    const currentValue = isControlled ? value : innerValue;
 
     const selected = flatOptions.find((option) => option.value === currentValue);
 
@@ -166,14 +163,6 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select
         );
     }
 
-    function renderValueText(): string | undefined {
-        if (selected != null) {
-            return selected.label;
-        }
-
-        return placeholder;
-    }
-
     function renderNativeOption(option: SelectOption): React.ReactElement {
         return (
             <option key={option.value} value={option.value} disabled={option.disabled}>
@@ -191,7 +180,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select
             <Listbox value={currentValue} onChange={handleChange} disabled={disabled} invalid={invalid}>
                 <ListboxButton {...triggerProps} ref={triggerRef} id={id}>
                     <span data-slot="value" data-placeholder={dataFlag(selected == null)}>
-                        {renderValueText()}
+                        {selected != null ? selected.label : placeholder}
                     </span>
                     <i data-slot="indicator" className="fas fa-chevron-down" aria-hidden="true" />
                 </ListboxButton>

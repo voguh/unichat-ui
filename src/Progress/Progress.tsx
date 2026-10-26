@@ -23,37 +23,13 @@ export interface ProgressProps extends VanillaProps {
     label?: React.ReactNode;
 }
 
-function toPercent(value: number | null, max: number): number | null {
-    if (value != null) {
-        return Math.round((value / max) * 100);
-    }
-
-    return null;
-}
-
 export const Progress = forwardRef<HTMLDivElement, ProgressProps>(function Progress(
     { value, max = 100, label, className, ...rest },
     ref
 ) {
-    const percent = toPercent(value, max);
+    const percent = value != null ? Math.round((value / max) * 100) : null;
 
     const labelId = useId();
-
-    function getLabelledBy(): string | undefined {
-        if (label != null) {
-            return labelId;
-        }
-
-        return undefined;
-    }
-
-    function getRangeStyle(): React.CSSProperties | undefined {
-        if (percent != null) {
-            return { width: `${percent}%` };
-        }
-
-        return undefined;
-    }
 
     return (
         <div {...rest} ref={ref} data-part={dataPart("Progress", rest)} className={clsx(styles.root, className)}>
@@ -69,13 +45,17 @@ export const Progress = forwardRef<HTMLDivElement, ProgressProps>(function Progr
             )}
             <div
                 role="progressbar"
-                aria-labelledby={getLabelledBy()}
+                aria-labelledby={label != null ? labelId : undefined}
                 aria-valuemin={0}
                 aria-valuemax={max}
                 aria-valuenow={value ?? undefined}
                 data-slot="track"
             >
-                <div data-slot="range" data-indeterminate={dataFlag(percent == null)} style={getRangeStyle()} />
+                <div
+                    data-slot="range"
+                    data-indeterminate={dataFlag(percent == null)}
+                    style={percent != null ? { width: `${percent}%` } : undefined}
+                />
             </div>
         </div>
     );

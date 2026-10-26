@@ -67,10 +67,7 @@ export const ColorPicker = forwardRef<HTMLInputElement, ColorPickerProps>(functi
         middleware: [offset(4), flip(), shift({ padding: 8 })]
     });
 
-    let currentValue = innerValue;
-    if (isControlled) {
-        currentValue = value;
-    }
+    const currentValue = isControlled ? value : innerValue;
 
     const color = useMemo(() => new TinyColor(currentValue), [currentValue]);
     const hsv = color.toHsv();

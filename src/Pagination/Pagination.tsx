@@ -62,16 +62,13 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(function Pagi
             );
         }
 
-        if (value === page) {
-            return (
-                <button key={value} type="button" aria-current="page" onClick={() => onChange(value)}>
-                    {value}
-                </button>
-            );
-        }
-
         return (
-            <button key={value} type="button" onClick={() => onChange(value)}>
+            <button
+                key={value}
+                type="button"
+                aria-current={value === page ? "page" : undefined}
+                onClick={() => onChange(value)}
+            >
                 {value}
             </button>
         );

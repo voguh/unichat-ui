@@ -34,14 +34,6 @@ export const Clipboard = forwardRef<HTMLDivElement, ClipboardProps>(function Cli
         setCopied(true);
     }
 
-    function getCopyIcon(): string {
-        if (copied) {
-            return "fas fa-check";
-        }
-
-        return "fas fa-copy";
-    }
-
     useEffect(() => {
         if (!copied) {
             return;
@@ -58,7 +50,7 @@ export const Clipboard = forwardRef<HTMLDivElement, ClipboardProps>(function Cli
             <div data-slot="control">
                 <input id={inputId} value={value} readOnly />
                 <button type="button" aria-label="Copy to clipboard" data-copied={dataFlag(copied)} onClick={copy}>
-                    <i className={getCopyIcon()} aria-hidden="true" />
+                    <i className={copied ? "fas fa-check" : "fas fa-copy"} aria-hidden="true" />
                 </button>
             </div>
         </div>

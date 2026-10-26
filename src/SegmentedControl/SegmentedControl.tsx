@@ -38,14 +38,6 @@ export const SegmentedControl = forwardRef<HTMLDivElement, SegmentedControlProps
 ) {
     const generatedName = useId();
 
-    function isChecked(itemValue: string): boolean | undefined {
-        if (value != null) {
-            return value === itemValue;
-        }
-
-        return undefined;
-    }
-
     return (
         <div
             {...rest}
@@ -60,7 +52,7 @@ export const SegmentedControl = forwardRef<HTMLDivElement, SegmentedControlProps
                         type="radio"
                         name={name ?? generatedName}
                         value={item.value}
-                        checked={isChecked(item.value)}
+                        checked={value != null ? value === item.value : undefined}
                         defaultChecked={defaultValue === item.value}
                         disabled={disabled || item.disabled}
                         onChange={onChange}

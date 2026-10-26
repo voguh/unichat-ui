@@ -25,16 +25,8 @@ const DEFAULT_ICONS: Record<ToastType, string> = {
     error: "fas fa-times-circle"
 };
 
-function getDefaultIcon(type: ToastType | undefined): string {
-    if (type != null) {
-        return DEFAULT_ICONS[type];
-    }
-
-    return "fas fa-bell";
-}
-
 export function ToastItem({ toast, onDismiss }: ToastItemProps): React.ReactNode {
-    const defaultIcon = getDefaultIcon(toast.type);
+    const defaultIcon = toast.type != null ? DEFAULT_ICONS[toast.type] : "fas fa-bell";
 
     function handleAction(): void {
         toast.action!.onClick();

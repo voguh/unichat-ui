@@ -59,10 +59,7 @@ export const DatePicker = forwardRef<HTMLInputElement, DatePickerProps>(function
         middleware: [offset(4), flip(), shift({ padding: 8 })]
     });
 
-    let currentValue = innerValue;
-    if (isControlled) {
-        currentValue = value;
-    }
+    const currentValue = isControlled ? value : innerValue;
 
     function openCalendar(): void {
         if (refocusRef.current) {

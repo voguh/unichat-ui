@@ -119,27 +119,11 @@ div[data-part~="FormGroup"][data-status]
     );
 }
 
-function toFieldStatus(value: string): FieldStatus | undefined {
-    if (value !== "none") {
-        return value as FieldStatus;
-    }
-
-    return undefined;
-}
-
-function getStatusMessage(status: FieldStatus | undefined): string {
-    if (status === "invalid") {
-        return "This field has an error.";
-    }
-
-    return "Looks good.";
-}
-
 export function FormFieldsShowcase(): PReact.ComponentChildren {
     const [statusValue, setStatusValue] = useState("none");
 
-    const status = toFieldStatus(statusValue);
-    const field = { status, statusMessage: getStatusMessage(status) };
+    const status = statusValue === "none" ? undefined : (statusValue as FieldStatus);
+    const field = { status, statusMessage: status === "invalid" ? "This field has an error." : "Looks good." };
 
     return (
         <ShowcasePage

@@ -15,6 +15,7 @@ import { forwardRef, useMemo, useRef, useState } from "react";
 
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/react";
 
+import { ScrollableView } from "~/ScrollableView";
 import { clsx } from "~/utils/clsx";
 import { dataFlag, dataPart, omitDataPart } from "~/utils/dataAttributes";
 import { mergeRefs } from "~/utils/mergeRefs";
@@ -185,18 +186,20 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select
                     <i data-slot="indicator" className="fas fa-chevron-down" aria-hidden="true" />
                 </ListboxButton>
                 <ListboxOptions anchor="bottom start" data-part="SelectOptions" className={styles.options}>
-                    {options.map((option) => {
-                        if (isOptionGroup(option)) {
-                            return (
-                                <div key={option.label} role="group" aria-label={option.label} data-slot="group">
-                                    <div data-slot="group-label">{option.label}</div>
-                                    {option.options.map(renderOption)}
-                                </div>
-                            );
-                        }
+                    <ScrollableView>
+                        {options.map((option) => {
+                            if (isOptionGroup(option)) {
+                                return (
+                                    <div key={option.label} role="group" aria-label={option.label} data-slot="group">
+                                        <div data-slot="group-label">{option.label}</div>
+                                        {option.options.map(renderOption)}
+                                    </div>
+                                );
+                            }
 
-                        return renderOption(option);
-                    })}
+                            return renderOption(option);
+                        })}
+                    </ScrollableView>
                 </ListboxOptions>
             </Listbox>
             <select

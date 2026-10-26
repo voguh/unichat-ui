@@ -19,6 +19,7 @@ import {
     ComboboxOption as HeadlessComboboxOption
 } from "@headlessui/react";
 
+import { ScrollableView } from "~/ScrollableView";
 import { clsx } from "~/utils/clsx";
 import { dataFlag, dataPart, omitDataPart } from "~/utils/dataAttributes";
 import { mergeRefs } from "~/utils/mergeRefs";
@@ -105,20 +106,24 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Com
                     </ComboboxButton>
                 </div>
                 <ComboboxOptions anchor="bottom start" data-part="ComboboxOptions" className={styles.options}>
-                    {filteredOptions.map((option) => (
-                        <HeadlessComboboxOption
-                            key={option.value}
-                            value={option.value}
-                            disabled={option.disabled}
-                            data-slot="option"
-                        >
-                            <span>{option.value}</span>
-                            {option.label != null && option.label !== option.value && (
-                                <small data-slot="label">{option.label}</small>
-                            )}
-                            <i data-slot="indicator" className="fas fa-check" aria-hidden="true" />
-                        </HeadlessComboboxOption>
-                    ))}
+                    {filteredOptions.length > 0 && (
+                        <ScrollableView>
+                            {filteredOptions.map((option) => (
+                                <HeadlessComboboxOption
+                                    key={option.value}
+                                    value={option.value}
+                                    disabled={option.disabled}
+                                    data-slot="option"
+                                >
+                                    <span>{option.value}</span>
+                                    {option.label != null && option.label !== option.value && (
+                                        <small data-slot="label">{option.label}</small>
+                                    )}
+                                    <i data-slot="indicator" className="fas fa-check" aria-hidden="true" />
+                                </HeadlessComboboxOption>
+                            ))}
+                        </ScrollableView>
+                    )}
                 </ComboboxOptions>
             </HeadlessCombobox>
         </div>

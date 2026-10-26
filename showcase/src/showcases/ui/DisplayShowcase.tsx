@@ -628,7 +628,7 @@ import { Markdown } from "@voguh/unichat-ui/Markdown";
                     props: "HTMLAttributes<HTMLDivElement>",
                     ref: "HTMLDivElement",
                     structure: `
-div[data-part~="Markdown"]
+div[data-part~="Markdown"]   (grows with the content; wrap it in a ScrollableView to scroll)
   > (generated HTML: h1–h6, p, a, ul, ol, blockquote, pre, code[data-part~="Code"], hr[data-part~="Separator"], table[data-part~="Table"]…)
 `,
                     nonStandard: [

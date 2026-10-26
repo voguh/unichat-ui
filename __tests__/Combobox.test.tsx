@@ -77,6 +77,7 @@ describe("Combobox", () => {
         await userEvent.click(screen.getByRole("combobox", { name: "Combobox" }));
         await userEvent.keyboard("{ArrowDown}");
         await screen.findByRole("listbox");
-        expect(document.querySelector('[data-part="ComboboxOptions"] > [data-slot="option"]')).not.toBeNull();
+        const viewport = '[data-part="ComboboxOptions"] > [data-part="ScrollableView"] > [data-slot="viewport"]';
+        expect(document.querySelector(`${viewport} > [data-slot="option"]`)).not.toBeNull();
     });
 });

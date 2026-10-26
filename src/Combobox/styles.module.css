@@ -59,8 +59,9 @@
 
     .options {
         @apply bg-surface-raised border border-border rounded shadow-xl;
-        @apply z-50 flex flex-col max-h-64 overflow-y-auto py-1;
+        @apply z-50 flex flex-col py-1;
 
+        --anchor-max-height: calc(var(--ucui-spacing) * 64);
         width: var(--input-width);
 
         &:focus-visible {
@@ -71,39 +72,45 @@
             @apply invisible;
         }
 
-        & > div[data-slot="option"] {
-            @apply flex items-center gap-2 cursor-pointer px-3 py-2;
+        & > div[data-part~="ScrollableView"] {
+            @apply min-h-0;
 
-            & > span {
-                @apply flex-1 min-w-0 truncate;
-            }
+            & > div[data-slot="viewport"] {
+                & > div[data-slot="option"] {
+                    @apply flex items-center gap-2 cursor-pointer px-3 py-2;
 
-            & > small[data-slot="label"] {
-                @apply text-text-muted text-xs;
-            }
+                    & > span {
+                        @apply flex-1 min-w-0 truncate;
+                    }
 
-            & > i[data-slot="indicator"] {
-                @apply text-xs;
-                @apply invisible;
+                    & > small[data-slot="label"] {
+                        @apply text-text-muted text-xs;
+                    }
 
-                color: color-mix(in oklab, var(--ucui-color-primary) 60%, white);
-            }
+                    & > i[data-slot="indicator"] {
+                        @apply text-xs;
+                        @apply invisible;
 
-            &[data-focus] {
-                @apply bg-surface-hover;
-            }
+                        color: color-mix(in oklab, var(--ucui-color-primary) 60%, white);
+                    }
 
-            &[data-selected] {
-                @apply font-bold;
+                    &[data-focus] {
+                        @apply bg-surface-hover;
+                    }
 
-                & > i[data-slot="indicator"] {
-                    @apply visible;
+                    &[data-selected] {
+                        @apply font-bold;
+
+                        & > i[data-slot="indicator"] {
+                            @apply visible;
+                        }
+                    }
+
+                    &[data-disabled] {
+                        @apply text-text-placeholder;
+                        @apply cursor-not-allowed;
+                    }
                 }
-            }
-
-            &[data-disabled] {
-                @apply text-text-placeholder;
-                @apply cursor-not-allowed;
             }
         }
     }

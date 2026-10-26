@@ -282,12 +282,14 @@ div[data-part~="Select"]   (rootProps, className)
   > select[aria-hidden]   (ref, name, required, onChange, onInput, onInvalid and the other props)
 
 div[data-part="SelectOptions"]   (portal, while open)
-  > div[data-slot="option"][data-focus][data-selected][data-disabled]
-    > span
-    > i[data-slot="indicator"]
-  > div[data-slot="group"]
-    > div[data-slot="group-label"]
-    > div[data-slot="option"]
+  > div[data-part~="ScrollableView"]
+    > div[data-slot="viewport"]
+      > div[data-slot="option"][data-focus][data-selected][data-disabled]
+        > span
+        > i[data-slot="indicator"]
+      > div[data-slot="group"]
+        > div[data-slot="group-label"]
+        > div[data-slot="option"]
 `,
                     nonStandard: [
                         {
@@ -384,10 +386,12 @@ div[data-part~="Combobox"]   (rootProps, className)
     > button[data-slot="trigger"][data-open]
 
 div[data-part="ComboboxOptions"]   (portal, while open)
-  > div[data-slot="option"][data-focus][data-selected][data-disabled]
-    > span   (value)
-    > small[data-slot="label"]   (label, when it differs from the value)
-    > i[data-slot="indicator"]
+  > div[data-part~="ScrollableView"]   (while there are matching options)
+    > div[data-slot="viewport"]
+      > div[data-slot="option"][data-focus][data-selected][data-disabled]
+        > span   (value)
+        > small[data-slot="label"]   (label, when it differs from the value)
+        > i[data-slot="indicator"]
 `,
                     nonStandard: [
                         {

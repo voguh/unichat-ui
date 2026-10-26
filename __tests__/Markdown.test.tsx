@@ -61,6 +61,11 @@ describe("Markdown", () => {
         expect(container.querySelector("a")).toHaveAttribute("name", "user-content-title");
     });
 
+    it("exposes the data-part structure", () => {
+        const container = renderHtml("Hello");
+        expect(container.querySelector('div[data-part="Markdown"] > p')).toHaveTextContent("Hello");
+    });
+
     it("renders code spans, tables and rules with the library parts", () => {
         const container = renderHtml("Run `pnpm build`\n\n---\n\n| A | B |\n| - | - |\n| 1 | 2 |");
         expect(container.querySelector('code[data-part="Code"]')).toHaveTextContent("pnpm build");

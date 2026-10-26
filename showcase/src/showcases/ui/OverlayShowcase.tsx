@@ -108,7 +108,7 @@ div[data-part~="Dialog"][role]   (portal)
       > h2[data-part~="DialogTitle"]
       > button[data-part~="DialogCloseButton"]
         > i   (when there are no children)
-    > div[data-part~="DialogBody"]
+    > div[data-part~="DialogBody"]   (does not scroll; wrap long content in a ScrollableView)
 `,
                     nonStandard: [
                         { name: "open", type: "boolean", description: "Required: whether the dialog is shown." },

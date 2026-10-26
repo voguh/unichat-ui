@@ -13,7 +13,7 @@
 @layer unichat-ui {
     .root {
         @apply text-text-secondary;
-        @apply flex flex-col gap-4 overflow-y-auto;
+        @apply flex flex-col gap-4;
 
         & h1 {
             @apply text-3xl;

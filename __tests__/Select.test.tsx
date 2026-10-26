@@ -142,7 +142,8 @@ describe("Select", () => {
 
         await userEvent.click(screen.getByRole("button", { name: "Select" }));
         await screen.findByRole("listbox");
-        const group = '[data-part="SelectOptions"] > [data-slot="group"]';
+        const viewport = '[data-part="SelectOptions"] > [data-part="ScrollableView"] > [data-slot="viewport"]';
+        const group = `${viewport} > [data-slot="group"]`;
         expect(document.querySelector(`${group} > [data-slot="group-label"]`)).not.toBeNull();
         expect(document.querySelector(`${group} > [data-slot="option"] > [data-slot="indicator"]`)).not.toBeNull();
     });

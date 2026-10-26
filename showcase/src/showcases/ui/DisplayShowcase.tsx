@@ -29,6 +29,8 @@ import { Table } from "@voguh/unichat-ui/Table";
 import { Example } from "~showcase/components/Example";
 import { ShowcasePage } from "~showcase/components/ShowcasePage";
 
+import MARKDOWN_SAMPLE from "./markdownSample.md?raw";
+
 const BADGE_VARIANTS: BadgeVariant[] = ["primary", "secondary", "success", "danger", "warning", "info"];
 const ALERT_VARIANTS: AlertVariant[] = ["info", "success", "warning", "danger"];
 const STATUS_BADGE_VARIANTS: Record<string, BadgeVariant> = { ACTIVE: "success", QUARANTINE: "warning" };
@@ -43,6 +45,15 @@ Shows chat events as cards. Colors follow \`#991b1b\`.
 
 - Sponsors and donations
 - [Changelog](CHANGELOG.md)
+
+> Cards stay on screen for the configured duration.
+
+\`\`\`sh
+pnpm install
+pnpm build
+\`\`\`
+
+---
 
 | Field | Type |
 | ----- | ---- |
@@ -618,7 +629,7 @@ import { Markdown } from "@voguh/unichat-ui/Markdown";
                     ref: "HTMLDivElement",
                     structure: `
 div[data-part~="Markdown"]
-  > (generated HTML: h1–h6, p, a, ul, ol, code, table…)
+  > (generated HTML: h1–h6, p, a, ul, ol, blockquote, pre, code[data-part~="Code"], hr[data-part~="Separator"], table[data-part~="Table"]…)
 `,
                     nonStandard: [
                         {
@@ -647,6 +658,9 @@ div[data-part~="Markdown"]
                     content={MARKDOWN_CONTENT}
                     relativeLinksBaseUrl="https://github.com/voguh/unichat/blob/HEAD"
                 />
+            </Example>
+            <Example title="Complete" vertical>
+                <Markdown content={MARKDOWN_SAMPLE} relativeLinksBaseUrl="https://github.com/voguh/unichat/blob/HEAD" />
             </Example>
         </ShowcasePage>
     );

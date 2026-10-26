@@ -22,10 +22,12 @@
         & > span[data-slot="control"] {
             @apply bg-surface-raised border border-border-strong rounded;
             @apply text-primary-contrast text-xs;
-            @apply flex items-center justify-center shrink-0 w-5 h-5;
+            @apply grid place-items-center shrink-0 w-5 h-5;
 
             & > i {
-                @apply hidden;
+                @apply invisible;
+
+                grid-area: 1 / 1;
             }
         }
 
@@ -58,7 +60,7 @@
             &:checked:not(:indeterminate) {
                 & + [data-slot="control"] {
                     & > i[data-slot="check"] {
-                        @apply inline-block;
+                        @apply visible;
                     }
                 }
             }
@@ -66,7 +68,7 @@
             &:indeterminate {
                 & + [data-slot="control"] {
                     & > i[data-slot="indeterminate"] {
-                        @apply inline-block;
+                        @apply visible;
                     }
                 }
             }

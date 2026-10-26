@@ -79,6 +79,10 @@ module.exports = (env) => {
                     test: /\.css$/,
                     type: "css/auto",
                     use: ["postcss-loader"]
+                },
+                {
+                    resourceQuery: /raw/,
+                    type: "asset/source"
                 }
             ]
         },
